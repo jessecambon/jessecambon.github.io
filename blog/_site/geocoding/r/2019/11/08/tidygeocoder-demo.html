@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Geocoding with Tidygeocoder | Your awesome title</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Geocoding with Tidygeocoder" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The tidygeocoder package is a newly published tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using  the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks in honor of the recent Washington Nationals World Series win." />
+<meta property="og:description" content="The tidygeocoder package is a newly published tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using  the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks in honor of the recent Washington Nationals World Series win." />
+<link rel="canonical" href="http://localhost:4000/geocoding/r/2019/11/08/tidygeocoder-demo.html" />
+<meta property="og:url" content="http://localhost:4000/geocoding/r/2019/11/08/tidygeocoder-demo.html" />
+<meta property="og:site_name" content="Your awesome title" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-08T22:47:40-05:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/geocoding/r/2019/11/08/tidygeocoder-demo.html","headline":"Geocoding with Tidygeocoder","dateModified":"2019-11-08T22:47:40-05:00","datePublished":"2019-11-08T22:47:40-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/geocoding/r/2019/11/08/tidygeocoder-demo.html"},"description":"The tidygeocoder package is a newly published tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using  the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks in honor of the recent Washington Nationals World Series win.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Your awesome title" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Your awesome title</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Geocoding with Tidygeocoder</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-11-08T22:47:40-05:00" itemprop="datePublished">Nov 8, 2019
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>The tidygeocoder package is a newly published tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using  the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks in honor of the recent Washington Nationals World Series win.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidygeocoder</span><span class="p">)</span><span class="w">
+
+</span><span class="n">dc_addresses</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tribble</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="n">name</span><span class="p">,</span><span class="o">~</span><span class="n">addr</span><span class="p">,</span><span class="w">
+</span><span class="s2">"White House"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1600 Pennsylvania Ave Washington, DC"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"National Academy of Sciences"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2101 Constitution Ave NW, Washington, DC 20418"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"Department of Justice"</span><span class="p">,</span><span class="w"> </span><span class="s2">"950 Pennsylvania Ave NW, Washington, DC 20530"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"Supreme Court"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1 1st St NE, Washington, DC 20543"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"Washington Monument"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2 15th St NW, Washington, DC 20024"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">coordinates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dc_addresses</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">geocode</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The geocode function adds longitude and latitude to our dataframe of addresses as columns. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the “method” argument (see the documentation for details)</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">name</th>
+      <th style="text-align: left">addr</th>
+      <th style="text-align: right">lat</th>
+      <th style="text-align: right">long</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">White House</td>
+      <td style="text-align: left">1600 Pennsylvania Ave Washington, DC</td>
+      <td style="text-align: right">38.89875</td>
+      <td style="text-align: right">-77.03535</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">National Academy of Sciences</td>
+      <td style="text-align: left">2101 Constitution Ave NW, Washington, DC 20418</td>
+      <td style="text-align: right">38.89211</td>
+      <td style="text-align: right">-77.04678</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Department of Justice</td>
+      <td style="text-align: left">950 Pennsylvania Ave NW, Washington, DC 20530</td>
+      <td style="text-align: right">38.89416</td>
+      <td style="text-align: right">-77.02501</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Supreme Court</td>
+      <td style="text-align: left">1 1st St NE, Washington, DC 20543</td>
+      <td style="text-align: right">38.88990</td>
+      <td style="text-align: right">-77.00591</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Washington Monument</td>
+      <td style="text-align: left">2 15th St NW, Washington, DC 20024</td>
+      <td style="text-align: right">38.88979</td>
+      <td style="text-align: right">-77.03291</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">OpenStreetMap</span><span class="p">)</span><span class="w">
+</span><span class="n">dc_map</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">openmap</span><span class="p">(</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">38.905</span><span class="p">,</span><span class="m">-77.05</span><span class="p">),</span><span class="nf">c</span><span class="p">(</span><span class="m">38.885</span><span class="p">,</span><span class="m">-77.00</span><span class="p">))</span><span class="w">
+</span><span class="n">dc_map.latlng</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">openproj</span><span class="p">(</span><span class="n">dc_map</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Note that the coordinates supplied to the “openmap” function above were obtained using openstreetmap.org (use the export button to extract coordinates). The “openmap” function obtains the map and the “openproj” function projects it onto a latitude and longitude coordinate system so we can overlay our coordinates on a map, which is what we do next:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
+</span><span class="n">autoplot</span><span class="p">(</span><span class="n">dc_map.latlng</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">      </span><span class="n">axis.text.y</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+              </span><span class="n">axis.title</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+              </span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+              </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">)</span><span class="w">
+              </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">coordinates</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">lat</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"navy"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_label_repel</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">coordinates</span><span class="p">,</span><span class="w">
+        </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">lat</span><span class="p">),</span><span class="n">show.legend</span><span class="o">=</span><span class="nb">F</span><span class="p">,</span><span class="n">box.padding</span><span class="o">=</span><span class="m">.5</span><span class="p">,</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>And that’s our map. Alternatively, the leaflet package provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on GitHub or CRAN.</p>
+
+  </div><a class="u-url" href="/geocoding/r/2019/11/08/tidygeocoder-demo.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Your awesome title</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Your awesome title</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/jessecambon"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jessecambon</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Placeholder</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
