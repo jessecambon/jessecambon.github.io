@@ -5,7 +5,7 @@ date:   2019-11-08 22:47:40 -0500
 categories: geocoding r data-science
 ---
 
-The [tidygeocoder package](https://github.com/jessecambon/tidygeocoder) is a newly published R package which provides a [tidyverse](https://www.tidyverse.org/)-style interface for geocoding. It returns latitude and longitude coordinates in tibble (tidyverse) format from addresses using the [US Census](https://geocoding.geo.census.gov/) or [Nominatim (OSM)](https://nominatim.openstreetmap.org/) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks in honor of the [recent Washington Nationals World Series win](https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/).
+[Tidygeocoder](https://github.com/jessecambon/tidygeocoder) is a newly published R package which provides a [tidyverse](https://www.tidyverse.org/)-style interface for geocoding. It returns latitude and longitude coordinates in [tibble](https://tibble.tidyverse.org/) format from addresses using the [US Census](https://geocoding.geo.census.gov/) or [Nominatim (OSM)](https://nominatim.openstreetmap.org/) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the [recent Washington Nationals World Series win](https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/).
 
 First we will construct a dataset of addresses (`dc_addresses`) and use the `geocode` function from `tidygeocoder` to find longitude and latitude coordinates.
 
@@ -35,7 +35,7 @@ The `geocode` function adds longitude and latitude to our dataframe of addresses
 | Washington Monument          | 2 15th St NW, Washington, DC 20024             | 38.88979 | \-77.03291 |
 
 
-Next we will use the [OpenStreetMap](https://cran.r-project.org/package=OpenStreetMap) package to download an open source map of DC.
+Next we will use the [OpenStreetMap](https://cran.r-project.org/package=OpenStreetMap) package to make a street map of Washington, DC.
 
 ```r
 library(OpenStreetMap)
@@ -43,7 +43,7 @@ dc_map <- openmap( c(38.905,-77.05),c(38.885,-77.00))
 dc_map.latlng <- openproj(dc_map)
 ```
 
-Note that the coordinates supplied to the `openmap` function above were obtained using openstreetmap.org (use the export button to extract coordinates). The `openmap` function obtains the map and the `openproj` function projects it onto a latitude and longitude coordinate system so we can overlay our coordinates on a map, which is what we do next:
+Note that the coordinates supplied to the `openmap` function above were obtained using openstreetmap.org (use the export button to extract coordinates). The `openmap` function obtains the map and the `openproj` function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates on a map, which is what we do next.
 
 ```r
 library(ggplot2)
