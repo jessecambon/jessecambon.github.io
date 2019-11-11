@@ -24,7 +24,7 @@ coordinates <- dc_addresses %>%
   geocode(addr)
 ```
 
-The `geocode` function adds longitude and latitude to our dataframe of addresses as columns. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the `method` argument (see [the documentation](https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf) for details).
+The `geocode` function adds longitude and latitude coordinates as columns to our dataset of addresses. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the `method` argument (see [the documentation](https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf) for details). Our newly created `coordinates` dataset looks like this:
 
 | name                         | addr                                           |      lat |       long |
 | :--------------------------- | :--------------------------------------------- | -------: | ---------: |
@@ -35,7 +35,7 @@ The `geocode` function adds longitude and latitude to our dataframe of addresses
 | Washington Monument          | 2 15th St NW, Washington, DC 20024             | 38.88979 | \-77.03291 |
 
 
-Next we will use the [OpenStreetMap](https://cran.r-project.org/package=OpenStreetMap) package to make a street map of Washington, DC.
+Now that we have the coordinates we want to plot, we will use the [OpenStreetMap](https://cran.r-project.org/package=OpenStreetMap) package to make a map of DC.
 
 ```r
 library(OpenStreetMap)
@@ -43,7 +43,7 @@ dc_map <- openmap( c(38.905,-77.05),c(38.885,-77.00))
 dc_map.latlng <- openproj(dc_map)
 ```
 
-Note that the coordinates supplied to the `openmap` function above were obtained using [openstreetmap.org](https://www.openstreetmap.org/) (use the export button to extract coordinates). The `openmap` function obtains the map and the `openproj` function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates on a map, which is what we do next.
+Note that the coordinates supplied to the `openmap` function above were obtained using [openstreetmap.org](https://www.openstreetmap.org/) (use the export button to extract coordinates). The `openmap` function downloads a street map and the `openproj` function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates, which is what we do next.
 
 ```r
 library(ggplot2)
@@ -62,4 +62,4 @@ autoplot(dc_map.latlng) +
 
 ![dc-map]({{site.baseurl}}/images/dc_osm_map.png){:class="img-responsive"}
 
-And that's our map. Alternatively, the [leaflet package](https://rstudio.github.io/leaflet/) provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on [GitHub](https://github.com/jessecambon/tidygeocoder) or [CRAN](https://cran.r-project.org/package=tidygeocoder).
+And that's our map. The `geom_label_repel` function from `ggrepel` provides the text labels and `geom_point` from `ggplot2` supplies the points. Alternatively, the [leaflet package](https://rstudio.github.io/leaflet/) provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on [GitHub](https://github.com/jessecambon/tidygeocoder) or [CRAN](https://cran.r-project.org/package=tidygeocoder).

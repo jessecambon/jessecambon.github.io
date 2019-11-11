@@ -63,7 +63,7 @@
   </span><span class="n">geocode</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">geocode</code> function adds longitude and latitude to our dataframe of addresses as columns. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the <code class="highlighter-rouge">method</code> argument (see <a href="https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf">the documentation</a> for details).</p>
+<p>The <code class="highlighter-rouge">geocode</code> function adds longitude and latitude coordinates as columns to our dataset of addresses. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the <code class="highlighter-rouge">method</code> argument (see <a href="https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf">the documentation</a> for details). Our newly created <code class="highlighter-rouge">coordinates</code> dataset looks like this:</p>
 
 <table>
   <thead>
@@ -108,14 +108,14 @@
   </tbody>
 </table>
 
-<p>Next we will use the <a href="https://cran.r-project.org/package=OpenStreetMap">OpenStreetMap</a> package to make a street map of Washington, DC.</p>
+<p>Now that we have the coordinates we want to plot, we will use the <a href="https://cran.r-project.org/package=OpenStreetMap">OpenStreetMap</a> package to make a map of DC.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">OpenStreetMap</span><span class="p">)</span><span class="w">
 </span><span class="n">dc_map</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">openmap</span><span class="p">(</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">38.905</span><span class="p">,</span><span class="m">-77.05</span><span class="p">),</span><span class="nf">c</span><span class="p">(</span><span class="m">38.885</span><span class="p">,</span><span class="m">-77.00</span><span class="p">))</span><span class="w">
 </span><span class="n">dc_map.latlng</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">openproj</span><span class="p">(</span><span class="n">dc_map</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Note that the coordinates supplied to the <code class="highlighter-rouge">openmap</code> function above were obtained using <a href="https://www.openstreetmap.org/">openstreetmap.org</a> (use the export button to extract coordinates). The <code class="highlighter-rouge">openmap</code> function obtains the map and the <code class="highlighter-rouge">openproj</code> function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates on a map, which is what we do next.</p>
+<p>Note that the coordinates supplied to the <code class="highlighter-rouge">openmap</code> function above were obtained using <a href="https://www.openstreetmap.org/">openstreetmap.org</a> (use the export button to extract coordinates). The <code class="highlighter-rouge">openmap</code> function downloads a street map and the <code class="highlighter-rouge">openproj</code> function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates, which is what we do next.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
@@ -133,7 +133,7 @@
 
 <p><img src="/images/dc_osm_map.png" alt="dc-map" class="img-responsive" /></p>
 
-<p>And that’s our map. Alternatively, the <a href="https://rstudio.github.io/leaflet/">leaflet package</a> provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on <a href="https://github.com/jessecambon/tidygeocoder">GitHub</a> or <a href="https://cran.r-project.org/package=tidygeocoder">CRAN</a>.</p>
+<p>And that’s our map. The <code class="highlighter-rouge">geom_label_repel</code> function from <code class="highlighter-rouge">ggrepel</code> provides the text labels and <code class="highlighter-rouge">geom_point</code> from <code class="highlighter-rouge">ggplot2</code> supplies the points. Alternatively, the <a href="https://rstudio.github.io/leaflet/">leaflet package</a> provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on <a href="https://github.com/jessecambon/tidygeocoder">GitHub</a> or <a href="https://cran.r-project.org/package=tidygeocoder">CRAN</a>.</p>
 
   </div><a class="u-url" href="/geocoding/r/data-science/2019/11/08/tidygeocoder-demo.html" hidden></a>
 </article>
