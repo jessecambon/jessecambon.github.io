@@ -16,7 +16,7 @@ layout: null
  <entry>
   <title>{{ post.title }}</title>
   <author>{{ site.author }}</author>
-  <link href={{ site.url }}{{ post.url }}></link>
+  <link href="{{ site.url }}{{ post.url }}"></link>
   <published>{{ post.date | date_to_rfc822 }}</published>
   <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
