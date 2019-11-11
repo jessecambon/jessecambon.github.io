@@ -1,16 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
-<channel>
- <title>jessecambon</title>
- <description>Open source data science</description>
- <link>https://jessecambon.github.io</link>
- <lastBuildDate>Mon, 11 Nov 2019 16:38:19 -0500</lastBuildDate>
- <pubDate>Mon, 11 Nov 2019 16:38:19 -0500</pubDate>
- <ttl>1800</ttl>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
+<link href="https://jessecambon.github.io/" rel="alternate" type="text/html"/>
+<updated>2019-11-11T16:45:00-05:00</updated>
+<id>https://jessecambon.github.io/r.xml</id>
 
  
- <item>
+ <entry>
   <title>Geocoding with Tidygeocoder</title>
+  <title>Jesse Cambon</title>
   <description></description>
   <link>/geocoding/r/data-science/2019/11/11/tidygeocoder-demo.html</link>
   <guid isPermaLink="true">https://jessecambon.github.io/geocoding/r/data-science/2019/11/11/tidygeocoder-demo.html</guid>
@@ -105,8 +102,7 @@
 
 <p>And that’s our map. The <code class="highlighter-rouge">geom_label_repel</code> function from <code class="highlighter-rouge">ggrepel</code> provides the text labels and <code class="highlighter-rouge">geom_point</code> from <code class="highlighter-rouge">ggplot2</code> supplies the points. Alternatively, the <a href="https://rstudio.github.io/leaflet/">leaflet package</a> provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on <a href="https://github.com/jessecambon/tidygeocoder">GitHub</a> or <a href="https://cran.r-project.org/package=tidygeocoder">CRAN</a>.</p>
 </content>
- </item>
+ </entry>
  
 
-</channel>
-</rss>
+</feed>

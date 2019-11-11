@@ -1,0 +1,22 @@
+---
+layout: null
+---
+<feed xmlns="http://www.w3.org/2005/Atom">
+<link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
+<link href="https://jessecambon.github.io/" rel="alternate" type="text/html"/>
+<updated>{{site.time | date_to_xmlschema}}</updated>
+<id>https://jessecambon.github.io/r.xml</id>
+
+ {% for post in site.categories.r %}
+ <entry>
+  <title>{{ post.title }}</title>
+  <title>{{ site.author }}</title>
+  <description>{{ post.description }}</description>
+  <link>{{ post.url }}</link>
+  <guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
+  <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+  <content>{{ post.content }}</content>
+ </entry>
+ {% endfor %}
+
+</feed>
