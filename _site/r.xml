@@ -1,17 +1,20 @@
+<!--This feed aggregates all posts in the 'r' category (for R-Bloggers) -->
+
+<!-- Header -->
 <feed xmlns="http://www.w3.org/2005/Atom">
 <link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
-<link href="https://jessecambon.github.io/" rel="alternate" type="text/html"/>
-<updated>2019-11-11T16:45:24-05:00</updated>
+<link href="https://jessecambon.github.io" rel="alternate" type="text/html"/>
+<updated>2019-11-11T18:43:31-05:00</updated>
 <id>https://jessecambon.github.io/r.xml</id>
 
+
+<!-- aggregate posts in the 'r' category -->
  
  <entry>
   <title>Geocoding with Tidygeocoder</title>
-  <title>Jesse Cambon</title>
-  <description></description>
+  <author>Jesse Cambon</author>
   <link>/geocoding/r/data-science/2019/11/11/tidygeocoder-demo.html</link>
-  <guid isPermaLink="true">https://jessecambon.github.io/geocoding/r/data-science/2019/11/11/tidygeocoder-demo.html</guid>
-  <pubDate>Mon, 11 Nov 2019 00:00:00 -0500</pubDate>
+  <published>Mon, 11 Nov 2019 00:00:00 -0500</published>
   <content><p><a href="https://github.com/jessecambon/tidygeocoder">Tidygeocoder</a> is a newly published R package which provides a <a href="https://www.tidyverse.org/">tidyverse</a>-style interface for geocoding. It returns latitude and longitude coordinates in <a href="https://tibble.tidyverse.org/">tibble</a> format from addresses using the <a href="https://geocoding.geo.census.gov/">US Census</a> or <a href="https://nominatim.openstreetmap.org/">Nominatim (OSM)</a> geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the <a href="https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/">recent Washington Nationals World Series win</a>.</p>
 
 <p>First we will construct a dataset of addresses (<code class="highlighter-rouge">dc_addresses</code>) and use the <code class="highlighter-rouge">geocode</code> function from <code class="highlighter-rouge">tidygeocoder</code> to find longitude and latitude coordinates.</p>
