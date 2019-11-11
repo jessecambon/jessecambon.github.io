@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
 <link href="https://jessecambon.github.io" rel="alternate" type="text/html"/>
-<updated>2019-11-11T18:43:31-05:00</updated>
+<updated>2019-11-11T18:48:59-05:00</updated>
 <id>https://jessecambon.github.io/r.xml</id>
 
 
@@ -13,97 +13,97 @@
  <entry>
   <title>Geocoding with Tidygeocoder</title>
   <author>Jesse Cambon</author>
-  <link>/geocoding/r/data-science/2019/11/11/tidygeocoder-demo.html</link>
+  <link href=https://jessecambon.github.io/geocoding/r/data-science/2019/11/11/tidygeocoder-demo.html></link>
   <published>Mon, 11 Nov 2019 00:00:00 -0500</published>
-  <content><p><a href="https://github.com/jessecambon/tidygeocoder">Tidygeocoder</a> is a newly published R package which provides a <a href="https://www.tidyverse.org/">tidyverse</a>-style interface for geocoding. It returns latitude and longitude coordinates in <a href="https://tibble.tidyverse.org/">tibble</a> format from addresses using the <a href="https://geocoding.geo.census.gov/">US Census</a> or <a href="https://nominatim.openstreetmap.org/">Nominatim (OSM)</a> geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the <a href="https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/">recent Washington Nationals World Series win</a>.</p>
+  <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;Tidygeocoder&lt;/a&gt; is a newly published R package which provides a &lt;a href=&quot;https://www.tidyverse.org/&quot;&gt;tidyverse&lt;/a&gt;-style interface for geocoding. It returns latitude and longitude coordinates in &lt;a href=&quot;https://tibble.tidyverse.org/&quot;&gt;tibble&lt;/a&gt; format from addresses using the &lt;a href=&quot;https://geocoding.geo.census.gov/&quot;&gt;US Census&lt;/a&gt; or &lt;a href=&quot;https://nominatim.openstreetmap.org/&quot;&gt;Nominatim (OSM)&lt;/a&gt; geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the &lt;a href=&quot;https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/&quot;&gt;recent Washington Nationals World Series win&lt;/a&gt;.&lt;/p&gt;
 
-<p>First we will construct a dataset of addresses (<code class="highlighter-rouge">dc_addresses</code>) and use the <code class="highlighter-rouge">geocode</code> function from <code class="highlighter-rouge">tidygeocoder</code> to find longitude and latitude coordinates.</p>
+&lt;p&gt;First we will construct a dataset of addresses (&lt;code class=&quot;highlighter-rouge&quot;&gt;dc_addresses&lt;/code&gt;) and use the &lt;code class=&quot;highlighter-rouge&quot;&gt;geocode&lt;/code&gt; function from &lt;code class=&quot;highlighter-rouge&quot;&gt;tidygeocoder&lt;/code&gt; to find longitude and latitude coordinates.&lt;/p&gt;
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidygeocoder</span><span class="p">)</span><span class="w">
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dplyr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tidygeocoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 
-</span><span class="n">dc_addresses</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tribble</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="n">name</span><span class="p">,</span><span class="o">~</span><span class="n">addr</span><span class="p">,</span><span class="w">
-</span><span class="s2">"White House"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1600 Pennsylvania Ave Washington, DC"</span><span class="p">,</span><span class="w">
-</span><span class="s2">"National Academy of Sciences"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2101 Constitution Ave NW, Washington, DC 20418"</span><span class="p">,</span><span class="w">
-</span><span class="s2">"Department of Justice"</span><span class="p">,</span><span class="w"> </span><span class="s2">"950 Pennsylvania Ave NW, Washington, DC 20530"</span><span class="p">,</span><span class="w">
-</span><span class="s2">"Supreme Court"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1 1st St NE, Washington, DC 20543"</span><span class="p">,</span><span class="w">
-</span><span class="s2">"Washington Monument"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2 15th St NW, Washington, DC 20024"</span><span class="p">)</span><span class="w">
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tribble&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;White House&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1600 Pennsylvania Ave Washington, DC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;National Academy of Sciences&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2101 Constitution Ave NW, Washington, DC 20418&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Department of Justice&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;950 Pennsylvania Ave NW, Washington, DC 20530&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Supreme Court&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1 1st St NE, Washington, DC 20543&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Washington Monument&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2 15th St NW, Washington, DC 20024&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 
-</span><span class="n">coordinates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dc_addresses</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">geocode</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinates&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geocode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-<p>The <code class="highlighter-rouge">geocode</code> function adds longitude and latitude coordinates as columns to our dataset of addresses. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the <code class="highlighter-rouge">method</code> argument (see <a href="https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf">the documentation</a> for details). Our newly created <code class="highlighter-rouge">coordinates</code> dataset looks like this:</p>
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;geocode&lt;/code&gt; function adds longitude and latitude coordinates as columns to our dataset of addresses. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the &lt;code class=&quot;highlighter-rouge&quot;&gt;method&lt;/code&gt; argument (see &lt;a href=&quot;https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf&quot;&gt;the documentation&lt;/a&gt; for details). Our newly created &lt;code class=&quot;highlighter-rouge&quot;&gt;coordinates&lt;/code&gt; dataset looks like this:&lt;/p&gt;
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">name</th>
-      <th style="text-align: left">addr</th>
-      <th style="text-align: right">lat</th>
-      <th style="text-align: right">long</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">White House</td>
-      <td style="text-align: left">1600 Pennsylvania Ave Washington, DC</td>
-      <td style="text-align: right">38.89875</td>
-      <td style="text-align: right">-77.03535</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">National Academy of Sciences</td>
-      <td style="text-align: left">2101 Constitution Ave NW, Washington, DC 20418</td>
-      <td style="text-align: right">38.89211</td>
-      <td style="text-align: right">-77.04678</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Department of Justice</td>
-      <td style="text-align: left">950 Pennsylvania Ave NW, Washington, DC 20530</td>
-      <td style="text-align: right">38.89416</td>
-      <td style="text-align: right">-77.02501</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Supreme Court</td>
-      <td style="text-align: left">1 1st St NE, Washington, DC 20543</td>
-      <td style="text-align: right">38.88990</td>
-      <td style="text-align: right">-77.00591</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Washington Monument</td>
-      <td style="text-align: left">2 15th St NW, Washington, DC 20024</td>
-      <td style="text-align: right">38.88979</td>
-      <td style="text-align: right">-77.03291</td>
-    </tr>
-  </tbody>
-</table>
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addr&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;lat&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;long&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;White House&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1600 Pennsylvania Ave Washington, DC&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.89875&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.03535&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;National Academy of Sciences&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2101 Constitution Ave NW, Washington, DC 20418&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.89211&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.04678&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Department of Justice&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;950 Pennsylvania Ave NW, Washington, DC 20530&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.89416&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.02501&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Supreme Court&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1 1st St NE, Washington, DC 20543&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.88990&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.00591&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Washington Monument&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2 15th St NW, Washington, DC 20024&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.88979&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.03291&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-<p>Now that we have the coordinates we want to plot, we will use the <a href="https://cran.r-project.org/package=OpenStreetMap">OpenStreetMap</a> package to make a map of DC.</p>
+&lt;p&gt;Now that we have the coordinates we want to plot, we will use the &lt;a href=&quot;https://cran.r-project.org/package=OpenStreetMap&quot;&gt;OpenStreetMap&lt;/a&gt; package to make a map of DC.&lt;/p&gt;
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">OpenStreetMap</span><span class="p">)</span><span class="w">
-</span><span class="n">dc_map</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">openmap</span><span class="p">(</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">38.905</span><span class="p">,</span><span class="m">-77.05</span><span class="p">),</span><span class="nf">c</span><span class="p">(</span><span class="m">38.885</span><span class="p">,</span><span class="m">-77.00</span><span class="p">))</span><span class="w">
-</span><span class="n">dc_map.latlng</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">openproj</span><span class="p">(</span><span class="n">dc_map</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OpenStreetMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;openmap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;38.905&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-77.05&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;38.885&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-77.00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map.latlng&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;openproj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-<p>Note that the coordinates supplied to the <code class="highlighter-rouge">openmap</code> function above were obtained using <a href="https://www.openstreetmap.org/">openstreetmap.org</a> (use the export button to extract coordinates). The <code class="highlighter-rouge">openmap</code> function downloads a street map and the <code class="highlighter-rouge">openproj</code> function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates, which is what we do next.</p>
+&lt;p&gt;Note that the coordinates supplied to the &lt;code class=&quot;highlighter-rouge&quot;&gt;openmap&lt;/code&gt; function above were obtained using &lt;a href=&quot;https://www.openstreetmap.org/&quot;&gt;openstreetmap.org&lt;/a&gt; (use the export button to extract coordinates). The &lt;code class=&quot;highlighter-rouge&quot;&gt;openmap&lt;/code&gt; function downloads a street map and the &lt;code class=&quot;highlighter-rouge&quot;&gt;openproj&lt;/code&gt; function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates, which is what we do next.&lt;/p&gt;
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
-</span><span class="n">autoplot</span><span class="p">(</span><span class="n">dc_map.latlng</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">      </span><span class="n">axis.text.y</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-              </span><span class="n">axis.title</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-              </span><span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-              </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">)</span><span class="w">
-              </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">coordinates</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">lat</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"navy"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_label_repel</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">coordinates</span><span class="p">,</span><span class="w">
-        </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">lat</span><span class="p">),</span><span class="n">show.legend</span><span class="o">=</span><span class="nb">F</span><span class="p">,</span><span class="n">box.padding</span><span class="o">=</span><span class="m">.5</span><span class="p">,</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggplot2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggrepel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;autoplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map.latlng&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;theme_minimal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axis.text.y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element_blank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+              &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axis.title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element_blank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+              &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axis.text.x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element_blank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+              &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot.margin&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cm&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+              &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;navy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alpha&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_label_repel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show.legend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;box.padding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-<p><img src="/images/dc_osm_map.png" alt="dc-map" class="img-responsive" /></p>
+&lt;p&gt;&lt;img src=&quot;/images/dc_osm_map.png&quot; alt=&quot;dc-map&quot; class=&quot;img-responsive&quot; /&gt;&lt;/p&gt;
 
-<p>And that’s our map. The <code class="highlighter-rouge">geom_label_repel</code> function from <code class="highlighter-rouge">ggrepel</code> provides the text labels and <code class="highlighter-rouge">geom_point</code> from <code class="highlighter-rouge">ggplot2</code> supplies the points. Alternatively, the <a href="https://rstudio.github.io/leaflet/">leaflet package</a> provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on <a href="https://github.com/jessecambon/tidygeocoder">GitHub</a> or <a href="https://cran.r-project.org/package=tidygeocoder">CRAN</a>.</p>
+&lt;p&gt;And that’s our map. The &lt;code class=&quot;highlighter-rouge&quot;&gt;geom_label_repel&lt;/code&gt; function from &lt;code class=&quot;highlighter-rouge&quot;&gt;ggrepel&lt;/code&gt; provides the text labels and &lt;code class=&quot;highlighter-rouge&quot;&gt;geom_point&lt;/code&gt; from &lt;code class=&quot;highlighter-rouge&quot;&gt;ggplot2&lt;/code&gt; supplies the points. Alternatively, the &lt;a href=&quot;https://rstudio.github.io/leaflet/&quot;&gt;leaflet package&lt;/a&gt; provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;GitHub&lt;/a&gt; or &lt;a href=&quot;https://cran.r-project.org/package=tidygeocoder&quot;&gt;CRAN&lt;/a&gt;.&lt;/p&gt;
 </content>
  </entry>
  
