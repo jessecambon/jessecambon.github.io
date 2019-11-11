@@ -9,3 +9,4 @@ This is my personal blog. Notes for myself:
 
 #### Resources
 * https://jekyllrb.com/docs/
+* Quick reference: https://jekyllrb.com/docs/usage/
