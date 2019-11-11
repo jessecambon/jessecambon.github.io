@@ -15,8 +15,8 @@
 # in the templates via {{ site.myvariable }}.
 title: jessecambon
 #author: Jesse Cambon
-#email: jesse.cambon@gmail.com
-#description: Test
+email: jesse.cambon@gmail.com
+description: open source data science
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "jessecambon.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: jekyllrb
@@ -32,7 +32,7 @@ highlighter: rouge
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
 # exclude:
-#   - Gemfile
+#   - Gemfile 
 #   - Gemfile.lock
 #   - node_modules
 #   - vendor/bundle/
