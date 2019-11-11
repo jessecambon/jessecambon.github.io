@@ -1,0 +1,8 @@
+---
+layout: post
+title:  "Testing a Draft"
+#date:   2019-11-11
+categories: draft
+---
+
+This is a draft
