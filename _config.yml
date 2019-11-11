@@ -16,11 +16,17 @@
 title: jessecambon
 #author: Jesse Cambon
 email: jesse.cambon@gmail.com
-description: open source data science
+#description: Open source data science
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "jessecambon.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: jekyllrb
 github_username:  jessecambon
+linkedin_username: jessecambon
+
+
+header_pages:
+  - about.md
+ # - test.md
 
 # Build settings
 markdown: kramdown
@@ -28,6 +34,8 @@ theme: minima
 plugins:
   - jekyll-feed
 highlighter: rouge
+
+show_excerpts: true
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
