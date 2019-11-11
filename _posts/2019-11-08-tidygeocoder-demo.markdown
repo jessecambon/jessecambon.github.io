@@ -43,7 +43,7 @@ dc_map <- openmap( c(38.905,-77.05),c(38.885,-77.00))
 dc_map.latlng <- openproj(dc_map)
 ```
 
-Note that the coordinates supplied to the `openmap` function above were obtained using [openstreetmap.org](openstreetmap.org) (use the export button to extract coordinates). The `openmap` function obtains the map and the `openproj` function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates on a map, which is what we do next.
+Note that the coordinates supplied to the `openmap` function above were obtained using [openstreetmap.org](https://www.openstreetmap.org/) (use the export button to extract coordinates). The `openmap` function obtains the map and the `openproj` function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates on a map, which is what we do next.
 
 ```r
 library(ggplot2)

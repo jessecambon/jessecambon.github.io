@@ -63,7 +63,7 @@
   </span><span class="n">geocode</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">geocode</code> function adds longitude and latitude to our dataframe of addresses as columns. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the <code class="highlighter-rouge">method</code> argument (see <a href="https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf">the documentation</a> for details)</p>
+<p>The <code class="highlighter-rouge">geocode</code> function adds longitude and latitude to our dataframe of addresses as columns. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the <code class="highlighter-rouge">method</code> argument (see <a href="https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf">the documentation</a> for details).</p>
 
 <table>
   <thead>
@@ -115,7 +115,7 @@
 </span><span class="n">dc_map.latlng</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">openproj</span><span class="p">(</span><span class="n">dc_map</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Note that the coordinates supplied to the <code class="highlighter-rouge">openmap</code> function above were obtained using openstreetmap.org (use the export button to extract coordinates). The <code class="highlighter-rouge">openmap</code> function obtains the map and the <code class="highlighter-rouge">openproj</code> function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates on a map, which is what we do next.</p>
+<p>Note that the coordinates supplied to the <code class="highlighter-rouge">openmap</code> function above were obtained using <a href="https://www.openstreetmap.org/">openstreetmap.org</a> (use the export button to extract coordinates). The <code class="highlighter-rouge">openmap</code> function obtains the map and the <code class="highlighter-rouge">openproj</code> function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates on a map, which is what we do next.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
