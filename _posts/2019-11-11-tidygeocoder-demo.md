@@ -2,6 +2,7 @@
 layout: post
 title:  "Geocoding with Tidygeocoder"
 date:   2019-11-11
+author: Jesse Cambon
 categories: [geocoding, r, data-science]
 ---
 

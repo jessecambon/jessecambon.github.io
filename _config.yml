@@ -36,9 +36,9 @@ plugins:
 highlighter: rouge
 
 # Create an R-specific feed for R-Bloggers
-feed:
-  categories:
-    - r
+# feed:
+#   categories:
+#     - r
 
 # Files jekyll should ignore when building
 exclude:
