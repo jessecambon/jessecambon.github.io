@@ -14,9 +14,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: jessecambon
-#author: Jesse Cambon
+author: Jesse Cambon
 email: jesse.cambon@gmail.com
-#description: Open source data science
+description: Open source data science
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://jessecambon.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: jekyllrb

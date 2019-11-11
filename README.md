@@ -8,5 +8,6 @@ This is my personal blog. Notes for myself:
 
 
 #### Resources
-* https://jekyllrb.com/docs/
 * Quick reference: https://jekyllrb.com/docs/usage/
+* Minima Theme: https://github.com/jekyll/minima
+* Jekyll-Feed plugin (for RSS) https://github.com/jekyll/jekyll-feed
