@@ -13,7 +13,9 @@ This is my personal blog. Notes for myself:
 * Jekyll-Feed plugin (for RSS) https://github.com/jekyll/jekyll-feed
 
 
-#### In Progress
+#### Atom XMLL Feed
 
-* Constructing ATOM/RSS feed like this : https://stackoverflow.com/questions/31510211/rss-feed-by-category (for r-bloggers)
-* Test with https://simplepie.org/demo/
+For R-Bloggers I needed to create a custom feed that only contained R content. My solution was to make all R posts contain the `tag` "r" and then use jekyll to build an r.xml file. The file in root, [r.xml](r.xml) is what builds the feed. I first tried to use [https://github.com/jekyll/jekyll-feed](jekyll-feed) to build a feed for a specific tag or category, but was unable to get it to work.
+
+* Atom XML Feed Verifier: https://validator.w3.org/feed/
+* Can use a RSS aggregator like [feedly](https://feedly.com/) for checking the content.
