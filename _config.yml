@@ -43,7 +43,7 @@ highlighter: rouge
 # Files jekyll should ignore when building
 exclude:
   - README.md
-
+  - LICENSE.md
 
 show_excerpts: true
 # Exclude from processing.
