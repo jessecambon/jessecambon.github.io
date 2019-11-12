@@ -5,20 +5,26 @@ layout: null
 
 <!-- Header -->
 <feed xmlns="http://www.w3.org/2005/Atom">
-<link href="{{ site.url }}/r.xml" rel="self" type="application/atom+xml"/>
-<link href="{{ site.url }}" rel="alternate" type="text/html"/>
+<link href="{{ site.url | xml_escape }}/r.xml" rel="self" type="application/atom+xml"/>
+<link href="{{ site.url | xml_escape }}" rel="alternate" type="text/html"/>
 <updated>{{site.time | date_to_xmlschema}}</updated>
-<id>{{ site.url }}/r.xml</id>
-
+<id>{{ site.url | xml_escape }}/r.xml</id>
+<title type="html">{{ site.title }}</title>
+<subtitle>{{ site.description }}</subtitle>
+<author>
+<name>{{ site.author }}</name>
+</author>
 
 <!-- aggregate posts in the 'r' category -->
  {% for post in site.categories.r %}
  <entry>
-  <title>{{ post.title }}</title>
-  <author>{{ site.author }}</author>
-  <link href="{{ site.url }}{{ post.url }}"></link>
+  <title type="html">{{ post.title | xml_escape }}</title>
+  <link href="{{ site.url }}{{ post.url }}" rel="alternate" type="text/html" title="{{ post.title }}"/>
   <published>{{ post.date | date_to_rfc822 }}</published>
-  <content type="html">{{ post.content | xml_escape }}</content>
+  <id>{{ site.url | xml_escape }}{{ post.id | xml_escape }}</id>
+  <author><name>{{ site.author }}</name></author>
+  <content type="html" xml:base="{{ site.url }}{{ post.url }}">{{ post.content | xml_escape }}</content>
+  <summary type="html">{{ post.excerpt | xml_escape }}</summary>
  </entry>
  {% endfor %}
 
