@@ -14,7 +14,7 @@ layout: null
 <author><name>{{ site.author }}</name></author>
 
 <!-- aggregate posts in the 'r' category -->
- {% for post in site.categories.r %}
+ {% for post in site.tags.r %}
 <entry>
     <title type="html">{{ post.title | xml_escape }}</title>
     <link href="{{ site.url }}{{ post.url }}" rel="alternate" type="text/html" title="{{ post.title }}"/>
