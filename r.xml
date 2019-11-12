@@ -4,7 +4,8 @@ layout: null
 <!--This feed aggregates all posts in the 'r' category (for R-Bloggers) -->
 
 <!-- Header -->
-<feed xmlns="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" >
 <link href="{{ site.url | xml_escape }}/r.xml" rel="self" type="application/atom+xml"/>
 <link href="{{ site.url | xml_escape }}" rel="alternate" type="text/html"/>
 <updated>{{site.time | date_to_xmlschema}}</updated>
