@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom">
 <!--This feed aggregates all posts in the 'r' category (for R-Bloggers) -->
 
 <!-- Header -->
-<feed xmlns="http://www.w3.org/2005/Atom" >
 <link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
 <link href="https://jessecambon.github.io" rel="alternate" type="text/html"/>
-<updated>2019-11-11T19:21:24-05:00</updated>
+<updated>2019-11-11T19:23:45-05:00</updated>
 <id>https://jessecambon.github.io/r.xml</id>
 <title type="html">jessecambon</title>
 <subtitle>Open source data science</subtitle>
@@ -19,6 +18,7 @@
   <title type="html">Geocoding with Tidygeocoder</title>
   <link href="https://jessecambon.github.io/geocoding/r/data-science/2019/11/11/tidygeocoder-demo.html" rel="alternate" type="text/html" title="Geocoding with Tidygeocoder"/>
   <published>2019-11-11T00:00:00-05:00</published>
+  <updated>2019-11-11T00:00:00-05:00</updated>
   <id>https://jessecambon.github.io/geocoding/r/data-science/2019/11/11/tidygeocoder-demo</id>
   <content type="html" xml:base="https://jessecambon.github.io/geocoding/r/data-science/2019/11/11/tidygeocoder-demo.html">&lt;p&gt;&lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;Tidygeocoder&lt;/a&gt; is a newly published R package which provides a &lt;a href=&quot;https://www.tidyverse.org/&quot;&gt;tidyverse&lt;/a&gt;-style interface for geocoding. It returns latitude and longitude coordinates in &lt;a href=&quot;https://tibble.tidyverse.org/&quot;&gt;tibble&lt;/a&gt; format from addresses using the &lt;a href=&quot;https://geocoding.geo.census.gov/&quot;&gt;US Census&lt;/a&gt; or &lt;a href=&quot;https://nominatim.openstreetmap.org/&quot;&gt;Nominatim (OSM)&lt;/a&gt; geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the &lt;a href=&quot;https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/&quot;&gt;recent Washington Nationals World Series win&lt;/a&gt;.&lt;/p&gt;
 
