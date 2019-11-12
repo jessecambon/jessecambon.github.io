@@ -17,15 +17,15 @@ layout: null
 
 <!-- aggregate posts in the 'r' category -->
  {% for post in site.categories.r %}
- <entry>
+<entry>
   <title type="html">{{ post.title | xml_escape }}</title>
   <link href="{{ site.url }}{{ post.url }}" rel="alternate" type="text/html" title="{{ post.title }}"/>
-  <published>{{ post.date | date_to_rfc822 }}</published>
+  <published>{{ post.date | date_to_xmlschema }}</published>
   <id>{{ site.url | xml_escape }}{{ post.id | xml_escape }}</id>
-  <author><name>{{ site.author }}</name></author>
   <content type="html" xml:base="{{ site.url }}{{ post.url }}">{{ post.content | xml_escape }}</content>
+  <author><name>{{ site.author }}</name></author>
   <summary type="html">{{ post.excerpt | xml_escape }}</summary>
- </entry>
+</entry>
  {% endfor %}
 
 </feed>
