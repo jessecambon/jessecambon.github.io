@@ -6,7 +6,7 @@
 <!-- "Header" Content -->
 <link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
 <link href="https://jessecambon.github.io" rel="alternate" type="text/html"/>
-<updated>2019-11-11T19:34:09-05:00</updated>
+<updated>2019-11-11T22:34:14-05:00</updated>
 <id>https://jessecambon.github.io/r.xml</id>
 <title type="html">jessecambon</title>
 <subtitle>Open source data science</subtitle>
@@ -113,9 +113,9 @@
 &lt;p&gt;And that’s our map. The &lt;code class=&quot;highlighter-rouge&quot;&gt;geom_label_repel&lt;/code&gt; function from &lt;code class=&quot;highlighter-rouge&quot;&gt;ggrepel&lt;/code&gt; provides the text labels and &lt;code class=&quot;highlighter-rouge&quot;&gt;geom_point&lt;/code&gt; from &lt;code class=&quot;highlighter-rouge&quot;&gt;ggplot2&lt;/code&gt; supplies the points. Alternatively, the &lt;a href=&quot;https://rstudio.github.io/leaflet/&quot;&gt;leaflet package&lt;/a&gt; provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;GitHub&lt;/a&gt; or &lt;a href=&quot;https://cran.r-project.org/package=tidygeocoder&quot;&gt;CRAN&lt;/a&gt;.&lt;/p&gt;
 </content>
   <author><name>Jesse Cambon</name></author>
-  <summary type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;Tidygeocoder&lt;/a&gt; is a newly published R package which provides a &lt;a href=&quot;https://www.tidyverse.org/&quot;&gt;tidyverse&lt;/a&gt;-style interface for geocoding. It returns latitude and longitude coordinates in &lt;a href=&quot;https://tibble.tidyverse.org/&quot;&gt;tibble&lt;/a&gt; format from addresses using the &lt;a href=&quot;https://geocoding.geo.census.gov/&quot;&gt;US Census&lt;/a&gt; or &lt;a href=&quot;https://nominatim.openstreetmap.org/&quot;&gt;Nominatim (OSM)&lt;/a&gt; geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the &lt;a href=&quot;https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/&quot;&gt;recent Washington Nationals World Series win&lt;/a&gt;.&lt;/p&gt;
+ <!-- <summary type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;Tidygeocoder&lt;/a&gt; is a newly published R package which provides a &lt;a href=&quot;https://www.tidyverse.org/&quot;&gt;tidyverse&lt;/a&gt;-style interface for geocoding. It returns latitude and longitude coordinates in &lt;a href=&quot;https://tibble.tidyverse.org/&quot;&gt;tibble&lt;/a&gt; format from addresses using the &lt;a href=&quot;https://geocoding.geo.census.gov/&quot;&gt;US Census&lt;/a&gt; or &lt;a href=&quot;https://nominatim.openstreetmap.org/&quot;&gt;Nominatim (OSM)&lt;/a&gt; geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the &lt;a href=&quot;https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/&quot;&gt;recent Washington Nationals World Series win&lt;/a&gt;.&lt;/p&gt;
 
-</summary>
+</summary> -->
 </entry>
  
 
