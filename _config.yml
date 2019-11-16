@@ -35,25 +35,9 @@ plugins:
   - jekyll-feed
 highlighter: rouge
 
-# Create an R-specific feed for R-Bloggers
-# feed:
-#   categories:
-#     - r
-
 # Files jekyll should ignore when building
 exclude:
   - README.md
   - LICENSE.md
 
-show_excerpts: true
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile 
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+show_excerpts: true # show post excerpts
