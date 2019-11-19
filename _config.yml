@@ -39,5 +39,6 @@ highlighter: rouge
 exclude:
   - README.md
   - LICENSE.md
+  - "*.Rmd"
 
 show_excerpts: true # show post excerpts

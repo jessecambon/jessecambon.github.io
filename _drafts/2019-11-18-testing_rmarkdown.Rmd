@@ -1,0 +1,37 @@
+---
+layout: post
+title:  "Testing a Draft"
+date:   2019-11-18
+tags: test
+output: 
+  md_document:
+    preserve_yaml: TRUE
+---
+
+Source: http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/
+
+```{r setup, include=FALSE}
+# Set image path location.
+knitr::opts_knit$set(base.dir = "~/Programming/jessecambon.github.io/", base.url = "/")
+knitr::opts_chunk$set(fig.path = "rmd_images/",echo=TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -23,7 +23,7 @@ layout: null
     <id>{{ site.url | xml_escape }}{{ post.id | xml_escape }}</id>
     <content type="html" xml:base="{{ site.url }}{{ post.url }}">{{post.content | xml_escape }}</content>
     <author><name>{{ site.author }}</name></author>
-    <summary type="html">{{ post.content | strip_html | truncatewords: 50 }}</summary>
+    <summary type="html">{{ post.excerpt | strip_html }}</summary>
 </entry>
  {% endfor %}
 </feed>
