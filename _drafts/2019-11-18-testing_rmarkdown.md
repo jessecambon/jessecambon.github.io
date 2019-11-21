@@ -8,7 +8,11 @@ output:
     preserve_yaml: TRUE
 ---
 
-Source:
+IMPORTANT: This file must be kept in a subfolder of the root project
+directory. If this is not the case then adjust the `project_dir`
+argument
+
+Reference:
 <a href="http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/" class="uri">http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/</a>
 
 R Markdown

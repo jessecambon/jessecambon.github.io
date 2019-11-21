@@ -8,12 +8,17 @@ output:
     preserve_yaml: TRUE
 ---
 
-Source: http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/
+IMPORTANT: This file must be kept in a subfolder of the root project directory.
+If this is not the case then adjust the `project_dir` argument
+
+Reference: http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/
 
 ```{r setup, include=FALSE}
-# Set image path location.
-knitr::opts_knit$set(base.dir = "~/Programming/jessecambon.github.io/", base.url = "/")
-knitr::opts_chunk$set(fig.path = "rmd_images/",echo=TRUE)
+# set project directory to parent directory of this script 
+project_dir <- normalizePath("../")
+#print(project_dir)
+knitr::opts_knit$set(base.dir = project_dir, base.url = "/") # project root folder
+knitr::opts_chunk$set(fig.path = "rmd_images/",echo=TRUE) # image path
 ```
 
 ## R Markdown
