@@ -31,12 +31,16 @@ Creating a basic function
 
 # Get top x rows after sorting by variable var
 get_stats <- function(data,group_var,measure_var) {
-  #deparse(substitute(measure_var))
+#deparse(substitute(measure_var))
+#print(quo_name(enquo(measure_var)))
+  measure_name <- quo_name(enquo(measure_var))
+  #label <- str_c(deparse(substitute(measure_var)),"_max")
   
-  label <- str_c(deparse(substitute(measure_var)),"_max")
-  
-  return( data %>% group_by({{group_var}}) %>%
-            summarize( {{label}} := max({{measure_var}}) ))
+  return( 
+    data %>% group_by({{group_var}}) %>%
+            summarize( !!str_c(measure_name,"_max") := max({{measure_var}}),
+                       !!str_c(measure_name,"_min") := min({{measure_var}})) 
+    )
 }
 
 cyl_hp_stats <- mtcars %>% get_stats(cyl,hp)

@@ -50,12 +50,16 @@
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Get top x rows after sorting by variable var
 get_stats &lt;- function(data,group_var,measure_var) {
-  #deparse(substitute(measure_var))
+#deparse(substitute(measure_var))
+#print(quo_name(enquo(measure_var)))
+  measure_name &lt;- quo_name(enquo(measure_var))
+  #label &lt;- str_c(deparse(substitute(measure_var)),"_max")
   
-  label &lt;- str_c(deparse(substitute(measure_var)),"_max")
-  
-  return( data %&gt;% group_by() %&gt;%
-            summarize(  := max() ))
+  return( 
+    data %&gt;% group_by() %&gt;%
+            summarize( !!str_c(measure_name,"_max") := max(),
+                       !!str_c(measure_name,"_min") := min()) 
+    )
 }
 
 cyl_hp_stats &lt;- mtcars %&gt;% get_stats(cyl,hp)
@@ -68,20 +72,24 @@ kable(cyl_hp_stats)
 <tr class="header">
 <th style="text-align: right;">cyl</th>
 <th style="text-align: right;">hp_max</th>
+<th style="text-align: right;">hp_min</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">113</td>
+<td style="text-align: right;">52</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">175</td>
+<td style="text-align: right;">105</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">335</td>
+<td style="text-align: right;">150</td>
 </tr>
 </tbody>
 </table>

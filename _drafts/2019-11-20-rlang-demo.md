@@ -12,12 +12,16 @@ Creating a basic function
 
     # Get top x rows after sorting by variable var
     get_stats <- function(data,group_var,measure_var) {
-      #deparse(substitute(measure_var))
+    #deparse(substitute(measure_var))
+    #print(quo_name(enquo(measure_var)))
+      measure_name <- quo_name(enquo(measure_var))
+      #label <- str_c(deparse(substitute(measure_var)),"_max")
       
-      label <- str_c(deparse(substitute(measure_var)),"_max")
-      
-      return( data %>% group_by({{group_var}}) %>%
-                summarize( {{label}} := max({{measure_var}}) ))
+      return( 
+        data %>% group_by({{group_var}}) %>%
+                summarize( !!str_c(measure_name,"_max") := max({{measure_var}}),
+                           !!str_c(measure_name,"_min") := min({{measure_var}})) 
+        )
     }
 
     cyl_hp_stats <- mtcars %>% get_stats(cyl,hp)
@@ -29,20 +33,24 @@ Creating a basic function
 <tr class="header">
 <th style="text-align: right;">cyl</th>
 <th style="text-align: right;">hp_max</th>
+<th style="text-align: right;">hp_min</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">113</td>
+<td style="text-align: right;">52</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">175</td>
+<td style="text-align: right;">105</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">335</td>
+<td style="text-align: right;">150</td>
 </tr>
 </tbody>
 </table>
