@@ -5,6 +5,7 @@ date:   2019-11-18
 tags: test
 output: 
   md_document:
+    variant: gfm
     preserve_yaml: TRUE
 ---
 
@@ -12,23 +13,22 @@ output:
 ```{r setup, include=FALSE}
 library(knitr)
 library(stringr)
-library(dplyr)
-# set project directory to parent directory of this script 
-project_dir <- normalizePath("../")
+library(here)
+#project_dir <- normalizePath("../")
 #print(project_dir)
 
 # get name of file during knitting and strip
 rmd_filename <- str_remove(knitr::current_input(),"\\.Rmd")
 print(rmd_filename)
 
-knitr::opts_knit$set(base.dir = project_dir, base.url = "/") # project root folder
-knitr::opts_chunk$set(fig.path = str_c("rmd_images/",rmd_filename,"/"),echo=TRUE) # image path
+knitr::opts_knit$set(base.dir = here::here(), base.url = "/") # project root folder
+knitr::opts_chunk$set(fig.path = str_c(here::here("rmd_images",rmd_filename),'/'),echo=TRUE) # image path
 ```
 
 Creating a basic function
 
 ```{r}
-
+library(dplyr)
 # Get top x rows after sorting by variable var
 get_stats <- function(data,group_var,measure_var) {
 #deparse(substitute(measure_var))

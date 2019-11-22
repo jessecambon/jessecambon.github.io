@@ -40,5 +40,6 @@ exclude:
   - README.md
   - LICENSE.md
   - "*.Rmd"
-
+  - jessecambon.github.io.Rproj
+  - .Rproj.user
 show_excerpts: true # show post excerpts
