@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Testing a Draft"
+title:  "Quasiquotation Demo"
 date:   2019-11-18
 tags: test
 output: 
@@ -11,18 +11,8 @@ output:
 
 
 ```{r setup, include=FALSE}
-library(knitr)
-library(stringr)
 library(here)
-#project_dir <- normalizePath("../")
-#print(project_dir)
-
-# get name of file during knitting and strip
-rmd_filename <- str_remove(knitr::current_input(),"\\.Rmd")
-print(rmd_filename)
-
-knitr::opts_knit$set(base.dir = here::here(), base.url = "/") # project root folder
-knitr::opts_chunk$set(fig.path = str_c(here::here("rmd_images",rmd_filename),'/'),echo=TRUE) # image path
+source(here::here("rmd_config.R"))
 ```
 
 Creating a basic function
@@ -31,11 +21,7 @@ Creating a basic function
 library(dplyr)
 # Get top x rows after sorting by variable var
 get_stats <- function(data,group_var,measure_var) {
-#deparse(substitute(measure_var))
-#print(quo_name(enquo(measure_var)))
   measure_name <- quo_name(enquo(measure_var))
-  #label <- str_c(deparse(substitute(measure_var)),"_max")
-  
   return( 
     data %>% group_by({{group_var}}) %>%
             summarize( !!str_c(measure_name,"_max") := max({{measure_var}}),
@@ -52,32 +38,32 @@ kable(cyl_hp_stats)
 ```
 
 
-Creating a function with a list argument
+Creating a function with a list argument. Return mean horsepower with a list of group by variables.
 
 ```{r}
-hp_calc <- function(data,variables) {
-  variables <- rlang::syms(variables)
-  
-  return(data %>% group_by(!!!variables) %>%
+hp_calc <- function(data,group_vars,measure_var) {
+  group_vars <- rlang::syms(group_vars)
+  return(data %>% group_by(!!!group_vars) %>%
            summarize(n=n(),
-                     mean_hp=mean(hp),
-                     min_hp=min(hp),
-                     max_hp=max(hp))
-         )
+                     variable=quo_name(enquo(measure_var)),
+                     mean=mean({{measure_var}}),
+                     min=min({{measure_var}}),
+                     max=max({{measure_var}}))
+  )
 }
  
-gear_hp <- mtcars %>% hp_calc(c('gear')) 
-vs_am_hp <- mtcars %>% hp_calc(c('vs','am')) 
+gear_hp <- mtcars %>% hp_calc(c('gear'),hp) 
+vs_am_hp <- mtcars %>% hp_calc(c('vs','am'),cyl) 
 ```
 
 ```{r}
 kable(gear_hp)
-
 kable(vs_am_hp)
 ```
 
 ```{r}
 library(ggplot2)
-ggplot(data=gear_hp) + geom_point(aes(x=gear,y=mean_hp))
+ggplot(data=gear_hp) + geom_point(aes(x=gear,y=mean)) + 
+  theme_classic() + ylab('Mean HP')
 ```
 

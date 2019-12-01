@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Testing a Draft"
+title:  "Quasiquotation Demo"
 date:   2019-11-18
 tags: test
 output: 
@@ -29,11 +29,7 @@ library(dplyr)
 ``` r
 # Get top x rows after sorting by variable var
 get_stats <- function(data,group_var,measure_var) {
-#deparse(substitute(measure_var))
-#print(quo_name(enquo(measure_var)))
   measure_name <- quo_name(enquo(measure_var))
-  #label <- str_c(deparse(substitute(measure_var)),"_max")
-  
   return( 
     data %>% group_by({{group_var}}) %>%
             summarize( !!str_c(measure_name,"_max") := max({{measure_var}}),
@@ -54,48 +50,50 @@ kable(cyl_hp_stats)
 |   6 |     175 |     105 |
 |   8 |     335 |     150 |
 
-Creating a function with a list argument
+Creating a function with a list argument. Return mean horsepower with a
+list of group by variables.
 
 ``` r
-hp_calc <- function(data,variables) {
-  variables <- rlang::syms(variables)
-  
-  return(data %>% group_by(!!!variables) %>%
+hp_calc <- function(data,group_vars,measure_var) {
+  group_vars <- rlang::syms(group_vars)
+  return(data %>% group_by(!!!group_vars) %>%
            summarize(n=n(),
-                     mean_hp=mean(hp),
-                     min_hp=min(hp),
-                     max_hp=max(hp))
-         )
+                     variable=quo_name(enquo(measure_var)),
+                     mean=mean({{measure_var}}),
+                     min=min({{measure_var}}),
+                     max=max({{measure_var}}))
+  )
 }
  
-gear_hp <- mtcars %>% hp_calc(c('gear')) 
-vs_am_hp <- mtcars %>% hp_calc(c('vs','am')) 
+gear_hp <- mtcars %>% hp_calc(c('gear'),hp) 
+vs_am_hp <- mtcars %>% hp_calc(c('vs','am'),cyl) 
 ```
 
 ``` r
 kable(gear_hp)
 ```
 
-| gear |  n | mean\_hp | min\_hp | max\_hp |
-| ---: | -: | -------: | ------: | ------: |
-|    3 | 15 | 176.1333 |      97 |     245 |
-|    4 | 12 |  89.5000 |      52 |     123 |
-|    5 |  5 | 195.6000 |      91 |     335 |
+| gear |  n | variable |     mean | min | max |
+| ---: | -: | :------- | -------: | --: | --: |
+|    3 | 15 | hp       | 176.1333 |  97 | 245 |
+|    4 | 12 | hp       |  89.5000 |  52 | 123 |
+|    5 |  5 | hp       | 195.6000 |  91 | 335 |
 
 ``` r
 kable(vs_am_hp)
 ```
 
-| vs | am |  n |  mean\_hp | min\_hp | max\_hp |
-| -: | -: | -: | --------: | ------: | ------: |
-|  0 |  0 | 12 | 194.16667 |     150 |     245 |
-|  0 |  1 |  6 | 180.83333 |      91 |     335 |
-|  1 |  0 |  7 | 102.14286 |      62 |     123 |
-|  1 |  1 |  7 |  80.57143 |      52 |     113 |
+| vs | am |  n | variable |     mean | min | max |
+| -: | -: | -: | :------- | -------: | --: | --: |
+|  0 |  0 | 12 | cyl      | 8.000000 |   8 |   8 |
+|  0 |  1 |  6 | cyl      | 6.333333 |   4 |   8 |
+|  1 |  0 |  7 | cyl      | 5.142857 |   4 |   6 |
+|  1 |  1 |  7 | cyl      | 4.000000 |   4 |   4 |
 
 ``` r
 library(ggplot2)
-ggplot(data=gear_hp) + geom_point(aes(x=gear,y=mean_hp))
+ggplot(data=gear_hp) + geom_point(aes(x=gear,y=mean)) + 
+  theme_classic() + ylab('Mean HP')
 ```
 
-![](//home/cambonator/Programming/jessecambon.github.io/rmd_images/2019-11-20-rlang-demo/unnamed-chunk-5-1.png)<!-- -->
+![](/rmd_images/2019-11-20-rlang-demo/unnamed-chunk-5-1.png)<!-- -->
