@@ -11,13 +11,13 @@ output:
 
 [Quasiquotation](https://rlang.r-lib.org/reference/quasiquotation.html)
 is a somewhat intimidating term for useful concept that will allow you
-to write more elegant and customizable dplyr-based code and functions.
-The purpose of this post is to demystify quasiquotation and show you how
-you can put it to use in your code.
+to write more elegant and customizable code and functions. The purpose
+of this post is to demystify quasiquotation and show you how you can put
+it to use in your code.
 
 To begin, let’s consider a simple example in dplyr with the mtcars
-dataset. Here we calculate the maximum and minimum horsepower (hp) by
-the number of cylinders (cyl) using the “group\_by” and “summarize”
+dataset. We calculate the maximum and minimum horsepower (hp) by the
+number of cylinders (cyl) using the “group\_by” and “summarize”
 functions.
 
 ``` r
@@ -36,7 +36,7 @@ hp_by_cyl <- mtcars %>%
 
 This code works well enough, but let’s say we wanted to change the group
 by variable so that we could, for example, calculate maximum and minimum
-hp by the `vs` (engine type) or `am` (transmission) variables. One way
+hp by the “vs” (engine type) or “am” (transmission) variables. One way
 to accomplish this would be to copy and paste the above code and then
 manually change the group by variable. However, this isn’t a particular
 elegant or efficient solution particularly with more complicated code or
@@ -44,16 +44,16 @@ in situations where we’d like to iterate through several different
 variables.
 
 Another approach might be to store that name of a new group by variable
-in a variable like this `groupby_var <- "vs"` and then use `groupby_var`
-in our code (ie. `group_by(groupby_var)`. However, if you were to try
-this you would find it doesn’t work because of the way dplyr works. The
-group\_by function expects the variable (or variables) you want to
-aggregate by as inputs. It does not expect the variable names to be in
-quotes and it doesn’t expect you to give it a variable that contains the
-name of the variable you want to aggregate by.
+in a variable like this `groupby_var <- "vs"` and then use
+“groupby\_var” in our code (ie. `group_by(groupby_var)`. However, if
+you were to try this you would find it doesn’t work because of the way
+dplyr works. The group\_by function expects the variable (or variables)
+you want to aggregate by as inputs. It does not expect the variable
+names to be in quotes and it doesn’t expect you to give it a variable
+that contains the name of the variable you want to aggregate by.
 
 Essentially, we need a way to tell the group\_by function to look at the
-value stored in `groupby_var` and use that value as a variable name.
+value stored in “groupby\_var” and use that value as a variable name.
 This is the type of operation that quasiquotation is built for. In the
 example below we use the
 [quo](https://rlang.r-lib.org/reference/quotation.html) function and the
@@ -100,7 +100,9 @@ hp_by_am <- max_min_hp(am)
 Now let’s say we wanted to customize this function even further. Let’s
 make it so that our function can use one or multiple variables for
 group\_by and let’s make the measurement variable (hp in the above
-examples) an input to the function.
+examples) an input to the function. Note that we are now using the
+“syms” function to allow “groupby\_vars” to be a list of variables
+and that these variable names should now be strings (see usage below).
 
 ``` r
 get_stats <- function(data,groupby_vars,measure_var) {
@@ -139,9 +141,7 @@ metric_calc <- function(data,group_vars,measure_var) {
                      variable=quo_name(enquo(measure_var)),
                      mean=mean({{measure_var}}),
                      min=min({{measure_var}}),
-                     max=max({{measure_var}}))
-  )
-}
+                     max=max({{measure_var}}))) }
  
 gear_hp <- mtcars %>% metric_calc(c('gear'),hp) 
 vs_am_hp <- mtcars %>% metric_calc(c('vs','am'),cyl) 
@@ -170,13 +170,15 @@ kable(vs_am_hp)
 
 ``` r
 library(ggplot2)
-ggplot(data=gear_hp) + geom_point(aes(x=gear,y=mean)) + 
-  theme_classic() + ylab('Mean HP')
+ggplot(data=gear_hp,aes(x=reorder(gear,-mean),y=mean)) + 
+geom_bar(stat='identity',color='black') +
+scale_y_continuous(expand = c(0,0,0.08,0)) + 
+theme_bw() + ylab('Mean HP') + xlab('Number of Gears')
 ```
 
 ![](/rmd_images/2019-11-20-quasiquotation-demo/unnamed-chunk-11-1.png)<!-- -->
 
-Experimental:
+### Experimental
 
 ``` r
 get_stats <- function(data,groupby_vars,measure_var) {
@@ -186,8 +188,7 @@ get_stats <- function(data,groupby_vars,measure_var) {
     data %>% group_by_at(groupby_vars) %>%
             summarize( !!str_c(measure_name,"_max") := max({{measure_var}}),
                        !!str_c(measure_name,"_min") := min({{measure_var}})) 
-    )
-}
+    )}
 
 #test1 <- mtcars %>% get_stats(cyl,mpg)
 test2 <- mtcars %>% get_stats(vars(cyl,am),gear)
