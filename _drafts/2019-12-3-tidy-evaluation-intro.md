@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Introduction to Tidy Evaluation"
-date:   2019-11-18
+date:   2019-12-3
 tags: test
 output: 
   md_document:
@@ -10,23 +10,23 @@ output:
 ---
 
 [Tidy evaluation](https://tidyeval.tidyverse.org/) is a framework for
-writing more efficient and elegant code with
-[tidyverse](https://www.tidyverse.org/) functions. More specifically
-this framework provides a set of functions contained in the [rlang
-package](https://rlang.r-lib.org/) which allow you to control how
-expressions and variables in your code are evaluated by tidyverse
-functions.
+controlling how expressions and variables in your code are evaluated by
+[tidyverse](https://www.tidyverse.org/) functions. This framework,
+housed in the [rlang package](https://rlang.r-lib.org), is a powerful
+tool for writing more efficient and modular tidyverse code. In
+particular, you’ll find it useful for passing variable names as inputs
+to functions that use functions from tidyverse packages like dplyr and
+ggplot2. This post will focus on providing accessible examples and
+intuition on using tidy evaluation in your own code. For more
+comprehensive documentation on tidy evaluation you can refer to [rlang’s
+documentation](https://rlang.r-lib.org/reference/), [this book on tidy
+evaluation](https://tidyeval.tidyverse.org/)\] by Lionel Henry and
+Hadley Wickham, or the [Metaprogramming Section in the ‘Advanced R’
+book](https://adv-r.hadley.nz/metaprogramming.html) by Hadley Wickham.
 
-While tidy evaluation is a powerful tool for R developers, it also might
-be difficult to wrap your head around especially if you’re new to R or
-the tidyverse. This is an area of R that has undergone [a number of
-development phases](https://rlang.r-lib.org/reference/lifecycle.html)
-and much of the material I’ve found probably isn’t very accessible to a
-newer R user. The goal of this tutorial is to concisely and accessibly
-demonstrate how tidy evaluation can be used and to give you intuition on
-using this framework in your own code.
+### Motivating Example
 
-To begin, let’s consider a simple motivating example with the [mtcars
+To begin, let’s consider a basic analysis of the [mtcars
 dataset](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html).
 Below we calculate maximum and minimum horsepower (hp) by the number of
 cylinders (cyl) using the “group\_by” and “summarize” functions from
@@ -47,23 +47,26 @@ hp_by_cyl <- mtcars %>%
 |   8 |     335 |     150 |
 
 Now let’s say we wanted to repeat this calculation multiple times while
-changing which variable we group by. A brute force way to accomplish
-this would be to copy and paste our code as many times as necessary, but
-that’s inefficient especially if our code is complicated, requires many
-iterations, or needs to be updated frequently. To avoid this inelegant
-solution you might think to store the name of a variable inside of a
-variable like this `groupby_var <- "vs"`. Then you could attempt to use
-your newly created “groupby\_var” variable in your code (ie.
-`group_by(groupby_var)`.
+changing which variable we group by. A brute force method to accomplish
+this would be to copy and paste our code as many times as necessary and
+modify each iteration as necessary. However that’s inefficient
+especially if our code is complicated, requires many iterations, or
+needs to be updated frequently.
 
-However, if you try this you will find it doesn’t work. The “group\_by”
-function expects the name of the variable you want to group by as an
-input, not a variable containing the name of the variable you want to
-group by. This is the type of problem that tidy evaluation is built to
-solve. In the example below we use the
+To avoid this inelegant solution you might think to store the name of a
+variable inside of a variable like this `groupby_var <- "vs"`. Then you
+could attempt to use your newly created “groupby\_var” variable in your
+code (ie. `group_by(groupby_var)`. However, if you try this you will
+find it doesn’t work. The “group\_by” function expects the name of the
+variable you want to group by as an input, not the name of a variable
+that contains the name of the variable you want to group by.
+
+This is the kind of headache that tidy evaluation is built to solve. In
+the example below we use the
 [quo](https://rlang.r-lib.org/reference/quotation.html) function and the
-[\!\!](https://rlang.r-lib.org/reference/nse-force.html) operator to
-pass “vs” as our group by variable to the “group\_by” function.
+“bang-bang” [\!\!](https://rlang.r-lib.org/reference/nse-force.html)
+operator to pass “vs” as our group by variable to the “group\_by”
+function.
 
 ``` r
 groupby_var <- quo(vs)
@@ -79,14 +82,31 @@ hp_by_vs <- mtcars %>%
 |  0 |     335 |      91 |
 |  1 |     123 |      52 |
 
-If our code were more complex and referenced our group by variable many
-times, we now have a method to set this variable by modifying the input
-to “quo”. This has some utility, but if we want to utilize code like
-this repeatedly in a script, we might want to turn it into a function.
-To do this we will still use the “\!\!” operator but we will now use the
+### Making Functions with Tidy Evaluation
+
+The code above provides a method for setting the group by variable by
+modifying the input to the “quo” function. This has some utility,
+particularly if we were referencing the group by variable multiple
+times. However, if we want to utilize a piece of code like this
+repeatedly in a script then we should consider packaging it into a
+function. To use tidy evaluation in our function, we will still use the
+“\!\!” operator but we will now use the
 [enquo](https://rlang.r-lib.org/reference/nse-defuse.html) function
-instead of “quo”. Below we define this function and call it using “am”
-as our group by variable.
+instead of “quo”.
+
+Our function takes the group by variable and the measurement variable as
+inputs so that we can calculate maximum and minimum values of other
+variables. I’ve also introduced the “walrus operator” `:=` which I use
+to create a variable named with the value of the “measure\_var” argument
+which contains the mean of the “measure\_var” variable (hp in the
+example below). Additionally, I’ve introduced a somewhat redundant
+“measure\_var” variable to demonstrate the use of the
+[as\_label](https://rlang.r-lib.org/reference/as_label.html) function
+which can extract the string value of a variable.
+
+Below this function is defined and then used to group by “am”
+(transmission type, 0 = automatic, 1 = manual) and calculate statistics
+with the “hp” (horsepower) variable.
 
 ``` r
 car_stats <- function(groupby_var,measure_var) {
@@ -107,17 +127,17 @@ hp_by_am <- car_stats(am,hp)
 |  0 | 160.2632 | 160.2632 | 160.2632 | hp           |
 |  1 | 126.8462 | 126.8462 | 126.8462 | hp           |
 
-Now we have a function we can use to easily change our group\_by
-variable with no copy-and-pasting of code. As you might suspect, I am
-just using the “group\_by” function as an example, but you could use
-very similar code to what we have developed above with other tidyverse
-functions. As an example, here is a function that takes a dataset and
-two variable names as inputs and builds a scatterplot with
-[ggplot2](https://ggplot2.tidyverse.org/). You will notice that the data
-argument needs no tidy evaluation, only the x and y variables. We also
-use the [as\_label](https://rlang.r-lib.org/reference/as_label.html)
-function to extract our variable names as strings to create plot title
-using the “ggtitle” function.
+Now we have a flexible function for utilizing a dplyr data analysis
+workflow. You can experiment with modifying this function for your own
+purposes. Also, as you might suspect, you could use the same tidy
+evaluation functions we used above with tidyverse packages other than
+dplyr. As an example, below I’ve defined a function that builds a
+scatterplot with [ggplot2](https://ggplot2.tidyverse.org/). The function
+takes a dataset and two variable names as inputs. You will notice that
+the data argument needs no tidy evaluation. The
+[as\_label](https://rlang.r-lib.org/reference/as_label.html) function is
+this time used to extract our variable names as strings to create a plot
+title with the “ggtitle” function.
 
 ``` r
 library(ggplot2)
@@ -127,15 +147,14 @@ scatter_plot <- function(df,x_var,y_var) {
   
 return(ggplot(data=df,aes(x=!!x_var,y=!!y_var)) + 
   geom_point() + 
-  theme_bw() +
+  theme_bw() + 
+  theme(plot.title = element_text(lineheight=1, face="bold",hjust = 0.5)) +
   geom_smooth() +
-  ggtitle(str_c(as_label(y_var), " vs ",as_label(x_var)))
+  ggtitle(str_c(as_label(y_var), " vs. ",as_label(x_var)))
   )
 }
 scatter_plot(mtcars,disp,hp)
 ```
-
-    ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 
 ![](/rmd_images/2019-12-3-tidy-evaluation-intro/unnamed-chunk-7-1.png)<!-- -->
 
@@ -144,11 +163,21 @@ As you can see, we’ve plotted the “hp” (horsepower) variable against
 and pasting ggplot code to create the same plot with different datasets
 and variables, we can just call our function.
 
-Now to wrap things up, one last trick I will demonstrate is how to pass
-a list of variables using the syms function. This allows us to make a
-similar function to the dplyr code we used above which now allows us to
-group by multiple variables. One quirk is that to use the syms function
-we will need to pass the variable names in quotes as shown below.
+To wrap things up, I’ll cover a couple more tricks for your tidy
+evaluation toolbox. I will pass a list of variables using the “syms”
+function and use the “curly-curl” {% raw %}`{{}}`{% endraw %} operator
+as a shortcut for using “enquo” and “\!\!”. Passing a list of variables
+allows us to group by multiple variables using dplyr inside of a
+function. One quirk is that to use the syms function we will need to
+pass the variable names in quotes as shown below. Because we are passing
+a list, the “\!\!\!” is now used for “groupby\_vars” instead of the
+“\!\!” operator we have used previously. I also have created new
+variables using a combination of a variable value and a string with the
+help of the “str\_c” function from stringr. Note that while we do use
+“enquo” to create our “measure\_name” variable from “measure\_var”, we
+are able to directly evaluate “measure\_var” argument in the summarize
+function using the “curly-curl” {% raw %}`{{}}`{% endraw %} operator (we
+had to use a combination of “enquo” and “\!\!” before).
 
 ``` r
 get_stats <- function(data,groupby_vars,measure_var) {
@@ -176,70 +205,6 @@ gear_stats <- mtcars %>% get_stats(c("am","vs"),gear)
 |  1 |  0 |         5 |         4 |
 |  1 |  1 |         5 |         4 |
 
-## Archive
-
-Creating a function with a list argument. Return mean horsepower with a
-list of group by variables.
-
-``` r
-metric_calc <- function(data,group_vars,measure_var) {
-  group_vars <- rlang::syms(group_vars)
-  return(data %>% group_by(!!!group_vars) %>%
-           summarize(n=n(),
-                     variable=quo_name(enquo(measure_var)),
-                     mean=mean({{measure_var}}),
-                     min=min({{measure_var}}),
-                     max=max({{measure_var}}))
-  )
-}
- 
-gear_hp <- mtcars %>% metric_calc(c('gear'),hp) 
-vs_am_hp <- mtcars %>% metric_calc(c('vs','am'),cyl) 
-```
-
-``` r
-kable(gear_hp)
-```
-
-| gear |  n | variable |     mean | min | max |
-| ---: | -: | :------- | -------: | --: | --: |
-|    3 | 15 | hp       | 176.1333 |  97 | 245 |
-|    4 | 12 | hp       |  89.5000 |  52 | 123 |
-|    5 |  5 | hp       | 195.6000 |  91 | 335 |
-
-``` r
-kable(vs_am_hp)
-```
-
-| vs | am |  n | variable |     mean | min | max |
-| -: | -: | -: | :------- | -------: | --: | --: |
-|  0 |  0 | 12 | cyl      | 8.000000 |   8 |   8 |
-|  0 |  1 |  6 | cyl      | 6.333333 |   4 |   8 |
-|  1 |  0 |  7 | cyl      | 5.142857 |   4 |   6 |
-|  1 |  1 |  7 | cyl      | 4.000000 |   4 |   4 |
-
-Experimental:
-
-``` r
-get_stats <- function(data,groupby_vars,measure_var) {
-  
-  measure_name <- quo_name(enquo(measure_var))
-  return( 
-    data %>% group_by_at(groupby_vars) %>%
-            summarize( !!str_c(measure_name,"_max") := max({{measure_var}}),
-                       !!str_c(measure_name,"_min") := min({{measure_var}})) 
-    )
-}
-
-#test1 <- mtcars %>% get_stats(cyl,mpg)
-test2 <- mtcars %>% get_stats(vars(cyl,am),gear)
-```
-
-| cyl | am | gear\_max | gear\_min |
-| --: | -: | --------: | --------: |
-|   4 |  0 |         4 |         3 |
-|   4 |  1 |         5 |         4 |
-|   6 |  0 |         4 |         3 |
-|   6 |  1 |         5 |         4 |
-|   8 |  0 |         3 |         3 |
-|   8 |  1 |         5 |         5 |
+This concludes my introduction to the tidy evaluation framework. I hope
+it is a helpful starting point for using this framework to make your
+tidyverse code more elegant and efficient.
