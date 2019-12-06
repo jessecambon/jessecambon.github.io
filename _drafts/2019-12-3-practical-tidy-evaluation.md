@@ -179,8 +179,9 @@ and variables, we can just call our function.
 To wrap things up, I’ll cover a few additional tricks for your tidy
 evaluation toolbox. I will pass a list of variables using the
 [syms](https://rlang.r-lib.org/reference/sym.html) function and use the
-“curly-curly” {% raw %}`{{}}`{% endraw %} operator as a shortcut for
-using “enquo” and “\!\!”.
+“curly-curly” {% raw %}[{{
+}}](https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/){% endraw %}
+operator as a shortcut for using “enquo” and “\!\!”.
 
 Passing a list of variables allows us to group by multiple variables
 using dplyr inside of a function. One quirk is that to use the syms
@@ -193,11 +194,9 @@ I also have created new variables using a combination of a variable
 value and a string with the help of the “str\_c” function from
 [stringr](https://stringr.tidyverse.org/). Note that we are able to
 directly evaluate the “measure\_var” argument in the summarize function
-using the “curly-curly” {% raw
-%}[{{}}](https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/){% endraw
-%} operator. We had to use a combination of “enquo” and “\!\!” to do
-this before, but the “curly-curly” operator provides a shortcut for the
-same operation.
+using the “curly-curly” {% raw %}`{{ }}`{% endraw %} operator. We had to
+use a combination of “enquo” and “\!\!” to do this before, but the
+“curly-curly” operator provides a shortcut for the same operation.
 
 Below we use this function to group by the “cyl” variable and then by
 the “am” and “vs” variables (ie. the “\!\!\!” operator and “syms”
