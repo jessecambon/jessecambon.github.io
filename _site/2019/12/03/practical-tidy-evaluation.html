@@ -3,20 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Introduction to Tidy Evaluation | jessecambon</title>
+<title>Practical Tidy Evaluation | jessecambon</title>
 <meta name="generator" content="Jekyll v3.8.6" />
-<meta property="og:title" content="Introduction to Tidy Evaluation" />
+<meta property="og:title" content="Practical Tidy Evaluation" />
 <meta name="author" content="Jesse Cambon" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and modular tidyverse code. In particular, you’ll find it useful for passing variable names as inputs to functions that use functions from tidyverse packages like dplyr and ggplot2. This post will focus on providing accessible examples and intuition on using tidy evaluation in your own code. For more comprehensive documentation on tidy evaluation you can refer to rlang’s documentation, this book on tidy evaluation] by Lionel Henry and Hadley Wickham, or the Metaprogramming Section in the ‘Advanced R’ book by Hadley Wickham." />
-<meta property="og:description" content="Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and modular tidyverse code. In particular, you’ll find it useful for passing variable names as inputs to functions that use functions from tidyverse packages like dplyr and ggplot2. This post will focus on providing accessible examples and intuition on using tidy evaluation in your own code. For more comprehensive documentation on tidy evaluation you can refer to rlang’s documentation, this book on tidy evaluation] by Lionel Henry and Hadley Wickham, or the Metaprogramming Section in the ‘Advanced R’ book by Hadley Wickham." />
-<link rel="canonical" href="http://localhost:4000/2019/12/03/tidy-evaluation-intro.html" />
-<meta property="og:url" content="http://localhost:4000/2019/12/03/tidy-evaluation-intro.html" />
+<meta name="description" content="Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and modular tidyverse code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2." />
+<meta property="og:description" content="Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and modular tidyverse code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2." />
+<link rel="canonical" href="http://localhost:4000/2019/12/03/practical-tidy-evaluation.html" />
+<meta property="og:url" content="http://localhost:4000/2019/12/03/practical-tidy-evaluation.html" />
 <meta property="og:site_name" content="jessecambon" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-12-03T00:00:00-05:00" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","headline":"Introduction to Tidy Evaluation","url":"http://localhost:4000/2019/12/03/tidy-evaluation-intro.html","datePublished":"2019-12-03T00:00:00-05:00","dateModified":"2019-12-03T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/12/03/tidy-evaluation-intro.html"},"author":{"@type":"Person","name":"Jesse Cambon"},"description":"Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and modular tidyverse code. In particular, you’ll find it useful for passing variable names as inputs to functions that use functions from tidyverse packages like dplyr and ggplot2. This post will focus on providing accessible examples and intuition on using tidy evaluation in your own code. For more comprehensive documentation on tidy evaluation you can refer to rlang’s documentation, this book on tidy evaluation] by Lionel Henry and Hadley Wickham, or the Metaprogramming Section in the ‘Advanced R’ book by Hadley Wickham.","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","headline":"Practical Tidy Evaluation","url":"http://localhost:4000/2019/12/03/practical-tidy-evaluation.html","datePublished":"2019-12-03T00:00:00-05:00","dateModified":"2019-12-03T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/12/03/practical-tidy-evaluation.html"},"author":{"@type":"Person","name":"Jesse Cambon"},"description":"Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and modular tidyverse code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="jessecambon" /></head>
 <body><header class="site-header" role="banner">
@@ -39,7 +39,7 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Introduction to Tidy Evaluation</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Practical Tidy Evaluation</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="2019-12-03T00:00:00-05:00" itemprop="datePublished">Dec 3, 2019
       </time></p>
@@ -52,13 +52,17 @@ controlling how expressions and variables in your code are evaluated by
 housed in the <a href="https://rlang.r-lib.org">rlang package</a>, is a powerful
 tool for writing more efficient and modular tidyverse code. In
 particular, you’ll find it useful for passing variable names as inputs
-to functions that use functions from tidyverse packages like dplyr and
-ggplot2. This post will focus on providing accessible examples and
-intuition on using tidy evaluation in your own code. For more
-comprehensive documentation on tidy evaluation you can refer to <a href="https://rlang.r-lib.org/reference/">rlang’s
-documentation</a>, <a href="https://tidyeval.tidyverse.org/">this book on tidy
-evaluation</a>] by Lionel Henry and
-Hadley Wickham, or the <a href="https://adv-r.hadley.nz/metaprogramming.html">Metaprogramming Section in the ‘Advanced R’
+to functions that use tidyverse packages like
+<a href="https://dplyr.tidyverse.org/">dplyr</a> and
+<a href="https://ggplot2.tidyverse.org/">ggplot2</a>.</p>
+
+<p>The goal of this post is to offer accessible examples and intuition for
+putting tidy evaluation to work in your own code. Because of this, I
+will keep conceptual explanations brief, but for more comprehensive
+documentation you can refer to <a href="https://rlang.r-lib.org/reference/">rlang’s
+website</a>, the <a href="https://tidyeval.tidyverse.org/">‘Tidy Evaluation’
+book</a> by Lionel Henry and Hadley
+Wickham, and the <a href="https://adv-r.hadley.nz/metaprogramming.html">Metaprogramming Section of the ‘Advanced R’
 book</a> by Hadley Wickham.</p>
 
 <h3 id="motivating-example">Motivating Example</h3>
@@ -66,8 +70,10 @@ book</a> by Hadley Wickham.</p>
 <p>To begin, let’s consider a basic analysis of the <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html">mtcars
 dataset</a>.
 Below we calculate maximum and minimum horsepower (hp) by the number of
-cylinders (cyl) using the “group_by” and “summarize” functions from
-<a href="https://dplyr.tidyverse.org/">dplyr</a>.</p>
+cylinders (cyl) using the
+<a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a> and
+<a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a>
+functions from <a href="https://dplyr.tidyverse.org/">dplyr</a>.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
 </span><span class="n">hp_by_cyl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
@@ -106,24 +112,25 @@ cylinders (cyl) using the “group_by” and “summarize” functions from
 <p>Now let’s say we wanted to repeat this calculation multiple times while
 changing which variable we group by. A brute force method to accomplish
 this would be to copy and paste our code as many times as necessary and
-modify each iteration as necessary. However that’s inefficient
-especially if our code is complicated, requires many iterations, or
-needs to be updated frequently.</p>
+replace “cyl” with our new variable names. However that’s inefficient
+especially if our code gets more complicated, requires many iterations,
+or will need to be updated frequently.</p>
 
 <p>To avoid this inelegant solution you might think to store the name of a
-variable inside of a variable like this <code class="highlighter-rouge">groupby_var &lt;- "vs"</code>. Then you
-could attempt to use your newly created “groupby_var” variable in your
-code (ie. <code class="highlighter-rouge">group_by(groupby_var)</code>. However, if you try this you will
+variable inside of another variable like this <code class="highlighter-rouge">groupby_var &lt;- "vs"</code>.
+Then you could attempt to use your newly created “groupby_var” variable
+in your code: <code class="highlighter-rouge">group_by(groupby_var)</code>. However, if you try this you will
 find it doesn’t work. The “group_by” function expects the name of the
 variable you want to group by as an input, not the name of a variable
-that contains the name of the variable you want to group by.</p>
+that <em>contains</em> the name of the variable you want to group by.</p>
 
-<p>This is the kind of headache that tidy evaluation is built to solve. In
-the example below we use the
+<p>This is the kind of headache that tidy evaluation can help you remedy.
+In the example below we use the
 <a href="https://rlang.r-lib.org/reference/quotation.html">quo</a> function and the
 “bang-bang” <a href="https://rlang.r-lib.org/reference/nse-force.html">!!</a>
-operator to pass “vs” as our group by variable to the “group_by”
-function.</p>
+operator to set “vs” (engine type, 0 = automatic, 1 = manual) as our
+group by variable. The quo function allows us to store the variable name
+and “!!” extracts the stored variable name.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">groupby_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">quo</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span><span class="w">
 
@@ -155,41 +162,44 @@ function.</p>
   </tbody>
 </table>
 
-<h3 id="making-functions-with-tidy-evaluation">Making Functions with Tidy Evaluation</h3>
-
 <p>The code above provides a method for setting the group by variable by
 modifying the input to the “quo” function. This has some utility,
 particularly if we were referencing the group by variable multiple
 times. However, if we want to utilize a piece of code like this
 repeatedly in a script then we should consider packaging it into a
-function. To use tidy evaluation in our function, we will still use the
-“!!” operator but we will now use the
-<a href="https://rlang.r-lib.org/reference/nse-defuse.html">enquo</a> function
-instead of “quo”.</p>
+function which is what we will do next.</p>
 
-<p>Our function takes the group by variable and the measurement variable as
-inputs so that we can calculate maximum and minimum values of other
-variables. I’ve also introduced the “walrus operator” <code class="highlighter-rouge">:=</code> which I use
-to create a variable named with the value of the “measure_var” argument
-which contains the mean of the “measure_var” variable (hp in the
-example below). Additionally, I’ve introduced a somewhat redundant
-“measure_var” variable to demonstrate the use of the
-<a href="https://rlang.r-lib.org/reference/as_label.html">as_label</a> function
-which can extract the string value of a variable.</p>
+<h3 id="making-functions-with-tidy-evaluation">Making Functions with Tidy Evaluation</h3>
 
-<p>Below this function is defined and then used to group by “am”
-(transmission type, 0 = automatic, 1 = manual) and calculate statistics
-with the “hp” (horsepower) variable.</p>
+<p>To use tidy evaluation in a function, we will still use the “!!”
+operator as we did above, but instead of “quo” we will use the
+<a href="https://rlang.r-lib.org/reference/nse-defuse.html">enquo</a> function. Our
+function takes the group by variable and the measurement variable as
+inputs so that we can now calculate maximum and minimum values of other
+variables.</p>
+
+<p>I’ve also introduced the “walrus operator”
+<a href="https://rlang.r-lib.org/reference/quasiquotation.html#forcing-names">:=</a>
+to create a variable named after the “measure_var” argument (hp in the
+example). Additionally, I use the
+<a href="https://rlang.r-lib.org/reference/as_label.html">as_label</a> to extract
+the string value of the “measure_var” variable.</p>
+
+<p>This function is defined below and used to group by “am” (transmission
+type, 0 = automatic, 1 = manual) and calculate summary statistics with
+the “hp” (horsepower) variable.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">car_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">groupby_var</span><span class="p">,</span><span class="n">measure_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">groupby_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">groupby_var</span><span class="p">)</span><span class="w">
   </span><span class="n">measure_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">measure_var</span><span class="p">)</span><span class="w">
   </span><span class="nf">return</span><span class="p">(</span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
     </span><span class="n">group_by</span><span class="p">(</span><span class="o">!!</span><span class="n">groupby_var</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">summarize</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
-              </span><span class="n">max</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
+    </span><span class="n">summarize</span><span class="p">(</span><span class="n">max</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
               </span><span class="n">min</span><span class="o">=</span><span class="nf">min</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-      </span><span class="n">mutate</span><span class="p">(</span><span class="n">measure_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as_label</span><span class="p">(</span><span class="n">measure_var</span><span class="p">)))</span><span class="w">
+          </span><span class="n">mutate</span><span class="p">(</span><span class="n">measure_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as_label</span><span class="p">(</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
+            </span><span class="o">!!</span><span class="n">measure_var</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">select</span><span class="p">(</span><span class="o">!!</span><span class="n">groupby_var</span><span class="p">,</span><span class="n">measure_var</span><span class="p">,</span><span class="n">everything</span><span class="p">())</span><span class="w">
+    </span><span class="p">)</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span><span class="n">hp_by_am</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">car_stats</span><span class="p">(</span><span class="n">am</span><span class="p">,</span><span class="n">hp</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
@@ -198,26 +208,26 @@ with the “hp” (horsepower) variable.</p>
   <thead>
     <tr>
       <th style="text-align: right">am</th>
-      <th style="text-align: right">hp</th>
+      <th style="text-align: left">measure_var</th>
       <th style="text-align: right">max</th>
       <th style="text-align: right">min</th>
-      <th style="text-align: left">measure_var</th>
+      <th style="text-align: left">hp</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td style="text-align: right">0</td>
-      <td style="text-align: right">160.2632</td>
-      <td style="text-align: right">160.2632</td>
-      <td style="text-align: right">160.2632</td>
       <td style="text-align: left">hp</td>
+      <td style="text-align: right">245</td>
+      <td style="text-align: right">62</td>
+      <td style="text-align: left">NA</td>
     </tr>
     <tr>
       <td style="text-align: right">1</td>
-      <td style="text-align: right">126.8462</td>
-      <td style="text-align: right">126.8462</td>
-      <td style="text-align: right">126.8462</td>
       <td style="text-align: left">hp</td>
+      <td style="text-align: right">335</td>
+      <td style="text-align: right">52</td>
+      <td style="text-align: left">NA</td>
     </tr>
   </tbody>
 </table>
@@ -226,10 +236,12 @@ with the “hp” (horsepower) variable.</p>
 workflow. You can experiment with modifying this function for your own
 purposes. Also, as you might suspect, you could use the same tidy
 evaluation functions we used above with tidyverse packages other than
-dplyr. As an example, below I’ve defined a function that builds a
-scatterplot with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. The function
-takes a dataset and two variable names as inputs. You will notice that
-the data argument needs no tidy evaluation. The
+dplyr.</p>
+
+<p>As an example, below I’ve defined a function that builds a scatter plot
+with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. The function takes a
+dataset and two variable names as inputs. You will notice that the data
+argument needs no tidy evaluation. The
 <a href="https://rlang.r-lib.org/reference/as_label.html">as_label</a> function is
 this time used to extract our variable names as strings to create a plot
 title with the “ggtitle” function.</p>
@@ -240,8 +252,7 @@ title with the “ggtitle” function.</p>
   </span><span class="n">y_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">y_var</span><span class="p">)</span><span class="w">
   
 </span><span class="nf">return</span><span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=!!</span><span class="n">x_var</span><span class="p">,</span><span class="n">y</span><span class="o">=!!</span><span class="n">y_var</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
-  </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> 
-  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> 
   </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">lineheight</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">geom_smooth</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">ggtitle</span><span class="p">(</span><span class="n">str_c</span><span class="p">(</span><span class="n">as_label</span><span class="p">(</span><span class="n">y_var</span><span class="p">),</span><span class="w"> </span><span class="s2">" vs. "</span><span class="p">,</span><span class="n">as_label</span><span class="p">(</span><span class="n">x_var</span><span class="p">)))</span><span class="w">
@@ -250,28 +261,39 @@ title with the “ggtitle” function.</p>
 </span><span class="n">scatter_plot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span><span class="n">disp</span><span class="p">,</span><span class="n">hp</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="/rmd_images/2019-12-3-tidy-evaluation-intro/unnamed-chunk-7-1.png" alt="" /><!-- --></p>
+<p><img src="/rmd_images/2019-12-3-practical-tidy-evaluation/unnamed-chunk-7-1.png" alt="" /><!-- --></p>
 
 <p>As you can see, we’ve plotted the “hp” (horsepower) variable against
 “disp” (displacement) and added a regression line. Instead of copying
 and pasting ggplot code to create the same plot with different datasets
 and variables, we can just call our function.</p>
 
-<p>To wrap things up, I’ll cover a couple more tricks for your tidy
-evaluation toolbox. I will pass a list of variables using the “syms”
-function and use the “curly-curl” <code class="highlighter-rouge">{{}}</code> operator
-as a shortcut for using “enquo” and “!!”. Passing a list of variables
-allows us to group by multiple variables using dplyr inside of a
-function. One quirk is that to use the syms function we will need to
-pass the variable names in quotes as shown below. Because we are passing
-a list, the “!!!” is now used for “groupby_vars” instead of the
-“!!” operator we have used previously. I also have created new
-variables using a combination of a variable value and a string with the
-help of the “str_c” function from stringr. Note that while we do use
-“enquo” to create our “measure_name” variable from “measure_var”, we
-are able to directly evaluate “measure_var” argument in the summarize
-function using the “curly-curl” <code class="highlighter-rouge">{{}}</code> operator (we
-had to use a combination of “enquo” and “!!” before).</p>
+<h3 id="curly-curly-and-passing-multiple-variables">“Curly-Curly” and Passing Multiple Variables</h3>
+
+<p>To wrap things up, I’ll cover a few additional tricks for your tidy
+evaluation toolbox. I will pass a list of variables using the
+<a href="https://rlang.r-lib.org/reference/sym.html">syms</a> function and use the
+“curly-curly” <code class="highlighter-rouge">{{}}</code> operator as a shortcut for
+using “enquo” and “!!”.</p>
+
+<p>Passing a list of variables allows us to group by multiple variables
+using dplyr inside of a function. One quirk is that to use the syms
+function we will need to pass the variable names in quotes as shown
+below. Because we are passing a list, the “!!!” is now used for
+“groupby_vars” instead of the “!!” operator we have used
+previously.</p>
+
+<p>I also have created new variables using a combination of a variable
+value and a string with the help of the “str_c” function from
+<a href="https://stringr.tidyverse.org/">stringr</a>. Note that we are able to
+directly evaluate the “measure_var” argument in the summarize function
+using the “curly-curly” <a href="https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/">{{}}</a> operator. We had to use a combination of “enquo” and “!!” to do
+this before, but the “curly-curly” operator provides a shortcut for the
+same operation.</p>
+
+<p>Below we use this function to group by the “cyl” variable and then by
+the “am” and “vs” variables (ie. the “!!!” operator and “syms”
+function can be used with either a list of strings or a single string)</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">groupby_vars</span><span class="p">,</span><span class="n">measure_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">groupby_vars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">syms</span><span class="p">(</span><span class="n">groupby_vars</span><span class="p">)</span><span class="w">
@@ -350,10 +372,9 @@ had to use a combination of “enquo” and “!!” before).</p>
 </table>
 
 <p>This concludes my introduction to the tidy evaluation framework. I hope
-it is a helpful starting point for using this framework to make your
-tidyverse code more elegant and efficient.</p>
+it is a helpful starting point for using these techniques in your code.</p>
 
-  </div><a class="u-url" href="/2019/12/03/tidy-evaluation-intro.html" hidden></a>
+  </div><a class="u-url" href="/2019/12/03/practical-tidy-evaluation.html" hidden></a>
 </article>
 
       </div>
