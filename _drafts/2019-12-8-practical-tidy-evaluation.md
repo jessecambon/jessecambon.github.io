@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Practical Tidy Evaluation"
-date:   2019-12-3
+date:   2019-12-8
 tags: test
 output: 
   md_document:
@@ -42,15 +42,15 @@ functions from [dplyr](https://dplyr.tidyverse.org/).
 library(dplyr)
 hp_by_cyl <- mtcars %>% 
   group_by(cyl) %>%
-  summarize(max_hp=max(hp),
-            min_hp=min(hp))
+  summarize(min_hp=min(hp),
+            max_hp=max(hp))
 ```
 
-| cyl | max\_hp | min\_hp |
+| cyl | min\_hp | max\_hp |
 | --: | ------: | ------: |
-|   4 |     113 |      52 |
-|   6 |     175 |     105 |
-|   8 |     335 |     150 |
+|   4 |      52 |     113 |
+|   6 |     105 |     175 |
+|   8 |     150 |     335 |
 
 Now let’s say we wanted to repeat this calculation multiple times while
 changing which variable we group by. A brute force method to accomplish
@@ -72,22 +72,23 @@ In the example below we use the
 [quo](https://rlang.r-lib.org/reference/quotation.html) function and the
 “bang-bang” [\!\!](https://rlang.r-lib.org/reference/nse-force.html)
 operator to set “vs” (engine type, 0 = automatic, 1 = manual) as our
-group by variable. The quo function allows us to store the variable name
-and “\!\!” extracts the stored variable name.
+group by variable. The “quo” function allows us to store the variable
+name in our “groupby\_var” variable and “\!\!” extracts the stored
+variable name.
 
 ``` r
 groupby_var <- quo(vs)
 
 hp_by_vs <- mtcars %>% 
   group_by(!!groupby_var) %>%
-  summarize(max_hp=max(hp),
-            min_hp=min(hp))
+  summarize(min_hp=min(hp),
+            max_hp=max(hp))
 ```
 
-| vs | max\_hp | min\_hp |
+| vs | min\_hp | max\_hp |
 | -: | ------: | ------: |
-|  0 |     335 |      91 |
-|  1 |     123 |      52 |
+|  0 |      91 |     335 |
+|  1 |      52 |     123 |
 
 The code above provides a method for setting the group by variable by
 modifying the input to the “quo” function. This has some utility,
@@ -103,18 +104,21 @@ operator as we did above, but instead of “quo” we will use the
 [enquo](https://rlang.r-lib.org/reference/nse-defuse.html) function. Our
 function takes the group by variable and the measurement variable as
 inputs so that we can now calculate maximum and minimum values of other
-variables.
+variables. This function is defined below and used to group by “am”
+(transmission type, 0 = automatic, 1 = manual) and calculate summary
+statistics with the “hp” (horsepower) variable. Also note two additional
+features I have introduced with this function:
 
-I’ve also introduced the “walrus operator”
-[:=](https://rlang.r-lib.org/reference/quasiquotation.html#forcing-names)
-to create a variable named after the “measure\_var” argument (hp in the
-example). Additionally, I use the
-[as\_label](https://rlang.r-lib.org/reference/as_label.html) to extract
-the string value of the “measure\_var” variable.
+  - The “walrus operator”
+    [:=](https://rlang.r-lib.org/reference/quasiquotation.html#forcing-names)
+    creates a variable named after the “measure\_var” argument (hp in
+    the example). The walrus operator is necessary because the variable
+    we are evaluating with “\!\!” is now a column name instead of a
+    column value.
+  - The [as\_label](https://rlang.r-lib.org/reference/as_label.html)
+    function extracts the string value of the “measure\_var” variable.
 
-This function is defined below and used to group by “am” (transmission
-type, 0 = automatic, 1 = manual) and calculate summary statistics with
-the “hp” (horsepower) variable.
+<!-- end list -->
 
 ``` r
 car_stats <- function(groupby_var,measure_var) {
@@ -122,8 +126,8 @@ car_stats <- function(groupby_var,measure_var) {
   measure_var <- enquo(measure_var)
   return(mtcars %>% 
     group_by(!!groupby_var) %>%
-    summarize(max=max(!!measure_var),
-              min=min(!!measure_var)) %>%
+    summarize(min=min(!!measure_var),
+              max=max(!!measure_var)) %>%
           mutate(measure_var = as_label(measure_var),
             !!measure_var := NA) %>%
     select(!!groupby_var,measure_var,everything())
@@ -132,10 +136,10 @@ car_stats <- function(groupby_var,measure_var) {
 hp_by_am <- car_stats(am,hp)
 ```
 
-| am | measure\_var | max | min | hp |
+| am | measure\_var | min | max | hp |
 | -: | :----------- | --: | --: | :- |
-|  0 | hp           | 245 |  62 | NA |
-|  1 | hp           | 335 |  52 | NA |
+|  0 | hp           |  62 | 245 | NA |
+|  1 | hp           |  52 | 335 | NA |
 
 Now we have a flexible function for utilizing a dplyr data analysis
 workflow. You can experiment with modifying this function for your own
@@ -157,7 +161,7 @@ scatter_plot <- function(df,x_var,y_var) {
   x_var <- enquo(x_var)
   y_var <- enquo(y_var)
   
-return(ggplot(data=df,aes(x=!!x_var,y=!!y_var)) + 
+  return(ggplot(data=df,aes(x=!!x_var,y=!!y_var)) + 
   geom_point() + theme_bw() + 
   theme(plot.title = element_text(lineheight=1, face="bold",hjust = 0.5)) +
   geom_smooth() +
@@ -167,40 +171,44 @@ return(ggplot(data=df,aes(x=!!x_var,y=!!y_var)) +
 scatter_plot(mtcars,disp,hp)
 ```
 
-![](/rmd_images/2019-12-3-practical-tidy-evaluation/unnamed-chunk-7-1.png)<!-- -->
+![](/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png)<!-- -->
 
 As you can see, we’ve plotted the “hp” (horsepower) variable against
 “disp” (displacement) and added a regression line. Instead of copying
 and pasting ggplot code to create the same plot with different datasets
 and variables, we can just call our function.
 
-### “Curly-Curly” and Passing Multiple Variables
+### The “Curly-Curly” Shortcut and Passing Multiple Variables
 
 To wrap things up, I’ll cover a few additional tricks for your tidy
-evaluation toolbox. I will pass a list of variables using the
-[syms](https://rlang.r-lib.org/reference/sym.html) function and use the
-“curly-curly” {% raw %}[{{
-}}](https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/){% endraw %}
-operator as a shortcut for using “enquo” and “\!\!”.
+evaluation toolbox:
 
-Passing a list of variables allows us to group by multiple variables
-using dplyr inside of a function. One quirk is that to use the syms
-function we will need to pass the variable names in quotes as shown
-below. Because we are passing a list, the “\!\!\!” is now used for
-“groupby\_vars” instead of the “\!\!” operator we have used
-previously.
+  - The “curly-curly” {% raw %}[{{
+    }}](https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/){% endraw %}
+    operator is a shortcut which is used to directly extract a stored
+    variable name from “measure\_var” in the example below. In the prior
+    example we needed both “enquo” and “\!\!” to do this. However, note
+    that if you want to extract the string variable name with the
+    “as\_label” function, you will still need to use “enquo” and
+    “\!\!” as we have done with “measure\_name” below.
+  - The [syms](https://rlang.r-lib.org/reference/sym.html) function and
+    the “\!\!\!” operator are used for passing a list of variables as a
+    function argument (we use this to pass multiple group by variables
+    below). Because we are evaluating a list of variables, the “\!\!\!”
+    is now used for “groupby\_vars” instead of the “\!\!” operator we
+    have used previously. One quirk is that to use the “syms” function
+    we will need to pass the variable names as strings (in quotes).
+  - Created variables in the “summarize” function are named with a
+    combination of the “measure\_name” value and a string with the
+    “\!\!” and “:=” operators and the “str\_c” function from
+    [stringr](https://stringr.tidyverse.org/). You can use similar code
+    to build your own variable names with strings using functions such
+    as summarize and mutate.
 
-I also have created new variables using a combination of a variable
-value and a string with the help of the “str\_c” function from
-[stringr](https://stringr.tidyverse.org/). Note that we are able to
-directly evaluate the “measure\_var” argument in the summarize function
-using the “curly-curly” {% raw %}`{{ }}`{% endraw %} operator. We had to
-use a combination of “enquo” and “\!\!” to do this before, but the
-“curly-curly” operator provides a shortcut for the same operation.
-
-Below we use this function to group by the “cyl” variable and then by
-the “am” and “vs” variables (ie. the “\!\!\!” operator and “syms”
-function can be used with either a list of strings or a single string)
+The function is defined below and used to group by the “cyl” variable
+and then by the “am” and “vs” variables (ie. the “\!\!\!” operator and
+“syms” function can be used with either a list of strings or a single
+string)
 
 ``` r
 get_stats <- function(data,groupby_vars,measure_var) {
@@ -208,25 +216,25 @@ get_stats <- function(data,groupby_vars,measure_var) {
   measure_name <- as_label(enquo(measure_var))
   return( 
     data %>% group_by(!!!groupby_vars) %>%
-            summarize( !!str_c(measure_name,"_max") := max({{measure_var}}),
-                       !!str_c(measure_name,"_min") := min({{measure_var}}))
+            summarize( !!str_c(measure_name,"_min") := min({{measure_var}}),
+                       !!str_c(measure_name,"_max") := max({{measure_var}}))
     )}
 cyl_hp_stats <- mtcars %>% get_stats("cyl",mpg)
 gear_stats <- mtcars %>% get_stats(c("am","vs"),gear)
 ```
 
-| cyl | mpg\_max | mpg\_min |
+| cyl | mpg\_min | mpg\_max |
 | --: | -------: | -------: |
-|   4 |     33.9 |     21.4 |
-|   6 |     21.4 |     17.8 |
-|   8 |     19.2 |     10.4 |
+|   4 |     21.4 |     33.9 |
+|   6 |     17.8 |     21.4 |
+|   8 |     10.4 |     19.2 |
 
-| am | vs | gear\_max | gear\_min |
+| am | vs | gear\_min | gear\_max |
 | -: | -: | --------: | --------: |
 |  0 |  0 |         3 |         3 |
-|  0 |  1 |         4 |         3 |
-|  1 |  0 |         5 |         4 |
-|  1 |  1 |         5 |         4 |
+|  0 |  1 |         3 |         4 |
+|  1 |  0 |         4 |         5 |
+|  1 |  1 |         4 |         5 |
 
-This concludes my introduction to the tidy evaluation framework. I hope
-it is a helpful starting point for using these techniques in your code.
+This concludes my introduction to tidy evaluation. Hopefully this serves
+as a useful starting point for using these concepts in your own code.

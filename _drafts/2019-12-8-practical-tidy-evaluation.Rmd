@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Practical Tidy Evaluation"
-date:   2019-12-3
+date:   2019-12-8
 tags: test
 output: 
   md_document:
@@ -26,8 +26,8 @@ To begin, let's consider a basic analysis of the [mtcars dataset](https://stat.e
 library(dplyr)
 hp_by_cyl <- mtcars %>% 
   group_by(cyl) %>%
-  summarize(max_hp=max(hp),
-            min_hp=min(hp))
+  summarize(min_hp=min(hp),
+            max_hp=max(hp))
 ```
 
 ```{r,echo=F}
@@ -38,15 +38,15 @@ Now let's say we wanted to repeat this calculation multiple times while changing
 
 To avoid this inelegant solution you might think to store the name of a variable inside of another variable like this `groupby_var <- "vs"`. Then you could attempt to use your newly created "groupby_var" variable in your code: `group_by(groupby_var)`. However, if you try this you will find it doesn't work. The "group_by" function expects the name of the variable you want to group by as an input, not the name of a variable that *contains* the name of the variable you want to group by. 
 
-This is the kind of headache that tidy evaluation can help you remedy. In the example below we use the [quo](https://rlang.r-lib.org/reference/quotation.html) function and the "bang-bang" [!!](https://rlang.r-lib.org/reference/nse-force.html) operator to set "vs" (engine type, 0 = automatic, 1 = manual) as our group by variable. The quo function allows us to store the variable name and "!!" extracts the stored variable name.
+This is the kind of headache that tidy evaluation can help you remedy. In the example below we use the [quo](https://rlang.r-lib.org/reference/quotation.html) function and the "bang-bang" [!!](https://rlang.r-lib.org/reference/nse-force.html) operator to set "vs" (engine type, 0 = automatic, 1 = manual) as our group by variable. The "quo" function allows us to store the variable name in our "groupby_var" variable and "!!" extracts the stored variable name.
 
 ```{r,results=F,message=F}
 groupby_var <- quo(vs)
 
 hp_by_vs <- mtcars %>% 
   group_by(!!groupby_var) %>%
-  summarize(max_hp=max(hp),
-            min_hp=min(hp))
+  summarize(min_hp=min(hp),
+            max_hp=max(hp))
 ```
 
 ```{r,echo=F}
@@ -57,11 +57,12 @@ The code above provides a method for setting the group by variable by modifying 
 
 ### Making Functions with Tidy Evaluation
 
-To use tidy evaluation in a function, we will still use the "!!" operator as we did above, but instead of "quo" we will use the  [enquo](https://rlang.r-lib.org/reference/nse-defuse.html) function. Our function takes the group by variable and the measurement variable as inputs so that we can now calculate maximum and minimum values of other variables. 
+To use tidy evaluation in a function, we will still use the "!!" operator as we did above, but instead of "quo" we will use the  [enquo](https://rlang.r-lib.org/reference/nse-defuse.html) function. Our function takes the group by variable and the measurement variable as inputs so that we can now calculate maximum and minimum values of other variables. This function is defined below and used to group by "am" (transmission type, 0 = automatic, 1 = manual) and calculate summary statistics with the "hp" (horsepower) variable. Also note two additional features I have introduced with this function:
 
-I've also introduced the "walrus operator" [:=](https://rlang.r-lib.org/reference/quasiquotation.html#forcing-names) to create a variable named after the "measure_var" argument (hp in the example). Additionally, I use the [as_label](https://rlang.r-lib.org/reference/as_label.html) to extract the string value of the "measure_var" variable. 
+* The "walrus operator" [:=](https://rlang.r-lib.org/reference/quasiquotation.html#forcing-names) creates a variable named after the "measure_var" argument (hp in the example). The walrus operator is necessary because the variable we are evaluating with "!!" is now a column name instead of a column value.
+* The [as_label](https://rlang.r-lib.org/reference/as_label.html) function extracts the string value of the "measure_var" variable. 
 
-This function is defined below and used to group by "am" (transmission type, 0 = automatic, 1 = manual) and calculate summary statistics with the "hp" (horsepower) variable.
+
 
 ```{r,results=F,message=F}
 car_stats <- function(groupby_var,measure_var) {
@@ -69,8 +70,8 @@ car_stats <- function(groupby_var,measure_var) {
   measure_var <- enquo(measure_var)
   return(mtcars %>% 
     group_by(!!groupby_var) %>%
-    summarize(max=max(!!measure_var),
-              min=min(!!measure_var)) %>%
+    summarize(min=min(!!measure_var),
+              max=max(!!measure_var)) %>%
           mutate(measure_var = as_label(measure_var),
             !!measure_var := NA) %>%
     select(!!groupby_var,measure_var,everything())
@@ -93,7 +94,7 @@ scatter_plot <- function(df,x_var,y_var) {
   x_var <- enquo(x_var)
   y_var <- enquo(y_var)
   
-return(ggplot(data=df,aes(x=!!x_var,y=!!y_var)) + 
+  return(ggplot(data=df,aes(x=!!x_var,y=!!y_var)) + 
   geom_point() + theme_bw() + 
   theme(plot.title = element_text(lineheight=1, face="bold",hjust = 0.5)) +
   geom_smooth() +
@@ -105,15 +106,15 @@ scatter_plot(mtcars,disp,hp)
 
 As you can see, we've plotted the "hp" (horsepower) variable against "disp" (displacement) and added a regression line. Instead of copying and pasting ggplot code to create the same plot with different datasets and variables, we can just call our function. 
 
-### "Curly-Curly" and Passing Multiple Variables
+### The "Curly-Curly" Shortcut and Passing Multiple Variables
 
-To wrap things up, I'll cover a few additional tricks for your tidy evaluation toolbox. I will pass a list of variables using the [syms](https://rlang.r-lib.org/reference/sym.html) function and use the "curly-curly" {% raw %}[{{ }}](https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/){% endraw %} operator as a shortcut for using "enquo" and "!!". 
+To wrap things up, I'll cover a few additional tricks for your tidy evaluation toolbox:
 
-Passing a list of variables allows us to group by multiple variables using dplyr inside of a function. One quirk is that to use the syms function we will need to pass the variable names in quotes as shown below. Because we are passing a list, the "!!!" is now used for "groupby_vars" instead of the "!!" operator we have used previously. 
+* The "curly-curly" {% raw %}[{{ }}](https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/){% endraw %} operator is a shortcut which is used to directly extract a stored variable name from "measure_var" in the example below. In the prior example we needed both "enquo" and "!!" to do this. However, note that if you want to extract the string variable name with the "as_label" function, you will still need to use "enquo" and "!!" as we have done with "measure_name" below.
+* The [syms](https://rlang.r-lib.org/reference/sym.html) function and the "!!!" operator are used for passing a list of variables as a function argument (we use this to pass multiple group by variables below). Because we are evaluating a list of variables, the "!!!" is now used for "groupby_vars" instead of the "!!" operator we have used previously. One quirk is that to use the "syms" function we will need to pass the variable names as strings (in quotes). 
+* Created variables in the "summarize" function are named with a combination of the "measure_name" value and a string with the "!!" and ":=" operators and the "str_c" function from [stringr](https://stringr.tidyverse.org/). You can use similar code to build your own variable names with strings using functions such as summarize and mutate.
 
-I also have created new variables using a combination of a variable value and a string with the help of the "str_c" function from [stringr](https://stringr.tidyverse.org/). Note that we are able to directly evaluate the "measure_var" argument in the summarize function using the "curly-curly" {% raw %}`{{ }}`{% endraw %} operator. We had to use a combination of "enquo" and "!!" to do this before, but the "curly-curly" operator provides a shortcut for the same operation.
-
-Below we use this function to group by the "cyl" variable and then by the "am" and "vs" variables (ie. the "!!!" operator and "syms" function can be used with either a list of strings or a single string)
+The function is defined below and used to group by the "cyl" variable and then by the "am" and "vs" variables (ie. the "!!!" operator and "syms" function can be used with either a list of strings or a single string)
 
 ```{r}
 get_stats <- function(data,groupby_vars,measure_var) {
@@ -121,17 +122,16 @@ get_stats <- function(data,groupby_vars,measure_var) {
   measure_name <- as_label(enquo(measure_var))
   return( 
     data %>% group_by(!!!groupby_vars) %>%
-            summarize( !!str_c(measure_name,"_max") := max({{measure_var}}),
-                       !!str_c(measure_name,"_min") := min({{measure_var}}))
+            summarize( !!str_c(measure_name,"_min") := min({{measure_var}}),
+                       !!str_c(measure_name,"_max") := max({{measure_var}}))
     )}
 cyl_hp_stats <- mtcars %>% get_stats("cyl",mpg)
 gear_stats <- mtcars %>% get_stats(c("am","vs"),gear)
 ```
-
 
 ```{r,echo=F}
 kable(cyl_hp_stats)
 kable(gear_stats)
 ```
 
-This concludes my introduction to the tidy evaluation framework. I hope it is a helpful starting point for using these techniques in your code.
+This concludes my introduction to tidy evaluation. Hopefully this serves as a useful starting point for using these concepts in your own code.
