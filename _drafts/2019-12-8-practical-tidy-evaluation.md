@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Practical Tidy Evaluation"
-date:   2019-12-8
+date:   2019-12-7
 tags: test
 output: 
   md_document:
@@ -13,15 +13,14 @@ output:
 controlling how expressions and variables in your code are evaluated by
 [tidyverse](https://www.tidyverse.org/) functions. This framework,
 housed in the [rlang package](https://rlang.r-lib.org), is a powerful
-tool for writing more efficient and modular tidyverse code. In
-particular, you’ll find it useful for passing variable names as inputs
-to functions that use tidyverse packages like
-[dplyr](https://dplyr.tidyverse.org/) and
+tool for writing more efficient and elegant code. In particular, you’ll
+find it useful for passing variable names as inputs to functions that
+use tidyverse packages like [dplyr](https://dplyr.tidyverse.org/) and
 [ggplot2](https://ggplot2.tidyverse.org/).
 
 The goal of this post is to offer accessible examples and intuition for
-putting tidy evaluation to work in your own code. Because of this, I
-will keep conceptual explanations brief, but for more comprehensive
+putting tidy evaluation to work in your own code. Because of this I will
+keep conceptual explanations brief, but for more comprehensive
 documentation you can refer to [rlang’s
 website](https://rlang.r-lib.org/reference/), the [‘Tidy Evaluation’
 book](https://tidyeval.tidyverse.org/) by Lionel Henry and Hadley
@@ -30,7 +29,8 @@ book](https://adv-r.hadley.nz/metaprogramming.html) by Hadley Wickham.
 
 ### Motivating Example
 
-To begin, let’s consider a basic analysis of the [mtcars
+To begin, let’s consider a simple example of calculating summary
+statistics with the [mtcars
 dataset](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html).
 Below we calculate maximum and minimum horsepower (hp) by the number of
 cylinders (cyl) using the
@@ -52,12 +52,12 @@ hp_by_cyl <- mtcars %>%
 |   6 |     105 |     175 |
 |   8 |     150 |     335 |
 
-Now let’s say we wanted to repeat this calculation multiple times while
-changing which variable we group by. A brute force method to accomplish
+Now let’s say we wanted to repeat this calculation multiple times *while
+changing which variable we group by*. A brute force method to accomplish
 this would be to copy and paste our code as many times as necessary and
 replace “cyl” with our new variable names. However that’s inefficient
 especially if our code gets more complicated, requires many iterations,
-or will need to be updated frequently.
+or requires further development.
 
 To avoid this inelegant solution you might think to store the name of a
 variable inside of another variable like this `groupby_var <- "vs"`.
@@ -67,8 +67,8 @@ find it doesn’t work. The “group\_by” function expects the name of the
 variable you want to group by as an input, not the name of a variable
 that *contains* the name of the variable you want to group by.
 
-This is the kind of headache that tidy evaluation can help you remedy.
-In the example below we use the
+This is the kind of headache that tidy evaluation can help you solve. In
+the example below we use the
 [quo](https://rlang.r-lib.org/reference/quotation.html) function and the
 “bang-bang” [\!\!](https://rlang.r-lib.org/reference/nse-force.html)
 operator to set “vs” (engine type, 0 = automatic, 1 = manual) as our
@@ -91,34 +91,36 @@ hp_by_vs <- mtcars %>%
 |  1 |      52 |     123 |
 
 The code above provides a method for setting the group by variable by
-modifying the input to the “quo” function. This has some utility,
-particularly if we were referencing the group by variable multiple
-times. However, if we want to utilize a piece of code like this
+modifying the input to the “quo” function when we define “groupby\_var”.
+This can be useful, particularly if we intend to reference the group by
+variable multiple times. However, if we want to use code like this
 repeatedly in a script then we should consider packaging it into a
-function which is what we will do next.
+function. This is what we will do next.
 
 ### Making Functions with Tidy Evaluation
 
 To use tidy evaluation in a function, we will still use the “\!\!”
 operator as we did above, but instead of “quo” we will use the
 [enquo](https://rlang.r-lib.org/reference/nse-defuse.html) function. Our
-function takes the group by variable and the measurement variable as
-inputs so that we can now calculate maximum and minimum values of other
-variables. This function is defined below and used to group by “am”
-(transmission type, 0 = automatic, 1 = manual) and calculate summary
-statistics with the “hp” (horsepower) variable. Also note two additional
-features I have introduced with this function:
+new function below takes the group by variable and the measurement
+variable as inputs so that we can now calculate maximum and minimum
+values of any variable we want. Also note two new features I have
+introduced in this function:
 
   - The “walrus operator”
     [:=](https://rlang.r-lib.org/reference/quasiquotation.html#forcing-names)
-    creates a variable named after the “measure\_var” argument (hp in
-    the example). The walrus operator is necessary because the variable
-    we are evaluating with “\!\!” is now a column name instead of a
-    column value.
+    is used to create a column named after the “measure\_var” argument
+    (“hp” in the example). The walrus operator allows you to use
+    strings and evaluated variables (such as “measure\_var” in our
+    example) on the left hand side of what would normally be an “=”.
+    This is useful for setting column names in “mutate” and “summarize”
+    functions.
   - The [as\_label](https://rlang.r-lib.org/reference/as_label.html)
     function extracts the string value of the “measure\_var” variable.
 
-<!-- end list -->
+Below we define this function and use it to group by “am” (transmission
+type, 0 = automatic, 1 = manual) and calculate summary statistics with
+the “hp” (horsepower) variable.
 
 ``` r
 car_stats <- function(groupby_var,measure_var) {
@@ -141,10 +143,10 @@ hp_by_am <- car_stats(am,hp)
 |  0 | hp           |  62 | 245 | NA |
 |  1 | hp           |  52 | 335 | NA |
 
-Now we have a flexible function for utilizing a dplyr data analysis
-workflow. You can experiment with modifying this function for your own
-purposes. Also, as you might suspect, you could use the same tidy
-evaluation functions we used above with tidyverse packages other than
+Now we have a flexible function that contains a dplyr workflow. You can
+experiment with modifying this function for your own purposes.
+Additionally, as you might suspect, you could use the same tidy
+evaluation functions we just used with tidyverse packages other than
 dplyr.
 
 As an example, below I’ve defined a function that builds a scatter plot
@@ -180,35 +182,35 @@ and variables, we can just call our function.
 
 ### The “Curly-Curly” Shortcut and Passing Multiple Variables
 
-To wrap things up, I’ll cover a few additional tricks for your tidy
-evaluation toolbox:
+To wrap things up, I’ll cover a few additional tricks and shortcuts for
+your tidy evaluation toolbox.
 
   - The “curly-curly” {% raw %}[{{
     }}](https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/){% endraw %}
-    operator is a shortcut which is used to directly extract a stored
-    variable name from “measure\_var” in the example below. In the prior
-    example we needed both “enquo” and “\!\!” to do this. However, note
+    operator directly extracts a stored variable name from
+    “measure\_var” in the example below. In the prior example we
+    needed both “enquo” and “\!\!” to evaluate a variable like this so
+    the “curly-curly” operator is a convenient shortcut. However, note
     that if you want to extract the string variable name with the
     “as\_label” function, you will still need to use “enquo” and
-    “\!\!” as we have done with “measure\_name” below.
+    “\!\!” as we have done below with “measure\_name”.
   - The [syms](https://rlang.r-lib.org/reference/sym.html) function and
     the “\!\!\!” operator are used for passing a list of variables as a
-    function argument (we use this to pass multiple group by variables
-    below). Because we are evaluating a list of variables, the “\!\!\!”
-    is now used for “groupby\_vars” instead of the “\!\!” operator we
-    have used previously. One quirk is that to use the “syms” function
-    we will need to pass the variable names as strings (in quotes).
-  - Created variables in the “summarize” function are named with a
-    combination of the “measure\_name” value and a string with the
-    “\!\!” and “:=” operators and the “str\_c” function from
-    [stringr](https://stringr.tidyverse.org/). You can use similar code
-    to build your own variable names with strings using functions such
-    as summarize and mutate.
+    function argument. In prior examples “\!\!” was used to evaluate a
+    single group by variable and now we use “\!\!\!” to evaluate a list
+    of group by variables. One quirk is that to use the “syms” function
+    we will need to pass the variable names in quotes.
+  - Columns created in the “summarize” function are named with a
+    combination of the variable name passed in “measure\_name” and a
+    string using the “\!\!” and “:=” operators and the “str\_c” function
+    from [stringr](https://stringr.tidyverse.org/). You can use similar
+    code to build your own column names from variable name inputs and
+    strings.
 
-The function is defined below and used to group by the “cyl” variable
-and then by the “am” and “vs” variables (ie. the “\!\!\!” operator and
-“syms” function can be used with either a list of strings or a single
-string)
+Our new function is defined below and is first called to group by the
+“cyl” variable and then called to group by the “am” and “vs”
+variables. Note that the “\!\!\!” operator and “syms” function can be
+used with either a list of strings or a single string.
 
 ``` r
 get_stats <- function(data,groupby_vars,measure_var) {
