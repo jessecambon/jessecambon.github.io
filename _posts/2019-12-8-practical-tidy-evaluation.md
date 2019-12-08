@@ -1,16 +1,17 @@
 ---
 layout: post
 title:  "Practical Tidy Evaluation"
-date:   2019-12-7
-tags: test
+date:   2019-12-8
+author: Jesse Cambon
+tags: [r, tidyverse, data-science]
 output: 
   md_document:
     variant: gfm
     preserve_yaml: TRUE
 ---
 
-[Tidy evaluation](https://tidyeval.tidyverse.org/) is a framework for
-controlling how expressions and variables in your code are evaluated by
+Tidy evaluation is a framework for controlling how expressions and
+variables in your code are evaluated by
 [tidyverse](https://www.tidyverse.org/) functions. This framework,
 housed in the [rlang package](https://rlang.r-lib.org), is a powerful
 tool for writing more efficient and elegant code. In particular, you’ll
@@ -21,8 +22,9 @@ use tidyverse packages like [dplyr](https://dplyr.tidyverse.org/) and
 The goal of this post is to offer accessible examples and intuition for
 putting tidy evaluation to work in your own code. Because of this I will
 keep conceptual explanations brief, but for more comprehensive
-documentation you can refer to [rlang’s
-website](https://rlang.r-lib.org/reference/), the [‘Tidy Evaluation’
+documentation you can refer to [dplyr’s
+website](https://dplyr.tidyverse.org/reference/tidyeval.html), [rlang’s
+website](https://rlang.r-lib.org/), the [‘Tidy Evaluation’
 book](https://tidyeval.tidyverse.org/) by Lionel Henry and Hadley
 Wickham, and the [Metaprogramming Section of the ‘Advanced R’
 book](https://adv-r.hadley.nz/metaprogramming.html) by Hadley Wickham.
@@ -55,9 +57,9 @@ hp_by_cyl <- mtcars %>%
 Now let’s say we wanted to repeat this calculation multiple times *while
 changing which variable we group by*. A brute force method to accomplish
 this would be to copy and paste our code as many times as necessary and
-replace “cyl” with our new variable names. However that’s inefficient
-especially if our code gets more complicated, requires many iterations,
-or requires further development.
+modify the group by variable in each iteration. However, this is
+inefficient especially if our code gets more complicated, requires many
+iterations, or requires further development.
 
 To avoid this inelegant solution you might think to store the name of a
 variable inside of another variable like this `groupby_var <- "vs"`.
@@ -107,18 +109,20 @@ variable as inputs so that we can now calculate maximum and minimum
 values of any variable we want. Also note two new features I have
 introduced in this function:
 
+  - The [as\_label](https://rlang.r-lib.org/reference/as_label.html)
+    function extracts the string value of the “measure\_var” variable
+    (“hp” in this case). We use this to set the value of the
+    “measure\_var” column.
   - The “walrus operator”
     [:=](https://rlang.r-lib.org/reference/quasiquotation.html#forcing-names)
-    is used to create a column named after the “measure\_var” argument
-    (“hp” in the example). The walrus operator allows you to use
-    strings and evaluated variables (such as “measure\_var” in our
-    example) on the left hand side of what would normally be an “=”.
-    This is useful for setting column names in “mutate” and “summarize”
-    functions.
-  - The [as\_label](https://rlang.r-lib.org/reference/as_label.html)
-    function extracts the string value of the “measure\_var” variable.
+    is used to create a column named after the variable name stored in
+    the “measure\_var” argument (“hp” in the example). The walrus
+    operator allows you to use strings and evaluated variables (such as
+    “measure\_var” in our example) on the left hand side of an
+    assignment operation (where there would normally be a “=” operator)
+    in functions such as “mutate” and “summarize”.
 
-Below we define this function and use it to group by “am” (transmission
+Below we define our function and use it to group by “am” (transmission
 type, 0 = automatic, 1 = manual) and calculate summary statistics with
 the “hp” (horsepower) variable.
 
@@ -131,19 +135,18 @@ car_stats <- function(groupby_var,measure_var) {
     summarize(min=min(!!measure_var),
               max=max(!!measure_var)) %>%
           mutate(measure_var = as_label(measure_var),
-            !!measure_var := NA) %>%
-    select(!!groupby_var,measure_var,everything())
+            !!measure_var := NA)
     )
 }
 hp_by_am <- car_stats(am,hp)
 ```
 
-| am | measure\_var | min | max | hp |
-| -: | :----------- | --: | --: | :- |
-|  0 | hp           |  62 | 245 | NA |
-|  1 | hp           |  52 | 335 | NA |
+| am | min | max | measure\_var | hp |
+| -: | --: | --: | :----------- | :- |
+|  0 |  62 | 245 | hp           | NA |
+|  1 |  52 | 335 | hp           | NA |
 
-Now we have a flexible function that contains a dplyr workflow. You can
+We now have a flexible function that contains a dplyr workflow. You can
 experiment with modifying this function for your own purposes.
 Additionally, as you might suspect, you could use the same tidy
 evaluation functions we just used with tidyverse packages other than
@@ -151,11 +154,11 @@ dplyr.
 
 As an example, below I’ve defined a function that builds a scatter plot
 with [ggplot2](https://ggplot2.tidyverse.org/). The function takes a
-dataset and two variable names as inputs. You will notice that the data
-argument needs no tidy evaluation. The
+dataset and two variable names as inputs. You will notice that the
+dataset argument “df” needs no tidy evaluation. The
 [as\_label](https://rlang.r-lib.org/reference/as_label.html) function is
-this time used to extract our variable names as strings to create a plot
-title with the “ggtitle” function.
+used to extract our variable names as strings to create a plot title
+with the “ggtitle” function.
 
 ``` r
 library(ggplot2)
@@ -176,9 +179,9 @@ scatter_plot(mtcars,disp,hp)
 ![](/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png)<!-- -->
 
 As you can see, we’ve plotted the “hp” (horsepower) variable against
-“disp” (displacement) and added a regression line. Instead of copying
-and pasting ggplot code to create the same plot with different datasets
-and variables, we can just call our function.
+“disp” (displacement) and added a regression line. Now, instead of
+copying and pasting ggplot code to create the same plot with different
+datasets and variables, we can just call our function.
 
 ### The “Curly-Curly” Shortcut and Passing Multiple Variables
 
@@ -197,20 +200,23 @@ your tidy evaluation toolbox.
   - The [syms](https://rlang.r-lib.org/reference/sym.html) function and
     the “\!\!\!” operator are used for passing a list of variables as a
     function argument. In prior examples “\!\!” was used to evaluate a
-    single group by variable and now we use “\!\!\!” to evaluate a list
-    of group by variables. One quirk is that to use the “syms” function
-    we will need to pass the variable names in quotes.
-  - Columns created in the “summarize” function are named with a
-    combination of the variable name passed in “measure\_name” and a
-    string using the “\!\!” and “:=” operators and the “str\_c” function
-    from [stringr](https://stringr.tidyverse.org/). You can use similar
-    code to build your own column names from variable name inputs and
-    strings.
+    single group by variable; we now use “\!\!\!” to evaluate a list of
+    group by variables. One quirk is that to use the “syms” function we
+    will need to pass the variable names in quotes.
+  - The walrus operator “:=” is again used to create new columns, but
+    now the column names are defined with a combination of a variable
+    name stored in a function argument and another string ("\_min" and
+    "\_max" below). We use the “enquo” and “as\_label” functions to
+    extract the string variable name from “measure\_var” and store it in
+    “measure\_name” and then use the “str\_c” function from
+    [stringr](https://stringr.tidyverse.org/) to combine strings. You
+    can use similar code to build your own column names from variable
+    name inputs and strings.
 
 Our new function is defined below and is first called to group by the
 “cyl” variable and then called to group by the “am” and “vs”
 variables. Note that the “\!\!\!” operator and “syms” function can be
-used with either a list of strings or a single string.
+used with either a list of strings or a single string. {% raw %}
 
 ``` r
 get_stats <- function(data,groupby_vars,measure_var) {
@@ -224,6 +230,8 @@ get_stats <- function(data,groupby_vars,measure_var) {
 cyl_hp_stats <- mtcars %>% get_stats("cyl",mpg)
 gear_stats <- mtcars %>% get_stats(c("am","vs"),gear)
 ```
+
+{% endraw %}
 
 | cyl | mpg\_min | mpg\_max |
 | --: | -------: | -------: |
