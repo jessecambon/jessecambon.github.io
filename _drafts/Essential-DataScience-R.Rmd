@@ -1,0 +1,244 @@
+---
+layout: post
+title:  "Essential R for Data Science"
+date:   2019-12-8
+author: Jesse Cambon
+tags: [ tidyverse, data-science]
+output: 
+  md_document:
+    pandoc_args: ["--wrap=none"]
+    variant: gfm
+    preserve_yaml: TRUE
+---
+```{r setup, include=FALSE}
+library(here)
+source(here::here("rmd_config.R"))
+``` 
+
+## Data Manipulation
+
+### Warm Up
+
+```{r, message=FALSE, results=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+Initial 'mpg' Dataset:
+```{r,echo=F} 
+kable(head(mpg,3))
+```
+
+Use `View(mpg)` to preview the dataset in R. 
+
+```{r}
+mpg_subset <- mpg %>%
+  filter(cyl == 4 & year >= 2005  & manufacturer == "nissan") %>%
+  mutate(ratio = hwy/cty,
+         make_model = str_c(manufacturer,' ',model)) %>%
+  select(make_model,cyl,year,hwy,cty,ratio)
+```
+
+```{r,echo=F} 
+kable(mpg_subset)
+```
+
+
+### Counting
+```{r}
+count_cyl <- mpg %>%
+  count(cyl)
+```
+
+```{r,echo=F}
+kable(count_cyl)
+```
+
+### Calculate Summary Stats
+```{r}
+mpg_stats <- mpg %>% select(class,hwy) %>%
+  mutate(class_c = case_when(class %in% c("2seater","subcompact") ~ "subcompact",
+                               TRUE ~ class)) %>%
+  group_by(class_c) %>%
+  summarize(count = n(),
+            max_hwy = max(hwy),
+            min_hwy = min(hwy),
+            median_hwy = median(hwy),
+            mean_hwy = mean(hwy)) %>%
+  ungroup() %>%
+  arrange(desc(count)) # sort dataset
+```
+
+Note that '2seater' is reclassified as 'subcompact'
+
+```{r,echo=F}
+kable(mpg_stats)
+```
+
+### Stacking Data
+
+
+Initial 'mpg' Dataset:
+```{r,echo=F} 
+kable(head(mpg,3))
+```
+
+
+```{r}
+mpg1 <- mpg %>% slice(1:2) %>% 
+  select(manufacturer,model,hwy,cty) %>%
+  mutate(dataset = 1)
+
+mpg2 <- mpg %>% slice(44:45) %>%
+  select(manufacturer,model,hwy,cty) %>%
+  mutate(dataset = 2)
+
+mpg3 <- mpg %>% slice(1:2,5:6) %>%
+  select(displ,year)
+```
+
+Stack vertically and horizontally
+```{r}
+mpg_stack_vert <- mpg1 %>% 
+  bind_rows(mpg2)
+
+mpg_stack_horz <- mpg_stack_vert %>%
+  bind_cols(mpg3)
+```
+
+### Joining
+
+```{r}
+car_type <- mpg %>% select(manufacturer,model,class) %>%
+  distinct() # distinct rows only
+
+joined <- mpg_stack_horz %>%
+  left_join(car_type,by = c('manufacturer','model')) %>% 
+  select(-dataset,everything())
+```
+
+### Long to Wide
+
+Initial Data:
+```{r,echo=F}
+kable(head(us_rent_income,4))
+```
+
+* pivot_wider
+  * names_from: column containing values that we will use for our new column names
+  
+```{r}
+col_ratio <- us_rent_income %>%
+  select(-GEOID,-moe) %>%
+  pivot_wider(names_from = variable, values_from = estimate) %>% 
+  drop_na() %>%   # drop missing values
+  mutate(income_rent_ratio = income / (12*rent))
+```
+
+Income and Rent are now in separate columns:
+
+```{r,echo=F}
+kable(head(col_ratio,4))
+```
+
+### Wide to Long
+
+Initial Data:
+```{r,echo=F}
+kable(head(world_bank_pop %>% select(1:6),3))
+```
+
+* pivot_longer
+  * cols (1st arg): what columns do we want to pivot? (ie. subtract ones we don't want to)
+  * names_to : the name of new column holding the column names as values
+  * values_to : name of new column containing values
+* seq(start, stop, increment)  ->  generates sequence
+
+```{r} 
+wb_pop <- world_bank_pop %>%
+  pivot_longer(c(-country,-indicator), names_to = "year", values_to = "value") %>%
+  mutate(year = as.numeric(year)) %>% # convert to numeric
+  filter(year %in% seq(2000,2016,2))
+```
+
+After:
+```{r,echo=F} 
+kable(head(wb_pop,3))
+```
+
+
+## Visualizations
+
+### Bar Chart
+
+* use fill argument in ggplot() to set bar color based on a variable
+* reorder() orders the bars
+```{r}
+# A simple bar chart - average heights of the species
+# the reorder command orders our bars in order of descending height
+ggplot(data = mpg_stats,
+    aes(x = reorder(class_c,-mean_hwy), y = mean_hwy)) +
+geom_bar(stat = 'identity',position = 'dodge',color = 'black') +
+scale_y_continuous(expand = expand_scale(mult = c(0, .1))) +    # plot margins
+geom_text(aes(label = round(mean_hwy)), vjust = -0.5) +  # labelling
+theme(legend.position = "none", # no legend (in case we want to use fill)
+      panel.grid = element_blank()) + # turn off grid
+labs(title = '') +
+xlab('') +
+ylab('')
+```
+
+
+```{r histogram}
+# Histogram with autobinning based on gender
+ggplot(mpg,aes(hwy)) +
+geom_histogram(aes(fill = cyl),binwidth = 1) +
+scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
+xlab('Highway mpg') + ylab('Count')
+```
+
+## Line
+
+We divide the `value` field by 100 since to convert it to a decimal percentage value.
+
+SP.POP.GROW is the % population growth
+
+```{r line}
+ggplot(wb_pop %>% filter(country %in% c("USA","CAN","MEX") & indicator == "SP.POP.GROW"),
+          aes(x = year,y = value/100,color = country)) +
+  theme_classic() +
+geom_line() + geom_point() + # lines and points
+scale_x_continuous(expand = expand_scale(mult = c(.05, .05))) +
+scale_y_continuous(labels = scales::percent) + 
+labs(title = '',
+     caption = '') +
+theme(legend.title = element_blank(),
+      panel.grid.minor.x = element_blank(),
+      legend.text = element_text(size = 10),
+      legend.position = 'right') +
+xlab('Year') +
+ylab('Population Growth') +
+# make legend items bigger
+guides(colour = guide_legend(override.aes = list(size = 2))) 
+
+```
+
+## Lollipop
+
+```{r lollipop}
+  ggplot(data = col_ratio %>% arrange(desc(rent)) %>% head(15), aes(x = NAME, y = rent) ) +
+    geom_segment( aes(x = reorder(NAME,rent) ,xend = NAME, y = 0, yend = rent), color = "grey") +
+    geom_point(size = 3) +
+   theme_minimal() +
+  theme(plot.subtitle = element_text(face = "bold",hjust = 0.5),
+      plot.title = element_text(lineheight = 1, face = "bold",hjust = 0.5),
+      panel.grid.minor.y = element_blank(),
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor.x = element_blank()
+    ) +
+  coord_flip() +
+    scale_y_continuous(labels = scales::dollar,expand = expand_scale(mult = c(0, .1))) + 
+    labs(title = 'States With Highest Rent',
+        caption = 'Source: 2017 American Community Survey (Census)') +
+    xlab('') + ylab('Median Monthly Rent')
+```
