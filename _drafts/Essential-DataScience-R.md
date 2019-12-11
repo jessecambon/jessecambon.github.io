@@ -11,16 +11,16 @@ output:
     preserve_yaml: TRUE
 ---
 
-## Data Manipulation
+The objective of this post is to concisely demonstrate fundamental data science workflows in R. For this post I will mainly rely on [dplyr](https://dplyr.tidyverse.org/), [tidyr](https://tidyr.tidyverse.org/), and [stringr](https://stringr.tidyverse.org/). While you can obviously refer to the documentation for these packages separately, my hope is that this post can illustrate key analytics methods in a condensed format.
 
-### Warm Up
+## Getting Started
 
 ``` r
 library(tidyverse)
 library(ggplot2)
 ```
 
-Initial ‘mpg’ Dataset:
+To begin, let’s take a look at the ‘mpg’ dataset:
 
 | manufacturer | model | displ | year | cyl | trans      | drv | cty | hwy | fl | class   |
 | :----------- | :---- | ----: | ---: | --: | :--------- | :-- | --: | --: | :- | :------ |
@@ -28,7 +28,7 @@ Initial ‘mpg’ Dataset:
 | audi         | a4    |   1.8 | 1999 |   4 | manual(m5) | f   |  21 |  29 | p  | compact |
 | audi         | a4    |   2.0 | 2008 |   4 | manual(m6) | f   |  20 |  31 | p  | compact |
 
-Use `View(mpg)` to preview the dataset in R.
+We use the filter function to limit which rows we look at, create a couple of new columns with the mutate function, and then limit which columns we keep with the select function. Note that the str\_c function from stringr is used to combine strings (in this case the manufacturer and model columns).
 
 ``` r
 mpg_subset <- mpg %>%
@@ -42,6 +42,10 @@ mpg_subset <- mpg %>%
 | :------------ | --: | ---: | --: | --: | -------: |
 | nissan altima |   4 | 2008 |  31 |  23 | 1.347826 |
 | nissan altima |   4 | 2008 |  32 |  23 | 1.391304 |
+
+## Data Aggregation
+
+A data scientist will often need to aggregate data to calculate metrics. One of the simplest metrics is to count observations:
 
 ### Counting
 
@@ -57,7 +61,9 @@ count_cyl <- mpg %>%
 |   6 | 79 |
 |   8 | 70 |
 
-### Calculate Summary Stats
+### Summary Statistics
+
+A broader variety of statistics can be calculated using the group\_by and summarize functions. Note that the ungroup function is not strictly necessary, but it is a good practice if we plan to manipulate our dataset in the future without using groups.
 
 ``` r
 mpg_stats <- mpg %>% select(class,hwy) %>%
@@ -86,6 +92,8 @@ Note that ‘2seater’ is reclassified as ‘subcompact’
 
 ### Stacking Data
 
+A simple way to combine datasets is to stack them vertically or horizontally. In this examle, we will first use the slice function to obtain subsets of the mpg dataset.
+
 Initial ‘mpg’ Dataset:
 
 | manufacturer | model | displ | year | cyl | trans      | drv | cty | hwy | fl | class   |
@@ -107,7 +115,7 @@ mpg3 <- mpg %>% slice(1:2,5:6) %>%
   select(displ,year)
 ```
 
-Stack vertically and horizontally
+Now we will stack mpg1 and mpg2 vertically with bind\_rows since they have the same column structure. Then we stack mpg3 horizontally with bind\_cols.
 
 ``` r
 mpg_stack_vert <- mpg1 %>% 
@@ -118,6 +126,8 @@ mpg_stack_horz <- mpg_stack_vert %>%
 ```
 
 ### Joining
+
+Joining datasets by common key columns is one of the bread and butter tasks of a data scientist.
 
 ``` r
 car_type <- mpg %>% select(manufacturer,model,class) %>%
