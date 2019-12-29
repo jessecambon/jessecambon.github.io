@@ -15,7 +15,9 @@ library(here)
 source(here::here("rmd_config.R"))
 ``` 
 
-Data scientists use R for a wide variety of projects and the code that is needed can vary widely based on the objectives of the work and the type of data. However, there are some common operations that you are likely to use repeatedly in a wide variety of data science work. This post will walkthrough a few of these "essential" data science workflows with inbuilt datasets. If you're new to R, data science, or the [tidyverse](https://www.tidyverse.org/) and you want to quickly learn some useful data science workflows then this post is written for you. I will mainly rely on the [dplyr](https://dplyr.tidyverse.org/) and [tidyr](https://tidyr.tidyverse.org/), and packages which all have excellent documentation that you can refer to for further details. 
+Data scientists use R for a wide variety of projects and the code that is needed can vary widely based on the objectives of the work and the type of data. However, there are some common operations that you are likely to use repeatedly in a wide variety of data science work. 
+
+This post will walkthrough a few of these "essential" data science workflows with inbuilt datasets. If you're new to R, data science, or the [tidyverse](https://www.tidyverse.org/) and you want to quickly learn some useful data science workflows then this post is written for you. I will mainly rely on the [dplyr](https://dplyr.tidyverse.org/) and [tidyr](https://tidyr.tidyverse.org/), and packages which all have excellent documentation that you can refer to for further details. 
 
 ## Basic Data Manipulation
 
@@ -31,9 +33,9 @@ Now, let's take a look at the [mpg](https://ggplot2.tidyverse.org/reference/mpg.
 kable(head(mpg,3))
 ```
 
-We'll perform a few of the most commonly used data manipulations on this dataset using the [dplyr](https://dplyr.tidyverse.org/) package. If you're not familiar with dplyr, note that the "pipe" operator %>% is used to pass the output of a function to the following function. This allows us to perform data manipulations in sequence in a clear and readable way. The <- operator is used to assign the value of what follows it to the dataset on the left (in this example we save our results to the "mpg_subset" dataset).
+We'll perform a few of the most commonly used data manipulations on this dataset using the [dplyr](https://dplyr.tidyverse.org/) package. If you're new to R, the <- operator that you see below is used to assign the value of what follows it to the dataset on the left (here we are saving a modified version of the "mpg" dataset as the "mpg_subset" dataset). If you're not familiar with dplyr, note that the "pipe" operator %>% is used to pass the output of a function to the following function. This allows us to perform data manipulations in sequence in a clear and readable way. 
 
-In this example, we select the two rows pertaining to 2005 Nissan vehicles with 4 cylinders, create two new columns, order our columns, remove two columns, and rename a column. Here are the main functions used to accomplish this:
+In this example, we select the two rows pertaining to 2005 Nissan vehicles with 4 cylinders, create two new columns, order our columns, remove two columns, and rename a column. In the order that they are used below, here are the main functions used to accomplish this:
 
 * [filter](https://dplyr.tidyverse.org/reference/filter.html) controls which rows we want to keep from the input dataset. In this example three conditions are applied using the "&" (AND) operator.
 * [mutate](https://dplyr.tidyverse.org/reference/mutate.html) is used to create new columns.
@@ -93,7 +95,7 @@ kable(mpg_stats)
 
 ## Stacking Data
 
-If you have datasets whose columns or rows align, you can combine them by stacking them vertically or horizontally. In this example, we will first use the [slice](https://dplyr.tidyverse.org/reference/slice.html) function to subset the "mpg" dataset by row numbers to create the "mpg1" and "mpg2" datasets:
+If you have datasets whose columns or rows align, you can combine them by stacking the datasets vertically or horizontally. To demonstrate this, we will first use the [slice](https://dplyr.tidyverse.org/reference/slice.html) function to subset the "mpg" dataset by row numbers to create the "mpg1" and "mpg2" datasets:
 
 ```{r}
 mpg1 <- mpg %>% slice(1:2) %>% 
@@ -115,7 +117,7 @@ mpg2 <- mpg %>% slice(44:45) %>%
 kable(mpg2)
 ```
 
-Since these two datsets we just created, mpg1 and mpg2, have the same columns we can stack them vertically using [bind_rows](https://dplyr.tidyverse.org/reference/bind.html):
+Since these two datasets we just created, mpg1 and mpg2, have the same columns we can stack them vertically using [bind_rows](https://dplyr.tidyverse.org/reference/bind.html):
 
 ```{r}
 mpg_stack_vert <- mpg1 %>% 
@@ -206,7 +208,7 @@ Now let's look at the 'world_bank_pop' dataset from tidyr (first 6 columns only 
 kable(head(world_bank_pop %>% select(1:6),3))
 ```
 
-This dataset is in "wide" format since a categorical variable, in this case the year, is stored in the column names. To convert this dataset to the "long" format", which can be more conveniant for data manipulation, we use the [pivot_longer](https://tidyr.tidyverse.org/reference/pivot_longer.html) function from tidyr. This function takes three inputs:
+This dataset is in "wide" format since a categorical variable, in this case the year, is stored in the column names. To convert this dataset to the "long" format", which can be more convenient for data manipulation, we use the [pivot_longer](https://tidyr.tidyverse.org/reference/pivot_longer.html) function from tidyr. This function takes three inputs:
 
 * **cols** (1st argument): a list of the columns we want to pivot. In this example we create this list by subtracting the columns we don't want to pivot.
 * **names_to** : the name of new column which has the column names as values
@@ -230,20 +232,20 @@ kable(head(wb_pop,3))
 Now that we have gone through the trouble of manipulating some datasets, we'll make a few visualizations with ggplot2. Ggplot graphs are constructed by adding together a series of ggplot functions with the "+" operator. You can refer to [ggplot's documentation](https://ggplot2.tidyverse.org/reference/) for more information, but here is a quick overview:
 
 * The [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function initializes a graph.
-The [aes](https://ggplot2.tidyverse.org/reference/aes.html) (aesthetic mappings) function controls which variables are used in the plot.  
+The [aes](https://ggplot2.tidyverse.org/reference/aes.html) (aesthetic mappings) function controls which variables are used in the plot.
 * Atleast one geom (geometric object) function such as geom_histogram, geom_point, or geom_line is included which defines what the graph will look like.
-* The theme of the chart can be modified using [preset themes such as theme_bw and theme_classic](https://ggplot2.tidyverse.org/reference/ggtheme.html) and further customized using the [theme function](https://ggplot2.tidyverse.org/reference/theme.html).
-* In ggplot, the "color" parameter is used for setting the color of lines while the "fill" parameter controls the color of areas.
+* The formatting of the chart (such as margins, legend position, and grid lines) can be modified using [preset themes such as theme_bw and theme_classic](https://ggplot2.tidyverse.org/reference/ggtheme.html) and the [theme function](https://ggplot2.tidyverse.org/reference/theme.html).
+* The "color" parameter is used for setting the color of lines while the "fill" parameter controls the color of areas.
 * To save a plot to a file, use the [ggsave](https://ggplot2.tidyverse.org/reference/ggsave.html) function.
 
 ### Histograms
 
-One of the simplest
+A simple way to display the distribution of a variable is a histogram. We use a histogram to look at the distribution of highway mpg below. You may want to experiment with the binwidth depending on your dataset. The expand_scale function is used to control the margins in the y axis.
 
 ```{r histogram}
 # Histogram with autobinning based on gender
 ggplot(mpg,aes(hwy)) +
-geom_histogram(aes(fill = cyl),binwidth = 1) +
+geom_histogram(aes(fill = cyl), binwidth = 1) +
 theme_bw() +
 scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
 xlab('Highway mpg') + ylab('Count')
@@ -251,8 +253,7 @@ xlab('Highway mpg') + ylab('Count')
 
 ## Bar Charts
 
-* use fill argument in ggplot() to set bar color based on a variable
-* reorder() orders the bars in descending order (left to right) by the mean_hwy variable
+Bar charts are used to show relative size. I find it helpful to order the bars by their size which I've done with the reorder function below.
 
 ```{r}
 # A simple bar chart - average heights of the species
@@ -263,19 +264,19 @@ geom_bar(stat = 'identity', color = 'black') +
 scale_y_continuous(expand = expand_scale(mult = c(0, .1))) + # expand top margin
 geom_text(aes(label = round(mean_hwy)), vjust = -0.5) +  # label bars
 theme_bw() + 
-xlab('') + ylab('') + # no axis labels
-theme(legend.position = "none", # no legend (in case we want to use fill)
+xlab('Vehicle Class') + ylab('Mean Highway mpg') + # no axis labels
+theme(
   panel.grid = element_blank()) # turn off grid
 ```
 
 ### Line Charts
 
-Here we create a line graph with the SP.POP.GROW indicator from the "wb_pop" dataset we created earlier based on world bank data. SP.POP.GROW is the percent population growth and we divide its value (in the 'value' column) by 100 to convert it to a decimal percentage value.
+Here we create a line graph with the SP.POP.GROW indicator from the "wb_pop" dataset we created earlier based on world bank data. SP.POP.GROW is the percent population growth and we divide its value (which is in the 'value' column) by 100 to convert it to a decimal percentage value.
 
 ```{r line}
 ggplot(wb_pop %>% filter(country %in% c("USA","CAN","MEX") & indicator == "SP.POP.GROW"), 
        aes(x = year,y = value/100,color = country)) +
-theme_classic() + 
+theme_minimal() + 
   geom_line() + geom_point() + # lines and points
 scale_x_continuous(expand = expand_scale(mult = c(.05, .05))) +
 scale_y_continuous(labels = scales::percent) + 
@@ -288,7 +289,7 @@ xlab('Year') + ylab('Population Growth')
 
 ### Lollipop Charts
 
-Lollipop charts can be an attractive alternative to bar charts. We construct one here using [geom_segment](https://ggplot2.tidyverse.org/reference/geom_segment.html) and [geom_point](https://ggplot2.tidyverse.org/reference/geom_point.html). The [coord_flip](https://ggplot2.tidyverse.org/reference/coord_flip.html) function is used to orient the chart horizontally instead of vertically.
+Lollipop charts can be an attractive alternative to bar charts. We construct one here using [geom_segment](https://ggplot2.tidyverse.org/reference/geom_segment.html) and [geom_point](https://ggplot2.tidyverse.org/reference/geom_point.html). The [coord_flip](https://ggplot2.tidyverse.org/reference/coord_flip.html) function is used to orient the chart horizontally instead of vertically. We use the theme function to hide all grid lines except for the major vertical lines.
 
 ```{r lollipop}
   ggplot(data = col_ratio %>% arrange(desc(rent)) %>% head(15), aes(x = NAME, y = rent) ) +
@@ -310,7 +311,7 @@ Lollipop charts can be an attractive alternative to bar charts. We construct one
 
 ## References
 
-Here are a few functions and packages you may find useful for reference:
+Here are a few additional functions and packages that weren't covered in much detail in this post that you may find useful:
 
 * For importing data from files, refer to the [readr](https://readr.tidyverse.org/) (for CSV and text files) or [readxl](https://readxl.tidyverse.org/) (for excel spreadsheets) packages. 
 * To coerce a column into a different format, you can use the as.numeric, as.character, as.Date, and as.factor functions (from base R). For more functions to work with date and datetime data see the [lubridate](https://lubridate.tidyverse.org/reference/index.html) package, for strings use the [stringr](https://stringr.tidyverse.org/) package, and for manipulating factors see the [forcats](https://forcats.tidyverse.org/) package. 
