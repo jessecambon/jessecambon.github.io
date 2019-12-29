@@ -199,7 +199,7 @@ joined <- mpg_stack_horz %>%
 
 ## Converting Long to Wide Format
 
-Let’s take a look at the ‘us\_rent\_income’ dataset from the [tidyr](https://tidyr.tidyverse.org) package:
+Let’s take a look at the [us\_rent\_income](https://tidyr.tidyverse.org/reference/us_rent_income.html) dataset from the [tidyr](https://tidyr.tidyverse.org) package:
 
 | GEOID | NAME    | variable | estimate | moe |
 | :---- | :------ | :------- | -------: | --: |
@@ -263,15 +263,17 @@ wb_pop <- world_bank_pop %>%
 
 ## Visualizations
 
-Now that we have gone through the trouble of manipulating some datasets, we’ll make a few visualizations with ggplot2. Ggplot graphs are constructed by adding together a series of ggplot functions with the “+” operator.
+Now that we have gone through the trouble of manipulating some datasets, we’ll make a few visualizations with ggplot2. Ggplot graphs are constructed by adding together a series of ggplot functions with the “+” operator. You can refer to [ggplot’s documentation](https://ggplot2.tidyverse.org/reference/) for more information, but here is a quick overview:
 
-  - The ggplot function is used to specify the dataset and variables. Variables can alternatively be defined in geom functions.
-  - Atleast one geom function such as geom\_histogram, geom\_point, or geom\_line is included which defines what the graph will look like.
-  - The theme of the chart can be modified using preset themes such as theme\_bw and theme\_classic and further customized using the theme function.
+  - The [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function initializes a graph. The [aes](https://ggplot2.tidyverse.org/reference/aes.html) (aesthetic mappings) function controls which variables are used in the plot.  
+  - Atleast one geom (geometric object) function such as geom\_histogram, geom\_point, or geom\_line is included which defines what the graph will look like.
+  - The theme of the chart can be modified using [preset themes such as theme\_bw and theme\_classic](https://ggplot2.tidyverse.org/reference/ggtheme.html) and further customized using the [theme function](https://ggplot2.tidyverse.org/reference/theme.html).
   - In ggplot, the “color” parameter is used for setting the color of lines while the “fill” parameter controls the color of areas.
-  - To save a plot, use the ggsave function
+  - To save a plot to a file, use the [ggsave](https://ggplot2.tidyverse.org/reference/ggsave.html) function.
 
 ### Histograms
+
+One of the simplest
 
 ``` r
 # Histogram with autobinning based on gender
@@ -296,44 +298,40 @@ xlab('Highway mpg') + ylab('Count')
 # the reorder command orders our bars in order of descending height
 ggplot(data = mpg_stats,
     aes(x = reorder(class_c,-mean_hwy), y = mean_hwy)) +
-geom_bar(stat = 'identity',position = 'dodge',color = 'black') +
-scale_y_continuous(expand = expand_scale(mult = c(0, .1))) +    # plot margins
-geom_text(aes(label = round(mean_hwy)), vjust = -0.5) +  # labelling
-theme_bw() +
+geom_bar(stat = 'identity', color = 'black') +
+scale_y_continuous(expand = expand_scale(mult = c(0, .1))) + # expand top margin
+geom_text(aes(label = round(mean_hwy)), vjust = -0.5) +  # label bars
+theme_bw() + 
+xlab('') + ylab('') + # no axis labels
 theme(legend.position = "none", # no legend (in case we want to use fill)
-  panel.grid = element_blank()) + # turn off grid
-labs(title = '') +
-xlab('') +
-ylab('')
+  panel.grid = element_blank()) # turn off grid
 ```
 
 ![](/rmd_images/Essential-DataScience-R/unnamed-chunk-29-1.png)<!-- -->
 
 ### Line Charts
 
-We divide the `value` field by 100 since to convert it to a decimal percentage value. SP.POP.GROW is the population growth (%).
+Here we create a line graph with the SP.POP.GROW indicator from the “wb\_pop” dataset we created earlier based on world bank data. SP.POP.GROW is the percent population growth and we divide its value (in the ‘value’ column) by 100 to convert it to a decimal percentage value.
 
 ``` r
-ggplot(wb_pop %>% filter(country %in% c("USA","CAN","MEX") & indicator == "SP.POP.GROW"),
-          aes(x = year,y = value/100,color = country)) +
-  theme_classic() + geom_line() + geom_point() + # lines and points
+ggplot(wb_pop %>% filter(country %in% c("USA","CAN","MEX") & indicator == "SP.POP.GROW"), 
+       aes(x = year,y = value/100,color = country)) +
+theme_classic() + 
+  geom_line() + geom_point() + # lines and points
 scale_x_continuous(expand = expand_scale(mult = c(.05, .05))) +
 scale_y_continuous(labels = scales::percent) + 
-labs(title = '',caption = '') +
-theme(legend.title = element_blank(),
+theme(legend.title = element_blank(), # suppress legend title
       panel.grid.minor.x = element_blank(),
       legend.text = element_text(size = 10),
       legend.position = 'right') +
-xlab('Year') + ylab('Population Growth') +
-# make legend items bigger
-guides(colour = guide_legend(override.aes = list(size = 2))) 
+xlab('Year') + ylab('Population Growth')
 ```
 
 ![](/rmd_images/Essential-DataScience-R/line-1.png)<!-- -->
 
 ### Lollipop Charts
 
-Lollipop charts can be an attractive alternative to bar charts. coord\_flip is used to orient the chart horizontally instead of vertically.
+Lollipop charts can be an attractive alternative to bar charts. We construct one here using [geom\_segment](https://ggplot2.tidyverse.org/reference/geom_segment.html) and [geom\_point](https://ggplot2.tidyverse.org/reference/geom_point.html). The [coord\_flip](https://ggplot2.tidyverse.org/reference/coord_flip.html) function is used to orient the chart horizontally instead of vertically.
 
 ``` r
   ggplot(data = col_ratio %>% arrange(desc(rent)) %>% head(15), aes(x = NAME, y = rent) ) +
@@ -357,7 +355,7 @@ Lollipop charts can be an attractive alternative to bar charts. coord\_flip is u
 
 ## References
 
-Here are a few functions and packages you may find useful for further reference:
+Here are a few functions and packages you may find useful for reference:
 
   - For importing data from files, refer to the [readr](https://readr.tidyverse.org/) (for CSV and text files) or [readxl](https://readxl.tidyverse.org/) (for excel spreadsheets) packages.
   - To coerce a column into a different format, you can use the as.numeric, as.character, as.Date, and as.factor functions (from base R). For more functions to work with date and datetime data see the [lubridate](https://lubridate.tidyverse.org/reference/index.html) package, for strings use the [stringr](https://stringr.tidyverse.org/) package, and for manipulating factors see the [forcats](https://forcats.tidyverse.org/) package.
