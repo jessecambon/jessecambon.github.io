@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Fundamental Data Science Workflows"
+title:  "Essential Data Science Workflows"
 date:   2019-12-8
 author: Jesse Cambon
 tags: [ tidyverse, data-science]
@@ -38,7 +38,7 @@ In this example, we select the two rows pertaining to 2005 Nissan vehicles with 
   - [filter](https://dplyr.tidyverse.org/reference/filter.html) controls which rows we want to keep from the input dataset. In this example three conditions are applied using the “&” (AND) operator.
   - [mutate](https://dplyr.tidyverse.org/reference/mutate.html) is used to create new columns.
   - [str\_c](https://stringr.tidyverse.org/reference/str_c.html) combines multiple strings. In this case we are combining the manufacturer and model string fields into a single field with a single space in between.
-  - [select](https://dplyr.tidyverse.org/reference/select.html) is used to pick which columns we want to keep. A ‘-’ before a column indicates that we want to drop that column. The everything() function is shorthand for selecting all remaining columns and is an examle of a [select helper](https://www.rdocumentation.org/packages/dplyr/versions/0.7.3/topics/select_helpers). As you can see, this select statement sets the order of the first four columns and then includes the remaining columns while removing the manfacturer and model columns.
+  - [select](https://dplyr.tidyverse.org/reference/select.html) is used to pick which columns we want to keep. A ‘-’ before a column indicates that we want to drop that column. The everything() function is shorthand for selecting all remaining columns and is an examle of a [select helper](https://www.rdocumentation.org/packages/dplyr/versions/0.7.3/topics/select_helpers). As you can see, this select statement sets the order of the first four columns, includes the remaining columns, but then removes the manfacturer and model columns.
   - [rename](https://dplyr.tidyverse.org/reference/select.html) is used to rename the ‘fl’ column to ‘fuel\_type’
 
 <!-- end list -->
@@ -73,7 +73,7 @@ count_cyl <- mpg %>%
 |   6 | 79 |
 |   8 | 70 |
 
-A broader variety of statistics can be calculated using the [group\_by](https://dplyr.tidyverse.org/reference/group_by.html) and [summarize](https://dplyr.tidyverse.org/reference/summarise.html) functions. In this example, we create a new categorical column “class\_c” (which combines 2 seaters and subcompact vehicles into a single category) using the case\_when function and then calculate a variety of basic summary statistics by this column.
+A broader variety of statistics can be calculated using the [group\_by](https://dplyr.tidyverse.org/reference/group_by.html) and [summarize](https://dplyr.tidyverse.org/reference/summarise.html) functions. In this example, we create a new categorical column “class\_c” (which combines 2 seaters and subcompact vehicles into a single category) using the [case\_when](https://dplyr.tidyverse.org/reference/case_when.html) function and then calculate a variety of basic summary statistics by this column.
 
 The arrange function is used to order the rows in the dataset in descending order of the created ‘count’ variable. Note that the ungroup() function is not strictly necessary, but it is a good practice if we plan to manipulate our dataset in the future without using groups.
 
@@ -90,8 +90,6 @@ mpg_stats <- mpg %>% select(class,hwy) %>%
   ungroup() %>%
   arrange(desc(count)) # sort dataset
 ```
-
-Note that ‘2seater’ is reclassified as ‘subcompact’
 
 | class\_c   | count | max\_hwy | min\_hwy | median\_hwy | mean\_hwy |
 | :--------- | ----: | -------: | -------: | ----------: | --------: |
@@ -172,7 +170,7 @@ mpg_stack_horz <- mpg_stack_vert %>%
 
 ## Joining Data
 
-If you have datasets that contain a common “key” column (or a set of key columns) then you can use one of the [join functions from dplyr](https://dplyr.tidyverse.org/reference/join.html) to combine these datasets. In this example, the mpg\_stack\_horz and car\_type datasets are joined using the left\_join function and the “manufacturer” and “model” columns.
+If you have datasets that contain a common “key” column (or a set of key columns) then you can use one of the [join functions from dplyr](https://dplyr.tidyverse.org/reference/join.html) to combine these datasets. First let’s create a dataset named “car\_type”:
 
 ``` r
 car_type <- mpg %>% select(manufacturer,model,class) %>%
@@ -186,10 +184,12 @@ car_type <- mpg %>% select(manufacturer,model,class) %>%
 | audi         | a6 quattro         | midsize |
 | chevrolet    | c1500 suburban 2wd | suv     |
 
+Now we will join this newly created “car\_type” dataset to the “mpg\_stack\_horz” dataset (created above) using the left\_join function. The columns that are joined on are “manufacturer” and “model”. The resulting dataset, “joined”, now contains all the columns from “mpg\_stack\_horz” with the addition of the “class” column from the “car\_type” dataset.
+
 ``` r
 joined <- mpg_stack_horz %>%
   left_join(car_type,by = c('manufacturer','model')) %>% 
-  select(-dataset,everything())
+  select(-dataset,everything()) # put the 'dataset' column last
 ```
 
 | manufacturer | model       | hwy | cty | displ | year | class   | dataset |
@@ -267,7 +267,8 @@ wb_pop <- world_bank_pop %>%
 
 Now that we have gone through the trouble of manipulating some datasets, we’ll make a few visualizations with ggplot2. Ggplot graphs are constructed by adding together a series of ggplot functions with the “+” operator. You can refer to [ggplot’s documentation](https://ggplot2.tidyverse.org/reference/) for more information, but here is a quick overview:
 
-  - The [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function initializes a graph. The [aes](https://ggplot2.tidyverse.org/reference/aes.html) (aesthetic mappings) function controls which variables are used in the plot.
+  - The [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function initializes a graph and typically specifies the dataset that is being used.
+  - The [aes](https://ggplot2.tidyverse.org/reference/aes.html) (aesthetic mappings) function controls which variables are used in the plot. This function can be included as part of the ggplot function or in a geom function depending on whether you want the effect to be global or specific to a geom function.
   - Atleast one geom (geometric object) function such as geom\_histogram, geom\_point, or geom\_line is included which defines what the graph will look like.
   - The formatting of the chart (such as margins, legend position, and grid lines) can be modified using [preset themes such as theme\_bw and theme\_classic](https://ggplot2.tidyverse.org/reference/ggtheme.html) and the [theme function](https://ggplot2.tidyverse.org/reference/theme.html).
   - The “color” parameter is used for setting the color of lines while the “fill” parameter controls the color of areas.
