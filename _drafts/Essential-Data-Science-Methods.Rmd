@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Essential Data Science Operations"
-date:   2019-12-8
+title:  "Essential Data Science Methods"
+date:   2020-1-11
 author: Jesse Cambon
 tags: [ tidyverse, data-science]
 output: 
@@ -15,13 +15,17 @@ library(here)
 source(here::here("rmd_config.R"))
 ``` 
 
-One the greatest strengths of using R for data science work is the vast number and variety of packages and functions that are available. However, for a newcomer it can be a bit intimidating to navigate this large and dynamic open source ecosystem. Learning how to analyze data in R can lead you to a wide array of stack overflow threads, blogs, and sites.
+One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous [stack overflow](https://stackoverflow.com/) threads and websites. 
 
-The goal of this post is to consolidate and explain some of the most essential data science techniques. The focus will be on fundamental methods I have used repeatedly as a data scientist - data  manipulation, summarization, and visualization. I will mainly rely on the [dplyr](https://dplyr.tidyverse.org/), [tidyr](https://tidyr.tidyverse.org/), and [ggplot2](https://ggplot2.tidyverse.org/) packages which all have excellent documentation that you can refer to for further details. 
+In an attempt to consolidate some of this information, this blog post demonstrates fundamental methods that I have used repeatedly as a data scientist. This code should get you started in performing some essential and broadly useful analytics tasks with R - data manipulation, summarization, and visualization. 
+
+I will mainly rely on the [dplyr](https://dplyr.tidyverse.org/), [tidyr](https://tidyr.tidyverse.org/), and [ggplot2](https://ggplot2.tidyverse.org/) packages which all have excellent documentation that you can refer to for further details. Datasets that are built into these packages will be used so that there is no need to download external data. Also note that the input and output datasets will be displayed for each example, but at times only the first several rows will be shown for display purposes.
+
+If you haven't installed the [tidyverse packages](https://www.tidyverse.org/) already, you'll need to do that first with this command: `install.packages('tidyverse')`. 
 
 ## Basic Data Manipulation
 
-To begin, we need to load the [tidyverse](https://www.tidyverse.org/) packages:
+To begin, we need to load the tidyverse packages so that they can be used.  
 
 ```{r, message=FALSE, results=FALSE, warning=FALSE}
 library(tidyverse)
@@ -33,9 +37,9 @@ Now, let's take a look at the [mpg](https://ggplot2.tidyverse.org/reference/mpg.
 kable(head(mpg,3))
 ```
 
-We'll perform a few of the most commonly used data manipulation operations on this dataset using the [dplyr](https://dplyr.tidyverse.org/) package. If you're new to R, the *<-* operator that you see below is used to assign the value of what follows it to the dataset named on the left (here we are saving a modified version of the "mpg" dataset as the "mpg_subset" dataset). 
+We'll perform a few of the most commonly used data manipulation operations on this dataset using the [dplyr](https://dplyr.tidyverse.org/) package. If you're new to R, the **<-** operator that you see below is used to assign the value of what follows it to the dataset named on the left (here we are saving a modified version of the 'mpg' dataset as the 'mpg_subset' dataset). 
 
-If you're not familiar with dplyr, note that the "pipe" operator *%>%* is used to pass the output of a function to the following function. This allows us to perform data manipulations in sequence in a clear and readable way.
+If you're not familiar with dplyr, note that the "pipe" operator **%>%** is used to pass the output of a function to the following function. This allows us to perform data manipulations in sequence in a clear and readable way.
 
 In this example, we select the two rows that contain 2005 Nissan vehicles with 4 cylinders, create two new columns, order the columns, remove two columns, and rename a column. In the order that they are used below, here are the main functions used to accomplish this:
 
@@ -43,7 +47,7 @@ In this example, we select the two rows that contain 2005 Nissan vehicles with 4
 * [mutate](https://dplyr.tidyverse.org/reference/mutate.html) is used to create new columns.
 * [str_c](https://stringr.tidyverse.org/reference/str_c.html) combines multiple strings. In this case we are combining the manufacturer and model string fields into a single field with a single space in between.
 * [select](https://dplyr.tidyverse.org/reference/select.html) is used to pick which columns from the input dataset we want to keep. A '-' before a column indicates that we want to drop that column.
-  * The everything() function is shorthand for selecting all remaining columns and is an example of a [select helper](https://www.rdocumentation.org/packages/dplyr/versions/0.7.3/topics/select_helpers). As you can see, this select statement sets the order of the first four columns, includes the remaining columns, but then removes the manfacturer and model columns. You can play around with other select helpers and the arguments in the select function to get a feel for what you can accomplish with select helpers.
+  * The everything() function is shorthand for selecting all remaining columns and is an example of a [select helper](https://www.rdocumentation.org/packages/dplyr/versions/0.7.3/topics/select_helpers). As you can see, this select statement sets the order of the first four columns, includes the remaining columns, but then removes the manufacturer and model columns. You can play around with other select helpers and the arguments in the select function to get a better feel for this.
 * [rename](https://dplyr.tidyverse.org/reference/select.html) is used to rename the 'fl' column to 'fuel_type'
 
 ```{r}
@@ -74,7 +78,7 @@ kable(count_cyl)
 
 A broader variety of statistics can be calculated using the [group_by](https://dplyr.tidyverse.org/reference/group_by.html) and [summarize](https://dplyr.tidyverse.org/reference/summarise.html) functions. In this example, we create a new categorical column "class_c" (which combines 2 seaters and subcompact vehicles into a single category) using the [case_when](https://dplyr.tidyverse.org/reference/case_when.html) function and then calculate a variety of basic summary statistics by this column. 
 
-The [arrange](https://dplyr.tidyverse.org/reference/arrange.html) function is used to order the rows in the dataset in descending order of the created 'count' variable. Note that the ungroup() function is not strictly necessary, but it is a good practice if we plan to manipulate our dataset in the future without using groups.
+The [arrange](https://dplyr.tidyverse.org/reference/arrange.html) function is used to order the rows in the dataset in descending order of the created 'count' variable. Note that the 'ungroup' function is not strictly necessary in this case, but it is a good practice if we plan to manipulate our dataset in the future without using groups.
 
 ```{r}
 mpg_stats <- mpg %>% select(class,hwy) %>%
@@ -82,8 +86,8 @@ mpg_stats <- mpg %>% select(class,hwy) %>%
                                TRUE ~ class)) %>%
   group_by(class_c) %>%
   summarize(count = n(),
-            max_hwy = max(hwy),
             min_hwy = min(hwy),
+            max_hwy = max(hwy),
             median_hwy = median(hwy),
             mean_hwy = mean(hwy)) %>%
   ungroup() %>%
@@ -96,10 +100,10 @@ kable(mpg_stats)
 
 ## Stacking Data
 
-If you have datasets whose columns or rows align, you can combine them by stacking the datasets vertically or horizontally. To demonstrate this, we will first use the [slice](https://dplyr.tidyverse.org/reference/slice.html) function to subset the "mpg" dataset by row numbers to create the "mpg1" and "mpg2" datasets. 
+If you have datasets whose columns or rows align, you can combine them by stacking the datasets vertically or horizontally. To demonstrate this, we will first use the [slice](https://dplyr.tidyverse.org/reference/slice.html) function to subset the 'mpg' dataset by row numbers to create the 'mpg1' and 'mpg2' datasets. 
 
 ```{r}
-mpg1 <- mpg %>% slice(1:2) %>% 
+mpg1 <- mpg %>% slice(1) %>% 
   select(manufacturer,model,hwy,cty) %>%
   mutate(dataset = 1)
 ```
@@ -132,7 +136,7 @@ kable(mpg_stack_vert)
 Now let's create a third subsection of the 'mpg' dataset and call it 'mpg3':
 
 ```{r}
-mpg3 <- mpg %>% slice(1:2,5:6) %>%
+mpg3 <- mpg %>% slice(1,44:45) %>%
   select(displ,year)
 ```
 
@@ -140,7 +144,7 @@ mpg3 <- mpg %>% slice(1:2,5:6) %>%
 kable(mpg3)
 ```
 
-We can stack the 'mpg_stack_vert' and 'mpg3' datasets horizontally since their rows align. We use the the [bind_cols](https://dplyr.tidyverse.org/reference/bind.html) function to do this.
+We can stack the 'mpg_stack_vert' and 'mpg3' datasets horizontally since their rows align (we used the 'slice' function to subset the 'mpg' dataset on the same row numbers). We use the [bind_cols](https://dplyr.tidyverse.org/reference/bind.html) function to do this.
 
 ```{r}
 mpg_stack_horz <- mpg_stack_vert %>%
@@ -153,7 +157,7 @@ kable(mpg_stack_horz)
 
 ## Joining Data
 
-If you have datasets that contain a common "key" column (or a set of key columns) then you can use one of the [join functions from dplyr](https://dplyr.tidyverse.org/reference/join.html) to combine these datasets. First let's create a dataset named "car_type" using the [distinct](https://dplyr.tidyverse.org/reference/distinct.html) function:
+If you have datasets that contain a common "key" column (or a set of key columns) then you can use one of the [join functions from dplyr](https://dplyr.tidyverse.org/reference/join.html) to combine these datasets. First let's create a dataset named 'car_type' using the [distinct](https://dplyr.tidyverse.org/reference/distinct.html) function:
 
 ```{r}
 car_type <- mpg %>% select(manufacturer,model,class) %>%
@@ -164,7 +168,7 @@ car_type <- mpg %>% select(manufacturer,model,class) %>%
 kable(head(car_type,4))
 ```
 
-Now we will join this newly created "car_type" dataset to the "mpg_stack_horz" dataset (created above) using the left_join function. The "manufacturer" and "model" are used as joining keys. The resulting dataset, "joined", now contains all the columns from "mpg_stack_horz" as well as the "class" column from the "car_type" dataset.
+Now we will join this newly created 'car_type' dataset to the 'mpg_stack_horz' dataset (created above) using the 'left_join' function. The 'manufacturer' and 'model' columns are used as joining keys. The resulting dataset, 'joined', now contains all the columns from 'mpg_stack_horz' as well as the 'class' column from the 'car_type' dataset.
 
 ```{r}
 joined <- mpg_stack_horz %>%
@@ -184,7 +188,7 @@ Let's take a look at the [us_rent_income](https://tidyr.tidyverse.org/reference/
 kable(head(us_rent_income,4))
 ```
 
-Each row of this dataset pertains to either income or rent as we can see by looking at the value of the 'variable' column. This is an example of a 'long' data format. The 'long' format is versatile and desirable for data manipulation, but we may want to convert to the 'wide' data format in some cases, particularly for presenting data. To do this, we can use the [pivot_wider](https://tidyr.tidyverse.org/reference/pivot_wider.html) function from [tidyr](https://tidyr.tidyverse.org/). The end result is that the rent and income variables are put into separate columns. This function has two arguments you will need to set:
+Each row of this dataset pertains to either income or rent as we can see by looking at the value of the 'variable' column. This is an example of a "long" data format. The long format is versatile and desirable for data manipulation, but we may want to convert to the 'wide' data format in some cases, particularly for presenting data. To do this, we can use the [pivot_wider](https://tidyr.tidyverse.org/reference/pivot_wider.html) function from [tidyr](https://tidyr.tidyverse.org/). The end result is that the rent and income variables are put into separate columns. This function has two arguments you will need to set:
 
 * **names_from**: column containing values that we will use for our new column names
 * **values_from**: column containing the values that will populate our new columns
@@ -217,7 +221,7 @@ This dataset is in "wide" format since a categorical variable, in this case the 
 * **names_to** : the name of new column which has the column names as values
 * **values_to** : name of new column which will contain values
 
-We also use the mutate and as.numeric() functions to convert our new 'year' variable to numeric and then filter so that our output dataset only includes certain years using the seq function. The format for the seq function is seq(start, stop, increment).
+We also use the 'mutate' and 'as.numeric' functions to convert our new 'year' variable to numeric and then filter so that our output dataset only includes certain years using the 'seq' function. The format for the 'seq' function is seq(start, stop, increment).
 
 ```{r} 
 wb_pop <- world_bank_pop %>%
@@ -227,23 +231,23 @@ wb_pop <- world_bank_pop %>%
 ```
 
 ```{r,echo=F} 
-kable(head(wb_pop,3))
+kable(head(wb_pop,4))
 ```
 
 ## Visualizations
 
-Now that we have manipulated and summarized some datasets, we'll make a few visualizations with [ggplot2](https://ggplot2.tidyverse.org/). Ggplot graphs are constructed by adding together a series of ggplot functions with the "+" operator. This gives us a large amount of customization options since ggplot functions can be combined in many different ways. You can refer to [ggplot's documentation](https://ggplot2.tidyverse.org/reference/) for more information, but here is a quick overview of the package:
+Now that we have manipulated and summarized some datasets, we'll make a few visualizations with [ggplot2](https://ggplot2.tidyverse.org/). Ggplot graphs are constructed by adding together a series of ggplot functions with the "+" operator. This gives us a large amount of customization options since ggplot functions can be combined in many different ways. Below you will find code for several commonly used charts, but you can refer to [ggplot's documentation](https://ggplot2.tidyverse.org/reference/) for more information. Here is a brief overview of the package:
 
 * The [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function initializes a graph and typically specifies the dataset that is being used.
 * Atleast one *geom* (geometric object) function such as geom_histogram, geom_point, or geom_line is included which controls how data will be displayed.
 * The [aes](https://ggplot2.tidyverse.org/reference/aes.html) (aesthetic mappings) function controls which variables are used in the plot. This function can be included as part of the ggplot function or in a geom function depending on whether you want the effect to be global or specific to a geom function.
 * The formatting of the chart (such as margins, legend position, and grid lines) can be modified using [preset themes such as theme_bw and theme_classic](https://ggplot2.tidyverse.org/reference/ggtheme.html) or the [theme function](https://ggplot2.tidyverse.org/reference/theme.html) which gives more manual control.
-* The "color" parameter is used for setting the color of plot lines and points while the "fill" parameter controls the color of areas (such as bars on bar charts). These parameters can be set to a value such as "navy" or to a categorical variable.
+* The 'color' parameter is used for setting the color of plot lines and points while the 'fill' parameter controls the color of areas (such as bars on bar charts). These parameters can be set to a value such as 'navy' or to a categorical variable.
 * To save a plot to a file use the [ggsave](https://ggplot2.tidyverse.org/reference/ggsave.html) function.
 
 ### Line Charts
 
-Here we create a line graph with the SP.POP.GROW indicator from the "wb_pop" dataset we created earlier based on world bank data. SP.POP.GROW is the percent population growth of a country and we divide its value (which is in the 'value' column) by 100 to convert it to a decimal percentage value.
+Here we create a line graph with the SP.POP.GROW indicator from the 'wb_pop' dataset we created earlier based on world bank data. SP.POP.GROW is the percent population growth of a country and we divide its value (which is in the 'value' column) by 100 to convert it to a decimal percentage value.
 
 ```{r line}
 ggplot(wb_pop %>% filter(country %in% c("USA","CAN","MEX") & indicator == "SP.POP.GROW"), 
@@ -261,12 +265,11 @@ xlab('Year') + ylab('Population Growth')
 
 ### Scatter Plots
 
-A scatter plot is a very common way to visually examine the relationship between two continuous variables. In this example, we plot engine displacement against highway MPG for the 'mpg' dataset. One last minute bit of data manipulation is done to combined the various transmission types in the 'trans' variable into the 'auto' (automatic) and 'manual' categories using the [str_detect](https://stringr.tidyverse.org/reference/str_detect.html) function. 
+A scatter plot is a very common way to visually examine the relationship between two continuous variables. In this example, we plot engine displacement against highway MPG for the 'mpg' dataset. A 'Transmission' column is created to combine the various transmission types in the 'trans' variable into the 'auto' (automatic) and 'manual' categories using the [str_detect](https://stringr.tidyverse.org/reference/str_detect.html) function. The 'color' argument in the 'aes' function is used to color our points according to the newly created 'Transmission' variable. A legend is automatically created.
 
 ```{r}
 ggplot(data = mpg %>% 
-     mutate(Transmission = case_when(str_detect(trans,'auto') ~ 'auto',
-          TRUE ~ 'manual')),
+     mutate(Transmission = case_when(str_detect(trans,'auto') ~ 'auto',TRUE ~ 'manual')),
      aes(x = displ, y = hwy, color = Transmission)) +
 geom_point() +
 theme_light() +
@@ -277,7 +280,7 @@ ylab('Highway MPG')
 
 ### Histograms
 
-A simple way to display the distribution of a variable is a histogram. We use a histogram to look at the distribution of highway mpg below. You may want to experiment with the binwidth depending on your dataset. The expand_scale function is used to control the margins in the y axis.
+A simple way to display the distribution of a variable is a histogram. We use a histogram to look at the distribution of highway mpg below. You may want to experiment with the 'binwidth' argument in the [geom_histogram](https://ggplot2.tidyverse.org/reference/geom_histogram.html) function depending on your dataset. The [expand_scale](https://ggplot2.tidyverse.org/reference/expand_scale.html) function is used to control the margins in the y axis.
 
 ```{r histogram}
 # Histogram with autobinning based on gender
@@ -285,10 +288,10 @@ ggplot(mpg,aes(hwy)) +
 geom_histogram(aes(fill = cyl), binwidth = 1) +
 theme_bw() +
 scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
-xlab('Highway mpg') + ylab('Vehicles')
+xlab('Highway MPG') + ylab('Vehicles')
 ```
 
-## Bar Charts
+### Bar Charts
 
 Bar charts are used to show relative size. I find it helpful to order the bars by their size which I've done with the reorder function below.
 
@@ -304,7 +307,6 @@ theme_bw() +
 xlab('Vehicle Class') + ylab('Mean Highway mpg') + # no axis labels
 theme(panel.grid = element_blank()) # turn off grid
 ```
-
 
 ### Lollipop Charts
 
@@ -328,11 +330,12 @@ Lollipop charts can be an attractive alternative to bar charts. We construct one
     xlab('') + ylab('Median Monthly Rent')
 ```
 
-## Further References
+## Additional References
 
-Here are a few additional functions and packages that weren't covered in much detail in this post that you may find useful:
+Here some additional resources that you may find useful:
 
 * For importing data from files, refer to the [readr](https://readr.tidyverse.org/) (for CSV and text files) or [readxl](https://readxl.tidyverse.org/) (for excel spreadsheets) packages. 
-* To coerce a column into a different format, you can use the as.numeric, as.character, as.Date, and as.factor functions (from base R). For more functions to work with date and datetime data see the [lubridate](https://lubridate.tidyverse.org/reference/index.html) package, for strings reference the [stringr](https://stringr.tidyverse.org/) package, and for manipulating factors you can use the [forcats](https://forcats.tidyverse.org/) package. 
+* To coerce a column in a dataset into a different format, you can use the as.numeric, as.character, as.Date, and as.factor functions (from base R). For more functions to work with date and datetime data see the [lubridate](https://lubridate.tidyverse.org/reference/index.html) package, for strings reference the [stringr](https://stringr.tidyverse.org/) package, and for manipulating factors you can use the [forcats](https://forcats.tidyverse.org/) package. 
 * For quickly summarizing datasets with basic summary statistics, you can use the summary function (base R) or the [skimr](https://docs.ropensci.org/skimr/) package.
-* The [purrr](https://purrr.tidyverse.org/) package allows you apply functions across the values of a list using the [map](https://purrr.tidyverse.org/reference/map.html).
+* The [purrr](https://purrr.tidyverse.org/) package allows you apply functions across the values of a list using the [map](https://purrr.tidyverse.org/reference/map.html) function. One example of where this is useful is in reading and combining data from multiple sheets in an excel spreadsheet by applying a function that reads a single sheet to a list of sheets.
+* I keep reference data science code (both R and Python) in [a repository on my GitHub](https://github.com/jessecambon/Data-Science-Codex). You'll find some more advanced techniques demonstrated there.
