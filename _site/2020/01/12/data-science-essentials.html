@@ -122,17 +122,17 @@
   </tbody>
 </table>
 
-<p>We’ll perform a few of the most commonly used data manipulation operations on this dataset using the <a href="https://dplyr.tidyverse.org/">dplyr</a> package. If you’re new to R, the <strong>&lt;-</strong> operator that you see below is used to assign the value of what follows it to the dataset named on the left (here we are saving a modified version of the ‘mpg’ dataset as the ‘mpg_subset’ dataset).</p>
+<p>We’ll perform a few of the most commonly used data manipulation operations on this dataset using the <a href="https://dplyr.tidyverse.org/">dplyr</a> package. If you’re new to R, the <strong>&lt;-</strong> operator that you see below is used to assign the value of what follows it to the dataset that precedes it. In this example, we are manipulating the ‘mpg’ dataset and saving it as the ‘mpg_subset’ dataset.</p>
 
 <p>If you’re not familiar with dplyr, note that the “pipe” operator <strong>%&gt;%</strong> is used to pass the output of a function to the following function. This allows us to perform data manipulations in sequence in a clear and readable way.</p>
 
-<p>In this example, we select the two rows that contain Nissan vehicles years 2005 and later with 4 cylinders, create two new columns, order the columns, remove two columns, and rename a column. In the order that they are used below, here are the main functions used to accomplish this:</p>
+<p>In this example, we select the two rows that contain Nissan vehicles years 2005 and later with 4 cylinders, create two new columns, order the columns, remove four columns, and rename a column. In the order that they are used below, here are the main functions used to accomplish this:</p>
 
 <ul>
   <li><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a> controls which rows we want to keep from the input dataset. In this example, three conditions are applied using the “&amp;” (AND) operator.</li>
   <li><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a> is used to create new columns.</li>
   <li><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a> combines multiple strings. In this case we are combining the manufacturer and model string fields into a single field with a single space in between.</li>
-  <li><a href="https://dplyr.tidyverse.org/reference/select.html">select</a> is used to pick which columns from the input dataset we want to keep. This select statement sets the order of the first four columns, includes the remaining columns, but then removes the manufacturer and model columns.
+  <li><a href="https://dplyr.tidyverse.org/reference/select.html">select</a> is used to pick which columns from the input dataset we want to keep. This select statement sets the order of the first four columns, includes the remaining columns, but then removes four columns.
     <ul>
       <li>A ‘-’ before a column name indicates that we want to remove that column.</li>
       <li>The everything() function is shorthand for selecting all remaining columns and is an example of a <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.3/topics/select_helpers">select helper</a>.</li>
@@ -145,9 +145,10 @@
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mpg_subset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">cyl</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">2005</span><span class="w">  </span><span class="o">&amp;</span><span class="w"> </span><span class="n">manufacturer</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"nissan"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hwy</span><span class="o">/</span><span class="n">cty</span><span class="p">,</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">mpg_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hwy</span><span class="o">/</span><span class="n">cty</span><span class="p">,</span><span class="w">
          </span><span class="n">make_model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="n">manufacturer</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="n">model</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">select</span><span class="p">(</span><span class="n">make_model</span><span class="p">,</span><span class="n">year</span><span class="p">,</span><span class="n">cyl</span><span class="p">,</span><span class="n">hwy</span><span class="p">,</span><span class="n">everything</span><span class="p">(),</span><span class="o">-</span><span class="n">manufacturer</span><span class="p">,</span><span class="o">-</span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">make_model</span><span class="p">,</span><span class="n">year</span><span class="p">,</span><span class="n">hwy</span><span class="p">,</span><span class="n">cty</span><span class="p">,</span><span class="n">everything</span><span class="p">(),</span><span class="w">
+         </span><span class="o">-</span><span class="n">manufacturer</span><span class="p">,</span><span class="o">-</span><span class="n">model</span><span class="p">,</span><span class="o">-</span><span class="n">drv</span><span class="p">,</span><span class="o">-</span><span class="n">trans</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">rename</span><span class="p">(</span><span class="n">fuel_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fl</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
@@ -156,27 +157,23 @@
     <tr>
       <th style="text-align: left">make_model</th>
       <th style="text-align: right">year</th>
-      <th style="text-align: right">cyl</th>
       <th style="text-align: right">hwy</th>
-      <th style="text-align: right">displ</th>
-      <th style="text-align: left">trans</th>
-      <th style="text-align: left">drv</th>
       <th style="text-align: right">cty</th>
+      <th style="text-align: right">displ</th>
+      <th style="text-align: right">cyl</th>
       <th style="text-align: left">fuel_type</th>
       <th style="text-align: left">class</th>
-      <th style="text-align: right">ratio</th>
+      <th style="text-align: right">mpg_ratio</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td style="text-align: left">nissan altima</td>
       <td style="text-align: right">2008</td>
-      <td style="text-align: right">4</td>
       <td style="text-align: right">31</td>
-      <td style="text-align: right">2.5</td>
-      <td style="text-align: left">auto(av)</td>
-      <td style="text-align: left">f</td>
       <td style="text-align: right">23</td>
+      <td style="text-align: right">2.5</td>
+      <td style="text-align: right">4</td>
       <td style="text-align: left">r</td>
       <td style="text-align: left">midsize</td>
       <td style="text-align: right">1.347826</td>
@@ -184,12 +181,10 @@
     <tr>
       <td style="text-align: left">nissan altima</td>
       <td style="text-align: right">2008</td>
-      <td style="text-align: right">4</td>
       <td style="text-align: right">32</td>
-      <td style="text-align: right">2.5</td>
-      <td style="text-align: left">manual(m6)</td>
-      <td style="text-align: left">f</td>
       <td style="text-align: right">23</td>
+      <td style="text-align: right">2.5</td>
+      <td style="text-align: right">4</td>
       <td style="text-align: left">r</td>
       <td style="text-align: left">midsize</td>
       <td style="text-align: right">1.391304</td>
@@ -775,7 +770,9 @@
 
 <h2 id="visualizations">Visualizations</h2>
 
-<p>Now that we have manipulated and summarized some datasets, we’ll make a few visualizations with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. Ggplot graphs are constructed by adding together a series of ggplot functions with the “+” operator. This gives us a large amount of customization options since ggplot functions can be combined in many different ways. Below you will find code for several commonly used charts, but you can refer to <a href="https://ggplot2.tidyverse.org/reference/">ggplot’s documentation</a> for more information. Here is a brief overview of the package:</p>
+<p>Now that we have manipulated and summarized some datasets, we’ll make a few visualizations with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. Ggplot graphs are constructed by adding together a series of ggplot functions with the “+” operator. This gives us a large amount of customization options since ggplot functions can be combined in many different ways.</p>
+
+<p>Below you will find code for several commonly used charts, but you can refer to <a href="https://ggplot2.tidyverse.org/reference/">ggplot’s documentation</a> for more information. Here is a brief overview of the package:</p>
 
 <ul>
   <li>The <a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a> function initializes a graph and typically specifies the dataset that is being used.</li>
@@ -824,7 +821,7 @@
 </span><span class="n">xlab</span><span class="p">(</span><span class="s1">'Year'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ylab</span><span class="p">(</span><span class="s1">'Population Growth'</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="/rmd_images/2020-1-12-data-science-essentials/line-1.png" alt="" /><!-- --></p>
+<p><img src="/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" alt="" /><!-- --></p>
 
 <h3 id="histograms">Histograms</h3>
 

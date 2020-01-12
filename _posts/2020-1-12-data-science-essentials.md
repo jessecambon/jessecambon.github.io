@@ -3,7 +3,7 @@ layout: post
 title:  "Data Science Essentials"
 date:   2020-1-12
 author: Jesse Cambon
-tags: [ tidyverse, data-science]
+tags: [ tidyverse, data-science, r]
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]
@@ -35,16 +35,16 @@ Now, let’s take a look at the [mpg](https://ggplot2.tidyverse.org/reference/mp
 | audi         | a4    |   1.8 | 1999 |   4 | manual(m5) | f   |  21 |  29 | p  | compact |
 | audi         | a4    |   2.0 | 2008 |   4 | manual(m6) | f   |  20 |  31 | p  | compact |
 
-We’ll perform a few of the most commonly used data manipulation operations on this dataset using the [dplyr](https://dplyr.tidyverse.org/) package. If you’re new to R, the **\<-** operator that you see below is used to assign the value of what follows it to the dataset named on the left (here we are saving a modified version of the ‘mpg’ dataset as the ‘mpg\_subset’ dataset).
+We’ll perform a few of the most commonly used data manipulation operations on this dataset using the [dplyr](https://dplyr.tidyverse.org/) package. If you’re new to R, the **\<-** operator that you see below is used to assign the value of what follows it to the dataset that precedes it. In this example, we are manipulating the ‘mpg’ dataset and saving it as the ‘mpg\_subset’ dataset.
 
 If you’re not familiar with dplyr, note that the “pipe” operator **%\>%** is used to pass the output of a function to the following function. This allows us to perform data manipulations in sequence in a clear and readable way.
 
-In this example, we select the two rows that contain Nissan vehicles years 2005 and later with 4 cylinders, create two new columns, order the columns, remove two columns, and rename a column. In the order that they are used below, here are the main functions used to accomplish this:
+In this example, we select the two rows that contain Nissan vehicles years 2005 and later with 4 cylinders, create two new columns, order the columns, remove four columns, and rename a column. In the order that they are used below, here are the main functions used to accomplish this:
 
   - [filter](https://dplyr.tidyverse.org/reference/filter.html) controls which rows we want to keep from the input dataset. In this example, three conditions are applied using the “&” (AND) operator.
   - [mutate](https://dplyr.tidyverse.org/reference/mutate.html) is used to create new columns.
   - [str\_c](https://stringr.tidyverse.org/reference/str_c.html) combines multiple strings. In this case we are combining the manufacturer and model string fields into a single field with a single space in between.
-  - [select](https://dplyr.tidyverse.org/reference/select.html) is used to pick which columns from the input dataset we want to keep. This select statement sets the order of the first four columns, includes the remaining columns, but then removes the manufacturer and model columns.
+  - [select](https://dplyr.tidyverse.org/reference/select.html) is used to pick which columns from the input dataset we want to keep. This select statement sets the order of the first four columns, includes the remaining columns, but then removes four columns.
       - A ‘-’ before a column name indicates that we want to remove that column.
       - The everything() function is shorthand for selecting all remaining columns and is an example of a [select helper](https://www.rdocumentation.org/packages/dplyr/versions/0.7.3/topics/select_helpers).
   - [rename](https://dplyr.tidyverse.org/reference/select.html) is used to rename the ‘fl’ column to ‘fuel\_type’
@@ -54,16 +54,17 @@ In this example, we select the two rows that contain Nissan vehicles years 2005 
 ``` r
 mpg_subset <- mpg %>%
   filter(cyl == 4 & year >= 2005  & manufacturer == "nissan") %>%
-  mutate(ratio = hwy/cty,
+  mutate(mpg_ratio = hwy/cty,
          make_model = str_c(manufacturer,' ',model)) %>%
-  select(make_model,year,cyl,hwy,everything(),-manufacturer,-model) %>%
+  select(make_model,year,hwy,cty,everything(),
+         -manufacturer,-model,-drv,-trans) %>%
   rename(fuel_type = fl)
 ```
 
-| make\_model   | year | cyl | hwy | displ | trans      | drv | cty | fuel\_type | class   |    ratio |
-| :------------ | ---: | --: | --: | ----: | :--------- | :-- | --: | :--------- | :------ | -------: |
-| nissan altima | 2008 |   4 |  31 |   2.5 | auto(av)   | f   |  23 | r          | midsize | 1.347826 |
-| nissan altima | 2008 |   4 |  32 |   2.5 | manual(m6) | f   |  23 | r          | midsize | 1.391304 |
+| make\_model   | year | hwy | cty | displ | cyl | fuel\_type | class   | mpg\_ratio |
+| :------------ | ---: | --: | --: | ----: | --: | :--------- | :------ | ---------: |
+| nissan altima | 2008 |  31 |  23 |   2.5 |   4 | r          | midsize |   1.347826 |
+| nissan altima | 2008 |  32 |  23 |   2.5 |   4 | r          | midsize |   1.391304 |
 
 ## Summary Statistics
 
@@ -269,7 +270,9 @@ wb_pop <- world_bank_pop %>%
 
 ## Visualizations
 
-Now that we have manipulated and summarized some datasets, we’ll make a few visualizations with [ggplot2](https://ggplot2.tidyverse.org/). Ggplot graphs are constructed by adding together a series of ggplot functions with the “+” operator. This gives us a large amount of customization options since ggplot functions can be combined in many different ways. Below you will find code for several commonly used charts, but you can refer to [ggplot’s documentation](https://ggplot2.tidyverse.org/reference/) for more information. Here is a brief overview of the package:
+Now that we have manipulated and summarized some datasets, we’ll make a few visualizations with [ggplot2](https://ggplot2.tidyverse.org/). Ggplot graphs are constructed by adding together a series of ggplot functions with the “+” operator. This gives us a large amount of customization options since ggplot functions can be combined in many different ways.
+
+Below you will find code for several commonly used charts, but you can refer to [ggplot’s documentation](https://ggplot2.tidyverse.org/reference/) for more information. Here is a brief overview of the package:
 
   - The [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) function initializes a graph and typically specifies the dataset that is being used.
   - Atleast one [geom (geometric object) function](https://ggplot2.tidyverse.org/reference/#section-layer-geoms) such as geom\_histogram, geom\_point, or geom\_line is included which controls how data will be displayed.
@@ -318,7 +321,7 @@ theme(legend.title = element_blank(), # suppress legend title
 xlab('Year') + ylab('Population Growth')
 ```
 
-![](/rmd_images/2020-1-12-data-science-essentials/line-1.png)<!-- -->
+![](/rmd_images/2020-1-12-data-science-essentials/linechart-1.png)<!-- -->
 
 ### Histograms
 
