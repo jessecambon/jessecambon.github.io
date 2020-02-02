@@ -1,0 +1,62 @@
+---
+layout: post
+title:  "Deploying RMarkdown"
+date:   2020-1-12
+author: Jesse Cambon
+tags: [ rmarkdown, data-science ]
+output: 
+  md_document:
+    pandoc_args: ["--wrap=none"]
+    variant: gfm
+    preserve_yaml: TRUE
+---
+
+```{r setup, include=FALSE}
+library(here)
+source(here::here("rmd_config.R"))
+``` 
+
+RMarkdown is powerful tool for creating a wide variety of documents and for putting content on sites such as blogs. However, if you want to use RMarkdown to produce posts on a blog or Github repository, you'll likely run into a few issues that will require some sort of system to address. 
+
+While there are tools such as [blogdown](https://bookdown.org/yihui/blogdown/) to help with this, the following is a simple solution that I use for a jekyll blog and a GitHub repository of data science resources. The solution consists of a single script file (rmd_config.R) which contains RMarkdown settings adjustments and is referenced from all RMarkdown (.Rmd) files.
+
+One issue you'll run into when deploying RMarkdown on GitHub is that the figure paths will no longer work when you push to your repository [as this blog post describes](http://www.randigriffin.com/2017/04/25/how-to-knit-for-mysite.html). Additionally RMarkdown by default stores figures two folder levels deep using the RMarkdown file location as its root. I find it more conveniant to place figure images in a separate folder and to have the folder names line up with the name of the RMarkdown file for organizational purposes.
+
+The following is the contents of a **rmd_config.R** file which I place in my root directory and will be used to adjust the figure path settings for RMarkdown.
+
+```{r, eval=False}
+library(knitr)
+library(stringr)
+library(here)
+# get name of file during knitting and strip file extension
+rmd_filename <- str_remove(knitr::current_input(),"\\.Rmd")
+
+# Figure path on disk = base.dir + fig.path
+# Figure URL online = base.url + fig.path
+knitr::opts_knit$set(base.dir = str_c(here::here(),'/'),base.url='/') # project root folder
+knitr::opts_chunk$set(fig.path = str_c("rmd_images/",rmd_filename,'/'),echo=TRUE)
+``` 
+
+To 
+
+```{r, eval=False}
+library(here)
+source(here::here("rmd_config.R"))
+``` 
+
+Header of Jekyll post:
+
+```
+---
+layout: post
+title:  "Deploying RMarkdown"
+date:   2020-1-12
+author: Jesse Cambon
+tags: [ rmarkdown, data-science ]
+output: 
+  md_document:
+    pandoc_args: ["--wrap=none"]
+    variant: gfm
+    preserve_yaml: TRUE
+---
+```
