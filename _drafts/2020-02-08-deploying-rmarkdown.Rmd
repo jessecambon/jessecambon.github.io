@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Deploying RMarkdown"
-date:   2020-1-12
+date:   2020-1-12 
 author: Jesse Cambon
 tags: [ rmarkdown, data-science ]
 output: 
@@ -16,7 +16,12 @@ library(here)
 source(here::here("rmd_config.R"))
 ``` 
 
-RMarkdown is powerful tool for creating a wide variety of documents and content on websites such as blogs. However, if you want to use RMarkdown to produce posts on a blog or Github repository, you'll likely run into a few issues such as managing file and link paths.
+RMarkdown is powerful tool for creating documents with R code and it's a natural choice for creating blog posts about R, such as this one. when I first used RMarkdown to create a post for my blog I found that none of my figures were showing up in the post. The issue is that my [Jekyll](https://jekyllrb.com/) creates an HTML file in a different location than my RMarkdown or Markdown files to host the content. When this happens, all of the figure paths in the Markdown file break.
+
+RMARKDOWN (.Rmd) --->  MARKDOWN (.md) --->  HTML (.html)
+
+
+However, if you want to use RMarkdown to produce posts on a blog or Github repository, you'll likely run into a few issues such as managing file and link paths.
 
 While there are tools such as [blogdown](https://bookdown.org/yihui/blogdown/) to help you deploy RMarkdown on sites, this blog post describes a simple solution that I use for a jekyll blog and a GitHub repository of data science resources. This solution uses a single script file which contains RMarkdown settings adjustments and is referenced from all RMarkdown (.Rmd) files.
 
