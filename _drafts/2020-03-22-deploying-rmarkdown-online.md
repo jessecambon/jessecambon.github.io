@@ -95,4 +95,4 @@ One caveat is that this approach does assume that each RMarkdown filename is uni
 hist(mtcars$disp)
 ```
 
-![](/rmd_images/2020-03-22-deploying-rmarkdown-online/unnamed-chunk-5-1.png)<!-- -->
+![](/rmd_images/2020-03-22-deploying-rmarkdown-online/sampleplot-1.png)<!-- -->

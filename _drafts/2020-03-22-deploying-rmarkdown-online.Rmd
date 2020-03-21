@@ -102,7 +102,7 @@ To see this solution in action, you can look at the GitHub repository that produ
 
 One caveat is that this approach does assume that each RMarkdown filename is unique. If this is not the case then you'll need to make some modifications to the central `rmd_config.R` file above, otherwise figure images from different RMarkdown files may save in the same directory. However, this approach described here is quite flexible and could be adapated to a variety of use case cases with tweaks to the `rmd_config.R` file.
 
-```{r}
+```{r sampleplot}
 hist(mtcars$disp)
 ```
 
