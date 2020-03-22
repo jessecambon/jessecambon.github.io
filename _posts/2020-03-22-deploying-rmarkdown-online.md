@@ -11,7 +11,9 @@ output:
     preserve_yaml: TRUE
 ---
 
-[RMarkdown](https://rmarkdown.rstudio.com/) is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as charts created with [ggplot](https://ggplot2.tidyverse.org/)) which will require tweaks in your RMarkdown workflow. This blog post demonstrates a simple solution to this problem that will also give you central control over RMarkdown knit settings across your site. I use this solution for this blog and [a GitHub repository of data science resources](https://github.com/jessecambon/Data-Science-Codex). You can find the RMarkdown file that generated this blog post [here](https://github.com/jessecambon/jessecambon.github.io/blob/master/_posts/2020-03-22-deploying-rmarkdown-online.Rmd).
+[RMarkdown](https://rmarkdown.rstudio.com/) is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as charts created with [ggplot](https://ggplot2.tidyverse.org/)) which will require tweaks in your RMarkdown workflow.
+
+This blog post demonstrates a simple solution to this problem that will also give you central control over RMarkdown knit settings across your site. I use this solution for this blog and [a GitHub repository of data science resources](https://github.com/jessecambon/Data-Science-Codex). You can find the RMarkdown file that generated this blog post [here](https://github.com/jessecambon/jessecambon.github.io/blob/master/_posts/2020-03-22-deploying-rmarkdown-online.Rmd).
 
 <img src="/../images/hex-rmarkdown.png" width="200" style="display: block; margin: auto;" />
 
@@ -51,11 +53,11 @@ knitr::opts_chunk$set(fig.path = str_c("rmd_images/",rmd_filename,'/'),echo=TRUE
 
 Here is what is going on in the above script:
 
-  - The filename of our RMarkdown script is extracted using `knitr` and `str_remove` and stored in the variable `rmd_filename`.
+  - The filename of our RMarkdown script is extracted using `knitr::current_input()` and stored in the variable `rmd_filename` (`str_remove` is used to remove the .Rmd file extension).
   - The [here package](https://here.r-lib.org/) establishes our ‘base’ directory (the root folder of our GitHub repository). The base directory path could change based on which computer we use and where we put our GitHub repository files so the here package allows us to automatically find this path.
   - The `fig.path`, which is where our figures will be stored, is set to a folder named after the RMarkdown file being run that resides in the ‘/rmd\_images’ root directory.
 
-To utilize the above script in an RMarkdown file, we simple insert the code below into the RMarkdown file. This will [source](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source) the script to apply all the necessary RMarkdown settings when a RMarkdown file is knit.
+To utilize the above script in an RMarkdown file, we simple insert the code below as a chunk into the RMarkdown file. This will [source](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source) the script to apply all the necessary RMarkdown settings when a RMarkdown file is knit.
 
 ``` r
 library(here)
