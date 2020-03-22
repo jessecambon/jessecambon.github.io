@@ -88,7 +88,7 @@
 <p>Here is what is going on in the above script:</p>
 
 <ul>
-  <li>The filename of our RMarkdown script is extracted using <code class="highlighter-rouge">knitr::current_input()</code> and stored in the variable <code class="highlighter-rouge">rmd_filename</code> (<code class="highlighter-rouge">str_remove</code> is used to remove the .Rmd file extension).</li>
+  <li>The filename of our RMarkdown file is extracted using <code class="highlighter-rouge">knitr::current_input()</code> and stored in the variable <code class="highlighter-rouge">rmd_filename</code> (<code class="highlighter-rouge">str_remove</code> is used to remove the .Rmd file extension).</li>
   <li>The <a href="https://here.r-lib.org/">here package</a> establishes our ‘base’ directory (the root folder of our GitHub repository). The base directory path could change based on which computer we use and where we put our GitHub repository files so the here package allows us to automatically find this path.</li>
   <li>The <code class="highlighter-rouge">fig.path</code>, which is where our figures will be stored, is set to a folder named after the RMarkdown file being run that resides in the ‘/rmd_images’ root directory.</li>
 </ul>

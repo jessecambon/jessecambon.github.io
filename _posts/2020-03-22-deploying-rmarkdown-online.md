@@ -53,7 +53,7 @@ knitr::opts_chunk$set(fig.path = str_c("rmd_images/",rmd_filename,'/'),echo=TRUE
 
 Here is what is going on in the above script:
 
-  - The filename of our RMarkdown script is extracted using `knitr::current_input()` and stored in the variable `rmd_filename` (`str_remove` is used to remove the .Rmd file extension).
+  - The filename of our RMarkdown file is extracted using `knitr::current_input()` and stored in the variable `rmd_filename` (`str_remove` is used to remove the .Rmd file extension).
   - The [here package](https://here.r-lib.org/) establishes our ‘base’ directory (the root folder of our GitHub repository). The base directory path could change based on which computer we use and where we put our GitHub repository files so the here package allows us to automatically find this path.
   - The `fig.path`, which is where our figures will be stored, is set to a folder named after the RMarkdown file being run that resides in the ‘/rmd\_images’ root directory.
 
