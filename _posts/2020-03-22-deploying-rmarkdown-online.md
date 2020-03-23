@@ -83,7 +83,7 @@ output:
 
 Note that the `pandoc_args` setting is to prevent the knit process from inserting extra line breaks into the Markdown file that don’t exist in our RMarkdown file. The extra line breaks normally are invisible, but I found they showed up when I pushed content to [R-Bloggers](https://www.r-bloggers.com/) which caused paragraphs to be broken up.
 
-One other note on Jekyll is that it uses [liquid markdown](https://jekyllrb.com/docs/liquid/). If you want to display characters on your blog that are used by the liquid markdown template such as {% raw %}`{{}}`{% endraw %} (R’s “curly-curly” operator) then you will need to wrap these problematic characters with the `raw` and `endraw` liquid tags [as described here](https://shopify.github.io/liquid/tags/raw/). This prevents Jekyll from attempting to parse these characters as liquid syntax and passes them on in raw form to the HTML file for display.
+One other note on Jekyll is that it uses the [liquid template language](https://jekyllrb.com/docs/liquid/). If you want to display characters on your blog that are used by liquid such as {% raw %}`{{}}`{% endraw %} (R’s “curly-curly” operator) then you will need to wrap these problematic characters with the `raw` and `endraw` liquid tags [as described here](https://shopify.github.io/liquid/tags/raw/). This prevents Jekyll from attempting to parse these characters as liquid syntax and passes them on in raw form to the HTML file for display.
 
 ## Conclusion
 

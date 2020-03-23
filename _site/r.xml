@@ -4,7 +4,7 @@
 <generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator>
 <link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
 <link href="https://jessecambon.github.io" rel="alternate" type="text/html"/>
-<updated>2020-03-22T17:26:52-04:00</updated>
+<updated>2020-03-22T22:52:06-04:00</updated>
 <id>https://jessecambon.github.io/r.xml</id>
 <title type="html">jessecambon-R</title>
 <subtitle>Open source data science</subtitle>
@@ -89,7 +89,7 @@
 
 &lt;p&gt;Note that the &lt;code class=&quot;highlighter-rouge&quot;&gt;pandoc_args&lt;/code&gt; setting is to prevent the knit process from inserting extra line breaks into the Markdown file that don’t exist in our RMarkdown file. The extra line breaks normally are invisible, but I found they showed up when I pushed content to &lt;a href=&quot;https://www.r-bloggers.com/&quot;&gt;R-Bloggers&lt;/a&gt; which caused paragraphs to be broken up.&lt;/p&gt;
 
-&lt;p&gt;One other note on Jekyll is that it uses &lt;a href=&quot;https://jekyllrb.com/docs/liquid/&quot;&gt;liquid markdown&lt;/a&gt;. If you want to display characters on your blog that are used by the liquid markdown template such as &lt;code class=&quot;highlighter-rouge&quot;&gt;{{}}&lt;/code&gt; (R’s “curly-curly” operator) then you will need to wrap these problematic characters with the &lt;code class=&quot;highlighter-rouge&quot;&gt;raw&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;endraw&lt;/code&gt; liquid tags &lt;a href=&quot;https://shopify.github.io/liquid/tags/raw/&quot;&gt;as described here&lt;/a&gt;. This prevents Jekyll from attempting to parse these characters as liquid syntax and passes them on in raw form to the HTML file for display.&lt;/p&gt;
+&lt;p&gt;One other note on Jekyll is that it uses the &lt;a href=&quot;https://jekyllrb.com/docs/liquid/&quot;&gt;liquid template language&lt;/a&gt;. If you want to display characters on your blog that are used by liquid such as &lt;code class=&quot;highlighter-rouge&quot;&gt;{{}}&lt;/code&gt; (R’s “curly-curly” operator) then you will need to wrap these problematic characters with the &lt;code class=&quot;highlighter-rouge&quot;&gt;raw&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;endraw&lt;/code&gt; liquid tags &lt;a href=&quot;https://shopify.github.io/liquid/tags/raw/&quot;&gt;as described here&lt;/a&gt;. This prevents Jekyll from attempting to parse these characters as liquid syntax and passes them on in raw form to the HTML file for display.&lt;/p&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 
