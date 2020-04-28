@@ -4,7 +4,7 @@
 <generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator>
 <link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
 <link href="https://jessecambon.github.io" rel="alternate" type="text/html"/>
-<updated>2020-03-22T22:52:06-04:00</updated>
+<updated>2020-04-27T23:26:31-04:00</updated>
 <id>https://jessecambon.github.io/r.xml</id>
 <title type="html">jessecambon-R</title>
 <subtitle>Open source data science</subtitle>
@@ -104,7 +104,6 @@
 </content>
     <author><name>Jesse Cambon</name></author>
     <summary type="html">RMarkdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your RMarkdown workflow.
-
 </summary>
 </entry>
  
@@ -957,7 +956,6 @@
 </content>
     <author><name>Jesse Cambon</name></author>
     <summary type="html">One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous stack overflow threads and websites.
-
 </summary>
 </entry>
  
@@ -1215,7 +1213,6 @@
 </content>
     <author><name>Jesse Cambon</name></author>
     <summary type="html">Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.
-
 </summary>
 </entry>
  
@@ -1317,7 +1314,6 @@
 </content>
     <author><name>Jesse Cambon</name></author>
     <summary type="html">Tidygeocoder is a newly published R package which provides a tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the recent Washington Nationals World Series win.
-
 </summary>
 </entry>
  

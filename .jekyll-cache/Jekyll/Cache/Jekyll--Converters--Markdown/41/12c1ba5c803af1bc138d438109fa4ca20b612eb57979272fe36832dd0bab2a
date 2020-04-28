@@ -1,0 +1,2 @@
+I"¾<p><a href="https://rmarkdown.rstudio.com/">RMarkdown</a> is a great tool for creating a variety of documents with R code and itâ€™s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as <a href="https://ggplot2.tidyverse.org/">ggplot</a> charts) which will require tweaks in your RMarkdown workflow.</p>
+:ET
