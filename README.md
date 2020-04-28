@@ -24,12 +24,11 @@ For R-Bloggers I needed to create a custom feed that only contained R content. M
 * Atom XML Feed Verifier: https://validator.w3.org/feed/
 * Can use a RSS aggregator like [feedly](https://feedly.com/) for checking the content.
 
-##### Other
+##### Other Notes
 
 * Installing jekyll: `gem install jekyll bundler`
 * Installing the bundle: `bundle install`
 * Updating the bundle: `bundle update`
 
-`gem cleanup`
-
-Ran into issue, with two versions of jekyll. Had to apt remove jekyll per https://github.com/jekyll/jekyll/issues/7088
+* Ran into an issue with two versions of jekyll. Had to apt remove jekyll per https://github.com/jekyll/jekyll/issues/7088
+* Had to copy 'assets' and '_sass' folders from minima github (release file) into this repo to fix file not found errors
