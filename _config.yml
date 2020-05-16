@@ -29,6 +29,7 @@ header_pages:
 
 # Build settings
 markdown: kramdown
+
   
 theme: minima
 plugins:
@@ -40,6 +41,8 @@ highlighter: rouge
 # Files jekyll should ignore when building
 exclude:
   - README.md
+  - Gemfile
+  - Gemfile.lock
   - LICENSE.md
   - "*.Rmd"
   - "*.Rproj"
