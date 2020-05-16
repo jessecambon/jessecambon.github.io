@@ -34,6 +34,7 @@ theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+
 highlighter: rouge
 
 # Files jekyll should ignore when building
@@ -43,4 +44,11 @@ exclude:
   - "*.Rmd"
   - "*.Rproj"
   - rmd_config.R
+
 show_excerpts: true # show post excerpts
+
+# Disqus Comments
+disqus:
+    # Leave shortname blank to disable comments site-wide.
+    # Disable comments for any post by adding `comments: false` to that post's YAML Front Matter.
+    shortname: jessecambon
