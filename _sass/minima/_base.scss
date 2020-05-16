@@ -148,7 +148,7 @@ blockquote {
  */
 pre,
 code {
-  @include relative-font-size(0.8);
+  @include relative-font-size(0.85);
   border: 1px solid $grey-color-light;
   border-radius: 3px;
   background-color: #eef;
@@ -229,6 +229,7 @@ pre {
  * Tables
  */
 table {
+  @include relative-font-size(0.85); /* JAC - Added */
   margin-bottom: $spacing-unit;
   width: 100%;
   text-align: $table-text-align;
