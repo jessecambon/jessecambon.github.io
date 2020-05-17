@@ -4,11 +4,11 @@
 <generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator>
 <link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
 <link href="https://jessecambon.github.io" rel="alternate" type="text/html"/>
-<updated>2020-05-16T17:29:49-04:00</updated>
+<updated>2020-05-16T22:35:18-04:00</updated>
 <id>https://jessecambon.github.io/r.xml</id>
-<title type="html">jessecambon-R</title>
-<subtitle>Open source data science</subtitle>
-<author><name>Jesse Cambon</name></author>
+<title type="html">Jesse Cambon-R</title>
+<subtitle>Musings on data and open source software</subtitle>
+<author><name>{"name"=>"Jesse Cambon", "email"=>"jesse.cambon@gmail.com"}</name></author>
 
 <!-- aggregate posts in the 'r' category -->
  
@@ -102,7 +102,7 @@
 
 &lt;p&gt;&lt;img src=&quot;/rmd_images/2020-03-22-deploying-rmarkdown-online/sampleplot-1.png&quot; alt=&quot;&quot; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 </content>
-    <author><name>Jesse Cambon</name></author>
+    <author><name>{"name"=>"Jesse Cambon", "email"=>"jesse.cambon@gmail.com"}</name></author>
     <summary type="html">RMarkdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your RMarkdown workflow.
 </summary>
 </entry>
@@ -954,7 +954,7 @@
   &lt;li&gt;I keep reference data science code (both R and Python) in &lt;a href=&quot;https://github.com/jessecambon/Data-Science-Codex&quot;&gt;a GitHub repository&lt;/a&gt;. You’ll find some more advanced techniques like modeling demonstrated there.&lt;/li&gt;
 &lt;/ul&gt;
 </content>
-    <author><name>Jesse Cambon</name></author>
+    <author><name>{"name"=>"Jesse Cambon", "email"=>"jesse.cambon@gmail.com"}</name></author>
     <summary type="html">One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous stack overflow threads and websites.
 </summary>
 </entry>
@@ -1211,7 +1211,7 @@
 
 &lt;p&gt;This concludes my introduction to tidy evaluation. Hopefully this serves as a useful starting point for using these concepts in your own code.&lt;/p&gt;
 </content>
-    <author><name>Jesse Cambon</name></author>
+    <author><name>{"name"=>"Jesse Cambon", "email"=>"jesse.cambon@gmail.com"}</name></author>
     <summary type="html">Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.
 </summary>
 </entry>
@@ -1312,7 +1312,7 @@
 
 &lt;p&gt;And that’s our map. The &lt;code class=&quot;highlighter-rouge&quot;&gt;geom_label_repel&lt;/code&gt; function from &lt;code class=&quot;highlighter-rouge&quot;&gt;ggrepel&lt;/code&gt; provides the text labels and &lt;code class=&quot;highlighter-rouge&quot;&gt;geom_point&lt;/code&gt; from &lt;code class=&quot;highlighter-rouge&quot;&gt;ggplot2&lt;/code&gt; supplies the points. Alternatively, the &lt;a href=&quot;https://rstudio.github.io/leaflet/&quot;&gt;leaflet package&lt;/a&gt; provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;GitHub&lt;/a&gt; or &lt;a href=&quot;https://cran.r-project.org/package=tidygeocoder&quot;&gt;CRAN&lt;/a&gt;.&lt;/p&gt;
 </content>
-    <author><name>Jesse Cambon</name></author>
+    <author><name>{"name"=>"Jesse Cambon", "email"=>"jesse.cambon@gmail.com"}</name></author>
     <summary type="html">Tidygeocoder is a newly published R package which provides a tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the recent Washington Nationals World Series win.
 </summary>
 </entry>
