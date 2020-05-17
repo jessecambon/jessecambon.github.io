@@ -251,7 +251,6 @@ pre {
  * Tables
  */
 table {
-  @include relative-font-size(0.9); /* JAC */
   margin-bottom: $spacing-unit;
   width: 100%;
   text-align: $table-text-align;
@@ -274,7 +273,7 @@ table {
     border: 1px solid $table-border-color;
   }
 
-  @include media-query($on-laptop) {
+  @include media-query($on-laptop) { 
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
