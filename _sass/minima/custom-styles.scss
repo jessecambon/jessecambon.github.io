@@ -12,7 +12,9 @@ a.post-link {
 table {
     @include relative-font-size(0.87); /* JAC */
     width: auto;
-    max-width: 100%; /* no effect currently */
+    /* center the table */
+    margin-left:auto; 
+    margin-right:auto;
 }
 
 

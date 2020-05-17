@@ -323,7 +323,7 @@ table td { border: 1px solid #e8e8e8; }
 
 a.post-link { color: black; font-size: 1.5rem; }
 
-table { font-size: 0.87rem; /* JAC */ width: auto; max-width: 100%; /* no effect currently */ }
+table { font-size: 0.87rem; /* JAC */ width: auto; /* center the table */ margin-left: auto; margin-right: auto; }
 
 p.post-meta { margin-bottom: 5px; }
 
