@@ -1,2 +1,0 @@
-I"(<p>Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by <a href="https://www.tidyverse.org/">tidyverse</a> functions. This framework, housed in the <a href="https://rlang.r-lib.org">rlang package</a>, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like <a href="https://dplyr.tidyverse.org/">dplyr</a> and <a href="https://ggplot2.tidyverse.org/">ggplot2</a>.</p>
-:ET

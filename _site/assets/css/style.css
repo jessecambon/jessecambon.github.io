@@ -321,4 +321,8 @@ table td { border: 1px solid #e8e8e8; }
 /** Grid helpers */
 @media screen and (min-width: 800px) { .one-half { width: calc(50% - (30px / 2)); } }
 
+a.post-link { color: black; font-size: 1.5rem; }
+
+table { font-size: 0.87rem; /* JAC */ }
+
 /*# sourceMappingURL=style.css.map */

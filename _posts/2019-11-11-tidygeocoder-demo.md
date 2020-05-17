@@ -3,6 +3,7 @@ layout: post
 title:  "Geocoding with Tidygeocoder"
 date:   2019-11-11
 author: Jesse Cambon
+image: "images/dc_osm_map.png"
 tags: [r, data-science, maps]
 ---
 

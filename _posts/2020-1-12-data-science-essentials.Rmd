@@ -340,7 +340,7 @@ xlab('') + ylab('Median Monthly Rent')
 
 ## Additional References
 
-Here some additional resources that you may find useful:
+Here are some additional resources that you may find useful:
 
 * For importing data from files, refer to the [readr](https://readr.tidyverse.org/) (for CSV and text files) or [readxl](https://readxl.tidyverse.org/) (for excel spreadsheets) packages. 
 * To coerce a column in a dataset into a different format, you can use the as.numeric, as.character, as.Date, and as.factor functions (from base R). For more functions to work with date and datetime data see the [lubridate](https://lubridate.tidyverse.org/reference/index.html) package, for strings reference the [stringr](https://stringr.tidyverse.org/) package, and for manipulating factors you can use the [forcats](https://forcats.tidyverse.org/) package. 
