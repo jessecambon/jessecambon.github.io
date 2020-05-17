@@ -8,9 +8,11 @@ a.post-link {
 }
 
 
-// Make table font smaller
+// Customize table style
 table {
     @include relative-font-size(0.87); /* JAC */
+    width: auto;
+    max-width: 100%; /* no effect currently */
 }
 
 
