@@ -251,6 +251,7 @@ pre {
  * Tables
  */
 table {
+  @include relative-font-size(0.9); /* JAC */
   margin-bottom: $spacing-unit;
   width: 100%;
   text-align: $table-text-align;

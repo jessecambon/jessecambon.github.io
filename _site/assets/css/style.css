@@ -195,7 +195,7 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 .svg-icon { width: 16px; height: 16px; display: inline-block; fill: currentColor; padding: 5px 3px 2px 5px; vertical-align: text-bottom; }
 
 /** Tables */
-table { margin-bottom: 30px; width: 100%; text-align: left; color: #3f3f3f; border-collapse: collapse; border: 1px solid #e8e8e8; }
+table { font-size: 0.9rem; /* JAC */ margin-bottom: 30px; width: 100%; text-align: left; color: #3f3f3f; border-collapse: collapse; border: 1px solid #e8e8e8; }
 
 table tr:nth-child(even) { background-color: #f7f7f7; }
 
