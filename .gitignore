@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+.jekyll-cache
+.sass-cache
