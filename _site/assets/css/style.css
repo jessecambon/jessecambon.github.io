@@ -325,4 +325,9 @@ a.post-link { color: black; font-size: 1.5rem; }
 
 table { font-size: 0.87rem; /* JAC */ }
 
+p.post-meta { margin-bottom: 5px; }
+
+/* Adjust margin at the bottom of a post listing */
+.post-list > li { margin-bottom: 20px; }
+
 /*# sourceMappingURL=style.css.map */

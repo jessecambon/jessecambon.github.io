@@ -25,16 +25,14 @@ layout: default
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       {%- for post in posts -%}
       <li>
-        <h3>
           <a class="post-link" href="{{ post.url | relative_url }}">
             {{ post.title | escape }}
           </a>
-        </h3>
+        <p class="post-meta">{{ post.date | date: date_format }}</p> <!-- JAC: moved date -->
         <!--  <a href="{{ post.url }}" ><img src="{{ post.image }}" /> -->  <!-- JAC: added post image-->
         {%- if site.show_excerpts -%}
           {{ post.excerpt }}
         {%- endif -%}
-      <span class="post-meta">{{ post.date | date: date_format }}</span> <!-- JAC: moved date below post-->
       </li>
       {%- endfor -%}
     </ul>
