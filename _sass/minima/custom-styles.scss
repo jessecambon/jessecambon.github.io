@@ -13,10 +13,10 @@ table {
     @include relative-font-size(0.87); /* JAC */
     width: auto;
     max-width: 100%;
-    /* center the table */
-    margin-left:auto; 
-    margin-right:auto;
     border: none;
+    /* center the table */
+  /*  margin-left:auto; 
+    margin-right:auto; */
  /*   display: table; */
 }
 
