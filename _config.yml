@@ -58,8 +58,6 @@ exclude:
   - "*.Rmd"
   - "*.Rproj"
   - rmd_config.R
-  - .jekyll-cache
-  - .sass-cache
   - .RProj.user
 
 show_excerpts: true # show post excerpts
