@@ -343,4 +343,11 @@ p.post-meta { margin-bottom: 5px; }
 
 @media screen and (min-width: 800px) { .post-title, .post-content h1 { font-size: 2.3rem; } }
 
+/* Post thumbnail sizing */
+img.post-thumbnail { /* if on small screen then don't float the image */ height: auto; max-width: 200px; max-height: 130px; float: none; padding-bottom: 10px; /* if on larger screen then float thumbnail image left */ }
+
+@media screen and (min-width: 400px) { img.post-thumbnail { float: left; padding-right: 10px; padding-bottom: 0px; } }
+
+a.post-link { clear: both; padding-top: 5px; }
+
 /*# sourceMappingURL=style.css.map */

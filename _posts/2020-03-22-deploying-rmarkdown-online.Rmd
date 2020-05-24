@@ -4,6 +4,7 @@ title:  "Deploying RMarkdown Online"
 date:   2020-3-22
 author: Jesse Cambon
 tags: [ rmarkdown, data-science, r ]
+image: "images/hex-rmarkdown.png"
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]
