@@ -28,7 +28,16 @@ layout: default
           <a class="post-link" href="{{ post.url | relative_url }}">
             {{ post.title | escape }}
           </a>
-        <p class="post-meta">{{ post.date | date: date_format }}</p> <!-- JAC: moved date -->
+        <p class="post-meta">
+          {{ post.date | date: date_format }} <!-- JAC: moved date -->
+          
+          <!-- JAC List Tags https://www.jflh.ca/2016-01-23-adding-and-displaying-tags-on-jekyll-posts -->
+          <!-- {% if post.tags.size > 0 %}
+          Tag{% if post.tags.size > 1 %}s{% endif %}:
+          {{ post.tags | sort | join: ", " }}
+          {% endif %} -->
+        </p> 
+
         <a href="{{ post.url }}"><img class="post-thumbnail" src="{{ post.image }}"></a>  <!-- JAC: added post image-->
         {%- if site.show_excerpts -%}
           {{ post.excerpt }}

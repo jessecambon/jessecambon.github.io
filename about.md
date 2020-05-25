@@ -4,6 +4,6 @@ title: About
 permalink: /about/
 ---
 
-I'm a data scientist at [Booz Allen Hamilton](https://www.boozallen.com/) and the author of the [tidygeocoder R package](https://github.com/jessecambon/tidygeocoder). I maintain a loosely organized collection of R and Python code for data science projects which you can find [here](https://github.com/jessecambon/Data-Science-Codex). 
+I'm a data scientist at [Booz Allen Hamilton](https://www.boozallen.com/) and the author of R package [tidygeocoder](https://github.com/jessecambon/tidygeocoder). I maintain a loosely organized collection of R and Python code for data science projects [in this GitHub repository](https://github.com/jessecambon/Data-Science-Codex) and you can reach me by email <a href="mailto:{{ site.author.email }}">here</a>.
 
-You can contact me at <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>. R-related posts also appear on [R-Bloggers](https://www.r-bloggers.com/). This site is built with [Jekyll](https://jekyllrb.com/) and you can find the code on GitHub [here](https://github.com/jessecambon/jessecambon.github.io).
+R-related posts also appear on [R-Bloggers](https://www.r-bloggers.com/). This site is built with [Jekyll](https://jekyllrb.com/) and the [minima theme](https://github.com/jekyll/minima) and its Github repository is [here](https://github.com/jessecambon/jessecambon.github.io).
