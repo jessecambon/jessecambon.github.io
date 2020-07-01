@@ -19,8 +19,8 @@
 
         <div class="trigger">
           <!-- Inserted Posts and Tidygeocoder menu items -->
-          <a class="page-link" href="https://jessecambon.github.io/tidygeocoder">Tidygeocoder</a>
           <a class="page-link" href="/">Posts</a> 
+          <a class="page-link" href="https://jessecambon.github.io/tidygeocoder">Tidygeocoder</a>
           {%- for path in page_paths -%}
             {%- assign my_page = site.pages | where: "path", path | first -%}
             {%- if my_page.title -%}
