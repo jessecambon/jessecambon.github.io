@@ -3,8 +3,8 @@ layout: post
 title: "Introducing Tidygeocoder 1.0.0"
 date: 2020-7-15
 author: Jesse Cambon
-tags: [data-science, maps]
-image: "https://raw.githubusercontent.com/jessecambon/tidygeocoder/master/man/figures/tidygeocoder_hex.png"
+tags: [r, data-science, maps]
+image: "images/tidygeocoder_hex.png"
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]
@@ -15,6 +15,8 @@ output:
 [Tidygeocoder v1.0.0](https://jessecambon.github.io/tidygeocoder/index.html) is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.
 
 For a full list of new features and improvements refer to the [release page on Github](https://github.com/jessecambon/tidygeocoder/releases/tag/v1.0.0). For usage examples you can reference the [the Getting Started vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html).
+
+<img src="/../images/tidygeocoder_hex.png" width="200" style="display: block; margin: auto;" />
 
 To demonstrate a few of the new capabilities of this package, I decided to make a map of the stadiums for the [UEFA Champions League Round of 16 clubs](https://www.uefa.com/uefachampionsleague/draws/2020/2001141/). To start, I looked up the addresses for the stadiums and put them in a dataframe.
 
@@ -47,7 +49,7 @@ stadiums <- tibble::tribble(
   )
 ```
 
-To geocode these addresses with the tidygeocoder package, you can use the code below. New in v1.0.0, the `street`, `city`, and `country` arguments specify the address. The Nominatim (OSM) geocoder is selected with the `method` argument. Additionally, the `full_results` and `custom_query` arguments (also new in v1.0.0) are used to return the full geocoder results and set [Nominatim’s “extratags” parameter](https://nominatim.org/release-docs/develop/api/Search/#parameters) which returns extra columns.
+To geocode these addresses, you can use the [geocode](https://jessecambon.github.io/tidygeocoder/reference/geocode.html) function as shown below. New in v1.0.0, the `street`, `city`, and `country` arguments specify the address. The Nominatim (OSM) geocoder is selected with the `method` argument. Additionally, the `full_results` and `custom_query` arguments (also new in v1.0.0) are used to return the full geocoder results and set [Nominatim’s “extratags” parameter](https://nominatim.org/release-docs/develop/api/Search/#parameters) which returns extra columns.
 
 ``` r
 stadium_locations <- stadiums %>%
@@ -102,11 +104,10 @@ some.eu.maps <- map_data("world", region = some.eu.countries)
 ggplot(stadium_locations, aes(x = long, y = lat)) +
   borders('world', xlim = c(-10, 10), ylim = c(40, 55)) +
   geom_label_repel(aes(label = Club), force = 2, segment.alpha = 0) + 
-  geom_point() + 
-  theme_void() 
+  geom_point() + theme_void() 
 ```
 
-<img src="/rmd_images/2020-07-15-tidygeocoder-1-0-0/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<img src="/rmd_images/2020-07-15-tidygeocoder-1-0-0/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 Another great mapping option is the [leaflet package](https://rstudio.github.io/leaflet/), which was originally what I intended to use for the map above, but getting it to render on a [Jekyll blog](https://jekyllrb.com/) proved to be a bit involved.
 
