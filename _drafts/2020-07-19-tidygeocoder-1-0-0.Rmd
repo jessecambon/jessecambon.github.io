@@ -1,0 +1,53 @@
+---
+layout: post
+title:  "Introducing Tidygeocoder 1.0.0"
+date:   2020-7-19
+author: Jesse Cambon
+tags: [r, data-science, maps]
+image: ""
+output: 
+  md_document:
+    pandoc_args: ["--wrap=none"]
+    variant: gfm
+    preserve_yaml: TRUE
+---
+
+```{r setup, include=FALSE}
+source(here::here("rmd_config.R"))
+``` 
+
+```{r}
+library(tibble)
+library(dplyr)
+library(tidygeocoder)
+
+# Data Source: https://www.uefa.com/uefachampionsleague/clubs/
+
+stadiums <- tribble(
+~Club, ~Street, ~City, ~Country,
+"Barcelona", "C. d'Arístides Maillol, 12", "Barcelona", "Spain",
+"Bayern Munich","Werner-Heisenberg-Allee 25", "Munich", "Germany",
+"Chelsea", "Stamford Bridge", "London", "UK",
+"Borussia Dortmund", "Strobelallee 50", "Dortmund", "Germany",
+"Juventus", "Corso Gaetano Scirea, 50", "Turin", "Italy",
+"Liverpool", "Anfield", "Liverpool", "UK",
+"Olympique Lyonnais", "10 Avenue Simone Veil", "Lyon", "France",
+"Man. City", "400 Ashton New Road", "Manchester", "UK",
+"Napoli", "San Paolo Stadium", "Naples", "Italy",
+"Real Madrid", "Santiago Bernabéu Stadium", "Madrid", "Spain",
+"Tottenham", "782 High Rd", "London", "UK",
+"Valencia", "Av. de Suècia, s/n, 46010", "Valencia", "Spain",
+"Atalanta", "Viale Giulio Cesare, 18", "Bergamo", "Italy",
+"Atlético Madrid", "Av. Luis Aragones, 4", "Madrid", "Spain",
+"RB Leipzig", "Am Sportforum 3", "Leipzig", "Germany",
+"PSG", "24 Rue du Commandant Guilbaud", "Paris", "France"
+  )
+```
+
+
+```{r}
+stadium_locations <- stadiums %>%
+  geocode(street = Street, city = City, country = Country, method = 'osm', 
+          full_results = TRUE, custom_query= list(extratags = 1))
+```
+
