@@ -88,19 +88,6 @@ stadium_locations %>%
 Below, the stadium locations are plotted on a map of Europe using the longitude and latitude coordinates and ggplot.
 
 ``` r
-# reference: https://www.datanovia.com/en/blog/how-to-create-a-map-using-ggplot2/
-# EU Countries
-some.eu.countries <- c(
-  "Portugal", "Spain", "France", "Switzerland", "Germany",
-  "Austria", "Belgium", "UK", "Netherlands",
-  "Denmark", "Poland", "Italy", 
-  "Croatia", "Slovenia", "Hungary", "Slovakia",
-  "Czech republic"
-)
-# Retrieve the map data
-some.eu.maps <- map_data("world", region = some.eu.countries)
-
-# Plot
 ggplot(stadium_locations, aes(x = long, y = lat)) +
   borders('world', xlim = c(-10, 10), ylim = c(40, 55)) +
   geom_label_repel(aes(label = Club), force = 2, segment.alpha = 0) + 
