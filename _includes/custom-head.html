@@ -4,3 +4,10 @@
   1. Head over to https://realfavicongenerator.net/ to add your own favicons.
   2. Customize default _includes/custom-head.html in your source directory and insert the given code snippet.
 {% endcomment %}
+
+<!-- Based on https://dieghernan.github.io/201905_Leaflet_R_Jekyll/#step1 -->
+{% if page.leafletmap %}	
+<!-- Require Leaflet -->
+{% include leaflet.html %}	
+<!-- End Leaflet -->
+{% endif %}
