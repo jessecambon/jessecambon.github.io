@@ -8,8 +8,8 @@
 <meta property="og:title" content="Introducing Tidygeocoder 1.0.0" />
 <meta name="author" content="Jesse Cambon" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Tidygeocoder v1.0.0 is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies." />
-<meta property="og:description" content="Tidygeocoder v1.0.0 is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies." />
+<meta name="description" content="&lt;!– Steps:" />
+<meta property="og:description" content="&lt;!– Steps:" />
 <link rel="canonical" href="http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html" />
 <meta property="og:url" content="http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html" />
 <meta property="og:site_name" content="Jesse Cambon" />
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-07-15T00:00:00-04:00" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","url":"http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html"},"author":{"@type":"Person","name":"Jesse Cambon"},"headline":"Introducing Tidygeocoder 1.0.0","dateModified":"2020-07-15T00:00:00-04:00","datePublished":"2020-07-15T00:00:00-04:00","description":"Tidygeocoder v1.0.0 is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.","image":"http://localhost:4000/images/tidygeocoder_hex.png","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","url":"http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html"},"author":{"@type":"Person","name":"Jesse Cambon"},"headline":"Introducing Tidygeocoder 1.0.0","dateModified":"2020-07-15T00:00:00-04:00","datePublished":"2020-07-15T00:00:00-04:00","description":"&lt;!– Steps:","image":"http://localhost:4000/images/tidygeocoder_hex.png","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jesse Cambon" />
 
@@ -43,8 +43,27 @@
 <script src="https://rstudio.github.io/leaflet/libs/Proj4Leaflet/proj4leaflet.js"></script>
 <link href="https://rstudio.github.io/leaflet/libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
 <script src="https://rstudio.github.io/leaflet/libs/leaflet-binding/leaflet.js"></script>
+<link href="https://rstudio.github.io/leaflet/libs/leaflet-measure/leaflet-measure.css" rel="stylesheet" />
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-measure/leaflet-measure.min.js"></script>
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-graticule/L.Graticule.js"></script>
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-graticule/Graticule-binding.js"></script>
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-terminator/L.Terminator.js"></script>
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-terminator/Terminator-binding.js"></script>
 <script src="https://rstudio.github.io/leaflet/libs/leaflet-providers/leaflet-providers_1.9.0.js"></script>
-<script src="https://rstudio.github.io/leaflet/libs/leaflet-providers-plugin/leaflet-providers-plugin.js"></script>	
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-providers-plugin/leaflet-providers-plugin.js"></script>
+<link href="https://rstudio.github.io/leaflet/libs/leaflet-minimap/Control.MiniMap.min.css" rel="stylesheet" />
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-minimap/Control.MiniMap.min.js"></script>
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-minimap/Minimap-binding.js"></script>
+<link href="https://rstudio.github.io/leaflet/libs/leaflet-easybutton/easy-button.css" rel="stylesheet" />
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-easybutton/easy-button.js"></script>
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-easybutton/EasyButton-binding.js"></script>
+<link href="https://rstudio.github.io/leaflet/libs/fontawesome/font-awesome.min.css" rel="stylesheet" />
+<link href="https://rstudio.github.io/leaflet/libs/leaflet-markercluster/MarkerCluster.css" rel="stylesheet" />
+<link href="https://rstudio.github.io/leaflet/libs/leaflet-markercluster/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-markercluster/leaflet.markercluster.js"></script>
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-markercluster/leaflet.markercluster.freezable.js"></script>
+<script src="https://rstudio.github.io/leaflet/libs/leaflet-markercluster/leaflet.markercluster.layersupport.js"></script>
+<link href="https://rstudio.github.io/leaflet/libs/ionicons/ionicons.min.css" rel="stylesheet" />	
 <!-- End Leaflet -->
 </head>
 <body><header class="site-header">
@@ -81,7 +100,20 @@
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p><a href="https://jessecambon.github.io/tidygeocoder/index.html">Tidygeocoder v1.0.0</a> is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.</p>
+    <!--
+Steps:
+
+1. Run with output: html_document (comment out `source(here::here("rmd_config.R"))` )
+2. Run with this this output statement:
+
+output:
+  md_document:
+    pandoc_args: ["--wrap=none"]
+    variant: gfm
+    preserve_yaml: TRUE
+-->
+
+<p><a href="https://jessecambon.github.io/tidygeocoder/index.html">Tidygeocoder v1.0.0</a> is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.</p>
 
 <p>For a full list of new features and improvements refer to the <a href="https://github.com/jessecambon/tidygeocoder/releases/tag/v1.0.0">release page on Github</a>. For usage examples you can reference the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started vignette</a>.</p>
 
@@ -120,7 +152,7 @@
 <p>To geocode these addresses, you can use the <a href="https://jessecambon.github.io/tidygeocoder/reference/geocode.html">geocode</a> function as shown below. New in v1.0.0, the <code class="highlighter-rouge">street</code>, <code class="highlighter-rouge">city</code>, and <code class="highlighter-rouge">country</code> arguments specify the address. The Nominatim (OSM) geocoder is selected with the <code class="highlighter-rouge">method</code> argument. Additionally, the <code class="highlighter-rouge">full_results</code> and <code class="highlighter-rouge">custom_query</code> arguments (also new in v1.0.0) are used to return the full geocoder results and set <a href="https://nominatim.org/release-docs/develop/api/Search/#parameters">Nominatim’s “extratags” parameter</a> which returns extra columns.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stadium_locations</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">stadiums</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">geocode</span><span class="p">(</span><span class="n">street</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Street</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">City</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Country</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'osm'</span><span class="p">,</span><span class="w"> 
+  </span><span class="n">geocode</span><span class="p">(</span><span class="n">street</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Street</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">City</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Country</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'osm'</span><span class="p">,</span><span class="w">
           </span><span class="n">full_results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">custom_query</span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">extratags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
@@ -296,8 +328,8 @@
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">stadium_locations</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lat</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">borders</span><span class="p">(</span><span class="s1">'world'</span><span class="p">,</span><span class="w"> </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-10</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_label_repel</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Club</span><span class="p">),</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">segment.alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
-  </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_void</span><span class="p">()</span><span class="w"> 
+  </span><span class="n">geom_label_repel</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Club</span><span class="p">),</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">segment.alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_void</span><span class="p">()</span><span class="w">
 </span></code></pre></div></div>
 
 <p><img src="/rmd_images/2020-07-15-tidygeocoder-1-0-0/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /></p>
@@ -310,7 +342,7 @@
   </span><span class="n">leaflet</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">"100%"</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">leafletOptions</span><span class="p">(</span><span class="n">attributionControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">setView</span><span class="p">(</span><span class="n">lng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">stadium_locations</span><span class="o">$</span><span class="n">long</span><span class="p">),</span><span class="w"> </span><span class="n">lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">stadium_locations</span><span class="o">$</span><span class="n">lat</span><span class="p">),</span><span class="w"> </span><span class="n">zoom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="c1"># Map Backgrounds</span><span class="w">
-  </span><span class="n">addProviderTiles</span><span class="p">(</span><span class="n">providers</span><span class="o">$</span><span class="n">Esri.NatGeoWorldMap</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="s1">'ESRI'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">addProviderTiles</span><span class="p">(</span><span class="n">providers</span><span class="o">$</span><span class="n">Esri.NatGeoWorldMap</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="s1">'ESRI'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">addProviderTiles</span><span class="p">(</span><span class="n">providers</span><span class="o">$</span><span class="n">Stamen.Terrain</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="s1">'Terrain'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">addProviderTiles</span><span class="p">(</span><span class="n">providers</span><span class="o">$</span><span class="n">NASAGIBS.ViirsEarthAtNight2012</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="s1">'Night'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">addProviderTiles</span><span class="p">(</span><span class="n">providers</span><span class="o">$</span><span class="n">Stamen.Toner</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="s1">'Stamen'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
@@ -326,7 +358,8 @@
        </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">layersControlOptions</span><span class="p">(</span><span class="n">collapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="/rmd_images/2020-07-15-tidygeocoder-1-0-0/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /></p>
+<div id="htmlwidget-609cee63864f7b9c667c" style="width:100%;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-609cee63864f7b9c667c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"attributionControl":false},"setView":[[46.816030234375,3.70195179384455],4,[]],"calls":[{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,"ESRI",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.Terrain",null,"Terrain",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["NASAGIBS.ViirsEarthAtNight2012",null,"Night",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.Toner",null,"Stamen",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,"OSM",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Topo",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[41.38089905,48.21880845,51.4816865,51.4928359,45.10965935,53.4308358,45.7653624,53.48309105,40.82797725,40.4530512,51.6041916,39.4756558,45.709222,40.43605295,51.34579105,48.8413634],[2.12292250075175,11.6246641517999,-0.191963664421104,7.45074465483453,7.64122132434347,-2.96090954141653,4.98205431107367,-2.20025200234333,14.1928889639353,-3.68754628942801,-0.0662349052591809,-0.3587826,9.68081336849461,-3.59971580972644,12.3482549226364,2.25306931623782],null,null,"Stadiums",{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false,"maxClusterRadius":10},null,["Barcelona","Bayern Munich","Chelsea","Borussia Dortmund","Juventus","Liverpool","Olympique Lyonnais","Man. City","Napoli","Real Madrid","Tottenham","Valencia","Atalanta","Atlético Madrid","RB Leipzig","PSG"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["ESRI","OSM","Stamen","Terrain","Topo","Night"],"Stadiums",{"collapsed":true,"autoZIndex":true,"position":"topright"}]}],"limits":{"lat":[39.4756558,53.48309105],"lng":[-3.68754628942801,14.1928889639353]}},"evals":[],"jsHooks":[]}</script>
 
 <p>If you find any issues with the package or have ideas on how to improve it, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues">file an issue on Github</a>. For reference, the RMarkdown file that generated this blog post can be found <a href="https://github.com/jessecambon/jessecambon.github.io/tree/master/_posts/2020-07-15-tidygeocoder-1-0-0.Rmd">here</a>.</p>
 
