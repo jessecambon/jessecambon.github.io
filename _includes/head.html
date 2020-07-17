@@ -2,6 +2,14 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Leaflet JS
+  Based on https://dieghernan.github.io/201905_Leaflet_R_Jekyll/#step1 -->
+  {% if page.leafletmap %}
+  {% include leaflet.html %}
+  {% endif %}
+  <!-- End Leaflet -->
+
   {%- seo -%}
   <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
   {%- feed_meta -%}
@@ -10,5 +18,5 @@
   {%- endif -%}
 
   {%- include custom-head.html -%}
-  
+
 </head>
