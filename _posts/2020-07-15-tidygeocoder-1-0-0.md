@@ -5,11 +5,14 @@ date: 2020-7-15
 author: Jesse Cambon
 tags: [r, data-science, maps]
 image: "images/tidygeocoder_hex.png"
+linktormd: true
+leafletmap: true
+always_allow_html: yes
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]
     variant: gfm
-    preserve_yaml: TRUE
+    preserve_yaml: TRUE 
 ---
 
 [Tidygeocoder v1.0.0](https://jessecambon.github.io/tidygeocoder/index.html) is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.
@@ -96,6 +99,34 @@ ggplot(stadium_locations, aes(x = long, y = lat)) +
 
 <img src="/rmd_images/2020-07-15-tidygeocoder-1-0-0/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
-Another great mapping option is the [leaflet package](https://rstudio.github.io/leaflet/), which was originally what I intended to use for the map above, but getting it to render on a [Jekyll blog](https://jekyllrb.com/) proved to be a bit involved.
+Alternatively, an interactive map can be created with the [leaflet](https://rstudio.github.io/leaflet/) library:
+
+``` r
+library(leaflet)
+
+stadium_locations %>% # Our dataset
+  leaflet(width="100%", options = leafletOptions(attributionControl = FALSE)) %>%
+  setView(lng = mean(stadium_locations$long), lat = mean(stadium_locations$lat), zoom = 5) %>%
+  # Map Backgrounds
+  addProviderTiles(providers$Esri.NatGeoWorldMap, group='ESRI') %>% 
+  addProviderTiles(providers$Stamen.Terrain, group='Terrain') %>%
+  addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group='Night') %>%
+  addProviderTiles(providers$Stamen.Toner, group='Stamen') %>%
+  addTiles(group = "OSM") %>%
+  addProviderTiles(providers$Esri.WorldTopoMap, group="Topo") %>%
+  # Add Markers
+  addMarkers(labelOptions = labelOptions(noHide = F), lng = ~long, lat = ~lat,
+       clusterOptions = markerClusterOptions(maxClusterRadius = 10), label= ~Club,
+       group="Stadiums") %>%
+  # Map Control Options
+  addLayersControl(baseGroups = c("ESRI", "OSM", "Stamen", "Terrain", "Topo", "Night"),
+       overlayGroups=c('Stadiums'),
+       options = layersControlOptions(collapsed = TRUE))
+```
+
+<div id="htmlwidget-f568007e7418b35b1d10" style="width:100%;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f568007e7418b35b1d10">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"attributionControl":false},"setView":[[46.816030234375,3.70195179384455],5,[]],"calls":[{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,"ESRI",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.Terrain",null,"Terrain",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["NASAGIBS.ViirsEarthAtNight2012",null,"Night",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.Toner",null,"Stamen",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,"OSM",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Topo",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[41.38089905,48.21880845,51.4816865,51.4928359,45.10965935,53.4308358,45.7653624,53.48309105,40.82797725,40.4530512,51.6041916,39.4756558,45.709222,40.43605295,51.34579105,48.8413634],[2.12292250075175,11.6246641517999,-0.191963664421104,7.45074465483453,7.64122132434347,-2.96090954141653,4.98205431107367,-2.20025200234333,14.1928889639353,-3.68754628942801,-0.0662349052591809,-0.3587826,9.68081336849461,-3.59971580972644,12.3482549226364,2.25306931623782],null,null,"Stadiums",{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false,"maxClusterRadius":10},null,["Barcelona","Bayern Munich","Chelsea","Borussia Dortmund","Juventus","Liverpool","Olympique Lyonnais","Man. City","Napoli","Real Madrid","Tottenham","Valencia","Atalanta","Atlético Madrid","RB Leipzig","PSG"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["ESRI","OSM","Stamen","Terrain","Topo","Night"],"Stadiums",{"collapsed":true,"autoZIndex":true,"position":"topright"}]}],"limits":{"lat":[39.4756558,53.48309105],"lng":[-3.68754628942801,14.1928889639353]}},"evals":[],"jsHooks":[]}</script>
+
+<br>
 
 If you find any issues with the package or have ideas on how to improve it, feel free to [file an issue on Github](https://github.com/jessecambon/tidygeocoder/issues). For reference, the RMarkdown file that generated this blog post can be found [here](https://github.com/jessecambon/jessecambon.github.io/tree/master/_posts/2020-07-15-tidygeocoder-1-0-0.Rmd).

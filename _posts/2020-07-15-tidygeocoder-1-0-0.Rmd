@@ -5,12 +5,34 @@ date: 2020-7-15
 author: Jesse Cambon
 tags: [r, data-science, maps]
 image: "images/tidygeocoder_hex.png"
+linktormd: true
+leafletmap: true
+always_allow_html: yes
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]
     variant: gfm
-    preserve_yaml: TRUE
+    preserve_yaml: TRUE 
 ---
+
+```{r notes, eval = F, include=FALSE}
+Steps to prepare for rendering in Jekyll:
+
+1. comment out `source(here::here("rmd_config.R"))`
+2. Run with `output: html_document`
+   (this generates the HTML content for the leaflet map that we need)
+3. uncomment source() line from step 1
+4. Run with this output statement
+
+output: 
+  md_document:
+    pandoc_args: ["--wrap=none"]
+    variant: gfm
+    preserve_yaml: TRUE 
+    
+3. Find the Leaflet html content <div>...</div><script>...</script> content and paste it into the .md file.
+4. Delete the .html file
+```
 
 ```{r setup, include=FALSE}
 source(here::here("rmd_config.R"))
@@ -87,6 +109,29 @@ ggplot(stadium_locations, aes(x = long, y = lat)) +
   geom_point() + theme_void() 
 ```
 
-Another great mapping option is the [leaflet package](https://rstudio.github.io/leaflet/), which was originally what I intended to use for the map above, but getting it to render on a [Jekyll blog](https://jekyllrb.com/) proved to be a bit involved.
+Alternatively, an interactive map can be created with the [leaflet](https://rstudio.github.io/leaflet/) library:
+
+```{r}
+library(leaflet)
+
+stadium_locations %>% # Our dataset
+  leaflet(width="100%", options = leafletOptions(attributionControl = FALSE)) %>%
+  setView(lng = mean(stadium_locations$long), lat = mean(stadium_locations$lat), zoom = 5) %>%
+  # Map Backgrounds
+  addProviderTiles(providers$Esri.NatGeoWorldMap, group='ESRI') %>% 
+  addProviderTiles(providers$Stamen.Terrain, group='Terrain') %>%
+  addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group='Night') %>%
+  addProviderTiles(providers$Stamen.Toner, group='Stamen') %>%
+  addTiles(group = "OSM") %>%
+  addProviderTiles(providers$Esri.WorldTopoMap, group="Topo") %>%
+  # Add Markers
+  addMarkers(labelOptions = labelOptions(noHide = F), lng = ~long, lat = ~lat,
+       clusterOptions = markerClusterOptions(maxClusterRadius = 10), label= ~Club,
+       group="Stadiums") %>%
+  # Map Control Options
+  addLayersControl(baseGroups = c("ESRI", "OSM", "Stamen", "Terrain", "Topo", "Night"),
+       overlayGroups=c('Stadiums'),
+       options = layersControlOptions(collapsed = TRUE))
+```
 
 If you find any issues with the package or have ideas on how to improve it, feel free to [file an issue on Github](https://github.com/jessecambon/tidygeocoder/issues). For reference, the RMarkdown file that generated this blog post can be found [here](https://github.com/jessecambon/jessecambon.github.io/tree/master/_posts/2020-07-15-tidygeocoder-1-0-0.Rmd).
