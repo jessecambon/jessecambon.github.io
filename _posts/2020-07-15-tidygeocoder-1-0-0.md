@@ -99,7 +99,7 @@ ggplot(stadium_locations, aes(x = long, y = lat)) +
 
 <img src="/rmd_images/2020-07-15-tidygeocoder-1-0-0/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
-Alternatively you can create an interactive map with the leaflet library:
+Alternatively, an interactive map can be created with the [leaflet](https://rstudio.github.io/leaflet/) library:
 
 ``` r
 library(leaflet)

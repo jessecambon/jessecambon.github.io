@@ -109,7 +109,7 @@ ggplot(stadium_locations, aes(x = long, y = lat)) +
   geom_point() + theme_void() 
 ```
 
-Alternatively you can create an interactive map with the leaflet library:
+Alternatively, an interactive map can be created with the [leaflet](https://rstudio.github.io/leaflet/) library:
 
 ```{r}
 library(leaflet)
