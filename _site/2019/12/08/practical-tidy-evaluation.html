@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Practical Tidy Evaluation | Jesse Cambon</title>
-<meta name="generator" content="Jekyll v4.0.1" />
+<meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Practical Tidy Evaluation" />
 <meta name="author" content="Jesse Cambon" />
 <meta property="og:locale" content="en_US" />
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-12-08T00:00:00-05:00" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","url":"http://localhost:4000/2019/12/08/practical-tidy-evaluation.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/12/08/practical-tidy-evaluation.html"},"author":{"@type":"Person","name":"Jesse Cambon"},"headline":"Practical Tidy Evaluation","dateModified":"2019-12-08T00:00:00-05:00","datePublished":"2019-12-08T00:00:00-05:00","description":"Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.","image":"http://localhost:4000/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png","@context":"https://schema.org"}</script>
+{"image":"http://localhost:4000/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png","@type":"BlogPosting","url":"http://localhost:4000/2019/12/08/practical-tidy-evaluation.html","datePublished":"2019-12-08T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/12/08/practical-tidy-evaluation.html"},"author":{"@type":"Person","name":"Jesse Cambon"},"headline":"Practical Tidy Evaluation","description":"Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.","dateModified":"2019-12-08T00:00:00-05:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jesse Cambon" /><!-- Leaflet JS
   Based on https://dieghernan.github.io/201905_Leaflet_R_Jekyll/#step1 -->
@@ -102,7 +102,7 @@
 
 <p>Now let’s say we wanted to repeat this calculation multiple times <em>while changing which variable we group by</em>. A brute force method to accomplish this would be to copy and paste our code as many times as necessary and modify the group by variable in each iteration. However, this is inefficient especially if our code gets more complicated, requires many iterations, or requires further development.</p>
 
-<p>To avoid this inelegant solution you might think to store the name of a variable inside of another variable like this <code class="highlighter-rouge">groupby_var &lt;- "vs"</code>. Then you could attempt to use your newly created “groupby_var” variable in your code: <code class="highlighter-rouge">group_by(groupby_var)</code>. However, if you try this you will find it doesn’t work. The “group_by” function expects the name of the variable you want to group by as an input, not the name of a variable that <em>contains</em> the name of the variable you want to group by.</p>
+<p>To avoid this inelegant solution you might think to store the name of a variable inside of another variable like this <code class="language-plaintext highlighter-rouge">groupby_var &lt;- "vs"</code>. Then you could attempt to use your newly created “groupby_var” variable in your code: <code class="language-plaintext highlighter-rouge">group_by(groupby_var)</code>. However, if you try this you will find it doesn’t work. The “group_by” function expects the name of the variable you want to group by as an input, not the name of a variable that <em>contains</em> the name of the variable you want to group by.</p>
 
 <p>This is the kind of headache that tidy evaluation can help you solve. In the example below we use the <a href="https://rlang.r-lib.org/reference/quotation.html">quo</a> function and the “bang-bang” <a href="https://rlang.r-lib.org/reference/nse-force.html">!!</a> operator to set “vs” (engine type, 0 = automatic, 1 = manual) as our group by variable. The “quo” function allows us to store the variable name in our “groupby_var” variable and “!!” extracts the stored variable name.</p>
 
