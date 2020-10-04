@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Tidygeocoder</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jesse Cambon" />
+    <script src="tidygeocoder-presentation_files/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+    <script src="tidygeocoder-presentation_files/jquery-1.12.4/jquery.min.js"></script>
+    <link href="tidygeocoder-presentation_files/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+    <script src="tidygeocoder-presentation_files/leaflet-1.3.1/leaflet.js"></script>
+    <link href="tidygeocoder-presentation_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+    <script src="tidygeocoder-presentation_files/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+    <script src="tidygeocoder-presentation_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+    <link href="tidygeocoder-presentation_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="tidygeocoder-presentation_files/leaflet-binding-2.0.3/leaflet.js"></script>
+    <script src="tidygeocoder-presentation_files/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+    <script src="tidygeocoder-presentation_files/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+    <link href="tidygeocoder-presentation_files/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+    <link href="tidygeocoder-presentation_files/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+    <script src="tidygeocoder-presentation_files/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+    <script src="tidygeocoder-presentation_files/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+    <script src="tidygeocoder-presentation_files/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+    <link href="tidygeocoder-presentation_files/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.css" rel="stylesheet" />
+    <script src="tidygeocoder-presentation_files/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.js"></script>
+    <script src="tidygeocoder-presentation_files/viz-1.8.2/viz.js"></script>
+    <link href="tidygeocoder-presentation_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+    <script src="tidygeocoder-presentation_files/grViz-binding-1.0.6.1/grViz.js"></script>
+    <link href="tidygeocoder-presentation_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="tidygeocoder-presentation_files/datatables-binding-0.15/datatables.js"></script>
+    <link href="tidygeocoder-presentation_files/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="tidygeocoder-presentation_files/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="tidygeocoder-presentation_files/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+    <link href="tidygeocoder-presentation_files/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="tidygeocoder-presentation_files/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: inverse, center, top, my-title, title-slide
+
+# Tidygeocoder
+## An R Package for Geocoding
+### Jesse Cambon
+### October 04 2020
+
+---
+
+class: inverse, center, middle
+
+&lt;!--
+
+## Xaringan References
+* https://bookdown.org/yihui/rmarkdown/xaringan.html
+* https://slides.yihui.org/xaringan/#1
+* https://garthtarr.github.io/sydney_xaringan/#1
+* https://github.com/garthtarr/sydney_xaringan
+* http://svmiller.com/blog/2018/02/r-markdown-xaringan-theme/ 
+
+--&gt;
+
+
+
+
+# Introduction
+---
+
+
+## What I'll Talk About
+
+.pull-left[
+
+- A brief intro to the R ecosystem
+
+- How geocoding services are used
+
+- The creation and publishing of **tidygeocoder**, an open source R package for geocoding.
+  - The package was originally published in October 2019. 
+  - A new overhauled version was published in July 2020. 
+
+- Lessons learned from developing an open source package
+
+]
+
+.pull-right[
+![](images/what_you_talking_bout.gif)&lt;!-- --&gt;
+]
+---
+
+## The R Ecosystem
+
+.pull-left[
+- **R** is an open source programming language for data analysis
+
+- Commonly used in many quantitative fields such as statistics, public health, and data journalism
+  
+- Strong community on Twitter, [R-Bloggers.org](https://www.r-bloggers.com/), and [RWeekly.org](https://rweekly.org/)
+
+- **Packages** provide code and functions that extend R's capabilities. 
+
+- There are over 16,000 R packages available on **CRAN**, R's official package database. 
+
+- Powerful and intuitive data analysis, visualization, and modeling workflows with **tidyverse** and **tidymodels**.
+
+- **RMarkdown** can create all kinds of documents directly from code such as websites, books, and this presentation.
+]
+
+.pull-right[
+
+&lt;img src="images/bbc-r-plots.png" width="2603" /&gt;
+
+![](images/rayshader_smallhobart.gif)&lt;!-- --&gt;
+]
+
+???
+Top right: BBC charts
+Bottom right: Rayshader package
+
+
+- [Source for Number of Packages](https://cran.r-project.org/web/packages/)
+- [https://bbc.github.io/rcookbook/](BBC R Cookbook)
+
+---
+
+## The "Tidy" Philosophy
+
+
+- [**Tidy data**. The Journal of Statistical Software, vol. 59, 2014](https://vita.had.co.nz/papers/tidy-data.html) by **Hadley Wickham**, Chief Data Scientist at RStudio
+
+&gt; Tidy datasets are easy to manipulate, model and visualize, and have a specific structure: each variable is a column, each observation is a row, and each type of observational unit is a table. 
+
+--
+
+.center[
+&lt;img src="images/tidyverse.png" width="103" /&gt;&lt;img src="images/tidymodels.png" width="103" /&gt;&lt;img src="images/tidyposterior.png" width="103" /&gt;&lt;img src="images/tibble.png" width="103" /&gt;&lt;img src="images/dplyr.png" width="103" /&gt;&lt;img src="images/tidyr.png" width="103" /&gt;&lt;img src="images/broom.png" width="103" /&gt;
+]
+
+Two collections of packages:
+
+- **Tidyverse** is a collection of packages for data manipulation and visualization (includes ggplot and dplyr).
+
+- **Tidymodels** is a collection of packages for statistical modeling and machine learning.
+
+- Both of these projects are primarily backed by **RStudio**.
+
+--
+
+---
+
+## CRAN - The R Package Repository
+
+.pull-left[
+
+- CRAN = **C**omprehensive **R** **A**rchive **N**etwork
+
+- To get a package hosted on **CRAN**, it goes through an approval process
+
+- All packages are automatically tested on different platforms (Linux, Windows, Mac) when submitted
+
+- New packages go through manual human review
+
+- Packages are checked for adherence to [CRAN policies](https://cran.r-project.org/web/packages/policies.html) including license formatting, documentation standards, and folder structure
+
+]
+
+.pull-right[
+&lt;img src="images/r_packages_boxes.png" width="1240" /&gt;
+]
+
+???
+
+Image source: https://r-coder.com/install-r-packages/ 
+
+---
+
+## How to Create an R Package
+
+.pull-left[
+
+- Create a **DESCRIPTION** file which has key info about your package
+
+- Put **R code** for your package in .R files under a folder named "R". Code documentation is written inline.
+
+- Use the **devtools** package to test, build, and install your package
+
+- For easy distribution, host your package on **Github** and submit it to **CRAN**
+
+- Refer to ["R Packages" by Hadley Wickham and Jennifer Bryan](https://r-pkgs.org/) for details
+
+- **Tip**: Use other CRAN packages on Github as a reference for how to format and structure your package
+
+]
+
+.pull-right[
+&lt;img src="images/rpackages_cover.png" width="667" /&gt;
+]
+
+???
+
+https://r-pkgs.org/intro.html
+
+---
+class: inverse, center, middle
+# Geocoding Services
+---
+
+## Maps
+
+<div id="htmlwidget-8b2442a88c89ca909c2c" style="width:100%;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8b2442a88c89ca909c2c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"fullscreenControl":{"position":"topleft","pseudoFullscreen":false}},"setView":[[14.9846795407098,23.5374749478079],2,[]],"calls":[{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,"ESRI",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.Terrain",null,"Terrain",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["NASAGIBS.ViirsEarthAtNight2012",null,"Night",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.Toner",null,"Stamen",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,"OSM",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Topo",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[34.5,-23.292,14.501,38.537,46.206,37.647,10.07,13.088,18.77,14.465,37.77,-50.33,-8.343,20.42,31.593,53.98,36.56,43.384,39.761,39.964,29.465,54.134,50.861,12.888,-0.43,13.512,14.88,-0.53,60.42,14.797,56.656,13.793,7.77,55.424,-0.53,-15.389,17.32,0.75,-4.08,-12.6,-16.25,-37.83,52.5,16.35,56.32,-15.42,-75.8,-20.2,56.88,-40.783,-0.481,-26.12,-37.406,32.458,-41.88,13.891,13.72,6.989,12.242,-24.29,40.53,39.7,15.2,11.58,10.463,15.63,-7.733,47.45,52.355,36.406,-7.95,65.033,32.884,12.95,19.671,31.22,-0.353,52.331,59.68,-34.65,-36.9,59.363,53.256,45.95,52.433,-21.787,-0.92,-35.653,37.735,19.523,43.979,-6.137,53.905,48.777,14.067,-2.57,5.4,14.07,-4.523,37.601,19.3,64.633,52.802,2.32,10.135,10.8,-8.242,-25.414,18.33,44.285,57.88,-76.05,44.462,55.972,-0.761,11.523,-6.092,18.37,8.78,43.183,38.97,-39.02,-26.789,53.93,52.9,55.88,54.32,56.483,8.221,13.304,8.558,-54.408,5.091,63.933,50.8,-59.017,-66.78,52.35,12.769,-0.2,8.05,-8.283,10.285,-39.25,18.222,-35.558,38.87,-41.33,-37.92,4.203,9.203,18.83,40.827,37.1,-57.08,-40.35,33.78,0.029,50.12,-41.25,21.125,3.496,-6.895,-0.375,44.353,-16.191,0.468,45.775,41.98,55.55,19.08,17.36,57.135,50.324,0.817,-36.868,13.478,14.12,14.83,45.338,46.532,39.099,38.33,-2.68,43.241,38.97,44.83,13.87,46.52,-46.1,19.492,19.514,41.73,26,11.538,-37.856,7.193,-23.743,39.699,12.98,-0.677,-42.018,42.93,43.42,9.25,0.308,14.33,0.95,19.15,12.595,12.38,-5.094,11.28,35.951,45.754,-0.18,-3.38,43.57,-9.62,-63.001,-4.016,-35.58,43.512,14.57,15.612,15.503,43.1,-7.2,51.452,-36.638,13.579,1.693,24.15,53.637,15.93,-27.15,50.686,-0.65,-0.02,57.05,57.72,43.351,57.55,55.341,1.5,47.95,-16.68,38.531,-77.53,13.6,41.805,64.25,13.17,37.748,44.808,45.012,63.633,20.546,38.6,8.975,54.65,14.308,39.462,14.95,0.7,62.93,-21.244,65.416,55.067,14.473,28.358,35.361,32.657,37.77,11.08,13.975,0.792,1.22,-9.35,-7.25,0.8,54.974,1.38,49.85,49.933,-4.687,-5.3,-14.27,8.357,-6.77,0.32,40.283,48.112,19.33,36.358,-9.48,52.559,39.02,28,11.92,64.05,64.416,-0.171,-22.895,13.9,12.55,-7.143,33.137,39.958,19.905,40.659,35.233,36.155,20.708,33.361,13.72,-5.33,32.333,36.477,38.13,11.6,15.4,-35.004,-53.106,63.983,64.866,43.5,64.083,27.73,36.955,-56.712,64.833,42.063,-0.38,45.374,56.78,64.083,19.692,-15.83,-39.887,-16.608,-74.33,-45.9,-42.377,-5.334,-3.247,19.68,-9.52,1.488,58.4,-4.889,-8.058,58.08,60.032,-8.342,-8.55,-8.479,-8.53,-0.659,13.672,0.258,65.517,45.93,-35.123,-8.73,-8.875,24.751,27.881,14.55,9.979,21.848,13.658,40.73,56.58,-19.033,26.58,40.656,39.853,14.42,-8.891,-7.97,19.179,34.724,34.9,30.484,1.08,-64.15,71.082,-19.78,-19.463,44.674,44.08,52.713,43.147,-3.522,26.667,-35.3,26.127,51.923,10.412,-6.268,37.667,-1.506,-4.649,-11.75,54.049,63.633,58.28,-0.08,42.7,57.1,56.4,-8.77,51.65,49.37,-7.93,-7.245,-49.58,-1.697,47.35,48.67,49.12,25,52.062,12.3,30.793,54.489,19.421,31.934,22.8,32.1,25.424,1.454,56.056,46.042,8.788,5.1,0.77,52.381,51.356,53.83,19.8,34.219,65.715,-6.102,54.596,-5.416,63.883,51.844,30.443,29.968,33.086,38.58,35.52,38.961,51.45,36.618,43.615,42.491,14.57,-16.829,64.653,-9.229,28.57,14.42,12.3,-7.981,-5.525,64.85,-39.637,29.03,-23.37,40.492,-7.625,-2.764,7.382,-8.365,57.306,58.42,-8.542,17.37,-22.83,-1.78,-3.125,38.49,64.9,-38.692,1.358,-5.466,-4.92,-6.52,-5.358,42.33,-38.379,1.478,25.17,15.38,-30.21,32.73,10.882,1.352,-34.164,53.891,54.135,37.631,-9.08,-4.08,12.17,12.38,10.65,23.92,-0.38,-38.255,-46.9,14.527,37.58,-38.42,12.95,2.32,58.172,43.418,11.985,20.62,43.572,-22.33,6.37,-36.058,19.82,19.475,-37.28,50.63,41.611,4.063,39.95,15.32,-74.35,-7.54,-7.454,-3.25,37.615,-42.799,19.85,36.571,33.874,52.5,46.815,36.699,23.5,10.748,34.094,-39.927,51.944,0.13,11.826,12.423,38,37.804,-58.445,-78.5,-13.67,45.389,14.03,-1.383,-4.624,-6.62,52.449,31.888,36.891,-19.12,29.859,1.98,36.765,19.67,38.729,37.125,14.72,-0.83,12.506,12.12,38.654,17.15,43.722,-37.77,-8.989,36.921,34.397,36.799,42.875,44.833,36.586,-15.6,36.106,-17.47,9.83,37.444,21.485,14.601,0.23,-1.408,-1.52,57.97,7.47,-14.175,-27.109,-38.12,36.176,53.43,6.25,0.62,-20.939,-0.904,52.02,42.17,36.795,35.893,52.543,64.05,19.03,10.98,41.51,41.279,-41.105,52.146,52.221,14.382,18.13,0.92,-52.082,-34.608,-8.32,-20.85,38.638,36.77,-7.32,19.308,-18.166,-7.162,55.417,-36.422,14.809,-7.616,-62.1,-6.75,4.903,38.47,37.78,12.495,31.772,15.13,-35.223,15.255,10.3,-72.67,10.2,13.05,56.85,20.92,19.023,40.028,-46.42,64.583,-46.63,-55.912,-24.188,0.038,-40.969,2.32,-23,-40.59,13.83,-39.496,17.478,-14.176,-4.271,23.08,46.853,-8.62,-4.871,-29.27,47.77,-8.119,43.979,53.157,-50.964,34.25,-38.42,-0.077,63.85,10.83,-8.42,12.55,-78.25,-39.28,45.25,4.892,-35.745,-9.135,44.454,17.63,-15.787,-22.72,-6.72,33.197,41.542,28.5,12.702,-0.88,14.27,35.347,-33.789,29.97,18.57,14.12,-35.989,-21.888,30.468,13.734,13.595,35.141,44.38,-2.005,-8.2,-8.724,13.853,-0.62,4.818,14.757,-0.22,14.33,36.404,0.074,48.092,45.1,-57.8,-13.612,-9.13,13.58,-65.03,52.315,-5.107,-8.108,51.93,19.27,-6.312,37.87,5.448,58.28,41.409,56.653,36.688,42.688,44.133,54.756,1.556,1.15,10.77,51.43,-8.292,3.17,3.248,14.054,-73.43,-8.508,-7.242,58.02,18.78,39.53,-38.97,1.112,0.686,16.044,16.72,13.33,-59.442,57.43,61.299,-2.38,12.15,46.2,63.45,57.18,38.789,14.4,-5.5,-0.538,-2.414,-7.384,31.44,-7.3,-13.8,-1.151,29.638,14.002,-18.1,13.435,15.132,-17.72,-15.37,14.43,15.55,43.664,36.9,-76.28,-7.208,0.079,-0.979,-8.25,51.885,-0.39,1.518,-6.77,49.35,1.83,-39.3,48.133,25.178,-14.23,-38.82,-16.82,13.494,14.156,12.606,-7.362,4.769,39.356,28.271,25.23,-7.942,10.673,7.42,38.73,65.833,44.133,0.658,13.47,13.272,-23.97,-10.386,63.783,-34.814,57.406,66.309,55.25,2.58,1.25,17.68,-19.75,21.33,43.418,55.832,-38.31,4.658,14.612,19.108,43.844,4.758,1.23,-75.8,-39.157,63.892,34.52,21.03,40.51,42.544,-18.754,-38.509,58.236,-37.092,15.37,-37.738,-37.144,-41.157,8.159,64.75,51.5,-33.425,10.025,-14.295,-17.026,59.37,-24.05,57.32,37.02,55.758,56.28,57.751,36.38,57.832,56.08,37.5,-5.589,-7.18,32.761,-13.935,47.12,56.113,13.419,16.12,27.08,54.5,-14.215,39.797,-19.85,8.58,50.55,63.416,40.821,-9.2,-39.42,52.7,-1.458,52.43,53.75,20.92,58.374,38.404,42.6,55.064,-77.17,-13.3,42.88,36.408,15.307,52.33,45.88,50.17,-15.1,54.516,-37.52,-35.75,-7.808,-5.576,62.006,48.72,36.227,17.05,-19.532,51.533,44.43,14.98,28.797,36.087,31.771,42.827,-17.184,33.282,52.643,13.33,38.144,56.88,11.73,53.905,-56.3,55.862,19.4,15.05,14.02,34.8],[131.6,-67.618,-90.876,34.621,-121.49,140.281,40.84,40.853,145.67,-90.743,-25.47,-73.75,115.508,145.03,130.657,159.45,139.193,144.013,140.799,140.757,129.594,-165.986,155.565,40.573,-91.12,40.631,39.92,-78,-135.42,-91.519,159.647,40.553,38.78,-163.149,127.48,167.835,121.1,124.42,153.65,49.15,168.12,77.52,-171.252,145.67,158.83,-72.33,-132.33,169.78,-158.17,-72.15,-78.141,-67.4,-71.349,139.759,-72.58,-89.786,-88.77,125.269,-86.342,-67.783,44.2,44.3,120.742,42.47,-84.703,44.08,112.575,120.8,157.827,138.523,-14.37,-16.783,131.104,42.43,145.406,130.57,-78.617,-174.139,-133.32,-70.05,174.87,-153.43,158.836,-130,98.303,-68.237,-91.408,-70.761,140.244,121.94,-121.688,155.196,158.07,-121.813,48.3,147.28,125.375,121.48,129.881,140.072,-110.82,-17.516,158.24,36.57,-84.1,107.2,115.375,-68.588,32.75,-121.841,160.53,-136,146.932,160.595,127.725,124.535,155.225,41.63,38.98,-114.352,-112.5,-70.37,-67.765,-168.03,157.78,157.78,160.02,157.917,39.05,40.987,39.475,3.351,-75.293,-21.783,-123.4,-26.533,163.25,175.911,124.056,30.08,38.35,115.133,125.218,-71.75,122.123,-70.496,-4.02,-72.618,-71.45,9.17,124.673,121.86,14.139,12.7,-26.67,-72.07,-105.93,-77.986,-123.28,-72.27,-104.508,36.04,108.408,-78.25,146.252,-71.53,-78.287,2.97,128.08,157.47,-99.13,-93.228,-156.99,155.461,-77.938,-71.378,-88.33,-89.73,-89.55,147.92,150.871,140.049,127.33,37.88,-122.108,-122.77,-130.3,-89.55,-129.58,50.23,-97.15,-103.62,12.7,-111.92,-85.622,-71.183,38.39,-67.534,-31.111,-87.57,-78.436,-70.194,-122.12,-113.5,123.17,-78.364,-90.4,-77.87,-97.27,40.48,40.07,150.094,41.63,52.109,114.279,-91.28,102.37,-121.82,150.88,-60.652,103.121,-70.75,-120.861,44.67,-61.43,-61.397,-118.75,109.879,156.978,-70.432,41.809,127.894,-104.45,158.922,145.67,-109.38,156.014,36.22,-91.546,-135.75,-130.63,42.442,160.53,-162.073,36.33,-129.1,168.37,35.447,167.17,40.67,141.166,-16.583,-86.4,14.999,147.131,147.871,-19.633,144.893,-28.73,39.93,-164.43,-89.992,-31.216,-24.35,30.25,-137.38,55.708,-16.666,-162.835,-90.88,-14.02,138.728,128.849,-25.32,41.27,40.408,-86.15,-77.37,159.73,108.058,127.33,160.703,127.53,-123,-123,149.511,150.07,167.5,39.188,106.965,-89.958,45,-121.113,-97.25,-118.32,150.35,158.03,-27.97,-15.58,-85.98,-20.883,-17.316,-78.598,-67.566,-89.12,42.53,107.84,139.766,140.854,110.229,140.877,139.021,136.771,-156.25,126.53,42.73,151.1,37.583,138.851,34.17,108.2,45.1,178.973,73.513,-19.666,-23.283,-112.45,-21.416,-18.03,139.285,-27.176,-18.766,140.677,34.5,-121.695,-131.28,-21.333,-155.87,-72.13,-71.58,-70.85,-99.42,-72.97,-72.578,104.59,102.239,-97.45,150.53,127.63,161.08,31.933,114.242,160.77,-153.09,123.258,123.38,122.761,123.57,-78.714,-89.053,-78.183,-163.45,-121.82,-69.9,120.98,120.95,141.289,128.223,-89.63,-83.852,-105.886,123.38,13.897,-130.55,46.7,40.2,140.303,141.001,-89.68,121.641,113.57,-98.642,139.394,139.098,140.303,127.439,-57.75,-8.155,-66.48,-67.432,-121.8,128.83,99.021,-117.46,102.615,140.929,173.9,141.102,-177.168,123.132,106.05,33.6,29.45,145.964,43.38,159.443,-19.083,-154.963,29.92,44.5,159.93,158.85,121.82,157.35,125.92,112.308,107.709,69.5,101.264,152.475,102.75,154.508,39.92,157.711,-61.64,130.305,160.251,-155.287,130.862,41.38,139.85,141.284,125.031,160.642,150.083,39.701,35.88,36.12,-174.166,156.753,158.05,18.53,139.153,-16.728,105.423,160.27,150.027,-22.083,157.572,130.217,129.926,131.249,28.52,80.2,140.788,157.12,138.528,144.427,141.16,25.85,168.536,-16.647,33.792,-17.83,121.27,-85.73,113.341,148.42,-19.7,-71.502,-13.63,-67.73,-121.508,111.192,35.914,126.047,122.833,159.827,-131.35,122.775,-62.8,-67.88,-78.613,152.642,14.933,-22.483,-71.729,124.792,150.509,151.158,155.62,147.12,126.5,-71.586,99.209,37.75,109.12,-178.475,-16.97,124.888,124.865,-69.832,-166.923,159.674,-119.032,148.33,145.037,40.82,42.2,123.25,5.83,100.474,-71.167,37.75,120.482,-112.67,176.08,24.27,37.97,-155.361,143.031,-86.165,-104.83,144.561,171.32,125.07,-70.492,-155.47,-155.608,176.25,-123.5,-121.554,37.488,139.73,26.47,164.7,110.446,110.44,36.75,23.336,-72.445,-101.75,137.59,139.602,-128.73,151.786,24.439,141.935,-85.153,139.526,-72.027,-176.747,-78.27,-85.968,-86.539,-119.03,-119.029,-26.374,163.53,167.67,148.838,-90.1,29.678,149.339,110.88,158.196,139.918,138.114,177.98,129.857,36.43,139.491,-96.75,140.734,139.963,120.4,-91.17,-86.702,-86.32,42.229,-62.58,-121.229,142.5,33.554,138.036,139.27,139.376,140.659,147.342,27.16,-175.63,137.554,168.353,-104.3,139.566,144.043,144.775,37.87,29.2,29.25,160.65,38.58,-169.618,-68.541,176.5,133.334,-168.13,10.5,36.075,-68.413,36.292,157.53,2.53,139.507,137.48,157.339,-16.633,-97.27,-85.473,139.367,141.12,-72.496,157.322,157.435,-90.601,145.8,36.18,-69.698,-70.295,121.708,-68.2,15.064,12.02,107.73,-98.7,-69.142,107.4,-161.894,-69.241,-61.165,112.62,-57.93,106.7,96.289,-28.4,-25.67,-86.688,-113.498,120.35,-70.568,-61.341,-84.366,165.5,-84.233,123.958,159.8,95.25,-98.622,45.74,51.75,-20.666,37.95,-28.167,-68.054,-78.463,-72.264,-76.4,-67.75,-72.117,-61.05,-71.722,-62.96,-71.351,152.203,39.78,-121.76,120.52,103.925,-177.92,153.02,114.056,145.733,-168.539,-73.585,-108.83,176.33,-77.656,-22.566,-85.324,116.47,-86.75,163.33,175.57,148.35,-75.324,178.478,33.668,146.139,-63.23,-71.857,-67.892,106.73,-115.616,43.7,-113.75,-87.004,-89.5,-89.48,-111.678,-69.895,-114.4,-95.2,121.3,-70.849,-68.391,-115.996,-89.294,-88.837,132.622,-121.93,-78.341,119.07,119.986,-89.63,-90.33,-75.365,-91.552,-90.77,-89.87,25.396,100.189,153.2,148.019,-26.483,-172.525,159.82,46.12,-60.05,-172.51,104.317,112.922,179.58,-97.47,130.017,-25.78,95.658,160.87,-122.193,161.36,138.519,141.38,145.161,-163.97,99.255,36.23,123.23,-126.3,156.52,98.392,98.501,-89.631,-126.67,124.13,109.208,160.8,-110.95,-118.87,-71.52,124.737,99.539,-61.664,-62.18,-61.18,-27.225,-130.68,-152.251,147.35,-61.67,-122.18,-162.12,-170.3,15.213,-89.78,150.942,-77.626,101.728,110.07,140.051,109.992,167.47,36.357,129.714,120.993,-69.5,-88.532,-92.109,-69.77,-174.23,-89.9,41.83,142.854,139.777,-112.08,108.07,99.98,100.681,118,-178.146,100.331,125.185,107.6,154.7,127.83,174.07,99.95,121.553,-169.454,176,-179.97,-88.502,-90.407,-86.84,110.4,96.821,43.874,-16.641,98.5,112.95,-85.015,35.43,-27.32,-17.166,-121.767,127.4,-88.43,-87.641,-68.13,165.804,-19.716,-70.352,160.108,-17.118,-133.3,98.83,127.47,8.5,-175.07,16.33,142.686,160.326,-71.645,-75.33,-91.189,-99.758,145.504,9.717,124.83,-115.83,175.632,-19.122,139.279,16.45,140.88,140.839,169.238,-70.898,-155.1,-12.28,-61.33,-70.906,-70.033,-71.885,39.137,-17.916,102.5,-69.797,-83.767,-170.7,-70.372,-130.58,-66.48,159.967,-117.45,160.527,117.77,-156.368,-113.13,-156.51,158.38,130.87,147.875,110.33,130.299,-171.72,152.25,160.509,-88.471,-86.882,37.25,159.97,-169.058,45.497,46.942,-80.17,155.97,-20.266,14.426,149.07,-71.93,158.28,29.485,157.93,113.25,17.28,160.631,14.962,11.93,160.765,-126.88,-176.17,-113.22,137.594,-61.305,-120.57,-122.08,6.85,-173.75,-164.65,177.18,174.27,111.758,150.516,-144.017,126.12,137.587,42.83,169.447,156.629,-110.67,-87.98,128.997,138.32,130.592,140.812,-70.196,131.39,-170.629,-87.63,140.44,159.95,-85.82,158.385,-27.57,160.603,-100.25,42.18,42.75,-108],{"iconUrl":{"data":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAENElEQVRoge3ZWahWVRQH8N81c4hbqXlTMxqoBwtBQSrrQaIBMgIropDQoKQM66WXCiKosIGM6qGiJCqCIBoIpRIk0TTBysyJkCatFM0izcxGvx72Puzvfvd8w/G75/Ma/mGxz1lr73P+6+xp7XU4iv8nVuNT9OTYVuCTHH0P1uCDEnkVxhpUsAEjamyVKNUYiY1Rv7p0dgXQIzhRwes1tjxH3oi69fJ7sTC6Cta/AWfgF+wUhtOOaDsT63AiZmBR1GdOZO+agXewF5OxFUNwIc7CSdiM9wpyaxndOCh94Uw2YQ4G4c6o+7yqXW2PZD13B0bhKfxW88y9ZTmR4Xo8iuewGLurXv4+ThB6qCJ8YXo7clG83oFT8EW8/1fo3YV4DNPLdqQWg3AttkdCT2BBvJ4f61Q78ki8XoAXpN47t3OUG2OKQGq38DUr+DDaqh1ZFa+vwE/xekJHmbaAVQL5UXqP85WSU/uibWTUr+wwx8KoRzJzdkBihDBPzinY7nzMFnpwQGCtNA8WCcSm4TV8if3SyrQWl2NZVZs1nafcF0OEveUvaS/4Qf5+Uys/SnPm5E4Tr8W4SOQrnIZvJKJ342wcF+uOr7JtxhghEqhgYkdZ52BaJLIi3t8V7/fl1O3Cz9F+QdQtifdXtUtkUJvtJ8dyUyw/juWunLoVaSXLNsCNsZzSJo+2HbkslmtjeXwst9epvzSWs2KZnVMubZNHWxgurEgHhfEPDwtf/pk6bbqlHX22ECn/KaxoY8sk2whXRkKfxfsubNF8zN+i986fzZO55dBsjmcjgQfjfebYFs2H7G24OV7Pje2W1q9eHoZKIfx5UZcdXecVfNY4/IO/pSHaMcwUSG+s0q0Uzt9DDuF5b+sd+ncMy6VTXlEM1dfZi6VjwPB2iBXBBGGl2q9vxqQZpuNXHMDLwokyw3rBmTntU2wNT8cXvliw3WghaVEdb63CsGifI6WUiiZFCqNH2jsmFWz7kPzg8floHyYEnBVc0x9kG2F+fNHiHNtg3CekiXbqvXoNF6LdepHw1bHePGkRaTfqqIsTsUfvDEmGY/FuDbkD0hy4vYETWUg/XlgItkXdzLIcuTe+YFmObWEdgpcIB61tdezVsk4YurdKG+vg/naiWxguFWlHzjCrAbld+k7wZj3zkhB7VYTMZr/i/qqXPVClnyQdZcuQr6VVrW2MFgK87OHLo34svi3RiUzu6S9Hnsx5+JtSdrFs2SekV9vC6fijQ4QbySvtOvLqAHCiImzAUw/VialaS+t0SjYI+1Uujqmj78JbOLWo9yVijJA7+6hIo5sc/h7Ik9+Fv1otoVvnVqRDkSWtOvL4ACDbTGY3c2KikMc93ESbyR4N5m+X9EfpSJC8owTSCe1IkhvzHPl+ABArKtsy8tkprEsHsxdl4zp85/B/5VZlq/B3+CgGJP4DSeZGDJxfhukAAAAASUVORK5CYII=","index":0},"iconWidth":30,"iconHeight":30},null,"Eruptions",{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false,"maxClusterRadius":40},null,["<b>Abu<\/b><\/br>Last Eruption: 6850 BC","<b>Acamarachi<\/b><\/br>Last Eruption: Unknown","<b>Acatenango<\/b><\/br>Last Eruption: 1972 AD","<b>Acigol-Nevsehir<\/b><\/br>Last Eruption: 2080 BC","<b>Adams<\/b><\/br>Last Eruption: 950 AD","<b>Adatarayama<\/b><\/br>Last Eruption: 1996 AD","<b>Adwa<\/b><\/br>Last Eruption: Unknown","<b>Afdera<\/b><\/br>Last Eruption: Unknown","<b>Agrigan<\/b><\/br>Last Eruption: 1917 AD","<b>Agua<\/b><\/br>Last Eruption: Unknown","<b>Agua de Pau<\/b><\/br>Last Eruption: 1564 AD","<b>Aguilera<\/b><\/br>Last Eruption: 1250 BC","<b>Agung<\/b><\/br>Last Eruption: 2019 AD","<b>Ahyi<\/b><\/br>Last Eruption: 2014 AD","<b>Aira<\/b><\/br>Last Eruption: 2020 AD","<b>Akademia Nauk<\/b><\/br>Last Eruption: 1996 AD","<b>Akagisan<\/b><\/br>Last Eruption: Unknown","<b>Akan<\/b><\/br>Last Eruption: 2008 AD","<b>Akita-Komagatake<\/b><\/br>Last Eruption: 1971 AD","<b>Akita-Yakeyama<\/b><\/br>Last Eruption: 1997 AD","<b>Akusekijima<\/b><\/br>Last Eruption: Unknown","<b>Akutan<\/b><\/br>Last Eruption: 1992 AD","<b>Alaid<\/b><\/br>Last Eruption: 2018 AD","<b>Alayta<\/b><\/br>Last Eruption: 1915 AD","<b>Alcedo<\/b><\/br>Last Eruption: 1993 AD","<b>Ale Bagu<\/b><\/br>Last Eruption: Unknown","<b>Alid<\/b><\/br>Last Eruption: Unknown","<b>Aliso<\/b><\/br>Last Eruption: 2450 BC","<b>Alligator Lake<\/b><\/br>Last Eruption: Unknown","<b>Almolonga<\/b><\/br>Last Eruption: 1818 AD","<b>Alney-Chashakondzha<\/b><\/br>Last Eruption: 1600 AD","<b>Alu-Dalafilla<\/b><\/br>Last Eruption: 2008 AD","<b>Alutu<\/b><\/br>Last Eruption: 50 BC","<b>Amak<\/b><\/br>Last Eruption: 1796 AD","<b>Amasing<\/b><\/br>Last Eruption: Unknown","<b>Ambae<\/b><\/br>Last Eruption: 2018 AD","<b>Ambalatungan Group<\/b><\/br>Last Eruption: Unknown","<b>Ambang<\/b><\/br>Last Eruption: 2005 AD","<b>Ambitle<\/b><\/br>Last Eruption: 350 BC","<b>Ambre-Bobaomby<\/b><\/br>Last Eruption: Unknown","<b>Ambrym<\/b><\/br>Last Eruption: 2018 AD","<b>Amsterdam Island<\/b><\/br>Last Eruption: Unknown","<b>Amukta<\/b><\/br>Last Eruption: 1997 AD","<b>Anatahan<\/b><\/br>Last Eruption: 2008 AD","<b>Anaun<\/b><\/br>Last Eruption: Unknown","<b>Andahua-Orcopampa<\/b><\/br>Last Eruption: 1490 AD","<b>Andrus<\/b><\/br>Last Eruption: Unknown","<b>Aneityum<\/b><\/br>Last Eruption: Unknown","<b>Aniakchak<\/b><\/br>Last Eruption: 1931 AD","<b>Antillanca Volcanic Complex<\/b><\/br>Last Eruption: 230 BC","<b>Antisana<\/b><\/br>Last Eruption: 1802 AD","<b>Antofagasta Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Antuco<\/b><\/br>Last Eruption: 1869 AD","<b>Aogashima<\/b><\/br>Last Eruption: 1785 AD","<b>Apagado<\/b><\/br>Last Eruption: 590 BC","<b>Apaneca Range<\/b><\/br>Last Eruption: Unknown","<b>Apastepeque Field<\/b><\/br>Last Eruption: Unknown","<b>Apo<\/b><\/br>Last Eruption: Unknown","<b>Apoyeque<\/b><\/br>Last Eruption: 50 BC","<b>Aracar<\/b><\/br>Last Eruption: Unknown","<b>Aragats<\/b><\/br>Last Eruption: Unknown","<b>Ararat<\/b><\/br>Last Eruption: 1840 AD","<b>Arayat<\/b><\/br>Last Eruption: Unknown","<b>Ardoukoba<\/b><\/br>Last Eruption: 1978 AD","<b>Arenal<\/b><\/br>Last Eruption: 2010 AD","<b>Arhab, Harra of<\/b><\/br>Last Eruption: 500 AD","<b>Arjuno-Welirang<\/b><\/br>Last Eruption: 1952 AD","<b>Arxan-Chaihe<\/b><\/br>Last Eruption: 0 AD","<b>Asacha<\/b><\/br>Last Eruption: Unknown","<b>Asamayama<\/b><\/br>Last Eruption: 2019 AD","<b>Ascension<\/b><\/br>Last Eruption: 1508 AD","<b>Askja<\/b><\/br>Last Eruption: 1961 AD","<b>Asosan<\/b><\/br>Last Eruption: 2020 AD","<b>Assab Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Asuncion<\/b><\/br>Last Eruption: 1906 AD","<b>Ata<\/b><\/br>Last Eruption: 885 AD","<b>Atacazo<\/b><\/br>Last Eruption: 320 BC","<b>Atka<\/b><\/br>Last Eruption: 1812 AD","<b>Atlin Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Atuel, Caldera del<\/b><\/br>Last Eruption: Unknown","<b>Auckland Volcanic Field<\/b><\/br>Last Eruption: 1350 AD","<b>Augustine<\/b><\/br>Last Eruption: 2006 AD","<b>Avachinsky<\/b><\/br>Last Eruption: 2001 AD","<b>Axial Seamount<\/b><\/br>Last Eruption: 2015 AD","<b>Azas Plateau<\/b><\/br>Last Eruption: Unknown","<b>Azufre, Cerro del<\/b><\/br>Last Eruption: Unknown","<b>Azul, Cerro<\/b><\/br>Last Eruption: 2008 AD","<b>Azul, Cerro<\/b><\/br>Last Eruption: 1967 AD","<b>Azumayama<\/b><\/br>Last Eruption: 1977 AD","<b>Babuyan Claro<\/b><\/br>Last Eruption: 1924 AD","<b>Bachelor<\/b><\/br>Last Eruption: 5800 BC","<b>Bagana<\/b><\/br>Last Eruption: 2020 AD","<b>Bakening<\/b><\/br>Last Eruption: 550 BC","<b>Baker<\/b><\/br>Last Eruption: 1880 AD","<b>Bal Haf, Harra of<\/b><\/br>Last Eruption: Unknown","<b>Baluan<\/b><\/br>Last Eruption: Unknown","<b>Balut<\/b><\/br>Last Eruption: Unknown","<b>Banahaw<\/b><\/br>Last Eruption: Unknown","<b>Banda Api<\/b><\/br>Last Eruption: 1988 AD","<b>Bandaisan<\/b><\/br>Last Eruption: 1888 AD","<b>Barcena<\/b><\/br>Last Eruption: 1953 AD","<b>Bardarbunga<\/b><\/br>Last Eruption: 2015 AD","<b>Barkhatnaya Sopka<\/b><\/br>Last Eruption: 3550 BC","<b>Barrier, The<\/b><\/br>Last Eruption: 1921 AD","<b>Barva<\/b><\/br>Last Eruption: 6050 BC","<b>Bas Dong Nai<\/b><\/br>Last Eruption: Unknown","<b>Batur<\/b><\/br>Last Eruption: 2000 AD","<b>Bayo Gorbea, Cerro<\/b><\/br>Last Eruption: Unknown","<b>Bayuda Volcanic Field<\/b><\/br>Last Eruption: 850 AD","<b>Belknap<\/b><\/br>Last Eruption: 480 AD","<b>Bely<\/b><\/br>Last Eruption: Unknown","<b>Berlin<\/b><\/br>Last Eruption: 8350 BC","<b>Berutarubesan [Berutarube]<\/b><\/br>Last Eruption: Unknown","<b>Bezymianny<\/b><\/br>Last Eruption: 2020 AD","<b>Bibinoi<\/b><\/br>Last Eruption: Unknown","<b>Biliran<\/b><\/br>Last Eruption: 1939 AD","<b>Billy Mitchell<\/b><\/br>Last Eruption: 1580 AD","<b>Birk, Harrat al<\/b><\/br>Last Eruption: Unknown","<b>Bishoftu Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Black Butte Crater Lava Field<\/b><\/br>Last Eruption: 8400 BC","<b>Black Rock Desert<\/b><\/br>Last Eruption: 1290 AD","<b>Blanca, Laguna<\/b><\/br>Last Eruption: Unknown","<b>Blanco, Cerro<\/b><\/br>Last Eruption: 2300 BC","<b>Bogoslof<\/b><\/br>Last Eruption: 2017 AD","<b>Bolshe-Bannaya<\/b><\/br>Last Eruption: Unknown","<b>Bolshoi Payalpan<\/b><\/br>Last Eruption: Unknown","<b>Bolshoi Semiachik<\/b><\/br>Last Eruption: 4450 BC","<b>Bolshoi-Kekuknaysky<\/b><\/br>Last Eruption: 5310 BC","<b>Bora-Bericcio<\/b><\/br>Last Eruption: Unknown","<b>Borawli<\/b><\/br>Last Eruption: Unknown","<b>Boset-Bericha<\/b><\/br>Last Eruption: Unknown","<b>Bouvet<\/b><\/br>Last Eruption: 50 BC","<b>Bravo, Cerro<\/b><\/br>Last Eruption: 1720 AD","<b>Brennisteinsfjoll<\/b><\/br>Last Eruption: 1341 AD","<b>Bridge River Cones<\/b><\/br>Last Eruption: Unknown","<b>Bristol Island<\/b><\/br>Last Eruption: 2016 AD","<b>Buckle Island<\/b><\/br>Last Eruption: 1899 AD","<b>Buldir<\/b><\/br>Last Eruption: Unknown","<b>Bulusan<\/b><\/br>Last Eruption: 2017 AD","<b>Bunyaruguru<\/b><\/br>Last Eruption: Unknown","<b>Butajiri-Silti Field<\/b><\/br>Last Eruption: Unknown","<b>Buyan-Bratan<\/b><\/br>Last Eruption: Unknown","<b>Cabalían<\/b><\/br>Last Eruption: 1820 AD","<b>Caburgua-Huelemolle<\/b><\/br>Last Eruption: 5050 BC","<b>Cagua<\/b><\/br>Last Eruption: 1860 AD","<b>Calabozos<\/b><\/br>Last Eruption: Unknown","<b>Calatrava Volcanic Field<\/b><\/br>Last Eruption: 3600 BC","<b>Calbuco<\/b><\/br>Last Eruption: 2015 AD","<b>Callaqui<\/b><\/br>Last Eruption: 1980 AD","<b>Cameroon<\/b><\/br>Last Eruption: 2000 AD","<b>Camiguin<\/b><\/br>Last Eruption: 1953 AD","<b>Camiguin de Babuyanes<\/b><\/br>Last Eruption: 1857 AD","<b>Campi Flegrei<\/b><\/br>Last Eruption: 1538 AD","<b>Campi Flegrei del Mar di Sicilia<\/b><\/br>Last Eruption: 1867 AD","<b>Candlemas Island<\/b><\/br>Last Eruption: 1911 AD","<b>Carran-Los Venados<\/b><\/br>Last Eruption: 1979 AD","<b>Carrizozo<\/b><\/br>Last Eruption: 3250 BC","<b>Cayambe<\/b><\/br>Last Eruption: 1786 AD","<b>Cayley Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Cayutue-La Vigueria<\/b><\/br>Last Eruption: 190 BC","<b>Ceboruco<\/b><\/br>Last Eruption: 1875 AD","<b>Central Island<\/b><\/br>Last Eruption: Unknown","<b>Cereme<\/b><\/br>Last Eruption: 1951 AD","<b>Chacana<\/b><\/br>Last Eruption: 1773 AD","<b>Chachadake [Tiatia]<\/b><\/br>Last Eruption: 1981 AD","<b>Chachani, Nevado<\/b><\/br>Last Eruption: Unknown","<b>Chachimbiro<\/b><\/br>Last Eruption: 3740 BC","<b>Chaine des Puys<\/b><\/br>Last Eruption: 4040 BC","<b>Changbaishan<\/b><\/br>Last Eruption: 1903 AD","<b>Cherpuk Group<\/b><\/br>Last Eruption: 4550 BC","<b>Chichinautzin<\/b><\/br>Last Eruption: 400 AD","<b>Chichon, El<\/b><\/br>Last Eruption: 1982 AD","<b>Chiginagak<\/b><\/br>Last Eruption: 1998 AD","<b>Chikurachki<\/b><\/br>Last Eruption: 2016 AD","<b>Chiles-Cerro Negro<\/b><\/br>Last Eruption: 1936 AD","<b>Chillan, Nevados de<\/b><\/br>Last Eruption: 2020 AD","<b>Chinameca<\/b><\/br>Last Eruption: Unknown","<b>Chingo<\/b><\/br>Last Eruption: Unknown","<b>Chiquimula Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Chirippusan [Chirip]<\/b><\/br>Last Eruption: 1860 AD","<b>Chirpoi<\/b><\/br>Last Eruption: 2016 AD","<b>Chokaisan<\/b><\/br>Last Eruption: 1974 AD","<b>Ch'uga-ryong<\/b><\/br>Last Eruption: Unknown","<b>Chyulu Hills<\/b><\/br>Last Eruption: 1855 AD","<b>Cinnamon Butte<\/b><\/br>Last Eruption: Unknown","<b>Clear Lake<\/b><\/br>Last Eruption: Unknown","<b>Cleft Segment<\/b><\/br>Last Eruption: 1986 AD","<b>Coatepeque Caldera<\/b><\/br>Last Eruption: Unknown","<b>CoAxial Segment<\/b><\/br>Last Eruption: 1993 AD","<b>Cochons, Ile aux<\/b><\/br>Last Eruption: Unknown","<b>Cofre de Perote<\/b><\/br>Last Eruption: 1150 AD","<b>Colima<\/b><\/br>Last Eruption: 2019 AD","<b>Colli Albani<\/b><\/br>Last Eruption: Unknown","<b>Comondu-La Purisima<\/b><\/br>Last Eruption: Unknown","<b>Concepcion<\/b><\/br>Last Eruption: 2011 AD","<b>Copahue<\/b><\/br>Last Eruption: 2019 AD","<b>Corbetti Caldera<\/b><\/br>Last Eruption: Unknown","<b>Cordon de Puntas Negras<\/b><\/br>Last Eruption: Unknown","<b>Corvo<\/b><\/br>Last Eruption: Unknown","<b>Cosiguina<\/b><\/br>Last Eruption: 1859 AD","<b>Cotopaxi<\/b><\/br>Last Eruption: 2016 AD","<b>Crater Basalt Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Crater Lake<\/b><\/br>Last Eruption: 2850 BC","<b>Craters of the Moon<\/b><\/br>Last Eruption: 130 BC","<b>Cuernos de Negros<\/b><\/br>Last Eruption: Unknown","<b>Cuicocha<\/b><\/br>Last Eruption: 650 AD","<b>Cuilapa-Barbarena<\/b><\/br>Last Eruption: Unknown","<b>Cumbal<\/b><\/br>Last Eruption: 1926 AD","<b>Cumbres,  Las<\/b><\/br>Last Eruption: 3920 BC","<b>Dabbahu<\/b><\/br>Last Eruption: 2005 AD","<b>Dabbayra<\/b><\/br>Last Eruption: Unknown","<b>Dakataua<\/b><\/br>Last Eruption: 1895 AD","<b>Dama Ali<\/b><\/br>Last Eruption: 1631 AD","<b>Damavand<\/b><\/br>Last Eruption: 5350 BC","<b>Dariganga Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Darwin<\/b><\/br>Last Eruption: 1813 AD","<b>Daun, Bukit<\/b><\/br>Last Eruption: Unknown","<b>Davis Lake<\/b><\/br>Last Eruption: 2790 BC","<b>Dawson Strait Group<\/b><\/br>Last Eruption: 1350 AD","<b>Deception Island<\/b><\/br>Last Eruption: 1970 AD","<b>Dempo<\/b><\/br>Last Eruption: 2017 AD","<b>Descabezado Grande<\/b><\/br>Last Eruption: 1933 AD","<b>Devils Garden<\/b><\/br>Last Eruption: Unknown","<b>Dhamar, Harras of<\/b><\/br>Last Eruption: 1937 AD","<b>Diables, Morne aux<\/b><\/br>Last Eruption: Unknown","<b>Diablotins, Morne<\/b><\/br>Last Eruption: Unknown","<b>Diamond Craters<\/b><\/br>Last Eruption: 5610 BC","<b>Dieng Volcanic Complex<\/b><\/br>Last Eruption: 2018 AD","<b>Diky Greben<\/b><\/br>Last Eruption: 350 AD","<b>Domuyo<\/b><\/br>Last Eruption: Unknown","<b>Dubbi<\/b><\/br>Last Eruption: 1861 AD","<b>Dukono<\/b><\/br>Last Eruption: 2020 AD","<b>Durango Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Dzenzursky<\/b><\/br>Last Eruption: Unknown","<b>East Diamante<\/b><\/br>Last Eruption: Unknown","<b>Easter Island<\/b><\/br>Last Eruption: Unknown","<b>Ebeko<\/b><\/br>Last Eruption: 2020 AD","<b>Eburru, Ol Doinyo<\/b><\/br>Last Eruption: Unknown","<b>Ecuador<\/b><\/br>Last Eruption: 1150 AD","<b>Edgecumbe<\/b><\/br>Last Eruption: 2220 BC","<b>Edziza<\/b><\/br>Last Eruption: 950 AD","<b>Elbrus<\/b><\/br>Last Eruption: 50 AD","<b>Elovsky<\/b><\/br>Last Eruption: 7550 BC","<b>Emmons Lake<\/b><\/br>Last Eruption: Unknown","<b>Emuruangogolak<\/b><\/br>Last Eruption: 1910 AD","<b>Endeavour Segment<\/b><\/br>Last Eruption: 3490 BC","<b>Epi<\/b><\/br>Last Eruption: 2004 AD","<b>Erciyes Dagi<\/b><\/br>Last Eruption: 6880 BC","<b>Erebus<\/b><\/br>Last Eruption: 2020 AD","<b>Erta Ale<\/b><\/br>Last Eruption: 2020 AD","<b>Esan<\/b><\/br>Last Eruption: 1874 AD","<b>Esjufjoll<\/b><\/br>Last Eruption: Unknown","<b>Esteli<\/b><\/br>Last Eruption: Unknown","<b>Etna<\/b><\/br>Last Eruption: 2020 AD","<b>Etorofu-Atosanupuri [Atosanupuri]<\/b><\/br>Last Eruption: 1932 AD","<b>Etorofu-Yakeyama [Grozny Group]<\/b><\/br>Last Eruption: 2013 AD","<b>Eyjafjallajokull<\/b><\/br>Last Eruption: 2010 AD","<b>Farallon de Pajaros<\/b><\/br>Last Eruption: 1967 AD","<b>Fayal<\/b><\/br>Last Eruption: 1958 AD","<b>Fentale<\/b><\/br>Last Eruption: 1820 AD","<b>Fisher<\/b><\/br>Last Eruption: 1830 AD","<b>Flores<\/b><\/br>Last Eruption: Unknown","<b>Flores<\/b><\/br>Last Eruption: 950 BC","<b>Fogo<\/b><\/br>Last Eruption: 2015 AD","<b>Fort Portal<\/b><\/br>Last Eruption: 2120 BC","<b>Fort Selkirk<\/b><\/br>Last Eruption: Unknown","<b>Fournaise, Piton de la<\/b><\/br>Last Eruption: 2020 AD","<b>Fremrinamar<\/b><\/br>Last Eruption: 1200 BC","<b>Frosty<\/b><\/br>Last Eruption: Unknown","<b>Fuego<\/b><\/br>Last Eruption: 2020 AD","<b>Fuerteventura<\/b><\/br>Last Eruption: Unknown","<b>Fujisan<\/b><\/br>Last Eruption: 1708 AD","<b>Fukue<\/b><\/br>Last Eruption: 400 BC","<b>Furnas<\/b><\/br>Last Eruption: 1630 AD","<b>Gabillema<\/b><\/br>Last Eruption: Unknown","<b>Gada Ale<\/b><\/br>Last Eruption: Unknown","<b>Galapagos Rift<\/b><\/br>Last Eruption: 1996 AD","<b>Galeras<\/b><\/br>Last Eruption: 2014 AD","<b>Gallego<\/b><\/br>Last Eruption: Unknown","<b>Galunggung<\/b><\/br>Last Eruption: 1984 AD","<b>Gamalama<\/b><\/br>Last Eruption: 2018 AD","<b>Gamchen<\/b><\/br>Last Eruption: 550 BC","<b>Gamkonora<\/b><\/br>Last Eruption: 2007 AD","<b>Garibaldi<\/b><\/br>Last Eruption: 8060 BC","<b>Garibaldi Lake<\/b><\/br>Last Eruption: Unknown","<b>Garove<\/b><\/br>Last Eruption: Unknown","<b>Garua Harbour<\/b><\/br>Last Eruption: Unknown","<b>Gaua<\/b><\/br>Last Eruption: 2011 AD","<b>Gedamsa<\/b><\/br>Last Eruption: Unknown","<b>Gede-Pangrango<\/b><\/br>Last Eruption: 1957 AD","<b>Genovesa<\/b><\/br>Last Eruption: Unknown","<b>Ghegham Volcanic Ridge<\/b><\/br>Last Eruption: 1900 BC","<b>Glacier Peak<\/b><\/br>Last Eruption: 1700 AD","<b>Gloria, La<\/b><\/br>Last Eruption: Unknown","<b>Golden Trout Creek<\/b><\/br>Last Eruption: 5550 BC","<b>Goodenough<\/b><\/br>Last Eruption: Unknown","<b>Gorely<\/b><\/br>Last Eruption: 2010 AD","<b>Graciosa<\/b><\/br>Last Eruption: 1950 BC","<b>Gran Canaria<\/b><\/br>Last Eruption: 40 AD","<b>Granada<\/b><\/br>Last Eruption: Unknown","<b>Grimsnes<\/b><\/br>Last Eruption: 3500 BC","<b>Grimsvotn<\/b><\/br>Last Eruption: 2011 AD","<b>Guagua Pichincha<\/b><\/br>Last Eruption: 2002 AD","<b>Guayaques<\/b><\/br>Last Eruption: Unknown","<b>Guazapa<\/b><\/br>Last Eruption: Unknown","<b>Gufa<\/b><\/br>Last Eruption: Unknown","<b>Guntur<\/b><\/br>Last Eruption: 1847 AD","<b>Hachijojima<\/b><\/br>Last Eruption: 1606 AD","<b>Hachimantai<\/b><\/br>Last Eruption: 5350 BC","<b>Hainan Volcanic Field<\/b><\/br>Last Eruption: 1933 AD","<b>Hakkodasan<\/b><\/br>Last Eruption: 1550 AD","<b>Hakoneyama<\/b><\/br>Last Eruption: 2015 AD","<b>Hakusan<\/b><\/br>Last Eruption: 1659 AD","<b>Haleakala<\/b><\/br>Last Eruption: 1750 AD","<b>Halla<\/b><\/br>Last Eruption: 1007 AD","<b>Hanish<\/b><\/br>Last Eruption: Unknown","<b>Hargy<\/b><\/br>Last Eruption: 950 AD","<b>Harrat Ash Shamah<\/b><\/br>Last Eruption: 1850 AD","<b>Harunasan<\/b><\/br>Last Eruption: 550 AD","<b>Hasan Dagi<\/b><\/br>Last Eruption: Unknown","<b>Haut Dong Nai<\/b><\/br>Last Eruption: Unknown","<b>Haylan, Jabal<\/b><\/br>Last Eruption: 1200 BC","<b>Healy<\/b><\/br>Last Eruption: 1360 AD","<b>Heard<\/b><\/br>Last Eruption: 2020 AD","<b>Hekla<\/b><\/br>Last Eruption: 2000 AD","<b>Helgrindur<\/b><\/br>Last Eruption: Unknown","<b>Hell's Half Acre<\/b><\/br>Last Eruption: 3250 BC","<b>Hengill<\/b><\/br>Last Eruption: 150 AD","<b>Hierro<\/b><\/br>Last Eruption: 2012 AD","<b>Hiuchigatake<\/b><\/br>Last Eruption: 1544 AD","<b>Hodson<\/b><\/br>Last Eruption: Unknown","<b>Hofsjokull<\/b><\/br>Last Eruption: Unknown","<b>Hokkaido-Komagatake<\/b><\/br>Last Eruption: 2000 AD","<b>Homa Mountain<\/b><\/br>Last Eruption: Unknown","<b>Hood<\/b><\/br>Last Eruption: 1866 AD","<b>Hoodoo Mountain<\/b><\/br>Last Eruption: 7050 BC","<b>Hromundartindur<\/b><\/br>Last Eruption: Unknown","<b>Hualalai<\/b><\/br>Last Eruption: 1801 AD","<b>Huambo<\/b><\/br>Last Eruption: 700 BC","<b>Huanquihue Group<\/b><\/br>Last Eruption: 1750 AD","<b>Huaynaputina<\/b><\/br>Last Eruption: 1600 AD","<b>Hudson Mountains<\/b><\/br>Last Eruption: 210 BC","<b>Hudson, Cerro<\/b><\/br>Last Eruption: 2011 AD","<b>Huequi<\/b><\/br>Last Eruption: 1920 AD","<b>Hulubelu<\/b><\/br>Last Eruption: Unknown","<b>Hululais<\/b><\/br>Last Eruption: Unknown","<b>Humeros, Los<\/b><\/br>Last Eruption: 4470 BC","<b>Iamalele<\/b><\/br>Last Eruption: Unknown","<b>Ibu<\/b><\/br>Last Eruption: 2020 AD","<b>Iettunup<\/b><\/br>Last Eruption: Unknown","<b>Igwisi Hills<\/b><\/br>Last Eruption: 10450 BC","<b>Ijen<\/b><\/br>Last Eruption: 1999 AD","<b>Iktunup<\/b><\/br>Last Eruption: Unknown","<b>Iliamna<\/b><\/br>Last Eruption: 1876 AD","<b>Iliboleng<\/b><\/br>Last Eruption: 1993 AD","<b>Ililabalekan<\/b><\/br>Last Eruption: Unknown","<b>Ilimuda<\/b><\/br>Last Eruption: Unknown","<b>Iliwerung<\/b><\/br>Last Eruption: 2013 AD","<b>Illiniza<\/b><\/br>Last Eruption: Unknown","<b>Ilopango<\/b><\/br>Last Eruption: 1880 AD","<b>Imbabura<\/b><\/br>Last Eruption: 5550 BC","<b>Imuruk Lake<\/b><\/br>Last Eruption: 300 AD","<b>Indian Heaven<\/b><\/br>Last Eruption: 6250 BC","<b>Infiernillo<\/b><\/br>Last Eruption: 6890 BC","<b>Inielika<\/b><\/br>Last Eruption: 2001 AD","<b>Inierie<\/b><\/br>Last Eruption: 8050 BC","<b>Ioto<\/b><\/br>Last Eruption: 2012 AD","<b>Io-Torishima<\/b><\/br>Last Eruption: 1968 AD","<b>Ipala<\/b><\/br>Last Eruption: Unknown","<b>Irazu<\/b><\/br>Last Eruption: 1994 AD","<b>Isabel, Isla<\/b><\/br>Last Eruption: Unknown","<b>Isarog<\/b><\/br>Last Eruption: 3500 BC","<b>Ischia<\/b><\/br>Last Eruption: 1302 AD","<b>Iskut-Unuk River Cones<\/b><\/br>Last Eruption: 1800 AD","<b>Itasy Volcanic Field<\/b><\/br>Last Eruption: 6050 BC","<b>Ithnayn, Harrat<\/b><\/br>Last Eruption: Unknown","<b>Iwakisan<\/b><\/br>Last Eruption: 1863 AD","<b>Iwatesan<\/b><\/br>Last Eruption: 1919 AD","<b>Ixtepeque<\/b><\/br>Last Eruption: Unknown","<b>Iya<\/b><\/br>Last Eruption: 1969 AD","<b>Iyang-Argapura<\/b><\/br>Last Eruption: Unknown","<b>Iztaccihuatl<\/b><\/br>Last Eruption: Unknown","<b>Izu-Oshima<\/b><\/br>Last Eruption: 1990 AD","<b>Izu-Tobu<\/b><\/br>Last Eruption: 1989 AD","<b>Izu-Torishima<\/b><\/br>Last Eruption: 2002 AD","<b>Jailolo<\/b><\/br>Last Eruption: Unknown","<b>James Ross Island<\/b><\/br>Last Eruption: Unknown","<b>Jan Mayen<\/b><\/br>Last Eruption: 1985 AD","<b>Jatun Mundo Quri Warani<\/b><\/br>Last Eruption: Unknown","<b>Jayu Khota, Laguna<\/b><\/br>Last Eruption: Unknown","<b>Jefferson<\/b><\/br>Last Eruption: 950 AD","<b>Jingbo<\/b><\/br>Last Eruption: 520 BC","<b>Jom-Bolok<\/b><\/br>Last Eruption: 5180 BC","<b>Jordan Craters<\/b><\/br>Last Eruption: 1250 BC","<b>Kaba<\/b><\/br>Last Eruption: 2000 AD","<b>Kaikata Seamount<\/b><\/br>Last Eruption: Unknown","<b>Kaikohe-Bay of Islands<\/b><\/br>Last Eruption: 400 AD","<b>Kaitoku Seamount<\/b><\/br>Last Eruption: 1984 AD","<b>Kanaga<\/b><\/br>Last Eruption: 2012 AD","<b>Kanlaon<\/b><\/br>Last Eruption: 2017 AD","<b>Karang<\/b><\/br>Last Eruption: Unknown","<b>Karapinar Field<\/b><\/br>Last Eruption: Unknown","<b>Karisimbi<\/b><\/br>Last Eruption: 8050 BC","<b>Karkar<\/b><\/br>Last Eruption: 2014 AD","<b>Karthala<\/b><\/br>Last Eruption: 2007 AD","<b>Karymsky<\/b><\/br>Last Eruption: 2019 AD","<b>Katla<\/b><\/br>Last Eruption: 1918 AD","<b>Katmai<\/b><\/br>Last Eruption: 1912 AD","<b>Katwe-Kikorongo<\/b><\/br>Last Eruption: Unknown","<b>Kazbek<\/b><\/br>Last Eruption: 750 BC","<b>Kebeney<\/b><\/br>Last Eruption: Unknown","<b>Kekurny<\/b><\/br>Last Eruption: Unknown","<b>Kelimutu<\/b><\/br>Last Eruption: 1968 AD","<b>Kell<\/b><\/br>Last Eruption: Unknown","<b>Keluo Group<\/b><\/br>Last Eruption: Unknown","<b>Kelut<\/b><\/br>Last Eruption: 2014 AD","<b>Kendang<\/b><\/br>Last Eruption: Unknown","<b>Kerguelen Islands<\/b><\/br>Last Eruption: Unknown","<b>Kerinci<\/b><\/br>Last Eruption: 2020 AD","<b>Ketoi<\/b><\/br>Last Eruption: 1960 AD","<b>Khanuy Gol<\/b><\/br>Last Eruption: Unknown","<b>Kharimkotan<\/b><\/br>Last Eruption: 1933 AD","<b>Khaybar, Harrat<\/b><\/br>Last Eruption: 650 AD","<b>Khodutka<\/b><\/br>Last Eruption: 300 BC","<b>Kick 'em Jenny<\/b><\/br>Last Eruption: 2017 AD","<b>Kikai<\/b><\/br>Last Eruption: 2020 AD","<b>Kikhpinych<\/b><\/br>Last Eruption: 1550 AD","<b>Kilauea<\/b><\/br>Last Eruption: 2018 AD","<b>Kirishimayama<\/b><\/br>Last Eruption: 2018 AD","<b>Kishb, Harrat<\/b><\/br>Last Eruption: Unknown","<b>Kita-Bayonnaise<\/b><\/br>Last Eruption: Unknown","<b>Kita-Ioto<\/b><\/br>Last Eruption: 1945 AD","<b>Klabat<\/b><\/br>Last Eruption: Unknown","<b>Klyuchevskoy<\/b><\/br>Last Eruption: 2020 AD","<b>Kolokol Group<\/b><\/br>Last Eruption: 1973 AD","<b>Kone<\/b><\/br>Last Eruption: 1820 AD","<b>Korath Range<\/b><\/br>Last Eruption: Unknown","<b>Korosi<\/b><\/br>Last Eruption: Unknown","<b>Korovin<\/b><\/br>Last Eruption: 2007 AD","<b>Koshelev<\/b><\/br>Last Eruption: 1690 AD","<b>Kostakan<\/b><\/br>Last Eruption: 1350 AD","<b>Koussi, Emi<\/b><\/br>Last Eruption: Unknown","<b>Kozushima<\/b><\/br>Last Eruption: 838 AD","<b>Krafla<\/b><\/br>Last Eruption: 1984 AD","<b>Krakatau<\/b><\/br>Last Eruption: 2020 AD","<b>Krasheninnikov<\/b><\/br>Last Eruption: 1550 AD","<b>Krummel-Garbuna-Welcker<\/b><\/br>Last Eruption: 2008 AD","<b>Krysuvik<\/b><\/br>Last Eruption: 1340 AD","<b>Ksudach<\/b><\/br>Last Eruption: 1907 AD","<b>Kuchinoerabujima<\/b><\/br>Last Eruption: 2020 AD","<b>Kuchinoshima<\/b><\/br>Last Eruption: 1190 AD","<b>Kujusan<\/b><\/br>Last Eruption: 1996 AD","<b>Kula<\/b><\/br>Last Eruption: Unknown","<b>Kunlun Volcanic Group<\/b><\/br>Last Eruption: 1951 AD","<b>Kurikomayama<\/b><\/br>Last Eruption: 1950 AD","<b>Kurile Lake<\/b><\/br>Last Eruption: 6440 BC","<b>Kusatsu-Shiranesan<\/b><\/br>Last Eruption: 2018 AD","<b>Kussharo<\/b><\/br>Last Eruption: 1320 AD","<b>Kuttara<\/b><\/br>Last Eruption: 1820 AD","<b>Kutum Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Kuwae<\/b><\/br>Last Eruption: 1974 AD","<b>Kverkfjoll<\/b><\/br>Last Eruption: 1968 AD","<b>Kyejo<\/b><\/br>Last Eruption: 1800 AD","<b>La Palma<\/b><\/br>Last Eruption: 1971 AD","<b>Laguna Caldera<\/b><\/br>Last Eruption: Unknown","<b>Lajas, Las<\/b><\/br>Last Eruption: Unknown","<b>Lamongan<\/b><\/br>Last Eruption: 1898 AD","<b>Langila<\/b><\/br>Last Eruption: 2018 AD","<b>Langjokull<\/b><\/br>Last Eruption: 950 AD","<b>Lanin<\/b><\/br>Last Eruption: 560 AD","<b>Lanzarote<\/b><\/br>Last Eruption: 1824 AD","<b>Lascar<\/b><\/br>Last Eruption: 2017 AD","<b>Lassen Volcanic Center<\/b><\/br>Last Eruption: 1917 AD","<b>Lawu<\/b><\/br>Last Eruption: 1885 AD","<b>Lengai, Ol Doinyo<\/b><\/br>Last Eruption: 2020 AD","<b>Leonard Range<\/b><\/br>Last Eruption: 120 AD","<b>Leroboleng<\/b><\/br>Last Eruption: 2003 AD","<b>Leutongey<\/b><\/br>Last Eruption: Unknown","<b>Level Mountain<\/b><\/br>Last Eruption: Unknown","<b>Lewotobi<\/b><\/br>Last Eruption: 2003 AD","<b>Liamuiga<\/b><\/br>Last Eruption: 160 AD","<b>Licancabur<\/b><\/br>Last Eruption: Unknown","<b>Licto<\/b><\/br>Last Eruption: Unknown","<b>Lihir<\/b><\/br>Last Eruption: Unknown","<b>Lipari<\/b><\/br>Last Eruption: 1230 AD","<b>Ljosufjoll<\/b><\/br>Last Eruption: 960 AD","<b>Llaima<\/b><\/br>Last Eruption: 2009 AD","<b>Lokon-Empung<\/b><\/br>Last Eruption: 2015 AD","<b>Lolo<\/b><\/br>Last Eruption: Unknown","<b>Lolobau<\/b><\/br>Last Eruption: 1912 AD","<b>Loloru<\/b><\/br>Last Eruption: 1050 BC","<b>Long Island<\/b><\/br>Last Eruption: 1993 AD","<b>Longgang Group<\/b><\/br>Last Eruption: 350 AD","<b>Lonquimay<\/b><\/br>Last Eruption: 1990 AD","<b>Lubukraya<\/b><\/br>Last Eruption: Unknown","<b>Lunayyir, Harrat<\/b><\/br>Last Eruption: 1000 AD","<b>Ly Son Group<\/b><\/br>Last Eruption: Unknown","<b>Macauley<\/b><\/br>Last Eruption: 4360 BC","<b>Madeira<\/b><\/br>Last Eruption: 4500 BC","<b>Mahagnao<\/b><\/br>Last Eruption: Unknown","<b>Mahawu<\/b><\/br>Last Eruption: 1977 AD","<b>Maipo<\/b><\/br>Last Eruption: 1912 AD","<b>Makushin<\/b><\/br>Last Eruption: 1995 AD","<b>Maly Semyachik<\/b><\/br>Last Eruption: 1952 AD","<b>Mammoth Mountain<\/b><\/br>Last Eruption: 1260 AD","<b>Managlase Plateau<\/b><\/br>Last Eruption: Unknown","<b>Manam<\/b><\/br>Last Eruption: 2020 AD","<b>Manda Hararo<\/b><\/br>Last Eruption: 2009 AD","<b>Manda-Inakir<\/b><\/br>Last Eruption: 1928 AD","<b>Mandalagan<\/b><\/br>Last Eruption: Unknown","<b>Manzaz Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Marapi<\/b><\/br>Last Eruption: 2018 AD","<b>Mariñaqui, Laguna<\/b><\/br>Last Eruption: Unknown","<b>Marion Island<\/b><\/br>Last Eruption: 2004 AD","<b>Mariveles<\/b><\/br>Last Eruption: 2050 BC","<b>Markagunt Plateau<\/b><\/br>Last Eruption: 1050 AD","<b>Maroa<\/b><\/br>Last Eruption: 180 AD","<b>Marra, Jebel<\/b><\/br>Last Eruption: 2000 BC","<b>Marsabit<\/b><\/br>Last Eruption: Unknown","<b>Martin<\/b><\/br>Last Eruption: 1953 AD","<b>Maruyama<\/b><\/br>Last Eruption: 1898 AD","<b>Masaya<\/b><\/br>Last Eruption: 2020 AD","<b>Mascota Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Mashu<\/b><\/br>Last Eruption: 1080 AD","<b>Matthew Island<\/b><\/br>Last Eruption: 1956 AD","<b>Matutum<\/b><\/br>Last Eruption: 1290 AD","<b>Maule, Laguna del<\/b><\/br>Last Eruption: 50 BC","<b>Mauna Kea<\/b><\/br>Last Eruption: 2460 BC","<b>Mauna Loa<\/b><\/br>Last Eruption: 1984 AD","<b>Mayor Island<\/b><\/br>Last Eruption: 5060 BC","<b>Meager<\/b><\/br>Last Eruption: 410 BC","<b>Medicine Lake<\/b><\/br>Last Eruption: 1060 AD","<b>Mega Basalt Field<\/b><\/br>Last Eruption: Unknown","<b>Megata<\/b><\/br>Last Eruption: 2050 BC","<b>Meidob Volcanic Field<\/b><\/br>Last Eruption: 2950 BC","<b>Melbourne<\/b><\/br>Last Eruption: 1892 AD","<b>Merapi<\/b><\/br>Last Eruption: 2020 AD","<b>Merbabu<\/b><\/br>Last Eruption: 1797 AD","<b>Meru<\/b><\/br>Last Eruption: 1910 AD","<b>Methana<\/b><\/br>Last Eruption: 258 BC","<b>Michinmahuida<\/b><\/br>Last Eruption: 1835 AD","<b>Michoacan-Guanajuato<\/b><\/br>Last Eruption: 1952 AD","<b>Midagahara<\/b><\/br>Last Eruption: 1839 AD","<b>Mikurajima<\/b><\/br>Last Eruption: 4100 BC","<b>Milbanke Sound Group<\/b><\/br>Last Eruption: Unknown","<b>Milna<\/b><\/br>Last Eruption: 1914 AD","<b>Milos<\/b><\/br>Last Eruption: 140 AD","<b>Minami-Hiyoshi<\/b><\/br>Last Eruption: 1975 AD","<b>Miravalles<\/b><\/br>Last Eruption: 1946 AD","<b>Miyakejima<\/b><\/br>Last Eruption: 2010 AD","<b>Mocho-Choshuenco<\/b><\/br>Last Eruption: 1937 AD","<b>Moffett<\/b><\/br>Last Eruption: 1600 BC","<b>Mojanda<\/b><\/br>Last Eruption: Unknown","<b>Mombacho<\/b><\/br>Last Eruption: Unknown","<b>Momotombo<\/b><\/br>Last Eruption: 2016 AD","<b>Mono Lake Volcanic Field<\/b><\/br>Last Eruption: 1790 AD","<b>Mono-Inyo Craters<\/b><\/br>Last Eruption: 1380 AD","<b>Montagu Island<\/b><\/br>Last Eruption: 2007 AD","<b>Morning<\/b><\/br>Last Eruption: Unknown","<b>Motlav<\/b><\/br>Last Eruption: Unknown","<b>Moyorodake [Medvezhia]<\/b><\/br>Last Eruption: 1999 AD","<b>Moyuta<\/b><\/br>Last Eruption: Unknown","<b>Muhavura<\/b><\/br>Last Eruption: Unknown","<b>Mundua<\/b><\/br>Last Eruption: Unknown","<b>Muria<\/b><\/br>Last Eruption: 160 BC","<b>Mutnovsky<\/b><\/br>Last Eruption: 2000 AD","<b>Myojinsho<\/b><\/br>Last Eruption: 1970 AD","<b>Myokosan<\/b><\/br>Last Eruption: 750 BC","<b>Nabukelevu<\/b><\/br>Last Eruption: 1660 AD","<b>Nakanoshima<\/b><\/br>Last Eruption: 1914 AD","<b>Namarunu<\/b><\/br>Last Eruption: 6550 BC","<b>Nantaisan<\/b><\/br>Last Eruption: 9540 BC","<b>Naolinco Volcanic Field<\/b><\/br>Last Eruption: 1200 BC","<b>Naruko<\/b><\/br>Last Eruption: 837 AD","<b>Nasudake<\/b><\/br>Last Eruption: 1963 AD","<b>Natib<\/b><\/br>Last Eruption: Unknown","<b>Negra, Sierra<\/b><\/br>Last Eruption: 2018 AD","<b>Negro, Cerro<\/b><\/br>Last Eruption: 1999 AD","<b>Nejapa-Miraflores<\/b><\/br>Last Eruption: 1060 AD","<b>Nemrut Dagi<\/b><\/br>Last Eruption: 1650 AD","<b>Nevis Peak<\/b><\/br>Last Eruption: Unknown","<b>Newberry<\/b><\/br>Last Eruption: 690 AD","<b>Newer Volcanics Province<\/b><\/br>Last Eruption: 2900 BC","<b>Ngozi<\/b><\/br>Last Eruption: 1450 AD","<b>Niigata-Yakeyama<\/b><\/br>Last Eruption: 1998 AD","<b>Niijima<\/b><\/br>Last Eruption: 886 AD","<b>Nikko-Shiranesan<\/b><\/br>Last Eruption: 1952 AD","<b>Niseko<\/b><\/br>Last Eruption: 4900 BC","<b>Nishihitokappuyama [Bogatyr Ridge]<\/b><\/br>Last Eruption: Unknown","<b>Nisyros<\/b><\/br>Last Eruption: 1888 AD","<b>Niuafo'ou<\/b><\/br>Last Eruption: 1985 AD","<b>Norikuradake<\/b><\/br>Last Eruption: 50 BC","<b>North Vate<\/b><\/br>Last Eruption: Unknown","<b>Northern EPR at 9.8°N<\/b><\/br>Last Eruption: 2006 AD","<b>Numazawa<\/b><\/br>Last Eruption: 3400 BC","<b>NW Eifuku<\/b><\/br>Last Eruption: Unknown","<b>NW Rota-1<\/b><\/br>Last Eruption: 2010 AD","<b>Nyambeni Hills<\/b><\/br>Last Eruption: Unknown","<b>Nyamuragira<\/b><\/br>Last Eruption: 2020 AD","<b>Nyiragongo<\/b><\/br>Last Eruption: 2020 AD","<b>Nylgimelkin<\/b><\/br>Last Eruption: 3550 BC","<b>O'a Caldera<\/b><\/br>Last Eruption: Unknown","<b>Ofu-Olosega<\/b><\/br>Last Eruption: 1866 AD","<b>Ojos del Salado, Nevados<\/b><\/br>Last Eruption: 750 AD","<b>Okataina<\/b><\/br>Last Eruption: 1981 AD","<b>Oki-Dogo<\/b><\/br>Last Eruption: Unknown","<b>Okmok<\/b><\/br>Last Eruption: 2008 AD","<b>Oku Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Ol Kokwe<\/b><\/br>Last Eruption: Unknown","<b>Olca-Paruma<\/b><\/br>Last Eruption: Unknown","<b>Olkaria<\/b><\/br>Last Eruption: 1770 AD","<b>Olkoviy Volcanic Group<\/b><\/br>Last Eruption: Unknown","<b>Olot Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Omanago Group<\/b><\/br>Last Eruption: 3050 BC","<b>Ontakesan<\/b><\/br>Last Eruption: 2014 AD","<b>Opala<\/b><\/br>Last Eruption: 1776 AD","<b>Oraefajokull<\/b><\/br>Last Eruption: 1728 AD","<b>Orizaba, Pico de<\/b><\/br>Last Eruption: 1846 AD","<b>Orosi<\/b><\/br>Last Eruption: Unknown","<b>Oshima-Oshima<\/b><\/br>Last Eruption: 1790 AD","<b>Osorezan<\/b><\/br>Last Eruption: 1787 AD","<b>Osorno<\/b><\/br>Last Eruption: 1869 AD","<b>Ostanets<\/b><\/br>Last Eruption: Unknown","<b>Otdelniy<\/b><\/br>Last Eruption: Unknown","<b>Pacaya<\/b><\/br>Last Eruption: 2020 AD","<b>Pagan<\/b><\/br>Last Eruption: 2012 AD","<b>Paka<\/b><\/br>Last Eruption: 7550 BC","<b>Pali-Aike Volcanic Field<\/b><\/br>Last Eruption: 5550 BC","<b>Palomo<\/b><\/br>Last Eruption: Unknown","<b>Paluweh<\/b><\/br>Last Eruption: 2013 AD","<b>Pampa Luxsar<\/b><\/br>Last Eruption: Unknown","<b>Panarea<\/b><\/br>Last Eruption: Unknown","<b>Pantelleria<\/b><\/br>Last Eruption: 1891 AD","<b>Papandayan<\/b><\/br>Last Eruption: 2002 AD","<b>Papayo<\/b><\/br>Last Eruption: Unknown","<b>Parinacota<\/b><\/br>Last Eruption: 290 AD","<b>Patuha<\/b><\/br>Last Eruption: Unknown","<b>Pavlof<\/b><\/br>Last Eruption: 2016 AD","<b>Payun Matru<\/b><\/br>Last Eruption: 5050 BC","<b>Pelee<\/b><\/br>Last Eruption: 1932 AD","<b>Penanggungan<\/b><\/br>Last Eruption: Unknown","<b>Penguin Island<\/b><\/br>Last Eruption: 1905 AD","<b>Perbakti-Gagak<\/b><\/br>Last Eruption: 1939 AD","<b>Peuet Sague<\/b><\/br>Last Eruption: 2000 AD","<b>Pico<\/b><\/br>Last Eruption: 1720 AD","<b>Picos Volcanic System<\/b><\/br>Last Eruption: 1652 AD","<b>Pilas, Las<\/b><\/br>Last Eruption: 1954 AD","<b>Pinacate<\/b><\/br>Last Eruption: Unknown","<b>Pinatubo<\/b><\/br>Last Eruption: 1993 AD","<b>Planchon-Peteroa<\/b><\/br>Last Eruption: 2019 AD","<b>Plat Pays, Morne<\/b><\/br>Last Eruption: 1270 AD","<b>Platanar<\/b><\/br>Last Eruption: Unknown","<b>Pleiades, The<\/b><\/br>Last Eruption: 1050 BC","<b>Poas<\/b><\/br>Last Eruption: 2019 AD","<b>Pocdol Mountains<\/b><\/br>Last Eruption: Unknown","<b>Pogranychny<\/b><\/br>Last Eruption: Unknown","<b>Popa<\/b><\/br>Last Eruption: 442 BC","<b>Popocatepetl<\/b><\/br>Last Eruption: 2020 AD","<b>Porak<\/b><\/br>Last Eruption: 778 BC","<b>Possession, Ile de la<\/b><\/br>Last Eruption: Unknown","<b>Prestahnukur<\/b><\/br>Last Eruption: 3350 BC","<b>Prince Edward Island<\/b><\/br>Last Eruption: Unknown","<b>Protector Seamounts<\/b><\/br>Last Eruption: 1962 AD","<b>Pular<\/b><\/br>Last Eruption: Unknown","<b>Pululahua<\/b><\/br>Last Eruption: 290 AD","<b>Puntiagudo-Cordon Cenizos<\/b><\/br>Last Eruption: 1850 AD","<b>Purace<\/b><\/br>Last Eruption: 1977 AD","<b>Purico Complex<\/b><\/br>Last Eruption: Unknown","<b>Puyehue-Cordon Caulle<\/b><\/br>Last Eruption: 2012 AD","<b>Qualibou<\/b><\/br>Last Eruption: 1766 AD","<b>Quetrupillan<\/b><\/br>Last Eruption: 255 AD","<b>Quill, The<\/b><\/br>Last Eruption: 250 AD","<b>Quimsachata<\/b><\/br>Last Eruption: 4450 BC","<b>Rabaul<\/b><\/br>Last Eruption: 2014 AD","<b>Rahat, Harrat<\/b><\/br>Last Eruption: 1256 AD","<b>Rainier<\/b><\/br>Last Eruption: 1450 AD","<b>Ranakah<\/b><\/br>Last Eruption: 1991 AD","<b>Ranau<\/b><\/br>Last Eruption: Unknown","<b>Raoul Island<\/b><\/br>Last Eruption: 2006 AD","<b>Rasshua<\/b><\/br>Last Eruption: 1957 AD","<b>Raung<\/b><\/br>Last Eruption: 2015 AD","<b>Raususan [Mendeleev]<\/b><\/br>Last Eruption: 1880 AD","<b>Recheschnoi<\/b><\/br>Last Eruption: Unknown","<b>Reclus<\/b><\/br>Last Eruption: 1908 AD","<b>Red Hill<\/b><\/br>Last Eruption: 9450 BC","<b>Reporoa<\/b><\/br>Last Eruption: 1180 AD","<b>Reventador<\/b><\/br>Last Eruption: 2020 AD","<b>Reykjanes<\/b><\/br>Last Eruption: 1831 AD","<b>Rincon de la Vieja<\/b><\/br>Last Eruption: 2020 AD","<b>Rinjani<\/b><\/br>Last Eruption: 2016 AD","<b>Rota<\/b><\/br>Last Eruption: Unknown","<b>Royal Society Range<\/b><\/br>Last Eruption: Unknown","<b>Ruapehu<\/b><\/br>Last Eruption: 2007 AD","<b>Rucharuyama [Golets-Tornyi Group]<\/b><\/br>Last Eruption: Unknown","<b>Ruiz, Nevado del<\/b><\/br>Last Eruption: 2020 AD","<b>Rumble III<\/b><\/br>Last Eruption: 2008 AD","<b>Rungwe<\/b><\/br>Last Eruption: 1250 AD","<b>Ruruidake [Smirnov]<\/b><\/br>Last Eruption: Unknown","<b>Saba<\/b><\/br>Last Eruption: 1640 AD","<b>Sabancaya<\/b><\/br>Last Eruption: 2020 AD","<b>Sairecabur<\/b><\/br>Last Eruption: Unknown","<b>Salak<\/b><\/br>Last Eruption: 1938 AD","<b>Salton Buttes<\/b><\/br>Last Eruption: 210 AD","<b>Samsari Volcanic Center<\/b><\/br>Last Eruption: Unknown","<b>San Borja Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>San Cristobal<\/b><\/br>Last Eruption: 2019 AD","<b>San Cristobal<\/b><\/br>Last Eruption: Unknown","<b>San Diego<\/b><\/br>Last Eruption: Unknown","<b>San Francisco Volcanic Field<\/b><\/br>Last Eruption: 1075 AD","<b>San Jose<\/b><\/br>Last Eruption: 1960 AD","<b>San Luis, Isla<\/b><\/br>Last Eruption: Unknown","<b>San Martin<\/b><\/br>Last Eruption: 1796 AD","<b>San Pablo Volcanic Field<\/b><\/br>Last Eruption: 1350 AD","<b>San Pedro-Pellado<\/b><\/br>Last Eruption: Unknown","<b>San Pedro-San Pablo<\/b><\/br>Last Eruption: 1960 AD","<b>San Quintin Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>San Salvador<\/b><\/br>Last Eruption: 1917 AD","<b>San Vicente<\/b><\/br>Last Eruption: Unknown","<b>Sanbesan<\/b><\/br>Last Eruption: 650 AD","<b>Sand Mountain Field<\/b><\/br>Last Eruption: 950 BC","<b>Sangay<\/b><\/br>Last Eruption: 2020 AD","<b>Sangeang Api<\/b><\/br>Last Eruption: 2020 AD","<b>Sano, Wai<\/b><\/br>Last Eruption: Unknown","<b>Santa Ana<\/b><\/br>Last Eruption: 2005 AD","<b>Santa Cruz<\/b><\/br>Last Eruption: Unknown","<b>Santa Isabel<\/b><\/br>Last Eruption: 850 BC","<b>Santa Maria<\/b><\/br>Last Eruption: 2020 AD","<b>Santiago<\/b><\/br>Last Eruption: 1906 AD","<b>Santiago, Cerro<\/b><\/br>Last Eruption: Unknown","<b>Santorini<\/b><\/br>Last Eruption: 1950 AD","<b>Sarik-Gajah<\/b><\/br>Last Eruption: Unknown","<b>Sarychev Peak<\/b><\/br>Last Eruption: 2019 AD","<b>Sashiusudake [Baransky]<\/b><\/br>Last Eruption: 1951 AD","<b>Saunders<\/b><\/br>Last Eruption: 2020 AD","<b>Savai'i<\/b><\/br>Last Eruption: 1911 AD","<b>Savo<\/b><\/br>Last Eruption: 1847 AD","<b>Sawad, Harra Es-<\/b><\/br>Last Eruption: 1253 AD","<b>Seal Nunataks Group<\/b><\/br>Last Eruption: Unknown","<b>Seguam<\/b><\/br>Last Eruption: 1993 AD","<b>Sekincau Belirang<\/b><\/br>Last Eruption: Unknown","<b>Semeru<\/b><\/br>Last Eruption: 2020 AD","<b>Semisopochnoi<\/b><\/br>Last Eruption: 2020 AD","<b>Serdan-Oriental<\/b><\/br>Last Eruption: Unknown","<b>Serua<\/b><\/br>Last Eruption: 1921 AD","<b>Sete Cidades<\/b><\/br>Last Eruption: 1880 AD","<b>Seulawah Agam<\/b><\/br>Last Eruption: 1839 AD","<b>Severny<\/b><\/br>Last Eruption: 1550 BC","<b>Shasta<\/b><\/br>Last Eruption: 1250 AD","<b>Sheveluch<\/b><\/br>Last Eruption: 2020 AD","<b>Shiga<\/b><\/br>Last Eruption: Unknown","<b>Shikotsu<\/b><\/br>Last Eruption: 1979 AD","<b>Shiretoko-Iozan<\/b><\/br>Last Eruption: 1936 AD","<b>Shishaldin<\/b><\/br>Last Eruption: 2020 AD","<b>Sibualbuali<\/b><\/br>Last Eruption: Unknown","<b>Silali<\/b><\/br>Last Eruption: 5050 BC","<b>Silay<\/b><\/br>Last Eruption: Unknown","<b>Silverthrone<\/b><\/br>Last Eruption: Unknown","<b>Simbo<\/b><\/br>Last Eruption: 1910 AD","<b>Sinabung<\/b><\/br>Last Eruption: 2019 AD","<b>Singkut<\/b><\/br>Last Eruption: 1881 AD","<b>Singuil, Cerro<\/b><\/br>Last Eruption: Unknown","<b>Siple<\/b><\/br>Last Eruption: Unknown","<b>Sirung<\/b><\/br>Last Eruption: 2015 AD","<b>Slamet<\/b><\/br>Last Eruption: 2014 AD","<b>Snezhniy<\/b><\/br>Last Eruption: Unknown","<b>Socorro<\/b><\/br>Last Eruption: 1994 AD","<b>Soda Lakes<\/b><\/br>Last Eruption: Unknown","<b>Sollipulli<\/b><\/br>Last Eruption: 1240 AD","<b>Soputan<\/b><\/br>Last Eruption: 2020 AD","<b>Sorikmarapi<\/b><\/br>Last Eruption: 1986 AD","<b>Soufriere Guadeloupe<\/b><\/br>Last Eruption: 1977 AD","<b>Soufriere Hills<\/b><\/br>Last Eruption: 2013 AD","<b>Soufriere St. Vincent<\/b><\/br>Last Eruption: 1979 AD","<b>Southern Thule<\/b><\/br>Last Eruption: 1975 AD","<b>Spectrum Range<\/b><\/br>Last Eruption: Unknown","<b>Spurr<\/b><\/br>Last Eruption: 1992 AD","<b>St. Andrew Strait<\/b><\/br>Last Eruption: 1957 AD","<b>St. Catherine<\/b><\/br>Last Eruption: Unknown","<b>St. Helens<\/b><\/br>Last Eruption: 2008 AD","<b>St. Michael<\/b><\/br>Last Eruption: Unknown","<b>St. Paul Island<\/b><\/br>Last Eruption: 1280 BC","<b>Stromboli<\/b><\/br>Last Eruption: 2020 AD","<b>Suchitan<\/b><\/br>Last Eruption: Unknown","<b>Sulu Range<\/b><\/br>Last Eruption: Unknown","<b>Sumaco<\/b><\/br>Last Eruption: 1895 AD","<b>Sumbing<\/b><\/br>Last Eruption: 1921 AD","<b>Sumbing<\/b><\/br>Last Eruption: 1730 AD","<b>Sumisujima<\/b><\/br>Last Eruption: 1916 AD","<b>Sundoro<\/b><\/br>Last Eruption: 1971 AD","<b>Suretamatai<\/b><\/br>Last Eruption: 1966 AD","<b>Suswa<\/b><\/br>Last Eruption: Unknown","<b>Suwanosejima<\/b><\/br>Last Eruption: 2020 AD","<b>Taal<\/b><\/br>Last Eruption: 2020 AD","<b>Taapaca<\/b><\/br>Last Eruption: 320 BC","<b>Taburete<\/b><\/br>Last Eruption: Unknown","<b>Tacana<\/b><\/br>Last Eruption: 1986 AD","<b>Tacora<\/b><\/br>Last Eruption: Unknown","<b>Tafu-Maka<\/b><\/br>Last Eruption: 2008 AD","<b>Tahual<\/b><\/br>Last Eruption: Unknown","<b>Tair, Jebel at<\/b><\/br>Last Eruption: 2008 AD","<b>Taisetsuzan<\/b><\/br>Last Eruption: 1739 AD","<b>Takaharayama<\/b><\/br>Last Eruption: 4570 BC","<b>Takahe<\/b><\/br>Last Eruption: 5550 BC","<b>Talagabodas<\/b><\/br>Last Eruption: Unknown","<b>Talakmau<\/b><\/br>Last Eruption: Unknown","<b>Talang<\/b><\/br>Last Eruption: 2007 AD","<b>Tambora<\/b><\/br>Last Eruption: 1967 AD","<b>Tanaga<\/b><\/br>Last Eruption: 1914 AD","<b>Tandikat-Singgalang<\/b><\/br>Last Eruption: 1924 AD","<b>Tangkoko-Duasudara<\/b><\/br>Last Eruption: 1880 AD","<b>Tangkuban Parahu<\/b><\/br>Last Eruption: 2019 AD","<b>Tao-Rusyr Caldera<\/b><\/br>Last Eruption: 1952 AD","<b>Tarakan<\/b><\/br>Last Eruption: Unknown","<b>Taranaki<\/b><\/br>Last Eruption: 1800 AD","<b>Taryatu-Chulutu<\/b><\/br>Last Eruption: 2980 BC","<b>Tatun Volcanic Group<\/b><\/br>Last Eruption: 648 AD","<b>Ta'u<\/b><\/br>Last Eruption: Unknown","<b>Taupo<\/b><\/br>Last Eruption: 260 AD","<b>Taveuni<\/b><\/br>Last Eruption: 1550 AD","<b>Tecapa<\/b><\/br>Last Eruption: Unknown","<b>Tecuamburro<\/b><\/br>Last Eruption: 960 BC","<b>Telica<\/b><\/br>Last Eruption: 2018 AD","<b>Telomoyo<\/b><\/br>Last Eruption: Unknown","<b>Telong, Bur ni<\/b><\/br>Last Eruption: 1937 AD","<b>Tenduruk Dagi<\/b><\/br>Last Eruption: 1855 AD","<b>Tenerife<\/b><\/br>Last Eruption: 1909 AD","<b>Tengchong<\/b><\/br>Last Eruption: 5750 BC","<b>Tengger Caldera<\/b><\/br>Last Eruption: 2019 AD","<b>Tenorio<\/b><\/br>Last Eruption: Unknown","<b>Tepi<\/b><\/br>Last Eruption: Unknown","<b>Terceira<\/b><\/br>Last Eruption: 2000 AD","<b>Theistareykir<\/b><\/br>Last Eruption: 900 BC","<b>Three Sisters<\/b><\/br>Last Eruption: 440 AD","<b>Tidore<\/b><\/br>Last Eruption: Unknown","<b>Tigre, El<\/b><\/br>Last Eruption: Unknown","<b>Tigre, Isla el<\/b><\/br>Last Eruption: Unknown","<b>Tilocalar<\/b><\/br>Last Eruption: Unknown","<b>Tinakula<\/b><\/br>Last Eruption: 2020 AD","<b>Tindfjallajokull<\/b><\/br>Last Eruption: Unknown","<b>Tinguiririca<\/b><\/br>Last Eruption: 1917 AD","<b>Titila<\/b><\/br>Last Eruption: 550 BC","<b>Tjornes Fracture Zone<\/b><\/br>Last Eruption: 1868 AD","<b>Tlevak Strait-Suemez Is.<\/b><\/br>Last Eruption: Unknown","<b>Toba<\/b><\/br>Last Eruption: Unknown","<b>Todoko-Ranu<\/b><\/br>Last Eruption: Unknown","<b>Todra Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Tofua<\/b><\/br>Last Eruption: 2014 AD","<b>Toh, Tarso<\/b><\/br>Last Eruption: Unknown","<b>Tokachidake<\/b><\/br>Last Eruption: 2004 AD","<b>Tolbachik<\/b><\/br>Last Eruption: 2013 AD","<b>Tolhuaca<\/b><\/br>Last Eruption: 4000 BC","<b>Tolima, Nevado del<\/b><\/br>Last Eruption: 1943 AD","<b>Toliman<\/b><\/br>Last Eruption: Unknown","<b>Toluca, Nevado de<\/b><\/br>Last Eruption: 1350 BC","<b>Tomariyama [Golovnin]<\/b><\/br>Last Eruption: 1848 AD","<b>Tombel Graben<\/b><\/br>Last Eruption: Unknown","<b>Tondano Caldera<\/b><\/br>Last Eruption: Unknown","<b>Toney Mountain<\/b><\/br>Last Eruption: Unknown","<b>Tongariro<\/b><\/br>Last Eruption: 2012 AD","<b>Torfajokull<\/b><\/br>Last Eruption: 1477 AD","<b>Toshima<\/b><\/br>Last Eruption: 4550 BC","<b>Tousside, Tarso<\/b><\/br>Last Eruption: Unknown","<b>Towada<\/b><\/br>Last Eruption: 915 AD","<b>Toya<\/b><\/br>Last Eruption: 2001 AD","<b>Traitor's Head<\/b><\/br>Last Eruption: 1881 AD","<b>Tralihue<\/b><\/br>Last Eruption: Unknown","<b>Trident<\/b><\/br>Last Eruption: 1974 AD","<b>Tristan da Cunha<\/b><\/br>Last Eruption: 1962 AD","<b>Trois Pitons, Morne<\/b><\/br>Last Eruption: 920 AD","<b>Trolon<\/b><\/br>Last Eruption: Unknown","<b>Tromen<\/b><\/br>Last Eruption: 1822 AD","<b>Tronador<\/b><\/br>Last Eruption: Unknown","<b>Tullu Moje<\/b><\/br>Last Eruption: 1900 AD","<b>Tungnafellsjokull<\/b><\/br>Last Eruption: Unknown","<b>Tunkin Depression<\/b><\/br>Last Eruption: Unknown","<b>Tupungatito<\/b><\/br>Last Eruption: 1987 AD","<b>Turrialba<\/b><\/br>Last Eruption: 2019 AD","<b>Tutuila<\/b><\/br>Last Eruption: 440 AD","<b>Tutupaca<\/b><\/br>Last Eruption: 1802 AD","<b>Tuya Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Tuzgle<\/b><\/br>Last Eruption: Unknown","<b>Tuzovsky<\/b><\/br>Last Eruption: Unknown","<b>Ubehebe Craters<\/b><\/br>Last Eruption: 150 BC","<b>Udina<\/b><\/br>Last Eruption: Unknown","<b>Udokan Plateau<\/b><\/br>Last Eruption: 220 BC","<b>Ugashik-Peulik<\/b><\/br>Last Eruption: 1814 AD","<b>Uinkaret Field<\/b><\/br>Last Eruption: 1100 AD","<b>Ukinrek Maars<\/b><\/br>Last Eruption: 1977 AD","<b>Uksichan<\/b><\/br>Last Eruption: Unknown","<b>Ulreung<\/b><\/br>Last Eruption: 2990 BC","<b>Umboi<\/b><\/br>Last Eruption: Unknown","<b>Ungaran<\/b><\/br>Last Eruption: Unknown","<b>Unzendake<\/b><\/br>Last Eruption: 1996 AD","<b>Upolu<\/b><\/br>Last Eruption: Unknown","<b>Uratman<\/b><\/br>Last Eruption: Unknown","<b>Ushkovsky<\/b><\/br>Last Eruption: 1890 AD","<b>Usulutan<\/b><\/br>Last Eruption: Unknown","<b>Utila Island<\/b><\/br>Last Eruption: Unknown","<b>Uwayrid, Harrat<\/b><\/br>Last Eruption: 640 AD","<b>Uzon<\/b><\/br>Last Eruption: 200 AD","<b>Vailulu'u<\/b><\/br>Last Eruption: 2003 AD","<b>Vaiyots-Sar<\/b><\/br>Last Eruption: 2000 BC","<b>Vakinankaratra<\/b><\/br>Last Eruption: Unknown","<b>Valle, El<\/b><\/br>Last Eruption: Unknown","<b>Vernadskii Ridge<\/b><\/br>Last Eruption: Unknown","<b>Vestmannaeyjar<\/b><\/br>Last Eruption: 1973 AD","<b>Vesuvius<\/b><\/br>Last Eruption: 1944 AD","<b>Victory<\/b><\/br>Last Eruption: 1935 AD","<b>Villarrica<\/b><\/br>Last Eruption: 2020 AD","<b>Vilyuchik<\/b><\/br>Last Eruption: 8050 BC","<b>Visoke<\/b><\/br>Last Eruption: 1957 AD","<b>Visokiy<\/b><\/br>Last Eruption: Unknown","<b>Vitim Volcanic Field<\/b><\/br>Last Eruption: Unknown","<b>Voon, Tarso<\/b><\/br>Last Eruption: Unknown","<b>Voyampolsky<\/b><\/br>Last Eruption: Unknown","<b>Vulcano<\/b><\/br>Last Eruption: 1890 AD","<b>Vulsini<\/b><\/br>Last Eruption: 104 BC","<b>Vysoky<\/b><\/br>Last Eruption: 550 BC","<b>Waesche<\/b><\/br>Last Eruption: Unknown","<b>Wallis Islands<\/b><\/br>Last Eruption: Unknown","<b>Wapi Lava Field<\/b><\/br>Last Eruption: 300 BC","<b>Washiba-Kumonotaira<\/b><\/br>Last Eruption: Unknown","<b>Watt, Morne<\/b><\/br>Last Eruption: 1997 AD","<b>Wells Gray-Clearwater<\/b><\/br>Last Eruption: 1550 AD","<b>West Crater<\/b><\/br>Last Eruption: 5750 BC","<b>West Eifel Volcanic Field<\/b><\/br>Last Eruption: 8300 BC","<b>West Mata<\/b><\/br>Last Eruption: 2009 AD","<b>Westdahl<\/b><\/br>Last Eruption: 1992 AD","<b>Whakaari/White Island<\/b><\/br>Last Eruption: 2019 AD","<b>Whangarei<\/b><\/br>Last Eruption: Unknown","<b>Wilis<\/b><\/br>Last Eruption: Unknown","<b>Witori<\/b><\/br>Last Eruption: 2012 AD","<b>Wrangell<\/b><\/br>Last Eruption: 1912 AD","<b>Wudalianchi<\/b><\/br>Last Eruption: 1776 AD","<b>Yakedake<\/b><\/br>Last Eruption: 1995 AD","<b>Yar, Jabal<\/b><\/br>Last Eruption: 1810 AD","<b>Yasur<\/b><\/br>Last Eruption: 2020 AD","<b>Yavinsky<\/b><\/br>Last Eruption: 4050 BC","<b>Yellowstone<\/b><\/br>Last Eruption: 1350 BC","<b>Yojoa, Lake<\/b><\/br>Last Eruption: Unknown","<b>Yokoate-jima<\/b><\/br>Last Eruption: 1835 AD","<b>Yokodake<\/b><\/br>Last Eruption: 1200 AD","<b>Yonemaru-Sumiyoshiike<\/b><\/br>Last Eruption: 6200 BC","<b>Yoteizan<\/b><\/br>Last Eruption: 1050 BC","<b>Yucamane<\/b><\/br>Last Eruption: 1320 BC","<b>Yufu-Tsurumi<\/b><\/br>Last Eruption: 867 AD","<b>Yunaska<\/b><\/br>Last Eruption: 1937 AD","<b>Zacate Grande, Isla<\/b><\/br>Last Eruption: Unknown","<b>Zaozan [Zaosan]<\/b><\/br>Last Eruption: 1940 AD","<b>Zaozerny<\/b><\/br>Last Eruption: Unknown","<b>Zapatera<\/b><\/br>Last Eruption: Unknown","<b>Zavaritsky<\/b><\/br>Last Eruption: 800 BC","<b>Zavodovski<\/b><\/br>Last Eruption: 2016 AD","<b>Zimina<\/b><\/br>Last Eruption: Unknown","<b>Zitacuaro-Valle de Bravo<\/b><\/br>Last Eruption: 3050 BC","<b>Zubair Group<\/b><\/br>Last Eruption: 2013 AD","<b>Zukur<\/b><\/br>Last Eruption: Unknown","<b>Zuni-Bandera<\/b><\/br>Last Eruption: 1170 BC"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["ESRI","OSM","Stamen","Terrain","Topo","Night"],"Eruptions",{"collapsed":true,"autoZIndex":true,"position":"topright"}]}],"limits":{"lat":[-78.5,71.082],"lng":[-179.97,179.58]}},"evals":[],"jsHooks":[]}</script>
+
+Created with [Leaflet](https://rstudio.github.io/leaflet/). Data from ["Tidy Tuesday"](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-05-12/readme.md). &lt;a target="_blank" href="https://icons8.com/icons/set/volcano"&gt;Volcano icon &lt;/a&gt;by &lt;a target="_blank" href="https://icons8.com"&gt;Icons8&lt;/a&gt;
+
+---
+
+## Geocoding 
+
+.pull-left[
+
+- Longitude and latitude coordinates are needed for mapping and geospatial analysis.
+
+- **Geocoding** is the process of getting data such as latitude and longitude for addresses.
+
+- Addresses are submitted to geocoder services via HTTP requests. Data is often returned in JSON format.
+
+- Some services offer **batch geocoding** which allows multiple addresses to be submitted in a single query.
+
+- Try it out with [OpenStreetMap.org (Nominatim)](https://www.openstreetmap.org/) 
+
+]
+
+.pull-right[
+
+![](images/geocoding-graph.jpg)&lt;!-- --&gt;
+]
+
+???
+
+Image Source: https://www.geospatialworld.net/blogs/what-is-geocoding-and-how-can-it-help-sell-products/ 
+
+Nominatim Washington Monument Lookup: https://www.openstreetmap.org/relation/3374540#map=17/38.88943/-77.03251
+
+---
+
+## Geocoder Queries - Nominatim (OSM)
+
+- **Nominatim** is an open source geocoder service for the OpenStreetMap (OSM) database. It has a 1 request per second usage limitation. 
+
+- The **httr** package is used to execute the HTTP query to the API. 
+
+- The **jsonlite** and **httr** packages are used to format the json (text) format response from the API as a data frame.
+
+
+```r
+osm_response &lt;- httr::GET(
+  url = "http://nominatim.openstreetmap.org/search", 
+  query = list(q = 'Tokyo, Japan', format = 'json', limit = 1))
+
+osm_results &lt;- jsonlite::fromJSON(
+  httr::content(osm_response, as = 'text', encoding = "UTF-8"))
+```
+
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#lecimjkqmj .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#lecimjkqmj .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lecimjkqmj .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#lecimjkqmj .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#lecimjkqmj .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lecimjkqmj .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lecimjkqmj .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#lecimjkqmj .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#lecimjkqmj .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#lecimjkqmj .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#lecimjkqmj .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#lecimjkqmj .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#lecimjkqmj .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#lecimjkqmj .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#lecimjkqmj .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#lecimjkqmj .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#lecimjkqmj .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#lecimjkqmj .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lecimjkqmj .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#lecimjkqmj .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lecimjkqmj .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#lecimjkqmj .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#lecimjkqmj .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lecimjkqmj .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lecimjkqmj .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#lecimjkqmj .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lecimjkqmj .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#lecimjkqmj .gt_left {
+  text-align: left;
+}
+
+#lecimjkqmj .gt_center {
+  text-align: center;
+}
+
+#lecimjkqmj .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#lecimjkqmj .gt_font_normal {
+  font-weight: normal;
+}
+
+#lecimjkqmj .gt_font_bold {
+  font-weight: bold;
+}
+
+#lecimjkqmj .gt_font_italic {
+  font-style: italic;
+}
+
+#lecimjkqmj .gt_super {
+  font-size: 65%;
+}
+
+#lecimjkqmj .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="lecimjkqmj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">place_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">licence</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">osm_type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">osm_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">boundingbox</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">lat</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">lon</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">display_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">class</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">importance</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">icon</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_center">235620763</td>
+      <td class="gt_row gt_left">Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright</td>
+      <td class="gt_row gt_left">relation</td>
+      <td class="gt_row gt_center">1543125</td>
+      <td class="gt_row gt_center">20.2145811, 35.8984245, 135.8536855, 154.205541</td>
+      <td class="gt_row gt_left">35.6828387</td>
+      <td class="gt_row gt_left">139.7594549</td>
+      <td class="gt_row gt_left">東京都, 日本 (Japan)</td>
+      <td class="gt_row gt_left">boundary</td>
+      <td class="gt_row gt_left">administrative</td>
+      <td class="gt_row gt_right">0.8593312</td>
+      <td class="gt_row gt_left">https://nominatim.openstreetmap.org/images/mapicons/poi_boundary_administrative.p.20.png</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+
+---
+
+## Geocoder Queries - Census
+
+- The US Census geocoder service is limited to the United States and can only geocode street level addresses. However, it has no usage restrictions.
+
+
+```r
+census_response &lt;- httr::GET(
+  url = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress", 
+  query = list(address = "1600 Pennsylvania Ave, Washington, DC",
+  format = 'json', benchmark = 'Public_AR_Current'))
+
+census_raw &lt;- jsonlite::fromJSON(httr::content(census_response, 
+                as = 'text', encoding = "UTF-8"))
+
+census_results &lt;- jsonlite::flatten(census_raw$result$addressMatches)
+```
+
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#yuyuvbvdgr .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#yuyuvbvdgr .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#yuyuvbvdgr .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#yuyuvbvdgr .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#yuyuvbvdgr .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yuyuvbvdgr .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#yuyuvbvdgr .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#yuyuvbvdgr .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#yuyuvbvdgr .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#yuyuvbvdgr .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#yuyuvbvdgr .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#yuyuvbvdgr .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#yuyuvbvdgr .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#yuyuvbvdgr .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#yuyuvbvdgr .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#yuyuvbvdgr .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#yuyuvbvdgr .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#yuyuvbvdgr .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yuyuvbvdgr .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#yuyuvbvdgr .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yuyuvbvdgr .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#yuyuvbvdgr .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#yuyuvbvdgr .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yuyuvbvdgr .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#yuyuvbvdgr .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#yuyuvbvdgr .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#yuyuvbvdgr .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#yuyuvbvdgr .gt_left {
+  text-align: left;
+}
+
+#yuyuvbvdgr .gt_center {
+  text-align: center;
+}
+
+#yuyuvbvdgr .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#yuyuvbvdgr .gt_font_normal {
+  font-weight: normal;
+}
+
+#yuyuvbvdgr .gt_font_bold {
+  font-weight: bold;
+}
+
+#yuyuvbvdgr .gt_font_italic {
+  font-style: italic;
+}
+
+#yuyuvbvdgr .gt_super {
+  font-size: 65%;
+}
+
+#yuyuvbvdgr .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="yuyuvbvdgr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">matchedAddress</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">coordinates.x</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">coordinates.y</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tigerLine.tigerLineId</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tigerLine.side</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.fromAddress</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.toAddress</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.preQualifier</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.preDirection</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.preType</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.streetName</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.suffixType</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.suffixDirection</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.suffixQualifier</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.city</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.state</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">addressComponents.zip</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20006</td>
+      <td class="gt_row gt_right">-77.03535</td>
+      <td class="gt_row gt_right">38.89875</td>
+      <td class="gt_row gt_left">76225813</td>
+      <td class="gt_row gt_left">L</td>
+      <td class="gt_row gt_left">1600</td>
+      <td class="gt_row gt_left">1698</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">PENNSYLVANIA</td>
+      <td class="gt_row gt_left">AVE</td>
+      <td class="gt_row gt_left">NW</td>
+      <td class="gt_row gt_left"></td>
+      <td class="gt_row gt_left">WASHINGTON</td>
+      <td class="gt_row gt_left">DC</td>
+      <td class="gt_row gt_left">20006</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+
+---
+
+## Batch Geocoding - Census
+
+- The Census service allows up to 10,000 addresses to be submitted at once via batch geocoding.
+
+.scroll-output[
+
+```r
+# column names for what the census batch geocoder returns
+return_cols &lt;- c('id', 'input_address', 'match_indicator', 'match_type', 
+  'matched_address', 'coords', 'tiger_line_id', 'tiger_side')
+
+# Format input data
+input_df &lt;- tibble::tibble(
+  id = 1:50,
+  street = louisville$street,
+  city = louisville$city,
+  state = louisville$state,
+  zip = louisville$zip,
+)
+
+# Prepare temp CSV file for upload
+tmp &lt;- tempfile(fileext = '.csv')
+utils::write.table(input_df, tmp, row.names = FALSE, 
+                   col.names = FALSE, sep = ',', na = '', 
+                   qmethod = 'double', fileEncoding = "UTF-8")
+
+# Upload CSV file via HTTP POST request
+req &lt;- httr::POST(
+ "https://geocoding.geo.census.gov/geocoder/locations/addressbatch",
+   body = list(
+     addressFile = httr::upload_file(tmp),
+     benchmark = 'Public_AR_Current',
+     format = 'json',
+     vintage = 'Current_Current'
+   ),
+   encode = 'multipart',
+   httr::timeout(60)
+  )
+
+# Parse response data
+cnt &lt;- httr::content(req, as = 'text', encoding = "ISO-8859-1")
+batch_results &lt;- utils::read.csv(text = cnt, header = FALSE,
+    col.names = return_cols, fill = TRUE, 
+    stringsAsFactors = FALSE, na.strings = '')
+# reorder by id column
+batch_results &lt;- batch_results[order(batch_results['id']), ] 
+```
+]
+
+---
+
+## Batch Geocoding - Results
+
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#oezgrgvzbe .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#oezgrgvzbe .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#oezgrgvzbe .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#oezgrgvzbe .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#oezgrgvzbe .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oezgrgvzbe .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#oezgrgvzbe .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#oezgrgvzbe .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#oezgrgvzbe .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#oezgrgvzbe .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#oezgrgvzbe .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#oezgrgvzbe .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#oezgrgvzbe .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#oezgrgvzbe .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#oezgrgvzbe .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#oezgrgvzbe .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#oezgrgvzbe .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#oezgrgvzbe .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oezgrgvzbe .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#oezgrgvzbe .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oezgrgvzbe .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#oezgrgvzbe .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#oezgrgvzbe .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oezgrgvzbe .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#oezgrgvzbe .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#oezgrgvzbe .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#oezgrgvzbe .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#oezgrgvzbe .gt_left {
+  text-align: left;
+}
+
+#oezgrgvzbe .gt_center {
+  text-align: center;
+}
+
+#oezgrgvzbe .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#oezgrgvzbe .gt_font_normal {
+  font-weight: normal;
+}
+
+#oezgrgvzbe .gt_font_bold {
+  font-weight: bold;
+}
+
+#oezgrgvzbe .gt_font_italic {
+  font-style: italic;
+}
+
+#oezgrgvzbe .gt_super {
+  font-size: 65%;
+}
+
+#oezgrgvzbe .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="oezgrgvzbe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">input_address</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">match_indicator</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">match_type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">matched_address</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">coords</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">tiger_line_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tiger_side</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_left">2722 ELLIOTT AVE, Louisville, Kentucky, 40211</td>
+      <td class="gt_row gt_left">Match</td>
+      <td class="gt_row gt_left">Exact</td>
+      <td class="gt_row gt_left">2722 ELLIOTT AVE, LOUISVILLE, KY, 40211</td>
+      <td class="gt_row gt_left">-85.79683,38.250782</td>
+      <td class="gt_row gt_center">639009318</td>
+      <td class="gt_row gt_left">L</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_left">850 WASHBURN AVE, Louisville, Kentucky, 40222</td>
+      <td class="gt_row gt_left">Match</td>
+      <td class="gt_row gt_left">Exact</td>
+      <td class="gt_row gt_left">850 WASHBURN AVE, LOUISVILLE, KY, 40222</td>
+      <td class="gt_row gt_left">-85.62038,38.264137</td>
+      <td class="gt_row gt_center">96874221</td>
+      <td class="gt_row gt_left">L</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">3</td>
+      <td class="gt_row gt_left">1449 ST JAMES CT, Louisville, Kentucky, 40208</td>
+      <td class="gt_row gt_left">Match</td>
+      <td class="gt_row gt_left">Exact</td>
+      <td class="gt_row gt_left">1449 SAINT JAMES CT, LOUISVILLE, KY, 40208</td>
+      <td class="gt_row gt_left">-85.76332,38.22755</td>
+      <td class="gt_row gt_center">96844052</td>
+      <td class="gt_row gt_left">L</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">4</td>
+      <td class="gt_row gt_left">9007 SAGEBRUSH CT, Louisville, Kentucky, 40228</td>
+      <td class="gt_row gt_left">Match</td>
+      <td class="gt_row gt_left">Exact</td>
+      <td class="gt_row gt_left">9007 SAGEBRUSH CT, LOUISVILLE, KY, 40228</td>
+      <td class="gt_row gt_left">-85.60605,38.13087</td>
+      <td class="gt_row gt_center">96892832</td>
+      <td class="gt_row gt_left">L</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+
+---
+
+## Why a New R Package for Geocoding?
+
+&lt;/br&gt;
+
+**The Problem: Geocoding can be unintuitive and time consuming**
+
+- API parameters, capabilities, and data formats vary between geocoding services.
+
+- Existing R packages for geocoding often only support a single service.
+
+- Significant data manipulation can be required when geocoding, especially when working with multiple packages and services.
+
+&lt;/br&gt;
+
+**The Goal: Create an R Package that makes geocoding easy**
+
+- Provide an intuitive unified interface for using multiple geocoding services.
+
+- Provide the data from geocoding services in a standard dataframe format for ease of use.
+
+- Integrate seamlessly into existing tidyverse data pipelines.
+
+---
+class: inverse, center, middle
+# Tidygeocoder - The First Release
+---
+
+## The First Release
+
+.pull-left[
+- Initial release of tidygeocoder was in October 2019.
+
+- It took several submissions to CRAN before it was accepted.
+
+- Could use either Census or Nominatim (OSM) geocoder services.
+
+- The OSM geocoder was implemented using the **tmaptools** package (more on this package later).
+
+- Latitude and longitude were returned in dataframe format.
+]
+
+.pull-right[
+![](images/baby_steps.gif)&lt;!-- --&gt;
+]
+---
+
+## Function Architecture
+
+Three functions:
+
+- **geo_census()** geocodes a single address using the Census geocoder.
+
+- **geo_osm()** geocodes a single address with OSM (Nominatim) via the **tmaptools** package.
+
+- **geocode()** takes a dataframe as an input and calls either `geo_census()` or `geo_osm()` in a loop to geocode multiple addresses.
+
+&lt;!-- For some reason only html center tags work with DiagrammeR (.center[] and fig.align='center' don't) --&gt;
+&lt;center&gt;
+<div id="htmlwidget-c9f8b498d49581b5c3e6" style="width:70%;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c9f8b498d49581b5c3e6">{"x":{"diagram":"digraph function_calls {\n\n      graph [layout = dot]\n      \n      node [fontname = Helvetica, shape = egg, fixedsize = true, fillcolor = linen,\n        width = 2, fontsize = 12, style = filled ]       \n        \n      geocode [label = \"geocode()\"]\n      geo_census [label = \"geo_census()\"]\n      geo_osm [label = \"geo_osm()\"]\n      \n\n      # edge definitions with the node IDs\n      geocode -> { geo_census geo_osm };\n      }\n      ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+&lt;/center&gt;
+---
+
+## Tidygeocoder - Demo
+
+&lt;iframe src="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html" width="100%" height="480px"&gt;&lt;/iframe&gt;
+
+---
+
+background-image: url("images/GitHub-Logo.png")
+background-position: 93% 5%
+background-size: 110px
+
+## Project Management - GitHub
+
+- Use **issues** to track bugs and features
+
+- Tag issues to commits to help track code changes
+
+- Use **branches** to organize significant code alterations
+
+- Create a **release** when a new version is accepted by CRAN
+
+- Users can install experimental versions of your package from Github with `devtools::install_github()`
+
+.center[
+![](images/dilbert_agile.gif)&lt;!-- --&gt;
+]
+
+---
+
+## Problems in the Initial Release
+
+.pull-left[
+- **Installation errors** caused by package dependency issues (more on this later) 
+
+- **Lack of batch geocoding** made it less useful for large volumes of addresses
+
+- Nominatim (OSM) service sometimes blocked users because of API overuse
+
+- **Only returns latitude and longitude**. Geocoder servers offer other data (Census geographies, building height, etc.)
+
+- Limited ability to use customize API queries
+
+- Could only use single line addresses
+]
+
+.pull-right[
+![](images/bug_feature.jpg)&lt;!-- --&gt;
+]
+
+---
+class: inverse, center, middle
+# Redesigning Tidygeocoder
+---
+
+background-image: url("images/tidygeocoder_hex.png")
+background-position: 93% 5%
+background-size: 110px
+
+## Tidygeocoder 1.0.0
+
+- Released in July 2020.
+
+- Code was modularized to more efficiently support multiple geocoder services
+
+- Support was added for the commercial **Geocodio** and **Location IQ** geocoder services
+
+- **Reduced package dependencies** to address installation problems (most of the package was rewritten in base R)
+
+- **Batch geocoding** support was added for the US Census and Geocodio services
+
+- Option to return the full geocoder service results (not just latitude and longitude)
+
+- Increased flexibility in creating API queries
+
+- Deduplication of address data
+
+
+???
+
+https://jessecambon.github.io/tidygeocoder/news/index.html 
+
+---
+
+## Tidygeocoder 1.0.0 - Demo
+
+&lt;iframe src="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html" width="100%" height="480px"&gt;&lt;/iframe&gt;
+
+---
+
+## New Function Architecture
+
+- Two main functions: 
+  - **geocode()** accepts a dataframe containing addresses
+  - **geo()** accepts character values (addresses)
+  
+- Only unique addresses are submitted to geocoder services, but rows in the original dataset are preserved ("packaging" and "unpackaging" of addresses)
+- A built-in dataframe is used to lookup API parameters for each geocoder service
+
+<div id="htmlwidget-d1ce449d7e5926fe7126" style="width:738px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d1ce449d7e5926fe7126">{"x":{"diagram":"digraph function_calls {\n\n      graph [layout = dot]\n      \n      node [fontname = Helvetica, shape = egg, fixedsize = true,\n              style = filled, fillcolor = linen, width = 2, fontsize = 12 ]       \n        \n      geo [label = \"geo()\"]\n      geocode [label = \"geocode()\"]\n      package_addresses [label = \"Package Addresses\"]\n      build_query [label = \"Build API\nQuery Parameters\"]\n      query_api [label = \"Executive API Query\"]\n      extract_results [label = \"Extract Query Results\"]\n      unpackage_addresses [label = \"Unpackage Addresses\"]\n      \n\n      # edge definitions with the node IDs\n      geocode -> geo;\n      geo -> {package_addresses build_query query_api extract_results unpackage_addresses};\n      }\n      ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+## API Standardization
+
+- The package architecture was structured to make it easier to implement multiple geocoder services
+
+- A central `api_parameter_reference` dataframe houses the cross-reference for universal and API-specific parameter names.
+
+<div id="htmlwidget-d53c798144e67e8ee24a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d53c798144e67e8ee24a">{"x":{"filter":"none","data":[["census","census","census","census","census","census","census","census","census","census","census","osm","osm","osm","osm","osm","osm","osm","osm","osm","iq","iq","iq","iq","iq","iq","iq","iq","iq","iq","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio"],["format","limit",null,null,"address","street","city","county","state","postalcode","country","format","limit","address","street","city","county","state","postalcode","country","api_key","format","limit","address","street","city","county","state","postalcode","country","api_key","limit","format","address","street","city","county","state","postalcode","country"],["format",null,"benchmark","vintage","address","street","city",null,"state","zip",null,"format","limit","q","street","city","county","state","postalcode","country","key","format","limit","q","street","city","county","state","postalcode","country","api_key","limit",null,"q","street","city",null,"state","postal_code","country"],["json",null,"Public_AR_Current","Current_Current",null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"1",null,null,null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>method<\/th>\n      <th>generic_name<\/th>\n      <th>api_name<\/th>\n      <th>default_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":6,"pageLength":6,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+## Dependencies
+
+.center[
+&lt;img src="images/open_source_jenga.png" width="370" /&gt;
+]
+.center[https://xkcd.com/2347/]
+
+---
+
+## Dependencies - Initial Release
+
+.center[
+&lt;img src="images/tidygeocoder_old_dependencies.png" width="667" /&gt;
+]
+
+---
+
+## Dependencies - Current Version
+
+.center[
+![](tidygeocoder-presentation_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+]
+
+---
+
+background-image: url("images/devtools-logo.svg")
+background-position: 93% 5%
+background-size: 110px
+
+## Testing
+
+.pull-left[
+- You can include automated tests within your R package (in the "tests" directory)
+
+- The **rhub** package uploads your package to servers which test it on multiple platforms (Linux/Mac/Windows)
+
+- You can test your package locally or with rhub using the **devtools** package
+
+- Because tidygeocoder uses external web services that can experience downtime, I opted for more minimal built-in tests.
+
+]
+
+.pull-right[
+&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;
+![](images/rhub-animation.gif)&lt;!-- --&gt;
+]
+
+???
+
+Documentation of tests performed: https://github.com/jessecambon/tidygeocoder/blob/master/cran-comments.md 
+
+---
+
+background-image: url("images/pkgdown.png")
+background-position: 93% 5%
+background-size: 110px
+
+## Creating a Documentation Website
+
+- The **pkgdown** package builds a static HTML website
+
+- Requires minimal configuration and can be hosted for free on Github pages
+
+- Your Github **README.md** becomes the home page of the site
+
+- In-built package documentation is used to populate the website
+
+- Search capabilities can be added for free with [Algolia](https://pkgdown.r-lib.org/articles/search.html)
+
+.center[
+&lt;img src="images/up-to-date-documentation.jpg" height="300px" /&gt;
+]
+---
+
+## The Package Website
+
+&lt;iframe src="https://jessecambon.github.io/tidygeocoder/" width="100%" height="480px"&gt;&lt;/iframe&gt;
+
+---
+class: inverse, center, middle
+# Closing Thoughts
+---
+
+## Lessons Learned on Open Source Development
+
+- **Start small:** if you have code that makes a common task easier, you might have the basis for a package
+
+- **It's an iterative process:** open source packages are works in progress (to varying degrees)
+
+- Getting **feedback** and seeing how people use your package is very valuable for making it better and for personal development
+
+- It can be time consuming, but also rewarding and a great way to learn
+
+- Open source projects are a great opportunity for organizations to earn technical street cred:
+  - [**Facebook**](https://opensource.facebook.com/projects/): PyTorch, MaskRCNN, Prophet, React, Docusaurus
+  - [**Google**](https://opensource.google/projects/list/featured): Android, Chromium, Angular, Kubernetes, CasualImpact
+
+.center[
+![](images/open_source_dilbert.gif)&lt;!-- --&gt;
+]
+
+???
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
