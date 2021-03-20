@@ -35,7 +35,7 @@ library(tidyverse)
 Now, let's take a look at the [mpg](https://ggplot2.tidyverse.org/reference/mpg.html) dataset from the [ggplot2](https://ggplot2.tidyverse.org/index.html) package:
 
 ```{r,echo=F} 
-kable(head(mpg,3))
+kable(head(mpg, 3))
 ```
 
 We'll perform a few of the most commonly used data manipulation operations on this dataset using the [dplyr](https://dplyr.tidyverse.org/) package. If you're new to R, the **<-** operator that you see below is used to assign the value of what follows it to the dataset that precedes it. In this example, we are manipulating the 'mpg' dataset and saving it as the 'mpg_subset' dataset. 
@@ -54,11 +54,15 @@ In this example, we select the two rows that contain Nissan vehicles years 2005 
 
 ```{r}
 mpg_subset <- mpg %>%
-  filter(cyl == 4 & year >= 2005  & manufacturer == "nissan") %>%
-  mutate(mpg_ratio = hwy/cty,
-         make_model = str_c(manufacturer,' ',model)) %>%
-  select(make_model,year,hwy,cty,everything(),
-         -manufacturer,-model,-drv,-trans) %>%
+  filter(cyl == 4 & year >= 2005 & manufacturer == "nissan") %>%
+  mutate(
+    mpg_ratio = hwy / cty,
+    make_model = str_c(manufacturer, " ", model)
+  ) %>%
+  select(
+    make_model, year, hwy, cty, everything(),
+    -manufacturer, -model, -drv, -trans
+  ) %>%
   rename(fuel_type = fl)
 ```
 
@@ -84,15 +88,20 @@ A broader variety of statistics can be calculated using the [group_by](https://d
 The [arrange](https://dplyr.tidyverse.org/reference/arrange.html) function is used to order the rows in the dataset in descending order of the created 'count' variable. Note that the 'ungroup' function is not strictly necessary in this case, but it is a good practice if we plan to manipulate our dataset in the future without using groups.
 
 ```{r}
-mpg_stats <- mpg %>% select(class,hwy) %>%
-  mutate(class_c = case_when(class %in% c("2seater","subcompact") ~ "subcompact",
-                               TRUE ~ class)) %>%
+mpg_stats <- mpg %>%
+  select(class, hwy) %>%
+  mutate(class_c = case_when(
+    class %in% c("2seater", "subcompact") ~ "subcompact",
+    TRUE ~ class
+  )) %>%
   group_by(class_c) %>%
-  summarize(count = n(),
-            min_hwy = min(hwy),
-            max_hwy = max(hwy),
-            median_hwy = median(hwy),
-            mean_hwy = mean(hwy)) %>%
+  summarize(
+    count = n(),
+    min_hwy = min(hwy),
+    max_hwy = max(hwy),
+    median_hwy = median(hwy),
+    mean_hwy = mean(hwy)
+  ) %>%
   ungroup() %>%
   arrange(desc(count)) # sort dataset
 ```
@@ -106,8 +115,9 @@ kable(mpg_stats)
 If you have datasets whose columns or rows align, you can combine them by stacking the datasets vertically or horizontally. To demonstrate this, we will first use the [slice](https://dplyr.tidyverse.org/reference/slice.html) function to subset the 'mpg' dataset by row numbers to create the 'mpg1' and 'mpg2' datasets. 
 
 ```{r}
-mpg1 <- mpg %>% slice(1) %>% 
-  select(manufacturer,model,hwy,cty) %>%
+mpg1 <- mpg %>%
+  slice(1) %>%
+  select(manufacturer, model, hwy, cty) %>%
   mutate(dataset = 1)
 ```
 
@@ -116,8 +126,9 @@ kable(mpg1)
 ```
 
 ```{r}
-mpg2 <- mpg %>% slice(44:45) %>%
-  select(manufacturer,model,hwy,cty) %>%
+mpg2 <- mpg %>%
+  slice(44:45) %>%
+  select(manufacturer, model, hwy, cty) %>%
   mutate(dataset = 2)
 ```
 
@@ -128,7 +139,7 @@ kable(mpg2)
 Since these two datasets we just created have the same columns we can stack them vertically using [bind_rows](https://dplyr.tidyverse.org/reference/bind.html):
 
 ```{r}
-mpg_stack_vert <- mpg1 %>% 
+mpg_stack_vert <- mpg1 %>%
   bind_rows(mpg2)
 ```
 
@@ -139,8 +150,9 @@ kable(mpg_stack_vert)
 Now let's create a third subsection of the 'mpg' dataset using the same rows that generated 'mpg1' and 'mpg2' above, but with different columns. We'll call it 'mpg3':
 
 ```{r}
-mpg3 <- mpg %>% slice(1,44:45) %>%
-  select(displ,year)
+mpg3 <- mpg %>%
+  slice(1, 44:45) %>%
+  select(displ, year)
 ```
 
 ```{r,echo=F} 
@@ -163,20 +175,21 @@ kable(mpg_stack_horz)
 If you have datasets that contain a common "key" column (or a set of key columns) then you can use one of the [join functions from dplyr](https://dplyr.tidyverse.org/reference/join.html) to combine these datasets. First let's create a dataset named 'car_type' using the [distinct](https://dplyr.tidyverse.org/reference/distinct.html) function:
 
 ```{r}
-car_type <- mpg %>% select(manufacturer,model,class) %>%
+car_type <- mpg %>%
+  select(manufacturer, model, class) %>%
   distinct()
 ```
 
 ```{r,echo=F}
-kable(head(car_type,4))
+kable(head(car_type, 4))
 ```
 
 Now we will join this newly created 'car_type' dataset to the 'mpg_stack_horz' dataset (created above) using the 'left_join' function. The 'manufacturer' and 'model' columns are used as joining keys. The resulting dataset, 'joined', now contains all the columns from 'mpg_stack_horz' as well as the 'class' column from the 'car_type' dataset.
 
 ```{r}
 joined <- mpg_stack_horz %>%
-  left_join(car_type,by = c('manufacturer','model')) %>% 
-  select(-dataset,everything()) # make the 'dataset' column last
+  left_join(car_type, by = c("manufacturer", "model")) %>%
+  select(-dataset, everything()) # make the 'dataset' column last
 ```
 
 ```{r,echo=F}
@@ -188,7 +201,7 @@ kable(joined)
 Let's take a look at the [us_rent_income](https://tidyr.tidyverse.org/reference/us_rent_income.html) dataset from the [tidyr](https://tidyr.tidyverse.org) package:
 
 ```{r,echo=F}
-kable(head(us_rent_income,4))
+kable(head(us_rent_income, 4))
 ```
 
 Each row of this dataset pertains to either income or rent as we can see by looking at the value of the 'variable' column. This is an example of a "long" data format. The long format is versatile and desirable for data manipulation, but we may want to convert to the "wide" data format in some cases, particularly for presenting data. 
@@ -202,14 +215,14 @@ Additionally we use the select function to drop two columns, [drop_na](https://t
   
 ```{r}
 col_ratio <- us_rent_income %>%
-  select(-GEOID,-moe) %>%
-  pivot_wider(names_from = variable, values_from = estimate) %>% 
+  select(-GEOID, -moe) %>%
+  pivot_wider(names_from = variable, values_from = estimate) %>%
   drop_na() %>%
-  mutate(income_rent_ratio = income / (12*rent))
+  mutate(income_rent_ratio = income / (12 * rent))
 ```
 
 ```{r,echo=F}
-kable(head(col_ratio,3))
+kable(head(col_ratio, 3))
 ```
 
 ## Converting Wide to Long Format
@@ -217,7 +230,7 @@ kable(head(col_ratio,3))
 Now let's look at the [world_bank_pop](https://tidyr.tidyverse.org/reference/world_bank_pop.html) dataset from tidyr (only the first 6 columns are shown for display purposes):
 
 ```{r,echo=F}
-kable(head(world_bank_pop %>% select(1:6),3))
+kable(head(world_bank_pop %>% select(1:6), 3))
 ```
 
 This dataset is in "wide" format since a categorical variable, in this case the year, is stored in the column names. To convert this dataset to the "long" format", which can be more convenient for data manipulation, we use the [pivot_longer](https://tidyr.tidyverse.org/reference/pivot_longer.html) function from tidyr. This function takes three inputs:
@@ -230,13 +243,13 @@ We also use the 'mutate' and 'as.numeric' functions to convert our new 'year' va
 
 ```{r} 
 wb_pop <- world_bank_pop %>%
-  pivot_longer(c(-country,-indicator), names_to = "year", values_to = "value") %>%
+  pivot_longer(c(-country, -indicator), names_to = "year", values_to = "value") %>%
   mutate(year = as.numeric(year)) %>% # convert to numeric
-  filter(year %in% seq(2000,2016,2))
+  filter(year %in% seq(2000, 2016, 2))
 ```
 
 ```{r,echo=F} 
-kable(head(wb_pop,3))
+kable(head(wb_pop, 3))
 ```
 
 ## Visualizations
@@ -259,15 +272,19 @@ Scatter plots are used to visually examine the relationship between two continuo
 The 'color' argument in the 'aes' function is used to color our points according to the newly created 'Transmission' variable. A legend is automatically created and we've positioned it at the top of our graph.
 
 ```{r scatter}
-ggplot(data = mpg %>% 
-  mutate(Transmission = case_when(str_detect(trans,'auto') ~ 'auto',TRUE ~ 'manual')),
-  aes(x = displ, y = hwy, color = Transmission)) +
-geom_point() +
-theme_light() +
-theme(legend.position = 'top',
-      legend.text = element_text(size = 11)) +
-xlab('Displacement (L)') +
-ylab('Highway MPG')
+ggplot(
+  data = mpg %>%
+    mutate(Transmission = case_when(str_detect(trans, "auto") ~ "auto", TRUE ~ "manual")),
+  aes(x = displ, y = hwy, color = Transmission)
+) +
+  geom_point() +
+  theme_light() +
+  theme(
+    legend.position = "top",
+    legend.text = element_text(size = 11)
+  ) +
+  xlab("Displacement (L)") +
+  ylab("Highway MPG")
 ```
 
 ### Line Charts
@@ -277,17 +294,23 @@ Here we create a line graph with the SP.POP.GROW indicator from the 'wb_pop' dat
 In this example, both lines and points are displayed for our data because we have used both the [geom_point](https://ggplot2.tidyverse.org/reference/geom_point.html) and [geom_line](https://ggplot2.tidyverse.org/reference/geom_path.html) functions. The [expand_scale](https://ggplot2.tidyverse.org/reference/expand_scale.html) function is used to control the margins in the x axis. We've also formatted the y axis as a percentage using the 'labels' argument in [scale_y_continuous](https://ggplot2.tidyverse.org/reference/scale_continuous.html).
 
 ```{r linechart}
-ggplot(wb_pop %>% filter(country %in% c("USA","CAN","MEX") & indicator == "SP.POP.GROW"), 
-       aes(x = year,y = value/100,color = country)) +
-theme_minimal() + 
-geom_line() + geom_point() + # lines and points
-scale_x_continuous(expand = expand_scale(mult = c(.05, .05))) +
-scale_y_continuous(labels = scales::percent) + 
-theme(legend.title = element_blank(), # suppress legend title
-      panel.grid.minor.x = element_blank(),
-      legend.text = element_text(size = 11),
-      legend.position = 'right') +
-xlab('Year') + ylab('Population Growth')
+ggplot(
+  wb_pop %>% filter(country %in% c("USA", "CAN", "MEX") & indicator == "SP.POP.GROW"),
+  aes(x = year, y = value / 100, color = country)
+) +
+  theme_minimal() +
+  geom_line() +
+  geom_point() + # lines and points
+  scale_x_continuous(expand = expand_scale(mult = c(.05, .05))) +
+  scale_y_continuous(labels = scales::percent) +
+  theme(
+    legend.title = element_blank(), # suppress legend title
+    panel.grid.minor.x = element_blank(),
+    legend.text = element_text(size = 11),
+    legend.position = "right"
+  ) +
+  xlab("Year") +
+  ylab("Population Growth")
 ```
 
 ### Histograms
@@ -295,11 +318,12 @@ xlab('Year') + ylab('Population Growth')
 Histograms display distributions of variables. We use a histogram to look at the distribution of highway MPG below. You may want to experiment with the 'binwidth' argument in the [geom_histogram](https://ggplot2.tidyverse.org/reference/geom_histogram.html) function to see how it effects what your histogram looks like. The [expand_scale](https://ggplot2.tidyverse.org/reference/expand_scale.html) function is used to control the margins in the y axis.
 
 ```{r histogram}
-ggplot(mpg,aes(hwy)) +
-geom_histogram(binwidth = 1) +
-theme_bw() +
-scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
-xlab('Highway MPG') + ylab('Vehicles')
+ggplot(mpg, aes(hwy)) +
+  geom_histogram(binwidth = 1) +
+  theme_bw() +
+  scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
+  xlab("Highway MPG") +
+  ylab("Vehicles")
 ```
 
 ### Bar Charts
@@ -307,14 +331,17 @@ xlab('Highway MPG') + ylab('Vehicles')
 Bar charts are commonly used to show relative size and can be created with [geom_bar](https://ggplot2.tidyverse.org/reference/geom_bar.html). I find it helpful to order the bars by their size which I've done with the reorder function below. The [geom_text](https://ggplot2.tidyverse.org/reference/geom_text.html) function is used to add the labels to the top of the bars. 
 
 ```{r bar}
-ggplot(data = mpg_stats,
-    aes(x = reorder(class_c,-mean_hwy), y = mean_hwy)) +
-geom_bar(stat = 'identity', color = 'black') +
-scale_y_continuous(expand = expand_scale(mult = c(0, .1))) + # expand top margin
-geom_text(aes(label = round(mean_hwy)), vjust = -0.5) +  # label bars
-theme_bw() + 
-xlab('Vehicle Class') + ylab('Mean Highway MPG') + # no axis labels
-theme(panel.grid = element_blank()) # turn off grid
+ggplot(
+  data = mpg_stats,
+  aes(x = reorder(class_c, -mean_hwy), y = mean_hwy)
+) +
+  geom_bar(stat = "identity", color = "black") +
+  scale_y_continuous(expand = expand_scale(mult = c(0, .1))) + # expand top margin
+  geom_text(aes(label = round(mean_hwy)), vjust = -0.5) + # label bars
+  theme_bw() +
+  xlab("Vehicle Class") +
+  ylab("Mean Highway MPG") + # no axis labels
+  theme(panel.grid = element_blank()) # turn off grid
 ```
 
 ### Lollipop Charts
@@ -322,21 +349,25 @@ theme(panel.grid = element_blank()) # turn off grid
 [Lollipop charts](https://www.data-to-viz.com/graph/lollipop.html) can be an attractive alternative to bar charts. We construct one here using [geom_segment](https://ggplot2.tidyverse.org/reference/geom_segment.html) and [geom_point](https://ggplot2.tidyverse.org/reference/geom_point.html). The [coord_flip](https://ggplot2.tidyverse.org/reference/coord_flip.html) function is used to orient the chart horizontally instead of vertically. We use the theme function to hide all grid lines except for the major vertical lines. The reorder function is again used to order the axis (in this case by rent in descending order).
 
 ```{r lollipop}
-ggplot(data = col_ratio %>% arrange(desc(rent)) %>% head(15), aes(x = NAME, y = rent) ) +
-geom_segment( aes(x = reorder(NAME,rent) ,xend = NAME, y = 0, yend = rent), color = "grey") +
-geom_point(size = 3) +
-theme_minimal() +
-theme(plot.subtitle = element_text(face = "bold",hjust = 0.5),
-  plot.title = element_text(lineheight = 1, face = "bold",hjust = 0.5),
-  panel.grid.minor.y = element_blank(),
-  panel.grid.major.y = element_blank(),
-  panel.grid.minor.x = element_blank()
-) +
-coord_flip() +
-scale_y_continuous(labels = scales::dollar,expand = expand_scale(mult = c(0, .1))) + 
-labs(title = 'US States with the Highest Rent',
-  caption = 'Source: 2017 American Community Survey (Census)') +
-xlab('') + ylab('Median Monthly Rent')
+ggplot(data = col_ratio %>% arrange(desc(rent)) %>% head(15), aes(x = NAME, y = rent)) +
+  geom_segment(aes(x = reorder(NAME, rent), xend = NAME, y = 0, yend = rent), color = "grey") +
+  geom_point(size = 3) +
+  theme_minimal() +
+  theme(
+    plot.subtitle = element_text(face = "bold", hjust = 0.5),
+    plot.title = element_text(lineheight = 1, face = "bold", hjust = 0.5),
+    panel.grid.minor.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = scales::dollar, expand = expand_scale(mult = c(0, .1))) +
+  labs(
+    title = "US States with the Highest Rent",
+    caption = "Source: 2017 American Community Survey (Census)"
+  ) +
+  xlab("") +
+  ylab("Median Monthly Rent")
 ```
 
 ## Additional References

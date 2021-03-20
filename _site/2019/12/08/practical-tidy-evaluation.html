@@ -70,10 +70,12 @@
 <p>To begin, let’s consider a simple example of calculating summary statistics with the <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html">mtcars dataset</a>. Below we calculate maximum and minimum horsepower (hp) by the number of cylinders (cyl) using the <a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a> and <a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a> functions from <a href="https://dplyr.tidyverse.org/">dplyr</a>.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-</span><span class="n">hp_by_cyl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+</span><span class="n">hp_by_cyl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">group_by</span><span class="p">(</span><span class="n">cyl</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarize</span><span class="p">(</span><span class="n">min_hp</span><span class="o">=</span><span class="nf">min</span><span class="p">(</span><span class="n">hp</span><span class="p">),</span><span class="w">
-            </span><span class="n">max_hp</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="n">hp</span><span class="p">))</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="w">
+    </span><span class="n">min_hp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">hp</span><span class="p">),</span><span class="w">
+    </span><span class="n">max_hp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">hp</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <table>
@@ -111,10 +113,12 @@
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">groupby_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">quo</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span><span class="w">
 
-</span><span class="n">hp_by_vs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+</span><span class="n">hp_by_vs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">group_by</span><span class="p">(</span><span class="o">!!</span><span class="n">groupby_var</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarize</span><span class="p">(</span><span class="n">min_hp</span><span class="o">=</span><span class="nf">min</span><span class="p">(</span><span class="n">hp</span><span class="p">),</span><span class="w">
-            </span><span class="n">max_hp</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="n">hp</span><span class="p">))</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="w">
+    </span><span class="n">min_hp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">hp</span><span class="p">),</span><span class="w">
+    </span><span class="n">max_hp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">hp</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <table>
@@ -152,18 +156,21 @@
 
 <p>Below we define our function and use it to group by “am” (transmission type, 0 = automatic, 1 = manual) and calculate summary statistics with the “hp” (horsepower) variable.</p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">car_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">groupby_var</span><span class="p">,</span><span class="n">measure_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">car_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">groupby_var</span><span class="p">,</span><span class="w"> </span><span class="n">measure_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">groupby_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">groupby_var</span><span class="p">)</span><span class="w">
   </span><span class="n">measure_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">measure_var</span><span class="p">)</span><span class="w">
-  </span><span class="nf">return</span><span class="p">(</span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="nf">return</span><span class="p">(</span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="n">group_by</span><span class="p">(</span><span class="o">!!</span><span class="n">groupby_var</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">summarize</span><span class="p">(</span><span class="n">min</span><span class="o">=</span><span class="nf">min</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
-              </span><span class="n">max</span><span class="o">=</span><span class="nf">max</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-          </span><span class="n">mutate</span><span class="p">(</span><span class="n">measure_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as_label</span><span class="p">(</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
-            </span><span class="o">!!</span><span class="n">measure_var</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w">
-    </span><span class="p">)</span><span class="w">
+    </span><span class="n">summarize</span><span class="p">(</span><span class="w">
+      </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
+      </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+      </span><span class="n">measure_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as_label</span><span class="p">(</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
+      </span><span class="o">!!</span><span class="n">measure_var</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kc">NA</span><span class="w">
+    </span><span class="p">))</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span><span class="n">hp_by_am</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">car_stats</span><span class="p">(</span><span class="n">am</span><span class="p">,</span><span class="n">hp</span><span class="p">)</span><span class="w">
+</span><span class="n">hp_by_am</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">car_stats</span><span class="p">(</span><span class="n">am</span><span class="p">,</span><span class="w"> </span><span class="n">hp</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <table>
@@ -199,18 +206,18 @@
 <p>As an example, below I’ve defined a function that builds a scatter plot with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. The function takes a dataset and two variable names as inputs. You will notice that the dataset argument “df” needs no tidy evaluation. The <a href="https://rlang.r-lib.org/reference/as_label.html">as_label</a> function is used to extract our variable names as strings to create a plot title with the “ggtitle” function.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">scatter_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">x_var</span><span class="p">,</span><span class="n">y_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">scatter_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">x_var</span><span class="p">,</span><span class="w"> </span><span class="n">y_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">x_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">x_var</span><span class="p">)</span><span class="w">
   </span><span class="n">y_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">y_var</span><span class="p">)</span><span class="w">
-  
-  </span><span class="nf">return</span><span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=!!</span><span class="n">x_var</span><span class="p">,</span><span class="n">y</span><span class="o">=!!</span><span class="n">y_var</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
-  </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> 
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">lineheight</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_smooth</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">ggtitle</span><span class="p">(</span><span class="n">str_c</span><span class="p">(</span><span class="n">as_label</span><span class="p">(</span><span class="n">y_var</span><span class="p">),</span><span class="w"> </span><span class="s2">" vs. "</span><span class="p">,</span><span class="n">as_label</span><span class="p">(</span><span class="n">x_var</span><span class="p">)))</span><span class="w">
-  </span><span class="p">)</span><span class="w">
+
+  </span><span class="nf">return</span><span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!!</span><span class="n">x_var</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!!</span><span class="n">y_var</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">lineheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_smooth</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">ggtitle</span><span class="p">(</span><span class="n">str_c</span><span class="p">(</span><span class="n">as_label</span><span class="p">(</span><span class="n">y_var</span><span class="p">),</span><span class="w"> </span><span class="s2">" vs. "</span><span class="p">,</span><span class="w"> </span><span class="n">as_label</span><span class="p">(</span><span class="n">x_var</span><span class="p">))))</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span><span class="n">scatter_plot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span><span class="n">disp</span><span class="p">,</span><span class="n">hp</span><span class="p">)</span><span class="w">
+</span><span class="n">scatter_plot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span><span class="w"> </span><span class="n">disp</span><span class="p">,</span><span class="w"> </span><span class="n">hp</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <p><img src="/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" alt="" /><!-- --></p>
@@ -229,17 +236,23 @@
 
 <p>Our new function is defined below and is first called to group by the “cyl” variable and then called to group by the “am” and “vs” variables. Note that the “!!!” operator and “syms” function can be used with either a list of strings or a single string.</p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">groupby_vars</span><span class="p">,</span><span class="n">measure_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">groupby_vars</span><span class="p">,</span><span class="w"> </span><span class="n">measure_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">groupby_vars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">syms</span><span class="p">(</span><span class="n">groupby_vars</span><span class="p">)</span><span class="w">
   </span><span class="n">measure_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as_label</span><span class="p">(</span><span class="n">enquo</span><span class="p">(</span><span class="n">measure_var</span><span class="p">))</span><span class="w">
-  </span><span class="nf">return</span><span class="p">(</span><span class="w"> 
+  </span><span class="nf">return</span><span class="p">(</span><span class="w">
     </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">group_by</span><span class="p">(</span><span class="o">!!!</span><span class="n">groupby_vars</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-            </span><span class="n">summarize</span><span class="p">(</span><span class="w"> </span><span class="o">!!</span><span class="n">str_c</span><span class="p">(</span><span class="n">measure_name</span><span class="p">,</span><span class="s2">"_min"</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">min</span><span class="p">({{</span><span class="n">measure_var</span><span class="p">}}),</span><span class="w">
-                       </span><span class="o">!!</span><span class="n">str_c</span><span class="p">(</span><span class="n">measure_name</span><span class="p">,</span><span class="s2">"_max"</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">max</span><span class="p">({{</span><span class="n">measure_var</span><span class="p">}}))</span><span class="w">
-    </span><span class="p">)}</span><span class="w">
-</span><span class="n">cyl_hp_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">get_stats</span><span class="p">(</span><span class="s2">"cyl"</span><span class="p">,</span><span class="n">mpg</span><span class="p">)</span><span class="w">
-</span><span class="n">gear_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">get_stats</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"am"</span><span class="p">,</span><span class="s2">"vs"</span><span class="p">),</span><span class="n">gear</span><span class="p">)</span><span class="w">
+      </span><span class="n">summarize</span><span class="p">(</span><span class="w">
+        </span><span class="o">!!</span><span class="n">str_c</span><span class="p">(</span><span class="n">measure_name</span><span class="p">,</span><span class="w"> </span><span class="s2">"_min"</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">min</span><span class="p">({{</span><span class="w"> </span><span class="n">measure_var</span><span class="w"> </span><span class="p">}}),</span><span class="w">
+        </span><span class="o">!!</span><span class="n">str_c</span><span class="p">(</span><span class="n">measure_name</span><span class="p">,</span><span class="w"> </span><span class="s2">"_max"</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">max</span><span class="p">({{</span><span class="w"> </span><span class="n">measure_var</span><span class="w"> </span><span class="p">}})</span><span class="w">
+      </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">cyl_hp_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">get_stats</span><span class="p">(</span><span class="s2">"cyl"</span><span class="p">,</span><span class="w"> </span><span class="n">mpg</span><span class="p">)</span><span class="w">
+</span><span class="n">gear_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">get_stats</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"am"</span><span class="p">,</span><span class="w"> </span><span class="s2">"vs"</span><span class="p">),</span><span class="w"> </span><span class="n">gear</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'am'. You can override using the `.groups` argument.
+</code></pre></div></div>
 
 <table>
   <thead>

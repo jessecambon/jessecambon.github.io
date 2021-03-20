@@ -92,9 +92,10 @@ Below, the stadium locations are plotted on a map of Europe using the longitude 
 
 ``` r
 ggplot(stadium_locations, aes(x = long, y = lat)) +
-  borders('world', xlim = c(-10, 10), ylim = c(40, 55)) +
-  geom_label_repel(aes(label = Club), force = 2, segment.alpha = 0) + 
-  geom_point() + theme_void() 
+  borders("world", xlim = c(-10, 10), ylim = c(40, 55)) +
+  geom_label_repel(aes(label = Club), force = 2, segment.alpha = 0) +
+  geom_point() +
+  theme_void()
 ```
 
 <img src="/rmd_images/2020-07-15-tidygeocoder-1-0-0/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
@@ -105,21 +106,25 @@ Alternatively, an interactive map can be created with the [leaflet](https://rstu
 library(leaflet)
 
 stadium_locations %>% # Our dataset
-  leaflet(width="100%", options = leafletOptions(attributionControl = FALSE)) %>%
+  leaflet(width = "100%", options = leafletOptions(attributionControl = FALSE)) %>%
   setView(lng = mean(stadium_locations$long), lat = mean(stadium_locations$lat), zoom = 5) %>%
   # Map Backgrounds
-  addProviderTiles(providers$Stamen.Terrain, group='Terrain') %>%
-  addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group='Night') %>%
-  addProviderTiles(providers$Stamen.Toner, group='Stamen') %>%
+  addProviderTiles(providers$Stamen.Terrain, group = "Terrain") %>%
+  addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group = "Night") %>%
+  addProviderTiles(providers$Stamen.Toner, group = "Stamen") %>%
   addTiles(group = "OSM") %>%
   # Add Markers
-  addMarkers(labelOptions = labelOptions(noHide = F), lng = ~long, lat = ~lat,
-       clusterOptions = markerClusterOptions(maxClusterRadius = 10), label= ~Club,
-       group="Stadiums") %>%
+  addMarkers(
+    labelOptions = labelOptions(noHide = F), lng = ~long, lat = ~lat,
+    clusterOptions = markerClusterOptions(maxClusterRadius = 10), label = ~Club,
+    group = "Stadiums"
+  ) %>%
   # Map Control Options
-  addLayersControl(baseGroups = c("OSM", "Stamen", "Terrain", "Night"),
-       overlayGroups=c('Stadiums'),
-       options = layersControlOptions(collapsed = TRUE))
+  addLayersControl(
+    baseGroups = c("OSM", "Stamen", "Terrain", "Night"),
+    overlayGroups = c("Stadiums"),
+    options = layersControlOptions(collapsed = TRUE)
+  )
 ```
 
 <div id="htmlwidget-e070e6d717a54d5f5327" style="width:100%;height:480px;" class="leaflet html-widget"></div>
