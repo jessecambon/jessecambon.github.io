@@ -20,12 +20,28 @@
 <meta property="twitter:image" content="https://jessecambon.github.io/images/dc_osm_map.png" />
 <meta property="twitter:title" content="Geocoding with Tidygeocoder" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html"},"@type":"BlogPosting","url":"https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html","image":"https://jessecambon.github.io/images/dc_osm_map.png","headline":"Geocoding with Tidygeocoder","dateModified":"2019-11-11T00:00:00-05:00","datePublished":"2019-11-11T00:00:00-05:00","author":{"@type":"Person","name":"Jesse Cambon"},"description":"Tidygeocoder is a newly published R package which provides a tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the recent Washington Nationals World Series win.","@context":"https://schema.org"}</script>
+{"headline":"Geocoding with Tidygeocoder","dateModified":"2019-11-11T00:00:00-05:00","datePublished":"2019-11-11T00:00:00-05:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html"},"image":"https://jessecambon.github.io/images/dc_osm_map.png","url":"https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html","author":{"@type":"Person","name":"Jesse Cambon"},"description":"Tidygeocoder is a newly published R package which provides a tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the recent Washington Nationals World Series win.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jessecambon.github.io/feed.xml" title="Jesse Cambon" /><!-- Leaflet JS
   Based on https://dieghernan.github.io/201905_Leaflet_R_Jekyll/#step1 -->
   
   <!-- End Leaflet -->
+  
+  <!-- include tag collection:
+  https://longqian.me/2017/02/09/github-jekyll-tag/ 
+  -->
+  
+    <!-- for tags:
+https://longqian.me/2017/02/09/github-jekyll-tag/ 
+-->
+
+
+
+
+
+
+
+  
 </head>
 <body><header class="site-header">
 
@@ -53,12 +69,27 @@
     <h1 class="post-title p-name" itemprop="name headline">Geocoding with Tidygeocoder</h1>
     <p class="post-meta"><time class="dt-published" datetime="2019-11-11T00:00:00-05:00" itemprop="datePublished">
         Nov 11 2019
-      </time><!-- JAC: Removed author listing  -->
+      </time><!-- JAC: Removed Author listing -->
+      
       <!--• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">Jesse Cambon</span></span>
-          --></p>
-  </header>
+            <span class="p-author h-card" itemprop="name">Jesse Cambon</span></span>-->
+      
+      <!-- JAC: Add tags per https://longqian.me/2017/02/09/github-jekyll-tag/ -->
+      </p>
+      <p>
+      <span class ='no-background'>tags:</span>
+      <span>
+      
+        
+        <a href="/tag/r"><code class="highligher-rouge"><nobr>r</nobr></code></a>&nbsp;
+      
+        
+        <a href="/tag/tidygeocoder"><code class="highligher-rouge"><nobr>tidygeocoder</nobr></code></a>&nbsp;
+      
+      </span>
+      </p>
+</header>
 
   <div class="post-content e-content" itemprop="articleBody">
     <p><a href="https://github.com/jessecambon/tidygeocoder">Tidygeocoder</a> is a newly published R package which provides a <a href="https://www.tidyverse.org/">tidyverse</a>-style interface for geocoding. It returns latitude and longitude coordinates in <a href="https://tibble.tidyverse.org/">tibble</a> format from addresses using the <a href="https://geocoding.geo.census.gov/">US Census</a> or <a href="https://nominatim.openstreetmap.org/">Nominatim (OSM)</a> geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the <a href="https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/">recent Washington Nationals World Series win</a>.</p>
@@ -158,7 +189,6 @@
 
   </div><a class="u-url" href="/2019/11/11/tidygeocoder-demo.html" hidden></a>
 </article>
-
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/"></data>

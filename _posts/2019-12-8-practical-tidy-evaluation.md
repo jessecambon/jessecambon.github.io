@@ -3,8 +3,8 @@ layout: post
 title:  "Practical Tidy Evaluation"
 date:   2019-12-8
 author: Jesse Cambon
-tags: [r, tidyverse, data-science]
-image: "rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png"
+tags: [r]
+image: "/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png"
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]
