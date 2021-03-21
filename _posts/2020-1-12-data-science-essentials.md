@@ -3,8 +3,8 @@ layout: post
 title:  "Data Science Essentials"
 date:   2020-1-12
 author: Jesse Cambon
-tags: [ tidyverse, data-science, r]
-image: "rmd_images/2020-1-12-data-science-essentials/linechart-1.png"
+tags: [r]
+image: "/rmd_images/2020-1-12-data-science-essentials/linechart-1.png"
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]
@@ -186,7 +186,7 @@ mpg_stack_horz <- mpg_stack_vert %>%
 
 ## Joining Data
 
-If you have datasets that contain a common “key” column (or a set of key columns) then you can use one of the [join functions from dplyr](https://dplyr.tidyverse.org/reference/join.html) to combine these datasets. First let’s create a dataset named ‘car\_type’ using the [distinct](https://dplyr.tidyverse.org/reference/distinct.html) function:
+If you have datasets that contain a common “key” column (or a set of key columns) then you can use one of the [join functions from dplyr](https://dplyr.tidyverse.org/reference/join.html) to combine these datasets. First let’s create a dataset named ‘car\_type’ which contains the unique combinations of the ‘manufacturer’, ‘model’, and ‘class’ column values using the [distinct](https://dplyr.tidyverse.org/reference/distinct.html) function.
 
 ``` r
 car_type <- mpg %>%
@@ -321,7 +321,7 @@ ggplot(
 
 Here we create a line graph with the SP.POP.GROW indicator from the ‘wb\_pop’ dataset we created earlier based on world bank data. SP.POP.GROW is the percent population growth of a country and we divide its value (which is in the ‘value’ column) by 100 to convert it to a decimal percentage value.
 
-In this example, both lines and points are displayed for our data because we have used both the [geom\_point](https://ggplot2.tidyverse.org/reference/geom_point.html) and [geom\_line](https://ggplot2.tidyverse.org/reference/geom_path.html) functions. The [expand\_scale](https://ggplot2.tidyverse.org/reference/expand_scale.html) function is used to control the margins in the x axis. We’ve also formatted the y axis as a percentage using the ‘labels’ argument in [scale\_y\_continuous](https://ggplot2.tidyverse.org/reference/scale_continuous.html).
+In this example, both lines and points are displayed for our data because we have used both the [geom\_point](https://ggplot2.tidyverse.org/reference/geom_point.html) and [geom\_line](https://ggplot2.tidyverse.org/reference/geom_path.html) functions. The [expansion](https://ggplot2.tidyverse.org/reference/expansion.html) function is used to control the margins in the x axis. We’ve also formatted the y axis as a percentage using the ‘labels’ argument in [scale\_y\_continuous](https://ggplot2.tidyverse.org/reference/scale_continuous.html).
 
 ``` r
 ggplot(
@@ -331,7 +331,7 @@ ggplot(
   theme_minimal() +
   geom_line() +
   geom_point() + # lines and points
-  scale_x_continuous(expand = expand_scale(mult = c(.05, .05))) +
+  scale_x_continuous(expand = expansion(mult = c(.05, .05))) +
   scale_y_continuous(labels = scales::percent) +
   theme(
     legend.title = element_blank(), # suppress legend title
@@ -343,24 +343,20 @@ ggplot(
   ylab("Population Growth")
 ```
 
-    ## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
 ![](/rmd_images/2020-1-12-data-science-essentials/linechart-1.png)<!-- -->
 
 ### Histograms
 
-Histograms display distributions of variables. We use a histogram to look at the distribution of highway MPG below. You may want to experiment with the ‘binwidth’ argument in the [geom\_histogram](https://ggplot2.tidyverse.org/reference/geom_histogram.html) function to see how it effects what your histogram looks like. The [expand\_scale](https://ggplot2.tidyverse.org/reference/expand_scale.html) function is used to control the margins in the y axis.
+Histograms display distributions of variables. We use a histogram to look at the distribution of highway MPG below. You may want to experiment with the ‘binwidth’ argument in the [geom\_histogram](https://ggplot2.tidyverse.org/reference/geom_histogram.html) function to see how it effects what your histogram looks like. The [expansion](https://ggplot2.tidyverse.org/reference/expansion.html) function is used to control the margins in the y axis.
 
 ``` r
 ggplot(mpg, aes(hwy)) +
   geom_histogram(binwidth = 1) +
   theme_bw() +
-  scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
+  scale_y_continuous(expand = expansion(mult = c(0, .05))) +
   xlab("Highway MPG") +
   ylab("Vehicles")
 ```
-
-    ## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
 
 ![](/rmd_images/2020-1-12-data-science-essentials/histogram-1.png)<!-- -->
 
@@ -374,15 +370,13 @@ ggplot(
   aes(x = reorder(class_c, -mean_hwy), y = mean_hwy)
 ) +
   geom_bar(stat = "identity", color = "black") +
-  scale_y_continuous(expand = expand_scale(mult = c(0, .1))) + # expand top margin
+  scale_y_continuous(expand = expansion(mult = c(0, .1))) + # expand top margin
   geom_text(aes(label = round(mean_hwy)), vjust = -0.5) + # label bars
   theme_bw() +
   xlab("Vehicle Class") +
   ylab("Mean Highway MPG") + # no axis labels
   theme(panel.grid = element_blank()) # turn off grid
 ```
-
-    ## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
 
 ![](/rmd_images/2020-1-12-data-science-essentials/bar-1.png)<!-- -->
 
@@ -403,7 +397,7 @@ ggplot(data = col_ratio %>% arrange(desc(rent)) %>% head(15), aes(x = NAME, y = 
     panel.grid.minor.x = element_blank()
   ) +
   coord_flip() +
-  scale_y_continuous(labels = scales::dollar, expand = expand_scale(mult = c(0, .1))) +
+  scale_y_continuous(labels = scales::dollar, expand = expansion(mult = c(0, .1))) +
   labs(
     title = "US States with the Highest Rent",
     caption = "Source: 2017 American Community Survey (Census)"
@@ -411,8 +405,6 @@ ggplot(data = col_ratio %>% arrange(desc(rent)) %>% head(15), aes(x = NAME, y = 
   xlab("") +
   ylab("Median Monthly Rent")
 ```
-
-    ## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
 
 ![](/rmd_images/2020-1-12-data-science-essentials/lollipop-1.png)<!-- -->
 

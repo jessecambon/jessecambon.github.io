@@ -20,12 +20,28 @@
 <meta property="twitter:image" content="https://jessecambon.github.io/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" />
 <meta property="twitter:title" content="Data Science Essentials" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://jessecambon.github.io/2020/01/12/data-science-essentials.html"},"@type":"BlogPosting","url":"https://jessecambon.github.io/2020/01/12/data-science-essentials.html","image":"https://jessecambon.github.io/rmd_images/2020-1-12-data-science-essentials/linechart-1.png","headline":"Data Science Essentials","dateModified":"2020-01-12T00:00:00-05:00","datePublished":"2020-01-12T00:00:00-05:00","author":{"@type":"Person","name":"Jesse Cambon"},"description":"One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous stack overflow threads and websites.","@context":"https://schema.org"}</script>
+{"headline":"Data Science Essentials","dateModified":"2020-01-12T00:00:00-05:00","datePublished":"2020-01-12T00:00:00-05:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://jessecambon.github.io/2020/01/12/data-science-essentials.html"},"image":"https://jessecambon.github.io/rmd_images/2020-1-12-data-science-essentials/linechart-1.png","url":"https://jessecambon.github.io/2020/01/12/data-science-essentials.html","author":{"@type":"Person","name":"Jesse Cambon"},"description":"One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous stack overflow threads and websites.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jessecambon.github.io/feed.xml" title="Jesse Cambon" /><!-- Leaflet JS
   Based on https://dieghernan.github.io/201905_Leaflet_R_Jekyll/#step1 -->
   
   <!-- End Leaflet -->
+  
+  <!-- include tag collection:
+  https://longqian.me/2017/02/09/github-jekyll-tag/ 
+  -->
+  
+    <!-- for tags:
+https://longqian.me/2017/02/09/github-jekyll-tag/ 
+-->
+
+
+
+
+
+
+
+  
 </head>
 <body><header class="site-header">
 
@@ -60,23 +76,17 @@
             <span class="p-author h-card" itemprop="name">Jesse Cambon</span></span>-->
       
       <!-- JAC: Add tags per https://longqian.me/2017/02/09/github-jekyll-tag/ -->
-      <span>[
-      
-        
-        <a href="/tag/tidyverse"><code class="highligher-rouge"><nobr>tidyverse</nobr></code>&nbsp;</a>
-      
-        
-        <a href="/tag/data-science"><code class="highligher-rouge"><nobr>data-science</nobr></code>&nbsp;</a>
-      
-        
-        <a href="/tag/r"><code class="highligher-rouge"><nobr>r</nobr></code>&nbsp;</a>
-      
-      
-]</span>
-      
-      
       </p>
-  </header>
+      <p>
+      <span class ='no-background'>tags:</span>
+      <span>
+      
+        
+        <a href="/tag/r"><code class="highligher-rouge"><nobr>r</nobr></code></a>&nbsp;
+      
+      </span>
+      </p>
+</header>
 
   <div class="post-content e-content" itemprop="articleBody">
     <p>One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous <a href="https://stackoverflow.com/">stack overflow</a> threads and websites.</p>
@@ -534,7 +544,7 @@
 
 <h2 id="joining-data">Joining Data</h2>
 
-<p>If you have datasets that contain a common “key” column (or a set of key columns) then you can use one of the <a href="https://dplyr.tidyverse.org/reference/join.html">join functions from dplyr</a> to combine these datasets. First let’s create a dataset named ‘car_type’ using the <a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a> function:</p>
+<p>If you have datasets that contain a common “key” column (or a set of key columns) then you can use one of the <a href="https://dplyr.tidyverse.org/reference/join.html">join functions from dplyr</a> to combine these datasets. First let’s create a dataset named ‘car_type’ which contains the unique combinations of the ‘manufacturer’, ‘model’, and ‘class’ column values using the <a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a> function.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">car_type</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">select</span><span class="p">(</span><span class="n">manufacturer</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
@@ -854,7 +864,7 @@
 
 <p>Here we create a line graph with the SP.POP.GROW indicator from the ‘wb_pop’ dataset we created earlier based on world bank data. SP.POP.GROW is the percent population growth of a country and we divide its value (which is in the ‘value’ column) by 100 to convert it to a decimal percentage value.</p>
 
-<p>In this example, both lines and points are displayed for our data because we have used both the <a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a> and <a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a> functions. The <a href="https://ggplot2.tidyverse.org/reference/expand_scale.html">expand_scale</a> function is used to control the margins in the x axis. We’ve also formatted the y axis as a percentage using the ‘labels’ argument in <a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a>.</p>
+<p>In this example, both lines and points are displayed for our data because we have used both the <a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a> and <a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a> functions. The <a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a> function is used to control the margins in the x axis. We’ve also formatted the y axis as a percentage using the ‘labels’ argument in <a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a>.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="w">
   </span><span class="n">wb_pop</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">country</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"USA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"CAN"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MEX"</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">indicator</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"SP.POP.GROW"</span><span class="p">),</span><span class="w">
@@ -863,7 +873,7 @@
   </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># lines and points</span><span class="w">
-  </span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expand_scale</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">.05</span><span class="p">,</span><span class="w"> </span><span class="m">.05</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expansion</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">.05</span><span class="p">,</span><span class="w"> </span><span class="m">.05</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">percent</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">theme</span><span class="p">(</span><span class="w">
     </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> </span><span class="c1"># suppress legend title</span><span class="w">
@@ -875,25 +885,19 @@
   </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Population Growth"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-</code></pre></div></div>
-
 <p><img src="/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" alt="" /><!-- --></p>
 
 <h3 id="histograms">Histograms</h3>
 
-<p>Histograms display distributions of variables. We use a histogram to look at the distribution of highway MPG below. You may want to experiment with the ‘binwidth’ argument in the <a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a> function to see how it effects what your histogram looks like. The <a href="https://ggplot2.tidyverse.org/reference/expand_scale.html">expand_scale</a> function is used to control the margins in the y axis.</p>
+<p>Histograms display distributions of variables. We use a histogram to look at the distribution of highway MPG below. You may want to experiment with the ‘binwidth’ argument in the <a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a> function to see how it effects what your histogram looks like. The <a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a> function is used to control the margins in the y axis.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">mpg</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">hwy</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expand_scale</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.05</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expansion</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.05</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Highway MPG"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Vehicles"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-</code></pre></div></div>
 
 <p><img src="/rmd_images/2020-1-12-data-science-essentials/histogram-1.png" alt="" /><!-- --></p>
 
@@ -906,16 +910,13 @@
   </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reorder</span><span class="p">(</span><span class="n">class_c</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">mean_hwy</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean_hwy</span><span class="p">)</span><span class="w">
 </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expand_scale</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.1</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># expand top margin</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expansion</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.1</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># expand top margin</span><span class="w">
   </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">mean_hwy</span><span class="p">)),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># label bars</span><span class="w">
   </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Vehicle Class"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Mean Highway MPG"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># no axis labels</span><span class="w">
   </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w"> </span><span class="c1"># turn off grid</span><span class="w">
 </span></code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-</code></pre></div></div>
 
 <p><img src="/rmd_images/2020-1-12-data-science-essentials/bar-1.png" alt="" /><!-- --></p>
 
@@ -935,7 +936,7 @@
     </span><span class="n">panel.grid.minor.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
   </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">dollar</span><span class="p">,</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expand_scale</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.1</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">dollar</span><span class="p">,</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expansion</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.1</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">labs</span><span class="p">(</span><span class="w">
     </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"US States with the Highest Rent"</span><span class="p">,</span><span class="w">
     </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Source: 2017 American Community Survey (Census)"</span><span class="w">
@@ -943,9 +944,6 @@
   </span><span class="n">xlab</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
   </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Median Monthly Rent"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-</code></pre></div></div>
 
 <p><img src="/rmd_images/2020-1-12-data-science-essentials/lollipop-1.png" alt="" /><!-- --></p>
 

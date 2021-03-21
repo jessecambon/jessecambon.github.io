@@ -20,12 +20,28 @@
 <meta property="twitter:image" content="https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" />
 <meta property="twitter:title" content="Practical Tidy Evaluation" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://jessecambon.github.io/2019/12/08/practical-tidy-evaluation.html"},"@type":"BlogPosting","url":"https://jessecambon.github.io/2019/12/08/practical-tidy-evaluation.html","image":"https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png","headline":"Practical Tidy Evaluation","dateModified":"2019-12-08T00:00:00-05:00","datePublished":"2019-12-08T00:00:00-05:00","author":{"@type":"Person","name":"Jesse Cambon"},"description":"Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.","@context":"https://schema.org"}</script>
+{"headline":"Practical Tidy Evaluation","dateModified":"2019-12-08T00:00:00-05:00","datePublished":"2019-12-08T00:00:00-05:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://jessecambon.github.io/2019/12/08/practical-tidy-evaluation.html"},"image":"https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png","url":"https://jessecambon.github.io/2019/12/08/practical-tidy-evaluation.html","author":{"@type":"Person","name":"Jesse Cambon"},"description":"Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jessecambon.github.io/feed.xml" title="Jesse Cambon" /><!-- Leaflet JS
   Based on https://dieghernan.github.io/201905_Leaflet_R_Jekyll/#step1 -->
   
   <!-- End Leaflet -->
+  
+  <!-- include tag collection:
+  https://longqian.me/2017/02/09/github-jekyll-tag/ 
+  -->
+  
+    <!-- for tags:
+https://longqian.me/2017/02/09/github-jekyll-tag/ 
+-->
+
+
+
+
+
+
+
+  
 </head>
 <body><header class="site-header">
 
@@ -60,23 +76,17 @@
             <span class="p-author h-card" itemprop="name">Jesse Cambon</span></span>-->
       
       <!-- JAC: Add tags per https://longqian.me/2017/02/09/github-jekyll-tag/ -->
-      <span>[
-      
-        
-        <a href="/tag/r"><code class="highligher-rouge"><nobr>r</nobr></code>&nbsp;</a>
-      
-        
-        <a href="/tag/tidyverse"><code class="highligher-rouge"><nobr>tidyverse</nobr></code>&nbsp;</a>
-      
-        
-        <a href="/tag/data-science"><code class="highligher-rouge"><nobr>data-science</nobr></code>&nbsp;</a>
-      
-      
-]</span>
-      
-      
       </p>
-  </header>
+      <p>
+      <span class ='no-background'>tags:</span>
+      <span>
+      
+        
+        <a href="/tag/r"><code class="highligher-rouge"><nobr>r</nobr></code></a>&nbsp;
+      
+      </span>
+      </p>
+</header>
 
   <div class="post-content e-content" itemprop="articleBody">
     <p>Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by <a href="https://www.tidyverse.org/">tidyverse</a> functions. This framework, housed in the <a href="https://rlang.r-lib.org">rlang package</a>, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like <a href="https://dplyr.tidyverse.org/">dplyr</a> and <a href="https://ggplot2.tidyverse.org/">ggplot2</a>.</p>

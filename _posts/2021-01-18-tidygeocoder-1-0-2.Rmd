@@ -3,8 +3,8 @@ layout: post
 title: "Tidygeocoder 1.0.2"
 date: 2021-01-18
 author: Jesse Cambon
-tags: [r, data-science]
-image: "images/google_map_pin.png"
+tags: [r, tidygeocoder]
+image: "/images/google_map_pin.png"
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]

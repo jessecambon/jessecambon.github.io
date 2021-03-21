@@ -350,4 +350,6 @@ img.post-thumbnail { /* if on small screen then don't float the image */ height:
 
 a.post-link { clear: both; padding-top: 5px; }
 
+.no-background { font-family: "Menlo", "Inconsolata", "Consolas", "Roboto Mono", "Ubuntu Mono", "Liberation Mono", "Courier New", monospace; font-size: 0.9375em; }
+
 /*# sourceMappingURL=style.css.map */

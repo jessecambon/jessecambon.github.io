@@ -3,8 +3,8 @@ layout: post
 title:  "Geocoding with Tidygeocoder"
 date:   2019-11-11
 author: Jesse Cambon
-image: "images/dc_osm_map.png"
-tags: [r, data-science, maps]
+image: "/images/dc_osm_map.png"
+tags: [r, tidygeocoder]
 ---
 
 [Tidygeocoder](https://github.com/jessecambon/tidygeocoder) is a newly published R package which provides a [tidyverse](https://www.tidyverse.org/)-style interface for geocoding. It returns latitude and longitude coordinates in [tibble](https://tibble.tidyverse.org/) format from addresses using the [US Census](https://geocoding.geo.census.gov/) or [Nominatim (OSM)](https://nominatim.openstreetmap.org/) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the [recent Washington Nationals World Series win](https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/).
