@@ -11,17 +11,22 @@
   
     <!-- JAC List Tags https://www.jflh.ca/2016-01-23-adding-and-displaying-tags-on-jekyll-posts -->
 
-<span class ='no-background'>tags:</span>
-<span>
-  {% for tag in post.tags %}
-    {% capture tag_name %}{{ tag }}{% endcapture %}
-    <a href="/tag/{{ tag_name }}"><code class="highligher-rouge"><nobr>{{ tag_name }}</nobr></code></a>&nbsp;
-  {% endfor %}
-</span>
+<!-- <span class ='no-background'>tags:</span> -->
 </p>
 
   <a href="{{ post.url }}"><img class="post-thumbnail" src="{{ post.image }}"></a>  <!-- JAC: added post image-->
   {%- if site.show_excerpts -%}
     {{ post.excerpt }}
   {%- endif -%}
+
+  <!-- tag list for post -->
+  <p>
+    <span>
+      {% for tag in post.tags %}
+        {% capture tag_name %}{{ tag }}{% endcapture %}
+        <a href="/tag/{{ tag_name }}"><code class="highligher-rouge"><nobr>{{ tag_name }}</nobr></code></a>&nbsp;
+      {% endfor %}
+    </span>
+  </p>
+
 </li>
