@@ -1,0 +1,27 @@
+<!-- a single list item for a post -->
+
+<li>
+    <a class="post-link" href="{{ post.url | relative_url }}">
+      {{ post.title | escape }}
+    </a>
+  <p class="post-meta">
+    {{ post.date | date: date_format }} <!-- JAC: moved date -->
+  
+    &emsp;
+  
+    <!-- JAC List Tags https://www.jflh.ca/2016-01-23-adding-and-displaying-tags-on-jekyll-posts -->
+
+<span class ='no-background'>tags:</span>
+<span>
+  {% for tag in post.tags %}
+    {% capture tag_name %}{{ tag }}{% endcapture %}
+    <a href="/tag/{{ tag_name }}"><code class="highligher-rouge"><nobr>{{ tag_name }}</nobr></code></a>&nbsp;
+  {% endfor %}
+</span>
+</p>
+
+  <a href="{{ post.url }}"><img class="post-thumbnail" src="{{ post.image }}"></a>  <!-- JAC: added post image-->
+  {%- if site.show_excerpts -%}
+    {{ post.excerpt }}
+  {%- endif -%}
+</li>
