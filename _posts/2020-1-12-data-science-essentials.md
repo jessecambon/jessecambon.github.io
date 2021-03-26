@@ -265,12 +265,12 @@ This dataset is in “wide” format since a categorical variable, in this case 
 -   **names\_to** : the name of new column which will have the current column names as values.
 -   **values\_to** : name of the new column which will contain values.
 
-We also use the ‘mutate’ and ‘as.numeric’ functions to convert our new ‘year’ variable to numeric and then filter so that our output dataset only includes certain years using the ‘seq’ function. The format for the ‘seq’ function is seq(start, stop, increment).
+We also use the ‘mutate’ and ‘as.numeric’ functions to convert our new ‘year’ variable to numeric and then filter so that our output dataset only includes certain years using the ‘seq’ function. The [across](https://dplyr.tidyverse.org/reference/across.html) function is used to apply the ‘as.numeric’ function to the ‘year’ column. The format for the ‘seq’ function is seq(start, stop, increment).
 
 ``` r
 wb_pop <- world_bank_pop %>%
   pivot_longer(c(-country, -indicator), names_to = "year", values_to = "value") %>%
-  mutate(year = as.numeric(year)) %>% # convert to numeric
+  mutate(across(year, as.numeric)) %>% # convert to numeric
   filter(year %in% seq(2000, 2016, 2))
 ```
 
@@ -417,3 +417,5 @@ Here are some additional resources that you may find useful:
 -   For quickly summarizing datasets with basic summary statistics, you can use the summary function (base R) or the [skimr](https://docs.ropensci.org/skimr/) package.
 -   The [purrr](https://purrr.tidyverse.org/) package allows you apply functions across the values of a list using the [map](https://purrr.tidyverse.org/reference/map.html) function. One example of where this is useful is in reading and combining data from multiple sheets in an excel spreadsheet by applying a function that reads a single sheet to a list of sheets.
 -   I keep reference data science code (both R and Python) in [a GitHub repository](https://github.com/jessecambon/Data-Science-Codex). You’ll find some more advanced techniques like modeling demonstrated there.
+
+<em><sub> March 26 2021: this post has been updated to reflect changes in ggplot and dplyr syntax.</sub></em>

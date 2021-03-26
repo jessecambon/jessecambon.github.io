@@ -783,11 +783,11 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
   <li><strong>values_to</strong> : name of the new column which will contain values.</li>
 </ul>
 
-<p>We also use the ‘mutate’ and ‘as.numeric’ functions to convert our new ‘year’ variable to numeric and then filter so that our output dataset only includes certain years using the ‘seq’ function. The format for the ‘seq’ function is seq(start, stop, increment).</p>
+<p>We also use the ‘mutate’ and ‘as.numeric’ functions to convert our new ‘year’ variable to numeric and then filter so that our output dataset only includes certain years using the ‘seq’ function. The <a href="https://dplyr.tidyverse.org/reference/across.html">across</a> function is used to apply the ‘as.numeric’ function to the ‘year’ column. The format for the ‘seq’ function is seq(start, stop, increment).</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wb_pop</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">world_bank_pop</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">pivot_longer</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="o">-</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">indicator</span><span class="p">),</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"year"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"value"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">year</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># convert to numeric</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">as.numeric</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># convert to numeric</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">2000</span><span class="p">,</span><span class="w"> </span><span class="m">2016</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
@@ -958,6 +958,8 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
   <li>The <a href="https://purrr.tidyverse.org/">purrr</a> package allows you apply functions across the values of a list using the <a href="https://purrr.tidyverse.org/reference/map.html">map</a> function. One example of where this is useful is in reading and combining data from multiple sheets in an excel spreadsheet by applying a function that reads a single sheet to a list of sheets.</li>
   <li>I keep reference data science code (both R and Python) in <a href="https://github.com/jessecambon/Data-Science-Codex">a GitHub repository</a>. You’ll find some more advanced techniques like modeling demonstrated there.</li>
 </ul>
+
+<p><em><sub> March 26 2021: this post has been updated to reflect changes in ggplot and dplyr syntax.</sub></em></p>
 
   </div><a class="u-url" href="/2020/01/12/data-science-essentials.html" hidden></a>
 </article>

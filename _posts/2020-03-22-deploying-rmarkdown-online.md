@@ -40,16 +40,13 @@ This solution uses a single R script file (.R) which contains knit settings adju
 The contents of this central R script which I have named [rmd\_config.R](https://github.com/jessecambon/jessecambon.github.io/blob/master/rmd_config.R) is below. It lives in the root directory of my Github repository and the contents of this file will be run (via [source](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source)) when each RMarkdown file is knit.
 
 ``` r
-library(knitr)
-library(stringr)
-library(here)
 # get name of file during knitting and strip file extension
-rmd_filename <- str_remove(knitr::current_input(), "\\.Rmd")
+rmd_filename <- stringr::str_remove(knitr::current_input(), "\\.Rmd")
 
 # Figure path on disk = base.dir + fig.path
 # Figure URL online = base.url + fig.path
-knitr::opts_knit$set(base.dir = str_c(here::here(), "/"), base.url = "/")
-knitr::opts_chunk$set(fig.path = str_c("rmd_images/", rmd_filename, "/"), echo = TRUE)
+knitr::opts_knit$set(base.dir = stringr::str_c(here::here(), "/"), base.url = "/") # project root folder
+knitr::opts_chunk$set(fig.path = stringr::str_c(file.path("rmd_images", rmd_filename), "/"))
 ```
 
 Here is what is going on in the above script:
@@ -61,7 +58,6 @@ Here is what is going on in the above script:
 To utilize the above script in an RMarkdown file, we simply insert the code below as a chunk into the RMarkdown file. This will [source](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source) the script to apply all the necessary knit settings when an RMarkdown file is knit.
 
 ``` r
-library(here)
 source(here::here("rmd_config.R"))
 ```
 
@@ -97,3 +93,5 @@ hist(mtcars$disp)
 ```
 
 ![](/rmd_images/2020-03-22-deploying-rmarkdown-online/sampleplot-1.png)<!-- -->
+
+<em><sub> March 26 2021: this post has been updated with simplified RMarkdown code. </sub></em>

@@ -116,16 +116,13 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
 
 <p>The contents of this central R script which I have named <a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/rmd_config.R">rmd_config.R</a> is below. It lives in the root directory of my Github repository and the contents of this file will be run (via <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source">source</a>) when each RMarkdown file is knit.</p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">here</span><span class="p">)</span><span class="w">
-</span><span class="c1"># get name of file during knitting and strip file extension</span><span class="w">
-</span><span class="n">rmd_filename</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">str_remove</span><span class="p">(</span><span class="n">knitr</span><span class="o">::</span><span class="n">current_input</span><span class="p">(),</span><span class="w"> </span><span class="s2">"\\.Rmd"</span><span class="p">)</span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># get name of file during knitting and strip file extension</span><span class="w">
+</span><span class="n">rmd_filename</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">stringr</span><span class="o">::</span><span class="n">str_remove</span><span class="p">(</span><span class="n">knitr</span><span class="o">::</span><span class="n">current_input</span><span class="p">(),</span><span class="w"> </span><span class="s2">"\\.Rmd"</span><span class="p">)</span><span class="w">
 
 </span><span class="c1"># Figure path on disk = base.dir + fig.path</span><span class="w">
 </span><span class="c1"># Figure URL online = base.url + fig.path</span><span class="w">
-</span><span class="n">knitr</span><span class="o">::</span><span class="n">opts_knit</span><span class="o">$</span><span class="n">set</span><span class="p">(</span><span class="n">base.dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="n">here</span><span class="o">::</span><span class="n">here</span><span class="p">(),</span><span class="w"> </span><span class="s2">"/"</span><span class="p">),</span><span class="w"> </span><span class="n">base.url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/"</span><span class="p">)</span><span class="w">
-</span><span class="n">knitr</span><span class="o">::</span><span class="n">opts_chunk</span><span class="o">$</span><span class="n">set</span><span class="p">(</span><span class="n">fig.path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="s2">"rmd_images/"</span><span class="p">,</span><span class="w"> </span><span class="n">rmd_filename</span><span class="p">,</span><span class="w"> </span><span class="s2">"/"</span><span class="p">),</span><span class="w"> </span><span class="n">echo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">knitr</span><span class="o">::</span><span class="n">opts_knit</span><span class="o">$</span><span class="n">set</span><span class="p">(</span><span class="n">base.dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringr</span><span class="o">::</span><span class="n">str_c</span><span class="p">(</span><span class="n">here</span><span class="o">::</span><span class="n">here</span><span class="p">(),</span><span class="w"> </span><span class="s2">"/"</span><span class="p">),</span><span class="w"> </span><span class="n">base.url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/"</span><span class="p">)</span><span class="w"> </span><span class="c1"># project root folder</span><span class="w">
+</span><span class="n">knitr</span><span class="o">::</span><span class="n">opts_chunk</span><span class="o">$</span><span class="n">set</span><span class="p">(</span><span class="n">fig.path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringr</span><span class="o">::</span><span class="n">str_c</span><span class="p">(</span><span class="n">file.path</span><span class="p">(</span><span class="s2">"rmd_images"</span><span class="p">,</span><span class="w"> </span><span class="n">rmd_filename</span><span class="p">),</span><span class="w"> </span><span class="s2">"/"</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Here is what is going on in the above script:</p>
@@ -138,8 +135,7 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
 
 <p>To utilize the above script in an RMarkdown file, we simply insert the code below as a chunk into the RMarkdown file. This will <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source">source</a> the script to apply all the necessary knit settings when an RMarkdown file is knit.</p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">here</span><span class="p">)</span><span class="w">
-</span><span class="n">source</span><span class="p">(</span><span class="n">here</span><span class="o">::</span><span class="n">here</span><span class="p">(</span><span class="s2">"rmd_config.R"</span><span class="p">))</span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">source</span><span class="p">(</span><span class="n">here</span><span class="o">::</span><span class="n">here</span><span class="p">(</span><span class="s2">"rmd_config.R"</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
 <p>For a Jekyll blog, you’ll also want to include certain YAML header content such as tags or the title of the post. To do this we can use the <code class="language-plaintext highlighter-rouge">preserve_yaml</code> output setting in generating our .md file and then insert whatever YAML content we need into the header. Below is an example YAML header (the first part of your RMarkdown document) which will generate a github-style (“gfm”) .md document. In this example I’ve added the fields “layout”, “title”, “date”, “author”, and “tags” which are all used by Jekyll in creating the blog post.</p>
@@ -172,6 +168,8 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
 </span></code></pre></div></div>
 
 <p><img src="/rmd_images/2020-03-22-deploying-rmarkdown-online/sampleplot-1.png" alt="" /><!-- --></p>
+
+<p><em><sub> March 26 2021: this post has been updated with simplified RMarkdown code. </sub></em></p>
 
   </div><a class="u-url" href="/2020/03/22/deploying-rmarkdown-online.html" hidden></a>
 </article>
