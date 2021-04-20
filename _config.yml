@@ -19,6 +19,9 @@ author:
   name: Jesse Cambon
   email: jesse.cambon@gmail.com
 
+# Google analytics measurement id  
+google_analytics: G-BHLL758SMS
+
 description: Musings on data and open source software
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://jessecambon.github.io" # the base hostname & protocol for your site, e.g. http://example.com

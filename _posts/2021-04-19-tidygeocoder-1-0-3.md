@@ -135,7 +135,7 @@ tg_batch <- tie_addresses %>%
 
 You can see NA results are returned and the `match_indicator` column indicates a “Tie”. This is what the US Census batch geocoder returns when multiple results are available for each input address (see [issue \#87](https://github.com/jessecambon/tidygeocoder/issues/87) for more details).
 
-Too see all available results for these addresses, you will need to use `mode` to force single address (not batch) geocoding and `limit > 1`. The `return_input` argument (new in this release) has to be set to `FALSE` to allow `limit` to be set to a value other than 1. See the [geocode() function documentation](https://jessecambon.github.io/tidygeocoder/reference/geocode.html) for details.
+To see all available results for these addresses, you will need to use `mode` to force single address (not batch) geocoding and `limit > 1`. The `return_input` argument (new in this release) has to be set to `FALSE` to allow `limit` to be set to a value other than 1. See the [geocode() function documentation](https://jessecambon.github.io/tidygeocoder/reference/geocode.html) for details.
 
 ``` r
 tg_single <- tie_addresses %>%
