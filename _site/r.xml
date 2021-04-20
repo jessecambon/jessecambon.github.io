@@ -4,13 +4,466 @@
 <generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator>
 <link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
 <link href="https://jessecambon.github.io" rel="alternate" type="text/html"/>
-<updated>2021-04-18T17:33:42-04:00</updated>
+<updated>2021-04-19T20:28:32-04:00</updated>
 <id>https://jessecambon.github.io/r.xml</id>
 <title type="html">Jesse Cambon-R</title>
 <subtitle>Musings on data and open source software</subtitle>
 <author><name>Jesse Cambon</name></author>
 
 <!-- aggregate posts in the 'r' category -->
+ 
+<entry>
+    <title type="html">Tidygeocoder 1.0.3</title>
+    <link href="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html" rel="alternate" type="text/html" title="Tidygeocoder 1.0.3"/>
+    <published>2021-04-19T00:00:00-04:00</published>
+    <updated>2021-04-19T00:00:00-04:00</updated>
+    <id>https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3</id>
+    <content type="html" xml:base="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/&quot;&gt;Tidygeocoder v1.0.3&lt;/a&gt; is released on &lt;a href=&quot;https://cran.r-project.org/package=tidygeocoder&quot;&gt;CRAN&lt;/a&gt;! This release adds support for reverse geocoding (geocoding geographic coordinates) and 7 new geocoder services: &lt;a href=&quot;https://opencagedata.com/&quot;&gt;OpenCage&lt;/a&gt;, &lt;a href=&quot;https://developer.here.com/products/geocoding-and-search&quot;&gt;HERE&lt;/a&gt;, &lt;a href=&quot;https://docs.mapbox.com/api/search/&quot;&gt;Mapbox&lt;/a&gt;, &lt;a href=&quot;https://developer.mapquest.com/documentation/geocoding-api/&quot;&gt;MapQuest&lt;/a&gt;, &lt;a href=&quot;https://developer.tomtom.com/search-api/search-api-documentation/geocoding&quot;&gt;TomTom&lt;/a&gt;, &lt;a href=&quot;https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/&quot;&gt;Bing&lt;/a&gt;, and &lt;a href=&quot;https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm&quot;&gt;ArcGIS&lt;/a&gt;. Refer to the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html&quot;&gt;geocoder services page&lt;/a&gt; for information on all the supported geocoder services.&lt;/p&gt;
+
+&lt;p&gt;Big thanks go to &lt;a href=&quot;https://github.com/dieghernan&quot;&gt;Diego Hernangómez&lt;/a&gt; and &lt;a href=&quot;https://github.com/dpprdan&quot;&gt;Daniel Possenriede&lt;/a&gt; for their work on this release. You can refer to the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/news/index.html&quot;&gt;changelog&lt;/a&gt; for the details on the changes in the release.&lt;/p&gt;
+
+&lt;h2 id=&quot;reverse-geocoding&quot;&gt;Reverse Geocoding&lt;/h2&gt;
+
+&lt;p&gt;In this example we’ll randomly sample coordinates in Madrid and label them on a map. The coordinates are placed in a dataframe and reverse geocoded with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reverse_geocode()&lt;/code&gt; function. The Nominatim (“osm”) geocoder service is used and several API parameters are passed via the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;custom_query&lt;/code&gt; argument to request additional columns of data from Nominatim. Refer to &lt;a href=&quot;https://nominatim.org/release-docs/latest/api/Reverse/&quot;&gt;Nominatim’s API documentation&lt;/a&gt; for more information on these parameters.&lt;/p&gt;
+
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tidyverse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;warn.conflicts&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tidygeocoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;knitr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;leaflet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;glue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;htmltools&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_coords&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# number of coordinates&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set.seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;103&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# for reproducibility&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# latitude and longitude bounds&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat_limits&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;40.40857&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;40.42585&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long_limits&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-3.72472&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-3.66983&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# randomly sample latitudes and longitude values&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random_lats&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;runif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_coords&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat_limits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat_limits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random_longs&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;runif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_coords&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long_limits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long_limits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# Reverse geocode the coordinates&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# the speed of the query is limited to 1 coordinate per second to comply&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# with Nominatim's usage policies&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;madrid&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reverse_geo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+              &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random_lats&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random_longs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+              &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'osm'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;full_results&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+              &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;custom_query&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;extratags&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addressdetails&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;namedetails&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After geocoding our coordinates, we can construct HTML labels with the data returned from Nominatim and display these locations on a &lt;a href=&quot;http://rstudio.github.io/leaflet/&quot;&gt;leaflet&lt;/a&gt; map.&lt;/p&gt;
+
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Create html labels&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# https://rstudio.github.io/leaflet/popups.html&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;madrid_labelled&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;madrid&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transmute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str_c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ifelse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is.na&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;glue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;b&amp;gt;Name&amp;lt;/b&amp;gt;: {name}&amp;lt;/br&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ifelse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is.na&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;suburb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;glue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;b&amp;gt;Suburb&amp;lt;/b&amp;gt;: {suburb}&amp;lt;/br&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ifelse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is.na&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;quarter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;glue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;b&amp;gt;Quarter&amp;lt;/b&amp;gt;: {quarter}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sep&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lapply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;htmltools&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# Make the leaflet map&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;madrid_labelled&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;leaflet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;100%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;leafletOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attributionControl&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lng&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;madrid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;madrid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zoom&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# Map Backgrounds&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# https://leaflet-extras.github.io/leaflet-providers/preview/&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addProviderTiles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;providers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Stamen.Terrain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Terrain&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addProviderTiles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;providers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OpenRailwayMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Rail&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addProviderTiles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;providers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Esri.WorldImagery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Satellite&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addTiles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;OSM&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# Add Markers&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addMarkers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;labelOptions&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;labelOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;noHide&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lng&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Random Locations&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# Map Control Options&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addLayersControl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;baseGroups&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;OSM&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Terrain&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Satellite&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Rail&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;overlayGroups&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Random Locations&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;layersControlOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;collapsed&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div id=&quot;htmlwidget-562547e6d92361b7b630&quot; style=&quot;width:100%;height:480px;&quot; class=&quot;leaflet html-widget&quot;&gt;&lt;/div&gt;
+&lt;script type=&quot;application/json&quot; data-for=&quot;htmlwidget-562547e6d92361b7b630&quot;&gt;{&quot;x&quot;:{&quot;options&quot;:{&quot;crs&quot;:{&quot;crsClass&quot;:&quot;L.CRS.EPSG3857&quot;,&quot;code&quot;:null,&quot;proj4def&quot;:null,&quot;projectedBounds&quot;:null,&quot;options&quot;:{}},&quot;attributionControl&quot;:false},&quot;setView&quot;:[[40.415021103152,-3.69357282582785],14,[]],&quot;calls&quot;:[{&quot;method&quot;:&quot;addProviderTiles&quot;,&quot;args&quot;:[&quot;Stamen.Terrain&quot;,null,&quot;Terrain&quot;,{&quot;errorTileUrl&quot;:&quot;&quot;,&quot;noWrap&quot;:false,&quot;detectRetina&quot;:false}]},{&quot;method&quot;:&quot;addProviderTiles&quot;,&quot;args&quot;:[&quot;OpenRailwayMap&quot;,null,&quot;Rail&quot;,{&quot;errorTileUrl&quot;:&quot;&quot;,&quot;noWrap&quot;:false,&quot;detectRetina&quot;:false}]},{&quot;method&quot;:&quot;addProviderTiles&quot;,&quot;args&quot;:[&quot;Esri.WorldImagery&quot;,null,&quot;Satellite&quot;,{&quot;errorTileUrl&quot;:&quot;&quot;,&quot;noWrap&quot;:false,&quot;detectRetina&quot;:false}]},{&quot;method&quot;:&quot;addTiles&quot;,&quot;args&quot;:[&quot;//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,null,&quot;OSM&quot;,{&quot;minZoom&quot;:0,&quot;maxZoom&quot;:18,&quot;tileSize&quot;:256,&quot;subdomains&quot;:&quot;abc&quot;,&quot;errorTileUrl&quot;:&quot;&quot;,&quot;tms&quot;:false,&quot;noWrap&quot;:false,&quot;zoomOffset&quot;:0,&quot;zoomReverse&quot;:false,&quot;opacity&quot;:1,&quot;zIndex&quot;:1,&quot;detectRetina&quot;:false,&quot;attribution&quot;:&quot;&amp;copy; &lt;a href=\&quot;http://openstreetmap.org\&quot;&gt;OpenStreetMap&lt;\/a&gt; contributors, &lt;a href=\&quot;http://creativecommons.org/licenses/by-sa/2.0/\&quot;&gt;CC-BY-SA&lt;\/a&gt;&quot;}]},{&quot;method&quot;:&quot;addMarkers&quot;,&quot;args&quot;:[[40.4123014709814,40.4096615445682,40.4175871664274,40.417272506227,40.4106519994937,40.4100781149822,40.4160619508378,40.411906436556,40.4091072090676,40.413993361209,40.4163817212981,40.4135176730348,40.4223178283641,40.4228223820305,40.423828380907,40.410822169486,40.4109466401929,40.4134973449898,40.4146834641808,40.4143576724255,40.4116045660791,40.4180861643726,40.4174389485912,40.4185510909274,40.4180497715706],[-3.67578744418699,-3.67010136934424,-3.67335474251329,-3.70310583343772,-3.67488869123186,-3.71444517586805,-3.67663930623259,-3.68756156697234,-3.72200196854039,-3.69475406050333,-3.67205522449481,-3.70229658222932,-3.6763332644197,-3.68158102478245,-3.72233264530065,-3.6795209595742,-3.68922342991826,-3.69160540612346,-3.6707955976882,-3.70259709061521,-3.7173106429264,-3.72088573588971,-3.69363431777976,-3.71829686008829,-3.70821170503502],null,null,&quot;Random Locations&quot;,{&quot;interactive&quot;:true,&quot;draggable&quot;:false,&quot;keyboard&quot;:true,&quot;title&quot;:&quot;&quot;,&quot;alt&quot;:&quot;&quot;,&quot;zIndexOffset&quot;:0,&quot;opacity&quot;:1,&quot;riseOnHover&quot;:false,&quot;riseOffset&quot;:250},null,null,null,null,[&quot;&lt;b&gt;Name&lt;\/b&gt;: Torre del Retiro&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Niño Jesús&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: Alimentación Bazar&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Niño Jesús&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Ibiza&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: Casa de Empeño&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Sol&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Sol&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: Real Escuela Superior de Arte Dramático (RESAD)&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Niño Jesús&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: Dalieda de San Francisco&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Palacio&lt;\/br&gt;&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Ibiza&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: Bosque del Recuerdo&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Jerónimos&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Latina&lt;\/br&gt;&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Cortes&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Cortes&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Ibiza&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Embajadores&lt;\/br&gt;&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Salamanca&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Goya&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Salamanca&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Recoletos&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Moncloa-Aravaca&lt;\/br&gt;&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: La Rosaleda&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Jerónimos&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Jerónimos&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Jerónimos&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: Citröen España&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Retiro&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Niño Jesús&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: España Cañi&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Cortes&lt;\/br&gt;&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Palacio&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Palacio&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: Paseo de la Virgen del Puerto&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Palacio&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Palacio&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Cortes&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Cortes&quot;,&quot;&lt;b&gt;Suburb&lt;\/b&gt;: Moncloa-Aravaca&lt;\/br&gt;&lt;b&gt;Quarter&lt;\/b&gt;: Argüelles&quot;,&quot;&lt;b&gt;Name&lt;\/b&gt;: Oratorio Santo Niño del Remedio&lt;\/br&gt;&lt;b&gt;Suburb&lt;\/b&gt;: Centro&lt;\/br&gt;&quot;],{&quot;interactive&quot;:false,&quot;permanent&quot;:false,&quot;direction&quot;:&quot;auto&quot;,&quot;opacity&quot;:1,&quot;offset&quot;:[0,0],&quot;textsize&quot;:&quot;10px&quot;,&quot;textOnly&quot;:false,&quot;className&quot;:&quot;&quot;,&quot;sticky&quot;:true},null]},{&quot;method&quot;:&quot;addLayersControl&quot;,&quot;args&quot;:[[&quot;OSM&quot;,&quot;Terrain&quot;,&quot;Satellite&quot;,&quot;Rail&quot;],&quot;Random Locations&quot;,{&quot;collapsed&quot;:true,&quot;autoZIndex&quot;:true,&quot;position&quot;:&quot;topright&quot;}]}],&quot;limits&quot;:{&quot;lat&quot;:[40.4091072090676,40.423828380907],&quot;lng&quot;:[-3.72233264530065,-3.67010136934424]}},&quot;evals&quot;:[],&quot;jsHooks&quot;:[]}&lt;/script&gt;
+
+&lt;h2 id=&quot;limits&quot;&gt;Limits&lt;/h2&gt;
+
+&lt;p&gt;This release also improves support for returning multiple results per input with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;limit&lt;/code&gt; argument. Consider this batch query with the US Census geocoder:&lt;/p&gt;
+
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;tie_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tibble&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tribble&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_street_address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_city_desc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state_cd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zip_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;624 W DAVIS ST   #1D&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;BURLINGTON&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;NC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;27215&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;201 E CENTER ST   #268&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;MEBANE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;     &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;NC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;27302&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;7833  WOLFE LN&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;         &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SNOW CAMP&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;NC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;27349&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tg_batch&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tie_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geocode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;street&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_street_address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;city&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_city_desc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state_cd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;postalcode&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zip_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'census'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;full_results&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;res_street_address&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;res_city_desc&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;state_cd&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;zip_code&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;lat&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;long&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;input_address&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;match_indicator&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;match_type&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;matched_address&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;tiger_line_id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;tiger_side&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;624 W DAVIS ST #1D&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;BURLINGTON&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;27215&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;624 W DAVIS ST #1D, BURLINGTON, NC, 27215&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Tie&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;201 E CENTER ST #268&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MEBANE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;27302&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;2&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;201 E CENTER ST #268, MEBANE, NC, 27302&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Tie&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7833 WOLFE LN&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;SNOW CAMP&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;27349&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;3&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7833 WOLFE LN, SNOW CAMP, NC, 27349&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Tie&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;You can see NA results are returned and the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;match_indicator&lt;/code&gt; column indicates a “Tie”. This is what the US Census batch geocoder returns when multiple results are available for each input address (see &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/issues/87&quot;&gt;issue #87&lt;/a&gt; for more details).&lt;/p&gt;
+
+&lt;p&gt;Too see all available results for these addresses, you will need to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mode&lt;/code&gt; to force single address (not batch) geocoding and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;limit &amp;gt; 1&lt;/code&gt;. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return_input&lt;/code&gt; argument (new in this release) has to be set to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FALSE&lt;/code&gt; to allow &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;limit&lt;/code&gt; to be set to a value other than 1. See the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/reference/geocode.html&quot;&gt;geocode() function documentation&lt;/a&gt; for details.&lt;/p&gt;
+
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;tg_single&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tie_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geocode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;street&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_street_address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;city&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_city_desc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state_cd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;postalcode&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zip_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;limit&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;return_input&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'census'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'single'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;full_results&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;street&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;city&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;state&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;postalcode&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;lat&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;long&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;matchedAddress&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;tigerLine.tigerLineId&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;tigerLine.side&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.fromAddress&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.toAddress&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.preQualifier&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.preDirection&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.preType&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.streetName&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.suffixType&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.suffixDirection&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.suffixQualifier&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.city&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.state&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addressComponents.zip&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;624 W DAVIS ST #1D&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;BURLINGTON&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27215&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;36.09598&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-79.44453&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;624 W DAVIS ST, BURLINGTON, NC, 27215&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;71662708&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;L&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;618&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;628&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;W&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;DAVIS&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ST&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;BURLINGTON&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27215&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;624 W DAVIS ST #1D&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;BURLINGTON&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27215&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;36.08821&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-79.43201&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;624 E DAVIS ST, BURLINGTON, NC, 27215&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;71664000&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;L&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;600&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;698&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;E&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;DAVIS&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ST&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;BURLINGTON&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27215&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;201 E CENTER ST #268&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MEBANE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27302&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;36.09683&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-79.26977&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;201 W CENTER ST, MEBANE, NC, 27302&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;71655977&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;R&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;201&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;299&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;W&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;CENTER&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ST&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MEBANE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27302&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;201 E CENTER ST #268&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MEBANE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27302&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;36.09582&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-79.26624&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;201 E CENTER ST, MEBANE, NC, 27302&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;71656021&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;R&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;299&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;201&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;E&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;CENTER&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ST&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MEBANE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27302&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7833 WOLFE LN&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;SNOW CAMP&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27349&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;35.89866&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-79.43713&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7833 WOLFE LN, SNOW CAMP, NC, 27349&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;71682243&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;L&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7999&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7801&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;WOLFE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;LN&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;SNOW CAMP&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27349&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7833 WOLFE LN&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;SNOW CAMP&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27349&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;35.89693&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-79.43707&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7833 WOLF LN, SNOW CAMP, NC, 27349&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;71685327&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;L&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7801&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;7911&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;WOLF&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;LN&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;SNOW CAMP&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;27349&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;We can now see there are two available results for each address. Note that this particular issue with “Tie” batch results is specific to the US Census geocoder service. Refer to the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html&quot;&gt;api_parameter_reference&lt;/a&gt; documentation for more details on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;limit&lt;/code&gt; parameter.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;limit&lt;/code&gt; parameter can also be used to return all matches for a more general query:&lt;/p&gt;
+
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;paris&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Paris'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'opencage'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;full_results&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;limit&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;address&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;lat&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;long&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;formatted&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;annotations.currency.name&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;48.85670&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;2.351462&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris, France&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Euro&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;33.66180&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-95.555513&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris, TX 75460, United States of America&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;United States Dollar&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.20980&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-84.252987&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris, Kentucky, United States of America&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;United States Dollar&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;36.30195&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-88.325858&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris, TN 38242, United States of America&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;United States Dollar&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;39.61115&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-87.696137&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris, IL 61944, United States of America&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;United States Dollar&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;44.25995&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-70.500641&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris, Maine, United States of America&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;United States Dollar&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;35.29203&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-93.729917&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris, AR 72855, United States of America&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;United States Dollar&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;39.48087&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-92.001281&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Paris, MO 65275, United States of America&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;United States Dollar&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The RMarkdown file that generated this post is available &lt;a href=&quot;https://github.com/jessecambon/jessecambon.github.io/blob/main/_posts/2021-04-19-tidygeocoder-1-0-3.Rmd&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</content>
+    <author><name>Jesse Cambon</name></author>
+    <summary type="html">Tidygeocoder v1.0.3 is released on CRAN! This release adds support for reverse geocoding (geocoding geographic coordinates) and 7 new geocoder services: OpenCage, HERE, Mapbox, MapQuest, TomTom, Bing, and ArcGIS. Refer to the geocoder services page for information on all the supported geocoder services.
+</summary>
+</entry>
  
 <entry>
     <title type="html">Tidygeocoder 1.0.2</title>

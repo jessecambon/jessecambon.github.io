@@ -1,17 +1,42 @@
 ---
 layout: post
 title: "Tidygeocoder 1.0.3"
-date: 2021-04-14
+date: 2021-04-19
 author: Jesse Cambon
-tags: [tidygeocoder]
-image: ""
+tags: [r, tidygeocoder]
+image: "/images/tidygeocoder_hex.png"
+leafletmap: true
+always_allow_html: yes
+output: 
+  md_document:
+    pandoc_args: ["--wrap=none"]
+    variant: gfm
+    preserve_yaml: TRUE
+---
+
+```{r notes, eval = F, include=FALSE}
+Note the leafletmap and always_allow_html tags above
+
+Steps to prepare for rendering in Jekyll:
+
+1. comment out `source(here::here("rmd_config.R"))` below
+2. Knit with:
+  
+  output: html_document
+
+   (this generates the HTML content for the leaflet map that we need)
+3. uncomment the source() line from step 1
+4. Knit a second time with this output statement
+
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]
     variant: gfm
     preserve_yaml: TRUE 
----
-
+    
+5. Find the Leaflet html content <div>...</div><script>...</script> content and paste it into the .md file.
+6. Delete the .html file
+```
 
 ```{r setup, include=FALSE}
 source(here::here("rmd_config.R"))
@@ -21,15 +46,15 @@ knitr::opts_chunk$set(
   fig.height = 5,
   fig.align = 'center'
 )
-``` 
+```
 
 [Tidygeocoder v1.0.3](https://jessecambon.github.io/tidygeocoder/) is released on  [CRAN](https://cran.r-project.org/package=tidygeocoder)! This release adds support for reverse geocoding (geocoding geographic coordinates) and 7 new geocoder services: [OpenCage](https://opencagedata.com/), [HERE](https://developer.here.com/products/geocoding-and-search), [Mapbox](https://docs.mapbox.com/api/search/),  [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/), [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding), [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/), and [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm). Refer to the [geocoder services page](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) for information on all the supported geocoder services.
 
-Big thanks go to [Diego Hernangómez](https://github.com/dieghernan) and [Daniel Possenriede](https://github.com/dpprdan) for their work on this release. You can refer to the [changelog](https://jessecambon.github.io/tidygeocoder/news/index.html) for further details on all the changes.
+Big thanks go to [Diego Hernangómez](https://github.com/dieghernan) and [Daniel Possenriede](https://github.com/dpprdan) for their work on this release. You can refer to the [changelog](https://jessecambon.github.io/tidygeocoder/news/index.html) for the details on the changes in the release.
 
 ## Reverse Geocoding
 
-To demonstrate the new reverse geocoding capabilities, in this example we'll randomly sample coordinates in Madrid and label them on a map. The coordinates are placed in a dataframe and reverse geocoded with the `reverse_geocode()` function. The Nominatim ("osm") geocoder service is used and several API parameters are passed via the `custom_query` argument to return additional data from Nominatim. Refer to [Nominatim's API documentation](https://nominatim.org/release-docs/latest/api/Reverse/) for details.
+In this example we'll randomly sample coordinates in Madrid and label them on a map. The coordinates are placed in a dataframe and reverse geocoded with the `reverse_geocode()` function. The Nominatim ("osm") geocoder service is used and several API parameters are passed via the `custom_query` argument to request additional columns of data from Nominatim. Refer to [Nominatim's API documentation](https://nominatim.org/release-docs/latest/api/Reverse/) for more information on these parameters.
 
 
 ```{r, message = FALSE}
@@ -40,7 +65,7 @@ library(leaflet)
 library(glue)
 library(htmltools)
 
-num_coords <- 30 # number of locations
+num_coords <- 25 # number of coordinates
 set.seed(103) # for reproducibility
 
 # latitude and longitude bounds
@@ -60,20 +85,19 @@ random_longs <- runif(
   max = long_limits[2]
   )
 
-# reverse geocode the coordinates
+# Reverse geocode the coordinates
+# the speed of the query is limited to 1 coordinate per second to comply
+# with Nominatim's usage policies
 madrid <- reverse_geo(
               lat = random_lats, random_longs, 
               method = 'osm', full_results = TRUE,
               custom_query = list(extratags = 1, addressdetails = 1, namedetails = 1)
           )
-
 ```
 
-
-After geocoding our coordinates, we can construct HTML labels with the data returned from Nominatim and display these locations on a leaflet map.
+After geocoding our coordinates, we can construct HTML labels with the data returned from Nominatim and display these locations on a [leaflet](http://rstudio.github.io/leaflet/) map.
 
 ```{r}
-
 # Create html labels
 # https://rstudio.github.io/leaflet/popups.html
 madrid_labelled <- madrid %>%
@@ -81,7 +105,7 @@ madrid_labelled <- madrid %>%
     lat, 
     long, 
     label = str_c(
-        ifelse(is.na(name), "", glue("<b>{name}</b></br>")),
+        ifelse(is.na(name), "", glue("<b>Name</b>: {name}</br>")),
         ifelse(is.na(suburb), "", glue("<b>Suburb</b>: {suburb}</br>")),
         ifelse(is.na(quarter), "", glue("<b>Quarter</b>: {quarter}")),
         sep = ''
@@ -114,7 +138,7 @@ madrid_labelled %>%
 
 ## Limits
 
-This release also adds improve support for returning multiple results per input with the `limit` argument. Consider this batch query with the US census geocoder:
+This release also improves support for returning multiple results per input with the `limit` argument. Consider this batch query with the US Census geocoder:
 
 ```{r}
 tie_addresses <- tibble::tribble(
@@ -140,7 +164,7 @@ kable(tg_batch)
 
 You can see NA results are returned and the `match_indicator` column indicates a "Tie". This is what the US Census batch geocoder returns when multiple results are available for each input address (see [issue #87](https://github.com/jessecambon/tidygeocoder/issues/87) for more details). 
 
-In order to see the available results for these addresses, you will need to use single address geocoding. Below we specify to use the single address geocoder instead of batch geocoding with the `mode` argument. The `limit` argument is specified to allow multiple results to be returned per address. The `return_input` argument (new in this release) has to be set to `FALSE` to allow `limit` to be set to a value other than 1 (see the [geocode()](https://jessecambon.github.io/tidygeocoder/reference/geocode.html) function documentation for details).
+Too see all available results for these addresses, you will need to use `mode` to force single address (not batch) geocoding and `limit > 1`. The `return_input` argument (new in this release) has to be set to `FALSE` to allow `limit` to be set to a value other than 1. See the [geocode() function documentation](https://jessecambon.github.io/tidygeocoder/reference/geocode.html) for details.
 
 ```{r}
 tg_single <- tie_addresses %>%
@@ -160,4 +184,17 @@ tg_single <- tie_addresses %>%
 kable(tg_single)
 ```
 
-We can now see there are two available results for each address. Note that the US Census service API does not have a `limit` argument in its API, but we can still use the `limit` parameter in `geocode()` or `geo()`. Refer to the [api_parameter_reference](https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html) documentation for more details.
+We can now see there are two available results for each address. Note that this particular issue with "Tie" batch results is specific to the US Census geocoder service. Refer to the [api_parameter_reference](https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html) documentation for more details on the `limit` parameter.
+
+The `limit` parameter can also be used to return all matches for a more general query:
+
+```{r}
+paris <- geo('Paris', method = 'opencage', full_results = TRUE, limit = 10)
+```
+```{r, echo = FALSE}
+kable(paris %>%
+        select(address, lat, long, formatted, annotations.currency.name))
+```
+
+The RMarkdown file that generated this post is available [here](https://github.com/jessecambon/jessecambon.github.io/blob/main/_posts/2021-04-19-tidygeocoder-1-0-3.Rmd).
+
