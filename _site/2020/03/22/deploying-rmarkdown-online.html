@@ -3,13 +3,13 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Deploying RMarkdown Online | Jesse Cambon</title>
+<title>Deploying R Markdown Online | Jesse Cambon</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="Deploying RMarkdown Online" />
+<meta property="og:title" content="Deploying R Markdown Online" />
 <meta name="author" content="Jesse Cambon" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="RMarkdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your RMarkdown workflow." />
-<meta property="og:description" content="RMarkdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your RMarkdown workflow." />
+<meta name="description" content="R Markdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your R Markdown workflow." />
+<meta property="og:description" content="R Markdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your R Markdown workflow." />
 <link rel="canonical" href="https://jessecambon.github.io/2020/03/22/deploying-rmarkdown-online.html" />
 <meta property="og:url" content="https://jessecambon.github.io/2020/03/22/deploying-rmarkdown-online.html" />
 <meta property="og:site_name" content="Jesse Cambon" />
@@ -18,9 +18,9 @@
 <meta property="article:published_time" content="2020-03-22T00:00:00-04:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:image" content="https://jessecambon.github.io/images/hex-rmarkdown.png" />
-<meta property="twitter:title" content="Deploying RMarkdown Online" />
+<meta property="twitter:title" content="Deploying R Markdown Online" />
 <script type="application/ld+json">
-{"description":"RMarkdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your RMarkdown workflow.","@type":"BlogPosting","url":"https://jessecambon.github.io/2020/03/22/deploying-rmarkdown-online.html","image":"https://jessecambon.github.io/images/hex-rmarkdown.png","headline":"Deploying RMarkdown Online","dateModified":"2020-03-22T00:00:00-04:00","datePublished":"2020-03-22T00:00:00-04:00","author":{"@type":"Person","name":"Jesse Cambon"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://jessecambon.github.io/2020/03/22/deploying-rmarkdown-online.html"},"@context":"https://schema.org"}</script>
+{"description":"R Markdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your R Markdown workflow.","@type":"BlogPosting","url":"https://jessecambon.github.io/2020/03/22/deploying-rmarkdown-online.html","image":"https://jessecambon.github.io/images/hex-rmarkdown.png","headline":"Deploying R Markdown Online","dateModified":"2020-03-22T00:00:00-04:00","datePublished":"2020-03-22T00:00:00-04:00","author":{"@type":"Person","name":"Jesse Cambon"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://jessecambon.github.io/2020/03/22/deploying-rmarkdown-online.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jessecambon.github.io/feed.xml" title="Jesse Cambon" /><!-- Leaflet JS
   Based on https://dieghernan.github.io/201905_Leaflet_R_Jekyll/#step1 -->
@@ -66,7 +66,7 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Deploying RMarkdown Online</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Deploying R Markdown Online</h1>
     <p class="post-meta"><time class="dt-published" datetime="2020-03-22T00:00:00-04:00" itemprop="datePublished">
         Mar 22 2020
       </time><!-- JAC: Removed Author listing -->
@@ -89,32 +89,32 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
 </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p><a href="https://rmarkdown.rstudio.com/">RMarkdown</a> is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as <a href="https://ggplot2.tidyverse.org/">ggplot</a> charts) which will require tweaks in your RMarkdown workflow.</p>
+    <p><a href="https://rmarkdown.rstudio.com/">R Markdown</a> is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as <a href="https://ggplot2.tidyverse.org/">ggplot</a> charts) which will require tweaks in your R Markdown workflow.</p>
 
-<p>This blog post demonstrates a simple solution to this problem that will also give you central control over RMarkdown knit settings across your site. I use this solution for this blog and <a href="https://github.com/jessecambon/Data-Science-Codex">a GitHub repository of data science resources</a>. You can also find the RMarkdown file that generated this blog post <a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/_posts/2020-03-22-deploying-rmarkdown-online.Rmd">here</a>.</p>
+<p>This blog post demonstrates a simple solution to this problem that will also give you central control over R Markdown knit settings across your site. I use this solution for this blog and <a href="https://github.com/jessecambon/Data-Science-Codex">a GitHub repository of data science resources</a>. You can also find the R Markdown file that generated this blog post <a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/_posts/2020-03-22-deploying-rmarkdown-online.Rmd">here</a>.</p>
 
-<p><img src="/../images/hex-rmarkdown.png" width="200" style="display: block; margin: auto;" /></p>
+<p><img src="/../images/hex-rmarkdown.png" style="display: block; margin: auto;" /></p>
 
 <p>Note that in this post I will be talking about implementing a solution for a <a href="https://jekyllrb.com/">Jekyll</a> blog that is hosted via <a href="https://pages.github.com/">GitHub pages</a>. Some modifications may be required if you are using another blog or website platform. However, this solution should be adaptable to all blogs or websites that use Markdown.</p>
 
-<p>For Jekyll there are two steps to building web content (HTML) from an RMarkdown file. The first is to knit the RMarkdown (.Rmd) file which creates the Markdown (.md) file. The second step is to use the <a href="https://jekyllrb.com/docs/usage/">jekyll build</a> command to create HTML content which is what will be displayed online.</p>
+<p>For Jekyll there are two steps to building web content (HTML) from an R Markdown file. The first is to knit the R Markdown (.Rmd) file which creates the Markdown (.md) file. The second step is to use the <a href="https://jekyllrb.com/docs/usage/">jekyll build</a> command to create HTML content which is what will be displayed online.</p>
 
 <pre>
-1. <b>Knit:</b>          Rmarkdown (.Rmd) ----&gt;  Markdown (.md) 
+1. <b>Knit:</b>          R Markdown (.Rmd) ----&gt;  Markdown (.md) 
 2. <b>Jekyll Build:</b>  Markdown (.md)   ----&gt;  HTML (.html)
 </pre>
 
 <h2 id="the-problem">The Problem</h2>
 
-<p>When I first used RMarkdown to create a post for this blog, none of my figures showed up in the post. The issue was that <a href="https://jekyllrb.com/">Jekyll</a> creates the HTML file for a blog post in a different location than the RMarkdown (.Rmd) and Markdown (.md) files and this breaks figure file paths. <a href="http://www.randigriffin.com/2017/04/25/how-to-knit-for-mysite.html">This blog post</a> describes the problem in more detail.</p>
+<p>When I first used R Markdown to create a post for this blog, none of my figures showed up in the post. The issue was that <a href="https://jekyllrb.com/">Jekyll</a> creates the HTML file for a blog post in a different location than the R Markdown (.Rmd) and Markdown (.md) files and this breaks figure file paths. <a href="http://www.randigriffin.com/2017/04/25/how-to-knit-for-mysite.html">This blog post</a> describes the problem in more detail.</p>
 
-<p>Also, by default RMarkdown stores files for figures two folder levels deep using the RMarkdown file location as its root (ie. <code class="language-plaintext highlighter-rouge">&lt;rmarkdown-filename&gt;_files/figure-gfm/image.png</code>). I find it more convenient to organize figure files in a separate root directory from my RMarkdown files and store the images only one folder level deep (ie. <code class="language-plaintext highlighter-rouge">/rmd_images/&lt;rmarkdown-filename&gt;/image.png</code>). You can see this folder structure in action <a href="https://github.com/jessecambon/jessecambon.github.io">here</a> (posts are in the <code class="language-plaintext highlighter-rouge">_posts</code> folder and figures are in the <code class="language-plaintext highlighter-rouge">rmd_images</code> folder).</p>
+<p>Also, by default R Markdown stores files for figures two folder levels deep using the R Markdown file location as its root (ie. <code class="language-plaintext highlighter-rouge">&lt;rmarkdown-filename&gt;_files/figure-gfm/image.png</code>). I find it more convenient to organize figure files in a separate root directory from my R Markdown files and store the images only one folder level deep (ie. <code class="language-plaintext highlighter-rouge">/rmd_images/&lt;rmarkdown-filename&gt;/image.png</code>). You can see this folder structure in action <a href="https://github.com/jessecambon/jessecambon.github.io">here</a> (posts are in the <code class="language-plaintext highlighter-rouge">_posts</code> folder and figures are in the <code class="language-plaintext highlighter-rouge">rmd_images</code> folder).</p>
 
 <h2 id="the-solution">The Solution</h2>
 
-<p>This solution uses a single R script file (.R) which contains knit settings adjustments and is referenced by all RMarkdown (.Rmd) files. This allows you to edit knit settings in one central location and use these settings whenever you knit an RMarkdown file. Modifications are made to the knit process so that figure image files are saved in a well organized folder structure and the HTML files display figures properly.</p>
+<p>This solution uses a single R script file (.R) which contains knit settings adjustments and is referenced by all R Markdown (.Rmd) files. This allows you to edit knit settings in one central location and use these settings whenever you knit an R Markdown file. Modifications are made to the knit process so that figure image files are saved in a well organized folder structure and the HTML files display figures properly.</p>
 
-<p>The contents of this central R script which I have named <a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/rmd_config.R">rmd_config.R</a> is below. It lives in the root directory of my Github repository and the contents of this file will be run (via <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source">source</a>) when each RMarkdown file is knit.</p>
+<p>The contents of this central R script which I have named <a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/rmd_config.R">rmd_config.R</a> is below. It lives in the root directory of my Github repository and the contents of this file will be run (via <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source">source</a>) when each R Markdown file is knit.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># get name of file during knitting and strip file extension</span><span class="w">
 </span><span class="n">rmd_filename</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">stringr</span><span class="o">::</span><span class="n">str_remove</span><span class="p">(</span><span class="n">knitr</span><span class="o">::</span><span class="n">current_input</span><span class="p">(),</span><span class="w"> </span><span class="s2">"\\.Rmd"</span><span class="p">)</span><span class="w">
@@ -128,24 +128,24 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
 <p>Here is what is going on in the above script:</p>
 
 <ul>
-  <li>The filename of our RMarkdown file is extracted using <code class="language-plaintext highlighter-rouge">knitr::current_input()</code> and stored in the variable <code class="language-plaintext highlighter-rouge">rmd_filename</code> (<code class="language-plaintext highlighter-rouge">str_remove</code> is used to remove the .Rmd file extension).</li>
+  <li>The filename of our R Markdown file is extracted using <code class="language-plaintext highlighter-rouge">knitr::current_input()</code> and stored in the variable <code class="language-plaintext highlighter-rouge">rmd_filename</code> (<code class="language-plaintext highlighter-rouge">str_remove</code> is used to remove the .Rmd file extension).</li>
   <li>The <a href="https://here.r-lib.org/">here package</a> establishes our ‘base’ directory (the root folder of our GitHub repository). The base directory path could change based on which computer we use and where we put our GitHub repository files so the here package allows us to automatically find this path.</li>
-  <li>The <code class="language-plaintext highlighter-rouge">fig.path</code>, which is where our figures will be stored, is set to a folder named after the RMarkdown file being run that resides in the ‘/rmd_images’ root directory.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">fig.path</code>, which is where our figures will be stored, is set to a folder named after the R Markdown file being run that resides in the ‘/rmd_images’ root directory.</li>
 </ul>
 
-<p>To utilize the above script in an RMarkdown file, we simply insert the code below as a chunk into the RMarkdown file. This will <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source">source</a> the script to apply all the necessary knit settings when an RMarkdown file is knit.</p>
+<p>To utilize the above script in an R Markdown file, we simply insert the code below as a chunk into the R Markdown file. This will <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source">source</a> the script to apply all the necessary knit settings when an R Markdown file is knit.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">source</span><span class="p">(</span><span class="n">here</span><span class="o">::</span><span class="n">here</span><span class="p">(</span><span class="s2">"rmd_config.R"</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
-<p>For a Jekyll blog, you’ll also want to include certain YAML header content such as tags or the title of the post. To do this we can use the <code class="language-plaintext highlighter-rouge">preserve_yaml</code> output setting in generating our .md file and then insert whatever YAML content we need into the header. Below is an example YAML header (the first part of your RMarkdown document) which will generate a github-style (“gfm”) .md document. In this example I’ve added the fields “layout”, “title”, “date”, “author”, and “tags” which are all used by Jekyll in creating the blog post.</p>
+<p>For a Jekyll blog, you’ll also want to include certain YAML header content such as tags or the title of the post. To do this we can use the <code class="language-plaintext highlighter-rouge">preserve_yaml</code> output setting in generating our .md file and then insert whatever YAML content we need into the header. Below is an example YAML header (the first part of your R Markdown document) which will generate a github-style (“gfm”) .md document. In this example I’ve added the fields “layout”, “title”, “date”, “author”, and “tags” which are all used by Jekyll in creating the blog post.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">---</span><span class="w">
 </span><span class="n">layout</span><span class="o">:</span><span class="w"> </span><span class="n">post</span><span class="w">
-</span><span class="n">title</span><span class="o">:</span><span class="w">  </span><span class="s2">"Deploying RMarkdown Online"</span><span class="w">
+</span><span class="n">title</span><span class="o">:</span><span class="w">  </span><span class="s2">"Deploying R Markdown Online"</span><span class="w">
 </span><span class="n">date</span><span class="o">:</span><span class="w">   </span><span class="m">2020-03-22</span><span class="w">
 </span><span class="n">author</span><span class="o">:</span><span class="w"> </span><span class="n">Jesse</span><span class="w"> </span><span class="n">Cambon</span><span class="w">
-</span><span class="n">tags</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">rmarkdown</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">-</span><span class="n">science</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="n">tags</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="n">output</span><span class="o">:</span><span class="w"> 
   </span><span class="n">md_document</span><span class="o">:</span><span class="w">
     </span><span class="n">pandoc_args</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"--wrap=none"</span><span class="p">]</span><span class="w">
@@ -154,22 +154,22 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
 </span><span class="o">---</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Note that the <code class="language-plaintext highlighter-rouge">pandoc_args</code> setting is to prevent the knit process from inserting extra line breaks into the Markdown file that don’t exist in our RMarkdown file. The extra line breaks normally are invisible, but I found they showed up when I pushed content to <a href="https://www.r-bloggers.com/">R-Bloggers</a> which caused paragraphs to be broken up.</p>
+<p>Note that the <code class="language-plaintext highlighter-rouge">pandoc_args</code> setting is to prevent the knit process from inserting extra line breaks into the Markdown file that don’t exist in our R Markdown file. The extra line breaks normally are invisible, but I found they showed up when I pushed content to <a href="https://www.r-bloggers.com/">R-Bloggers</a> which caused paragraphs to be broken up.</p>
 
 <p>One other note on Jekyll is that it uses the <a href="https://jekyllrb.com/docs/liquid/">liquid template language</a>. If you want to display characters on your blog that are used by liquid such as <code class="language-plaintext highlighter-rouge">{{}}</code> (R’s “curly-curly” operator) then you will need to wrap these problematic characters with the <code class="language-plaintext highlighter-rouge">raw</code> and <code class="language-plaintext highlighter-rouge">endraw</code> liquid tags <a href="https://shopify.github.io/liquid/tags/raw/">as described here</a>. This prevents Jekyll from attempting to parse these characters as liquid syntax and passes them on in raw form to the HTML file for display.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>To see this solution in action, you can look at the GitHub repository that produces this blog <a href="https://github.com/jessecambon/jessecambon.github.io">here</a> and the RMarkdown file for this specific blog post <a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/_posts/2020-03-22-deploying-rmarkdown-online.Rmd">here</a>. To provide a self-contained example of a figure displaying, I’ve created a simple histogram plot below and you’ll find the image file neatly filed away in the <code class="language-plaintext highlighter-rouge">rmd_images</code> directory underneath a subfolder named after this blog post.</p>
+<p>To see this solution in action, you can look at the GitHub repository that produces this blog <a href="https://github.com/jessecambon/jessecambon.github.io">here</a> and the R Markdown file for this specific blog post <a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/_posts/2020-03-22-deploying-rmarkdown-online.Rmd">here</a>. To provide a self-contained example of a figure displaying, I’ve created a simple histogram plot below and you’ll find the image file neatly filed away in the <code class="language-plaintext highlighter-rouge">rmd_images</code> directory underneath a subfolder named after this blog post.</p>
 
-<p>One caveat is that this approach does assume that each RMarkdown filename is unique. If this is not the case then you’ll need to make some modifications to the central <code class="language-plaintext highlighter-rouge">rmd_config.R</code> file above; otherwise figure images from different RMarkdown files may save in the same directory (and possibly overwrite each other). However, the solution described here is quite flexible and could be adapted to a variety of use cases with tweaks to the <code class="language-plaintext highlighter-rouge">rmd_config.R</code> file.</p>
+<p>One caveat is that this approach does assume that each R Markdown filename is unique. If this is not the case then you’ll need to make some modifications to the central <code class="language-plaintext highlighter-rouge">rmd_config.R</code> file above; otherwise figure images from different R Markdown files may save in the same directory (and possibly overwrite each other). However, the solution described here is quite flexible and could be adapted to a variety of use cases with tweaks to the <code class="language-plaintext highlighter-rouge">rmd_config.R</code> file.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hist</span><span class="p">(</span><span class="n">mtcars</span><span class="o">$</span><span class="n">disp</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <p><img src="/rmd_images/2020-03-22-deploying-rmarkdown-online/sampleplot-1.png" alt="" /><!-- --></p>
 
-<p><em><sub> March 26 2021: this post has been updated with simplified RMarkdown code. </sub></em></p>
+<p><em><sub> March 26 2021: this post has been updated with simplified R Markdown code. </sub></em></p>
 
   </div><a class="u-url" href="/2020/03/22/deploying-rmarkdown-online.html" hidden></a>
 </article>
