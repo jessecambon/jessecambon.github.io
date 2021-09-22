@@ -196,5 +196,5 @@ kable(paris %>%
         select(address, lat, long, formatted, annotations.currency.name))
 ```
 
-The RMarkdown file that generated this post is available [here](https://github.com/jessecambon/jessecambon.github.io/blob/main/_posts/2021-04-19-tidygeocoder-1-0-3.Rmd).
+The R Markdown file that generated this post is available [here](https://github.com/jessecambon/jessecambon.github.io/blob/main/_posts/2021-04-19-tidygeocoder-1-0-3.Rmd).
 

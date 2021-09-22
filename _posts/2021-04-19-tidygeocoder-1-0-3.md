@@ -180,4 +180,4 @@ paris <- geo('Paris', method = 'opencage', full_results = TRUE, limit = 10)
 | Paris   | 35.29203 | -93.729917 | Paris, AR 72855, United States of America | United States Dollar      |
 | Paris   | 39.48087 | -92.001281 | Paris, MO 65275, United States of America | United States Dollar      |
 
-The RMarkdown file that generated this post is available [here](https://github.com/jessecambon/jessecambon.github.io/blob/main/_posts/2021-04-19-tidygeocoder-1-0-3.Rmd).
+The R Markdown file that generated this post is available [here](https://github.com/jessecambon/jessecambon.github.io/blob/main/_posts/2021-04-19-tidygeocoder-1-0-3.Rmd).
