@@ -4,7 +4,7 @@
 <generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator>
 <link href="https://jessecambon.github.io/r.xml" rel="self" type="application/atom+xml"/>
 <link href="https://jessecambon.github.io" rel="alternate" type="text/html"/>
-<updated>2021-09-25T11:34:45-04:00</updated>
+<updated>2021-10-02T10:20:03-04:00</updated>
 <id>https://jessecambon.github.io/r.xml</id>
 <title type="html">Jesse Cambon-R</title>
 <subtitle>Musings on data and open source software</subtitle>
@@ -759,7 +759,7 @@
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;If you find any issues with the package or have ideas on how to improve it, feel free to &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/issues&quot;&gt;file an issue on Github&lt;/a&gt;. For reference, the RMarkdown file that generated this blog post can be found &lt;a href=&quot;https://github.com/jessecambon/jessecambon.github.io/tree/master/_posts/2020-07-15-tidygeocoder-1-0-0.Rmd&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you find any issues with the package or have ideas on how to improve it, feel free to &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/issues&quot;&gt;file an issue on Github&lt;/a&gt;. For reference, the R Markdown file that generated this blog post can be found &lt;a href=&quot;https://github.com/jessecambon/jessecambon.github.io/tree/main/_posts/2020-07-15-tidygeocoder-1-0-0.Rmd&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </content>
     <author><name>Jesse Cambon</name></author>
     <summary type="html">Tidygeocoder v1.0.0 is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.

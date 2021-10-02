@@ -132,4 +132,4 @@ stadium_locations %>% # Our dataset
 
 <br>
 
-If you find any issues with the package or have ideas on how to improve it, feel free to [file an issue on Github](https://github.com/jessecambon/tidygeocoder/issues). For reference, the RMarkdown file that generated this blog post can be found [here](https://github.com/jessecambon/jessecambon.github.io/tree/master/_posts/2020-07-15-tidygeocoder-1-0-0.Rmd).
+If you find any issues with the package or have ideas on how to improve it, feel free to [file an issue on Github](https://github.com/jessecambon/tidygeocoder/issues). For reference, the R Markdown file that generated this blog post can be found [here](https://github.com/jessecambon/jessecambon.github.io/tree/main/_posts/2020-07-15-tidygeocoder-1-0-0.Rmd).
