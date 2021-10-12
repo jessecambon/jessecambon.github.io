@@ -1,0 +1,77 @@
+<!--
+
+output: html_document
+
+
+output: 
+  md_document:
+    pandoc_args: ["--wrap=none"]
+    variant: gfm
+    preserve_yaml: TRUE 
+
+-->
+
+<ul>
+  <li><a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/files/tidygeocoder-presentation/tidygeocoder-presentation.Rmd">Link to Code</a></li>
+  <li><a href="https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#1">Link to Presentation</a></li>
+</ul>
+
+<!-- end list -->
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">knitr</span><span class="o">::</span><span class="n">include_url</span><span class="p">(</span><span class="s1">'https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#1'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="code">Code</h2>
+
+<p>The top of the file is the <strong>YAML header</strong>.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">self_contained: false</code> - the HTML file will not be self-contained. I originally set this to true, but this made the HTML file slow to load and also made it less efficient to store on Github.</li>
+  <li><code class="language-plaintext highlighter-rouge">scroll: false</code> - this prevents scrolling from changing the slide.</li>
+  <li><code class="language-plaintext highlighter-rouge">css: xaringan-themer.css</code> - includes xaringanthemer CSS styles</li>
+</ul>
+
+<p>The following code relates to <strong>xaringanthemer</strong> which provides conveniant CSS styling for xaringan slides:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">custom_styles</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
+  </span><span class="c1"># this is for the code that overflows on the slides (vertically)</span><span class="w">
+  </span><span class="s2">".scroll-output"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="s2">"max-height"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"480px"</span><span class="p">,</span><span class="w"> 
+                      </span><span class="s2">"overflow-y"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"scroll"</span><span class="p">,</span><span class="w">
+                      </span><span class="s2">"overflow-x"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'hide'</span><span class="p">))</span><span class="w">
+                      
+</span><span class="n">xaringanthemer</span><span class="o">::</span><span class="n">style_xaringan</span><span class="p">(</span><span class="w">
+      </span><span class="n">base_font_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'16px'</span><span class="p">,</span><span class="w">
+      </span><span class="n">title_slide_background_image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'images/tidygeocoder_hex.png'</span><span class="p">,</span><span class="w">
+      </span><span class="n">title_slide_text_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'white'</span><span class="p">,</span><span class="w">
+      </span><span class="n">title_slide_background_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'25%'</span><span class="p">,</span><span class="w">
+      </span><span class="n">title_slide_background_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"50% 85%"</span><span class="p">,</span><span class="w">
+      </span><span class="n">extra_css</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">custom_styles</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">extra_css</code> argument of <code class="language-plaintext highlighter-rouge">xaringanthemer::style_xaringan()</code> is used to create a new <code class="language-plaintext highlighter-rouge">.scroll-output</code> CSS class which is used to provide scrollable views of code (such as on <a href="https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#15">slide 15</a>). The <code class="language-plaintext highlighter-rouge">title_slide_background_size</code> and <code class="language-plaintext highlighter-rouge">title_slide_background_position</code> arguments are used to position the <code class="language-plaintext highlighter-rouge">title_slide_background_image</code> on the title slide.</p>
+
+<ul>
+  <li>
+    <p>The <code class="language-plaintext highlighter-rouge">.pull-left[]</code> and <code class="language-plaintext highlighter-rouge">.pull-right[]</code> declarations provide a coveniant layout for many slides.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">knitr::include_graphics()</code></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">knitr::include_url()</code></p>
+  </li>
+</ul>
+
+<p>Different ways of controlling output size:</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">fig.width</code>, <code class="language-plaintext highlighter-rouge">fig.height</code> : applies only to figures generated by R (not external images like PNGS, JPEGS, etc.)</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">out.width</code>, <code class="language-plaintext highlighter-rouge">out.height</code>: applies to external image files</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">dpi</code> argument in <code class="language-plaintext highlighter-rouge">knitr::include_graphics()</code></p>
+  </li>
+</ul>
