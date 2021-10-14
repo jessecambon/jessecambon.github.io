@@ -12,17 +12,23 @@ output:
     preserve_yaml: TRUE
 ---
 
-[Tidygeocoder v1.0.4](https://jessecambon.github.io/tidygeocoder/) is now released on [CRAN](https://cran.r-project.org/package=tidygeocoder)! This release adds support for the [Geoapify geocoding service](https://www.geoapify.com/geocoding-api) (thanks [Daniel Possenriede](https://github.com/dpprdan)!), a progress bar, and new functions for combining multiple geocoding queries. A more detailed overview is available in the [changelog](https://jessecambon.github.io/tidygeocoder/news/index.html).
+[Tidygeocoder v1.0.4](https://jessecambon.github.io/tidygeocoder/) is now released on [CRAN](https://cran.r-project.org/package=tidygeocoder)! This release adds support for the [Geoapify geocoding service](https://www.geoapify.com/geocoding-api) (thanks [Daniel Possenriede](https://github.com/dpprdan)!), a progress bar, more helpful console output, and new functions for combining multiple geocoding queries. A more detailed overview of changes in this release is available in the [changelog](https://jessecambon.github.io/tidygeocoder/news/index.html).
 
-Progress bars are now shown for single input geocoding (ie. not batch geocoding):
+### Progress Bars and Console Output
+
+Progress bars are now displayed for single input geocoding queries (ie. not batch queries). Additionally, console messages now by default show which geocoding service was used, how many addresses or coordinates were given to it, and how long the query took to execute.
 
 <img src="/../images/tidygeocoder_progress_bar_v104.gif" width="70%" style="display: block; margin: auto;" />
+
+The `progress_bar` parameter can be used to toggle the use of the progress bar while the `quiet` parameter can be used to silence console messages that are displayed by default. See the documentation for [geo()](https://jessecambon.github.io/tidygeocoder/reference/geo.html) or [reverse\_geo()](https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html) for details.
+
+Additionally, the `quiet`, `progress_bar`, and `verbose` parameters can now be set permanently via `options()`. For example, `options(tidygeocoder.progress_bar = FALSE)` will disable progress bars for all queries.
 
 ### Combining Multiple Queries
 
 In past releases of the package, `method = "cascade"` could be used in the `geo()` and `geocode()` functions to combine the results of geocoding queries from two different services. The “cascade” method is now deprecated in favor of two new and more flexible functions: `geocode_combine()` and `geo_combine()`. These functions allow for executing and combing the results of more than two queries and they allow the queries to be customized as needed.
 
-To demonstrate the utility of these new functions, below I’ve assembled a dataset of addresses to be geocoded. The first 5 entries are street level addresses in the United States that can be geocoded with the US Census geocoding service. However, three of these addresses will not return results with the US Census batch service (see [issue \#87 for details](https://github.com/jessecambon/tidygeocoder/issues/87)) and must instead be geocoded with the US Census single address geocoder. Additionally, the last three addresses are cities outside the United States and require a different geocoding service entirely (the US Census service is limited to the United States).
+To demonstrate the utility of these new functions, below I’ve assembled a dataset of addresses to be geocoded. The first 5 entries are street level addresses in the United States that can be geocoded with the US Census geocoding service. However, three of these addresses will not return results with the US Census batch service (see [issue \#87](https://github.com/jessecambon/tidygeocoder/issues/87) for more information) and must instead be geocoded with the US Census single address geocoder. Additionally, the last three addresses are cities outside the United States and require a different geocoding service entirely (the US Census service is limited to the United States).
 
 ``` r
 library(tidyverse)
@@ -41,9 +47,11 @@ mixed_addresses <- tribble(
   )
 ```
 
-If we wanted to geocode a large dataset with these types of addresses, we might first try to find as many as possible via the US Census batch service, then attempt the remaining addresses with the US Census single address geocoder, and then finally send any remaining unfound addresses to another service.
+If we wanted to geocode a large dataset with these types of addresses, we might first try to find as many as possible via the US Census batch service, then attempt the remaining addresses with the US Census single address geocoder, and then finally send any remaining unfound addresses to another service. We’ll accomplish this below with the `geocode_combine()` function.
 
-While you could manually execute these queries and combine the results, the `geocode_combine()` streamlines the process. The function accepts a dataframe input and a list of queries provided as lists (ie. a list of lists). Each list in the `queries` argument contains parameters that are passed to the `geocode()` function. Optionally, the `query_names` argument can be used to label the results of the queries.
+This function accepts a dataframe input and a list of queries provided as lists (ie. a list of lists). Each list in the `queries` argument contains parameters that are passed to the `geocode()` function. Optionally, the `query_names` argument can be used to specify a label to be used for each query’s results.
+
+Below, the `street`, `city`, `state`, and `postalcode` arguments are specified for the first two queries while `address` argument is pointed at the `city` column for the third query.
 
 ``` r
 results <- mixed_addresses %>%
@@ -63,15 +71,15 @@ results <- mixed_addresses %>%
 
     ## Passing 8 addresses to the US Census batch geocoder
 
-    ## Query completed in: 2 seconds
+    ## Query completed in: 1.2 seconds
 
     ## Passing 6 addresses to the US Census single address geocoder
 
-    ## Query completed in: 7.6 seconds
+    ## Query completed in: 3 seconds
 
     ## Passing 3 addresses to the ArcGIS single address geocoder
 
-    ## Query completed in: 0.6 seconds
+    ## Query completed in: 0.5 seconds
 
 | street\_address       | city         | state\_cd | zip\_cd |       lat |       long | query           |
 |:----------------------|:-------------|:----------|--------:|----------:|-----------:|:----------------|
@@ -84,6 +92,12 @@ results <- mixed_addresses %>%
 | NA                    | Moscow       | NA        |      NA |  55.75696 |   37.61502 | arcgis          |
 | NA                    | Buenos Aires | NA        |      NA | -34.60849 |  -58.37344 | arcgis          |
 
-By default the results of the queries are combined into a single dataframe as shown above. However, the results of each query can be returned as separate list items by setting `return_list = TRUE`. Additionally, only addresses that yield no results are passed to the subsequent query specified in the `queries` parameter, but setting `cascade = FALSE` will send all addresses to all queries.
+By default the results of the queries are combined into a single dataframe as shown above and the `query` column labels shows which query produced each result. Alternatively, the results of each query can be returned as separate list items by setting `return_list = TRUE`.
 
-The R Markdown file that generated this post is available [here](https://github.com/jessecambon/jessecambon.github.io/blob/main/_posts/2021-04-19-tidygeocoder-1-0-3.Rmd).
+Additionally, by default only addresses that yield no results are passed to the subsequent query specified in the `queries` parameter, but setting `cascade = FALSE` will send all addresses to all queries. See [the documentation for the geocode\_combine() function](https://jessecambon.github.io/tidygeocoder/reference/geocode_combine.html) for more usage details.
+
+### Package Housekeeping
+
+The `return_type`, `geocodio_v`, `mapbox_permanent`, `mapquest_open`, `iq_region`, and `here_request_id` parameters and now *deprecated* in favor of the new `api_options` parameter. For instance, instead of using `return_type = "geographies"` you should now instead use `api_options = list(census_return_type = "geographies")`.
+
+Also, the `cascade_order`, `param_error`, and `batch_limit_error` parameters in `geo()` are now deprecated as they were only required because of the “cascade” method, which is also now deprecated. Refer to the documentation for [geo()](https://jessecambon.github.io/tidygeocoder/reference/geo.html) or [reverse\_geo()](https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html) for details.
