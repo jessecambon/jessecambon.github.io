@@ -31,8 +31,8 @@ url: "https://jessecambon.github.io" # the base hostname & protocol for your sit
 
 header_pages:
   - about.md
+  - projects.md
   - resources.md
- # - test.md
 
 # Build settings
 markdown: kramdown

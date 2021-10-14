@@ -11,10 +11,12 @@ A work-in-progress collection of resources I find useful for data science work. 
 - [RStudio's Blog](https://blog.rstudio.com/)
 - [Julia Silge](https://juliasilge.com/) - Lots of great walkthroughs of machine learning problems with [tidymodels](https://www.tidymodels.org/)
 - [Andrew Gelman](https://statmodeling.stat.columbia.edu/) - Bayesian statistics
+- [TJ Mahr](https://www.tjmahr.com/) - R and Bayesian stats
 - [Simply Statistics](https://simplystatistics.org/)
 - [David Robinson](http://varianceexplained.org/) - R and machine learning
-- [Monica Alexander](https://www.monicaalexander.com) - Bayesian statistics
+- [Monica Alexander](https://www.monicaalexander.com) - Bayesian statistics and demography
 - [Frank Harrell](https://www.fharrell.com/) - Biostatistics
+- [Richard McElreath](https://elevanth.org/blog/)
 
 ### Books
 
@@ -31,11 +33,12 @@ A work-in-progress collection of resources I find useful for data science work. 
 - [RWeekly](https://rweekly.org/) - a blog aggregator for keeping track of what's going on in the R community.
 - [Tidymodels Documentation](https://www.tidymodels.org/learn/)
 - [Data Science Digest](https://thedatasciencedigest.substack.com/)
-- [Distill](https://distill.pub/) - Machine learning concepts explained
+- [Distill](https://distill.pub/) - Machine learning concepts explained intuitively 
 - [Biostat Handbook](http://www.biostathandbook.com/) - general statistics reference
 - [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
 - [R Markdown - The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
 - [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
+- [Stan User's Guide](https://mc-stan.org/docs/2_28/stan-users-guide/index.html) - A helpful reference for Bayesian modeling.
 
 ### Data Visualization
 

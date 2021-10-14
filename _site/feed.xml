@@ -1,168 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://jessecambon.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jessecambon.github.io/" rel="alternate" type="text/html" /><updated>2021-10-13T21:37:41-04:00</updated><id>https://jessecambon.github.io/feed.xml</id><title type="html">Jesse Cambon</title><subtitle>Musings on data and open source software</subtitle><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><entry><title type="html">Tidygeocoder 1.0.4</title><link href="https://jessecambon.github.io/2021/10/12/2021-10-XX-tidygeocoder-1-0-4.html" rel="alternate" type="text/html" title="Tidygeocoder 1.0.4" /><published>2021-10-12T00:00:00-04:00</published><updated>2021-10-12T00:00:00-04:00</updated><id>https://jessecambon.github.io/2021/10/12/2021-10-XX-tidygeocoder-1-0-4</id><content type="html" xml:base="https://jessecambon.github.io/2021/10/12/2021-10-XX-tidygeocoder-1-0-4.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/&quot;&gt;Tidygeocoder v1.0.4&lt;/a&gt; is now released on &lt;a href=&quot;https://cran.r-project.org/package=tidygeocoder&quot;&gt;CRAN&lt;/a&gt;! This release adds support for the &lt;a href=&quot;https://www.geoapify.com/geocoding-api&quot;&gt;Geoapify geocoding service&lt;/a&gt; (thanks &lt;a href=&quot;https://github.com/dpprdan&quot;&gt;Daniel Possenriede&lt;/a&gt;!), a progress bar, more helpful console output, and new functions for combining multiple geocoding queries. A more detailed overview of changes in this release is available in the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/news/index.html&quot;&gt;changelog&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;progress-bars-and-console-output&quot;&gt;Progress Bars and Console Output&lt;/h3&gt;
-
-&lt;p&gt;Progress bars are now displayed for single input geocoding queries (ie. not batch queries). Additionally, console messages now by default show which geocoding service was used, how many addresses or coordinates were given to it, and how long the query took to execute.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/../images/tidygeocoder_progress_bar_v104.gif&quot; width=&quot;70%&quot; style=&quot;display: block; margin: auto;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;progress_bar&lt;/code&gt; parameter can be used to toggle the use of the progress bar while the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;quiet&lt;/code&gt; parameter can be used to silence console messages that are displayed by default. See the documentation for &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/reference/geo.html&quot;&gt;geo()&lt;/a&gt; or &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html&quot;&gt;reverse_geo()&lt;/a&gt; for details.&lt;/p&gt;
-
-&lt;p&gt;Additionally, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;quiet&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;progress_bar&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;verbose&lt;/code&gt; parameters can now be set permanently via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;options()&lt;/code&gt;. For example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;options(tidygeocoder.progress_bar = FALSE)&lt;/code&gt; will disable progress bars for all queries.&lt;/p&gt;
-
-&lt;h3 id=&quot;combining-multiple-queries&quot;&gt;Combining Multiple Queries&lt;/h3&gt;
-
-&lt;p&gt;In past releases of the package, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;method = &quot;cascade&quot;&lt;/code&gt; could be used in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geo()&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geocode()&lt;/code&gt; functions to combine the results of geocoding queries from two different services. The “cascade” method is now deprecated in favor of two new and more flexible functions: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geocode_combine()&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geo_combine()&lt;/code&gt;. These functions allow for executing and combing the results of more than two queries and they allow the queries to be customized as needed.&lt;/p&gt;
-
-&lt;p&gt;To demonstrate the utility of these new functions, below I’ve assembled a dataset of addresses to be geocoded. The first 5 entries are street level addresses in the United States that can be geocoded with the US Census geocoding service. However, three of these addresses will not return results with the US Census batch service (see &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/issues/87&quot;&gt;issue #87&lt;/a&gt; for more information) and must instead be geocoded with the US Census single address geocoder. Additionally, the last three addresses are cities outside the United States and require a different geocoding service entirely (the US Census service is limited to the United States).&lt;/p&gt;
-
-&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tidyverse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tidygeocoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mixed_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tribble&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;street_address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;city&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state_cd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zip_cd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;624 W DAVIS ST #1D&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;BURLINGTON&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;NC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;27215&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;201 E CENTER ST #268&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;MEBANE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;     &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;NC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;27302&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;7833  WOLFE LN&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;       &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SNOW CAMP&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;NC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;27349&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;202 C St&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;             &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;San Diego&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;CA&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;92101&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;121 N Rouse Ave&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Bozeman&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;MT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;59715&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bind_rows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tibble&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;city&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Taipei'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Moscow'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Buenos Aires'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;If we wanted to geocode a large dataset with these types of addresses, we might first try to find as many as possible via the US Census batch service, then attempt the remaining addresses with the US Census single address geocoder, and then finally send any remaining unfound addresses to another service. We’ll accomplish this below with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geocode_combine()&lt;/code&gt; function.&lt;/p&gt;
-
-&lt;p&gt;This function accepts a dataframe input and a list of queries provided as lists (ie. a list of lists). Each list in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;queries&lt;/code&gt; argument contains parameters that are passed to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geocode()&lt;/code&gt; function. Optionally, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;query_names&lt;/code&gt; argument can be used to specify a label to be used for each query’s results.&lt;/p&gt;
-
-&lt;p&gt;Below, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;street&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;city&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;state&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;postalcode&lt;/code&gt; arguments are specified for the first two queries while &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;address&lt;/code&gt; argument is pointed at the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;city&lt;/code&gt; column for the third query.&lt;/p&gt;
-
-&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mixed_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geocode_combine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queries&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'census'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'batch'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
-        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;street&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'street_address'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;city&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'city'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'state_cd'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;postalcode&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'zip_cd'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'census'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'single'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-           &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;street&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'street_address'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;city&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'city'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'state_cd'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;postalcode&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'zip_cd'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'arcgis'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'city'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query_names&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'census - batch'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'census - single'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'arcgis'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## 
-
-## Passing 8 addresses to the US Census batch geocoder
-
-## Query completed in: 1.2 seconds
-
-## Passing 6 addresses to the US Census single address geocoder
-
-## Query completed in: 3 seconds
-
-## Passing 3 addresses to the ArcGIS single address geocoder
-
-## Query completed in: 0.5 seconds
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;street_address&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;city&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;state_cd&lt;/th&gt;
-      &lt;th style=&quot;text-align: right&quot;&gt;zip_cd&lt;/th&gt;
-      &lt;th style=&quot;text-align: right&quot;&gt;lat&lt;/th&gt;
-      &lt;th style=&quot;text-align: right&quot;&gt;long&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;query&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;624 W DAVIS ST #1D&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;BURLINGTON&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;27215&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;36.09598&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-79.44453&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;census - single&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;201 E CENTER ST #268&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MEBANE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;27302&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;36.09683&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-79.26977&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;census - single&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;7833 WOLFE LN&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;SNOW CAMP&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;NC&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;27349&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;35.89866&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-79.43713&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;census - single&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;202 C St&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;San Diego&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;CA&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;92101&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;32.71676&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-117.16283&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;census - batch&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;121 N Rouse Ave&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Bozeman&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MT&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;59715&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;45.68066&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-111.03203&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;census - batch&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Taipei&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;NA&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;25.03737&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;121.56355&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;arcgis&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Moscow&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;NA&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;55.75696&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;37.61502&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;arcgis&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Buenos Aires&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;NA&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;NA&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-34.60849&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-58.37344&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;arcgis&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;By default the results of the queries are combined into a single dataframe as shown above and the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;query&lt;/code&gt; column labels shows which query produced each result. Alternatively, the results of each query can be returned as separate list items by setting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return_list = TRUE&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Additionally, by default only addresses that yield no results are passed to the subsequent query specified in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;queries&lt;/code&gt; parameter, but setting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cascade = FALSE&lt;/code&gt; will send all addresses to all queries. See &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/reference/geocode_combine.html&quot;&gt;the documentation for the geocode_combine() function&lt;/a&gt; for more usage details.&lt;/p&gt;
-
-&lt;h3 id=&quot;package-housekeeping&quot;&gt;Package Housekeeping&lt;/h3&gt;
-
-&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return_type&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geocodio_v&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mapbox_permanent&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mapquest_open&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;iq_region&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;here_request_id&lt;/code&gt; parameters and now &lt;em&gt;deprecated&lt;/em&gt; in favor of the new &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;api_options&lt;/code&gt; parameter. For instance, instead of using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return_type = &quot;geographies&quot;&lt;/code&gt; you should now instead use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;api_options = list(census_return_type = &quot;geographies&quot;)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Also, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cascade_order&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;param_error&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;batch_limit_error&lt;/code&gt; parameters in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geo()&lt;/code&gt; are now deprecated as they were only required because of the “cascade” method, which is also now deprecated. Refer to the documentation for &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/reference/geo.html&quot;&gt;geo()&lt;/a&gt; or &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html&quot;&gt;reverse_geo()&lt;/a&gt; for details.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html">Tidygeocoder v1.0.4 is now released on CRAN! This release adds support for the Geoapify geocoding service (thanks Daniel Possenriede!), a progress bar, more helpful console output, and new functions for combining multiple geocoding queries. A more detailed overview of changes in this release is available in the changelog.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/tidygeocoder_hex_dark2021.png" /><media:content medium="image" url="https://jessecambon.github.io/images/tidygeocoder_hex_dark2021.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Tidygeocoder 1.0.3</title><link href="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html" rel="alternate" type="text/html" title="Tidygeocoder 1.0.3" /><published>2021-04-19T00:00:00-04:00</published><updated>2021-04-19T00:00:00-04:00</updated><id>https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3</id><content type="html" xml:base="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/&quot;&gt;Tidygeocoder v1.0.3&lt;/a&gt; is released on &lt;a href=&quot;https://cran.r-project.org/package=tidygeocoder&quot;&gt;CRAN&lt;/a&gt;! This release adds support for reverse geocoding (geocoding geographic coordinates) and 7 new geocoder services: &lt;a href=&quot;https://opencagedata.com/&quot;&gt;OpenCage&lt;/a&gt;, &lt;a href=&quot;https://developer.here.com/products/geocoding-and-search&quot;&gt;HERE&lt;/a&gt;, &lt;a href=&quot;https://docs.mapbox.com/api/search/&quot;&gt;Mapbox&lt;/a&gt;, &lt;a href=&quot;https://developer.mapquest.com/documentation/geocoding-api/&quot;&gt;MapQuest&lt;/a&gt;, &lt;a href=&quot;https://developer.tomtom.com/search-api/search-api-documentation/geocoding&quot;&gt;TomTom&lt;/a&gt;, &lt;a href=&quot;https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/&quot;&gt;Bing&lt;/a&gt;, and &lt;a href=&quot;https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm&quot;&gt;ArcGIS&lt;/a&gt;. Refer to the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html&quot;&gt;geocoder services page&lt;/a&gt; for information on all the supported geocoder services.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://jessecambon.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jessecambon.github.io/" rel="alternate" type="text/html" /><updated>2021-10-13T22:30:55-04:00</updated><id>https://jessecambon.github.io/feed.xml</id><title type="html">Jesse Cambon</title><subtitle>Musings on data and open source software</subtitle><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><entry><title type="html">Tidygeocoder 1.0.3</title><link href="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html" rel="alternate" type="text/html" title="Tidygeocoder 1.0.3" /><published>2021-04-19T00:00:00-04:00</published><updated>2021-04-19T00:00:00-04:00</updated><id>https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3</id><content type="html" xml:base="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/&quot;&gt;Tidygeocoder v1.0.3&lt;/a&gt; is released on &lt;a href=&quot;https://cran.r-project.org/package=tidygeocoder&quot;&gt;CRAN&lt;/a&gt;! This release adds support for reverse geocoding (geocoding geographic coordinates) and 7 new geocoder services: &lt;a href=&quot;https://opencagedata.com/&quot;&gt;OpenCage&lt;/a&gt;, &lt;a href=&quot;https://developer.here.com/products/geocoding-and-search&quot;&gt;HERE&lt;/a&gt;, &lt;a href=&quot;https://docs.mapbox.com/api/search/&quot;&gt;Mapbox&lt;/a&gt;, &lt;a href=&quot;https://developer.mapquest.com/documentation/geocoding-api/&quot;&gt;MapQuest&lt;/a&gt;, &lt;a href=&quot;https://developer.tomtom.com/search-api/search-api-documentation/geocoding&quot;&gt;TomTom&lt;/a&gt;, &lt;a href=&quot;https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/&quot;&gt;Bing&lt;/a&gt;, and &lt;a href=&quot;https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm&quot;&gt;ArcGIS&lt;/a&gt;. Refer to the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html&quot;&gt;geocoder services page&lt;/a&gt; for information on all the supported geocoder services.&lt;/p&gt;
 
 &lt;p&gt;Big thanks go to &lt;a href=&quot;https://github.com/dieghernan&quot;&gt;Diego Hernangómez&lt;/a&gt; and &lt;a href=&quot;https://github.com/dpprdan&quot;&gt;Daniel Possenriede&lt;/a&gt; for their work on this release. You can refer to the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/news/index.html&quot;&gt;changelog&lt;/a&gt; for the details on the changes in the release.&lt;/p&gt;
 
@@ -624,83 +460,7 @@
 ## See ?api_parameter_reference for more details.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;If you’re interested in contributing to the package and would like to add support for other geocoder services, updated instructions on how to go about this are &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424&quot;&gt;located here&lt;/a&gt;.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html">Tidygeocoder v1.0.2 “Yodeling Yak” is now on CRAN. This release adds support for the popular Google geocoder service (thanks @chris31415926535) and also includes several bugfixes and enhancements. Refer to the changelog for details on the release and to the tidygeocoder homepage for a comparison of all supported geocoder services.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/google_map_pin.png" /><media:content medium="image" url="https://jessecambon.github.io/images/google_map_pin.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Intro to HTML Presentations</title><link href="https://jessecambon.github.io/2020/07/15/html-presentations.html" rel="alternate" type="text/html" title="Intro to HTML Presentations" /><published>2020-07-15T00:00:00-04:00</published><updated>2020-07-15T00:00:00-04:00</updated><id>https://jessecambon.github.io/2020/07/15/html-presentations</id><content type="html" xml:base="https://jessecambon.github.io/2020/07/15/html-presentations.html">&lt;!--
-
-output: html_document
-
-
-output: 
-  md_document:
-    pandoc_args: [&quot;--wrap=none&quot;]
-    variant: gfm
-    preserve_yaml: TRUE 
-
---&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/jessecambon/jessecambon.github.io/blob/master/files/tidygeocoder-presentation/tidygeocoder-presentation.Rmd&quot;&gt;Link to Code&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#1&quot;&gt;Link to Presentation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;!-- end list --&gt;
-
-&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;knitr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;include_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;code&quot;&gt;Code&lt;/h2&gt;
-
-&lt;p&gt;The top of the file is the &lt;strong&gt;YAML header&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self_contained: false&lt;/code&gt; - the HTML file will not be self-contained. I originally set this to true, but this made the HTML file slow to load and also made it less efficient to store on Github.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scroll: false&lt;/code&gt; - this prevents scrolling from changing the slide.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;css: xaringan-themer.css&lt;/code&gt; - includes xaringanthemer CSS styles&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The following code relates to &lt;strong&gt;xaringanthemer&lt;/strong&gt; which provides conveniant CSS styling for xaringan slides:&lt;/p&gt;
-
-&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;custom_styles&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# this is for the code that overflows on the slides (vertically)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.scroll-output&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;max-height&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;480px&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
-                      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;overflow-y&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;scroll&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-                      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;overflow-x&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'hide'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-                      
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xaringanthemer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;style_xaringan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base_font_size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'16px'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title_slide_background_image&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'images/tidygeocoder_hex.png'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title_slide_text_color&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'white'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title_slide_background_size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'25%'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title_slide_background_position&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;50% 85%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;extra_css&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;custom_styles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;extra_css&lt;/code&gt; argument of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xaringanthemer::style_xaringan()&lt;/code&gt; is used to create a new &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.scroll-output&lt;/code&gt; CSS class which is used to provide scrollable views of code (such as on &lt;a href=&quot;https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#15&quot;&gt;slide 15&lt;/a&gt;). The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title_slide_background_size&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title_slide_background_position&lt;/code&gt; arguments are used to position the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title_slide_background_image&lt;/code&gt; on the title slide.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.pull-left[]&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.pull-right[]&lt;/code&gt; declarations provide a coveniant layout for many slides.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;knitr::include_graphics()&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;knitr::include_url()&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Different ways of controlling output size:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fig.width&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fig.height&lt;/code&gt; : applies only to figures generated by R (not external images like PNGS, JPEGS, etc.)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;out.width&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;out.height&lt;/code&gt;: applies to external image files&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dpi&lt;/code&gt; argument in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;knitr::include_graphics()&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jesse Cambon</name></author><category term="rmarkdown" /><summary type="html">&amp;lt;!–</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/xaringan.png" /><media:content medium="image" url="https://jessecambon.github.io/images/xaringan.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introducing Tidygeocoder 1.0.0</title><link href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html" rel="alternate" type="text/html" title="Introducing Tidygeocoder 1.0.0" /><published>2020-07-15T00:00:00-04:00</published><updated>2020-07-15T00:00:00-04:00</updated><id>https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0</id><content type="html" xml:base="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/index.html&quot;&gt;Tidygeocoder v1.0.0&lt;/a&gt; is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.&lt;/p&gt;
+&lt;p&gt;If you’re interested in contributing to the package and would like to add support for other geocoder services, updated instructions on how to go about this are &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424&quot;&gt;located here&lt;/a&gt;.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html">Tidygeocoder v1.0.2 “Yodeling Yak” is now on CRAN. This release adds support for the popular Google geocoder service (thanks @chris31415926535) and also includes several bugfixes and enhancements. Refer to the changelog for details on the release and to the tidygeocoder homepage for a comparison of all supported geocoder services.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/google_map_pin.png" /><media:content medium="image" url="https://jessecambon.github.io/images/google_map_pin.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introducing Tidygeocoder 1.0.0</title><link href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html" rel="alternate" type="text/html" title="Introducing Tidygeocoder 1.0.0" /><published>2020-07-15T00:00:00-04:00</published><updated>2020-07-15T00:00:00-04:00</updated><id>https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0</id><content type="html" xml:base="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/index.html&quot;&gt;Tidygeocoder v1.0.0&lt;/a&gt; is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.&lt;/p&gt;
 
 &lt;p&gt;For a full list of new features and improvements refer to the &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/releases/tag/v1.0.0&quot;&gt;release page on Github&lt;/a&gt;. For usage examples you can reference the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html&quot;&gt;Getting Started vignette&lt;/a&gt;.&lt;/p&gt;
 
@@ -2160,76 +1920,97 @@ output:
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;This concludes my introduction to tidy evaluation. Hopefully this serves as a useful starting point for using these concepts in your own code.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html">Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" /><media:content medium="image" url="https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">How to Create An R Package</title><link href="https://jessecambon.github.io/2019/12/01/2019-11-creating-an-r-package.html" rel="alternate" type="text/html" title="How to Create An R Package" /><published>2019-12-01T21:23:51-05:00</published><updated>2019-12-01T21:23:51-05:00</updated><id>https://jessecambon.github.io/2019/12/01/2019-11-creating-an-r-package</id><content type="html" xml:base="https://jessecambon.github.io/2019/12/01/2019-11-creating-an-r-package.html">&lt;p&gt;I recently created &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;my first R package&lt;/a&gt; because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. ….&lt;/p&gt;
+&lt;p&gt;This concludes my introduction to tidy evaluation. Hopefully this serves as a useful starting point for using these concepts in your own code.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html">Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" /><media:content medium="image" url="https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Geocoding with Tidygeocoder</title><link href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html" rel="alternate" type="text/html" title="Geocoding with Tidygeocoder" /><published>2019-11-11T00:00:00-05:00</published><updated>2019-11-11T00:00:00-05:00</updated><id>https://jessecambon.github.io/2019/11/11/tidygeocoder-demo</id><content type="html" xml:base="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">&lt;p&gt;&lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;Tidygeocoder&lt;/a&gt; is a newly published R package which provides a &lt;a href=&quot;https://www.tidyverse.org/&quot;&gt;tidyverse&lt;/a&gt;-style interface for geocoding. It returns latitude and longitude coordinates in &lt;a href=&quot;https://tibble.tidyverse.org/&quot;&gt;tibble&lt;/a&gt; format from addresses using the &lt;a href=&quot;https://geocoding.geo.census.gov/&quot;&gt;US Census&lt;/a&gt; or &lt;a href=&quot;https://nominatim.openstreetmap.org/&quot;&gt;Nominatim (OSM)&lt;/a&gt; geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the &lt;a href=&quot;https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/&quot;&gt;recent Washington Nationals World Series win&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;If you have written functions in R that would be useful others in the R community, a great way to share this work is with an R package. Thanks to some helpful developer tools, the process of creating and publishing an R package can be much easier than it might seem.&lt;/p&gt;
+&lt;p&gt;First we will construct a dataset of addresses (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dc_addresses&lt;/code&gt;) and use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geocode&lt;/code&gt; function from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tidygeocoder&lt;/code&gt; to find longitude and latitude coordinates.&lt;/p&gt;
 
-&lt;h3 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://rstudio.com/products/rstudio/&quot;&gt;Install R-Studio&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;We will be generating our documentation with &lt;a href=&quot;https://cran.rstudio.com/web/packages/roxygen2/index.html&quot;&gt;roxygen2&lt;/a&gt;. This will allow us to generate all of our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;man&lt;/code&gt; documentation from embedded coments in our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R&lt;/code&gt; code files.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dplyr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tidygeocoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 
-&lt;h3 id=&quot;file-layout&quot;&gt;File Layout&lt;/h3&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tribble&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;White House&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1600 Pennsylvania Ave Washington, DC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;National Academy of Sciences&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2101 Constitution Ave NW, Washington, DC 20418&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Department of Justice&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;950 Pennsylvania Ave NW, Washington, DC 20530&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Supreme Court&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1 1st St NE, Washington, DC 20543&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Washington Monument&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2 15th St NW, Washington, DC 20024&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 
-&lt;h5 id=&quot;important-files&quot;&gt;Important Files&lt;/h5&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DESCRIPTION&lt;/code&gt;: Contains important infornation about your package such as dependencies, author info, and your license.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.Rbuildignore&lt;/code&gt;: list files and folders you do not want to include in your R package. Include files and directories that aren’t part of the standard R package format such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/data-raw&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/README.md&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;projectname.Rproj&lt;/code&gt; : RStudio project file. Don’t lose this.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinates&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geocode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h5 id=&quot;main-folders&quot;&gt;Main Folders&lt;/h5&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R&lt;/code&gt;: store your R code here.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;: datasets will be stored here. If you have scripts and data sources that you use to create this data, save them in a separate &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data-raw&lt;/code&gt; folder and then be sure to add this directory to your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.Rbuildignore&lt;/code&gt; file.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;man&lt;/code&gt;: Documentation generated by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;roxygen2&lt;/code&gt; with embedded content in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R&lt;/code&gt; code files.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tests&lt;/code&gt;: Use the &lt;a href=&quot;https://testthat.r-lib.org/&quot;&gt;testthat&lt;/a&gt; library to create functional tests for your package. Some properly written and easy to run tests will help give you some peace of mind that your latest bugfix hasn’t broken some other part of the package.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vignettes&lt;/code&gt;: vignettes are short examples that demonstrate the functionality of your package. Create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.Rmd&lt;/code&gt; in this directory to create one.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geocode&lt;/code&gt; function adds longitude and latitude coordinates as columns to our dataset of addresses. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;method&lt;/code&gt; argument (see &lt;a href=&quot;https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf&quot;&gt;the documentation&lt;/a&gt; for details). Our newly created &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;coordinates&lt;/code&gt; dataset looks like this:&lt;/p&gt;
 
-&lt;h3 id=&quot;resources&quot;&gt;Resources&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;General Instructions: http://r-pkgs.had.co.nz/&lt;/li&gt;
-  &lt;li&gt;More general instructions: https://rstats-pkgs.readthedocs.io&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://cran.r-project.org/web/packages/roxygen2/&quot;&gt;roxygen2&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://testthat.r-lib.org/&quot;&gt;testthat&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf&quot;&gt;Devtools cheat sheet&lt;/a&gt;
-*&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><category term="draft" /><summary type="html">I recently created my first R package because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. ….</summary></entry><entry><title type="html">Testing a Draft</title><link href="https://jessecambon.github.io/2019/11/18/testing_rmarkdown.html" rel="alternate" type="text/html" title="Testing a Draft" /><published>2019-11-18T00:00:00-05:00</published><updated>2019-11-18T00:00:00-05:00</updated><id>https://jessecambon.github.io/2019/11/18/testing_rmarkdown</id><content type="html" xml:base="https://jessecambon.github.io/2019/11/18/testing_rmarkdown.html">&lt;p&gt;IMPORTANT: This file must be kept in a subfolder of the root project
-directory. If this is not the case then adjust the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;project_dir&lt;/code&gt;
-argument&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;addr&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;lat&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;long&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;White House&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1600 Pennsylvania Ave Washington, DC&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.89875&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.03535&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;National Academy of Sciences&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2101 Constitution Ave NW, Washington, DC 20418&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.89211&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.04678&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Department of Justice&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;950 Pennsylvania Ave NW, Washington, DC 20530&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.89416&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.02501&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Supreme Court&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1 1st St NE, Washington, DC 20543&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.88990&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.00591&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Washington Monument&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2 15th St NW, Washington, DC 20024&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;38.88979&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;-77.03291&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;p&gt;Reference:
-&lt;a href=&quot;http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/&quot; class=&quot;uri&quot;&gt;http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now that we have the coordinates we want to plot, we will use the &lt;a href=&quot;https://cran.r-project.org/package=OpenStreetMap&quot;&gt;OpenStreetMap&lt;/a&gt; package to make a map of DC.&lt;/p&gt;
 
-&lt;h2 id=&quot;r-markdown&quot;&gt;R Markdown&lt;/h2&gt;
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OpenStreetMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;openmap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;38.905&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-77.05&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;38.885&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-77.00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map.latlng&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;openproj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see
-&lt;a href=&quot;http://rmarkdown.rstudio.com&quot; class=&quot;uri&quot;&gt;http://rmarkdown.rstudio.com&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Note that the coordinates supplied to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openmap&lt;/code&gt; function above were obtained using &lt;a href=&quot;https://www.openstreetmap.org/&quot;&gt;openstreetmap.org&lt;/a&gt; (use the export button to extract coordinates). The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openmap&lt;/code&gt; function downloads a street map and the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openproj&lt;/code&gt; function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates, which is what we do next.&lt;/p&gt;
 
-&lt;p&gt;When you click the &lt;strong&gt;Knit&lt;/strong&gt; button a document will be generated that
-includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:&lt;/p&gt;
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggplot2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggrepel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;autoplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map.latlng&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;theme_minimal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axis.text.y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element_blank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axis.title&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element_blank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axis.text.x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element_blank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot.margin&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cm&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;navy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alpha&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_label_repel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show.legend&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;box.padding&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;summary(cars)
+&lt;p&gt;&lt;img src=&quot;/images/dc_osm_map.png&quot; alt=&quot;dc-map&quot; class=&quot;img-responsive&quot; /&gt;&lt;/p&gt;
 
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;including-plots&quot;&gt;Including Plots&lt;/h2&gt;
-
-&lt;p&gt;You can also embed plots, for example:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/rmd_images/pressure-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Note that the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;echo = FALSE&lt;/code&gt; parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.&lt;/p&gt;</content><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><category term="test" /><summary type="html">IMPORTANT: This file must be kept in a subfolder of the root project directory. If this is not the case then adjust the project_dir argument</summary></entry></feed>
+&lt;p&gt;And that’s our map. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geom_label_repel&lt;/code&gt; function from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ggrepel&lt;/code&gt; provides the text labels and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geom_point&lt;/code&gt; from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ggplot2&lt;/code&gt; supplies the points. Alternatively, the &lt;a href=&quot;https://rstudio.github.io/leaflet/&quot;&gt;leaflet package&lt;/a&gt; provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;GitHub&lt;/a&gt; or &lt;a href=&quot;https://cran.r-project.org/package=tidygeocoder&quot;&gt;CRAN&lt;/a&gt;.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html">Tidygeocoder is a newly published R package which provides a tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the recent Washington Nationals World Series win.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/dc_osm_map.png" /><media:content medium="image" url="https://jessecambon.github.io/images/dc_osm_map.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
