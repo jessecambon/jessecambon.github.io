@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Tidygeocoder 1.0.4 | Jesse Cambon</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Tidygeocoder 1.0.4" />
+<meta name="author" content="Jesse Cambon" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Tidygeocoder v1.0.4 is released! 🍾 This release adds support for the Geoapify geocoding service (thanks Daniel Possenriede!), a progress bar, more helpful console output, and new functions for combining the results of multiple geocoding queries. A more detailed overview of the changes in this release is available in the changelog." />
+<meta property="og:description" content="Tidygeocoder v1.0.4 is released! 🍾 This release adds support for the Geoapify geocoding service (thanks Daniel Possenriede!), a progress bar, more helpful console output, and new functions for combining the results of multiple geocoding queries. A more detailed overview of the changes in this release is available in the changelog." />
+<link rel="canonical" href="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html" />
+<meta property="og:url" content="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html" />
+<meta property="og:site_name" content="Jesse Cambon" />
+<meta property="og:image" content="https://jessecambon.github.io/images/tidygeocoder_hex_dark2021.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-17T00:00:00-04:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://jessecambon.github.io/images/tidygeocoder_hex_dark2021.png" />
+<meta property="twitter:title" content="Tidygeocoder 1.0.4" />
+<script type="application/ld+json">
+{"description":"Tidygeocoder v1.0.4 is released! 🍾 This release adds support for the Geoapify geocoding service (thanks Daniel Possenriede!), a progress bar, more helpful console output, and new functions for combining the results of multiple geocoding queries. A more detailed overview of the changes in this release is available in the changelog.","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html"},"url":"https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html","image":"https://jessecambon.github.io/images/tidygeocoder_hex_dark2021.png","author":{"@type":"Person","name":"Jesse Cambon"},"headline":"Tidygeocoder 1.0.4","dateModified":"2021-10-17T00:00:00-04:00","datePublished":"2021-10-17T00:00:00-04:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jessecambon.github.io/feed.xml" title="Jesse Cambon" /><!-- Leaflet JS
+  Based on https://dieghernan.github.io/201905_Leaflet_R_Jekyll/#step1 -->
+  
+  <!-- End Leaflet -->
+  
+  <!-- include tag collection:
+  https://longqian.me/2017/02/09/github-jekyll-tag/ 
+  -->
+  
+    <!-- for tags:
+https://longqian.me/2017/02/09/github-jekyll-tag/ 
+-->
+
+
+
+
+
+
+
+  
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Jesse Cambon</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <!-- Inserted Posts menu item -->
+          <a class="page-link" href="/">Posts</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/projects/">Projects</a><a class="page-link" href="/resources/">Resources</a><!-- Commented out the Tidygeocoder page link -->
+  <!--          <a class="page-link" href="https://jessecambon.github.io/tidygeocoder">Tidygeocoder</a> -->
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Tidygeocoder 1.0.4</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-10-17T00:00:00-04:00" itemprop="datePublished">
+        Oct 17 2021
+      </time><!-- JAC: Removed Author listing -->
+      
+      <!--• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Jesse Cambon</span></span>-->
+      
+      <!-- JAC: Add tags per https://longqian.me/2017/02/09/github-jekyll-tag/ -->
+      </p>
+      <p>
+      <span class ='no-background'>Filed under:</span>
+      <span>
+        
+          
+          <a href="/tag/r"><code class="highligher-rouge"><nobr>r</nobr></code></a>&nbsp;
+        
+          
+          <a href="/tag/tidygeocoder"><code class="highligher-rouge"><nobr>tidygeocoder</nobr></code></a>&nbsp;
+        
+      </span>
+      </p>
+</header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="https://jessecambon.github.io/tidygeocoder/">Tidygeocoder v1.0.4</a> is released! 🍾 This release adds support for the <a href="https://www.geoapify.com/geocoding-api">Geoapify geocoding service</a> (thanks <a href="https://github.com/dpprdan">Daniel Possenriede</a>!), a progress bar, more helpful console output, and new functions for combining the results of multiple geocoding queries. A more detailed overview of the changes in this release is available in the <a href="https://jessecambon.github.io/tidygeocoder/news/index.html">changelog</a>.</p>
+
+<h3 id="progress-bars-and-console-output">Progress Bars and Console Output</h3>
+
+<p>Progress bars are now displayed for single input geocoding queries (ie. not batch queries). Additionally, console messages now by default show which geocoding service was used, how many addresses or coordinates were given to it, and how long the query took to execute.</p>
+
+<p><img src="/../images/tidygeocoder_progress_bar_v104.gif" width="70%" style="display: block; margin: auto;" /></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">progress_bar</code> parameter can be used to toggle the use of the progress bar while the <code class="language-plaintext highlighter-rouge">quiet</code> parameter can be used to silence console messages that are displayed by default. See the documentation for <a href="https://jessecambon.github.io/tidygeocoder/reference/geo.html">geo()</a> or <a href="https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html">reverse_geo()</a> for details.</p>
+
+<p>Additionally, the <code class="language-plaintext highlighter-rouge">quiet</code>, <code class="language-plaintext highlighter-rouge">progress_bar</code>, and <code class="language-plaintext highlighter-rouge">verbose</code> parameters can now be set permanently via <code class="language-plaintext highlighter-rouge">options()</code>. For example, <code class="language-plaintext highlighter-rouge">options(tidygeocoder.progress_bar = FALSE)</code> will disable progress bars for all queries.</p>
+
+<h3 id="combining-multiple-queries">Combining Multiple Queries</h3>
+
+<p>In past releases of the package, <code class="language-plaintext highlighter-rouge">method = "cascade"</code> could be used in the <code class="language-plaintext highlighter-rouge">geo()</code> and <code class="language-plaintext highlighter-rouge">geocode()</code> functions to combine the results of geocoding queries from two different services. The “cascade” method is now deprecated in favor of two new and more flexible functions: <code class="language-plaintext highlighter-rouge">geocode_combine()</code> and <code class="language-plaintext highlighter-rouge">geo_combine()</code>. These functions allow for executing and combining the results of more than two queries and they allow the queries to be fully customized.</p>
+
+<p>To demonstrate the utility of these new functions, below I’ve assembled a dataset of addresses to be geocoded. The first 5 are street level addresses in the United States that can be geocoded with the US Census geocoding service. However, three of these addresses will not return results with the US Census <em>batch</em> service (see <a href="https://github.com/jessecambon/tidygeocoder/issues/87">issue #87</a> for more information) and must instead be geocoded with the US Census single address geocoder. Also, the last three addresses are cities outside the United States and require a different geocoding service entirely (the US Census service is limited to the United States).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidygeocoder</span><span class="p">)</span><span class="w">
+
+</span><span class="n">mixed_addresses</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tribble</span><span class="p">(</span><span class="w">
+  </span><span class="o">~</span><span class="n">street_address</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">state_cd</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">zip_cd</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"624 W DAVIS ST #1D"</span><span class="p">,</span><span class="w">   </span><span class="s2">"BURLINGTON"</span><span class="p">,</span><span class="w"> </span><span class="s2">"NC"</span><span class="p">,</span><span class="w">  </span><span class="m">27215</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"201 E CENTER ST #268"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MEBANE"</span><span class="p">,</span><span class="w">     </span><span class="s2">"NC"</span><span class="p">,</span><span class="w">  </span><span class="m">27302</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"7833  WOLFE LN"</span><span class="p">,</span><span class="w">       </span><span class="s2">"SNOW CAMP"</span><span class="p">,</span><span class="w">  </span><span class="s2">"NC"</span><span class="p">,</span><span class="w">  </span><span class="m">27349</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"202 C St"</span><span class="p">,</span><span class="w">             </span><span class="s2">"San Diego"</span><span class="p">,</span><span class="w">  </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">  </span><span class="m">92101</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"121 N Rouse Ave"</span><span class="p">,</span><span class="w">      </span><span class="s2">"Bozeman"</span><span class="p">,</span><span class="w">    </span><span class="s2">"MT"</span><span class="p">,</span><span class="w">  </span><span class="m">59715</span><span class="w">
+</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">bind_rows</span><span class="p">(</span><span class="w">
+    </span><span class="n">tibble</span><span class="p">(</span><span class="n">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'Taipei'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Moscow'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Buenos Aires'</span><span class="p">))</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If we wanted to geocode a large dataset with addresses such as these, we might first try to geocode as many as possible via the US Census batch service, then attempt the remaining addresses with the US Census single address geocoder, and then finally send any remaining unfound addresses to another service. We’ll accomplish this workflow in the code below.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">geocode_combine()</code> function accepts a dataframe input and a list of queries provided as lists (ie. a list of lists). Each list in the <code class="language-plaintext highlighter-rouge">queries</code> argument contains parameters that are passed to the <code class="language-plaintext highlighter-rouge">geocode()</code> function. Optionally, the <code class="language-plaintext highlighter-rouge">query_names</code> argument can be used to specify a label to be used for each query’s results.</p>
+
+<p>Below, the <code class="language-plaintext highlighter-rouge">street</code>, <code class="language-plaintext highlighter-rouge">city</code>, <code class="language-plaintext highlighter-rouge">state</code>, and <code class="language-plaintext highlighter-rouge">postalcode</code> arguments are specified for the first two queries while the <code class="language-plaintext highlighter-rouge">address</code> argument (ie. single line address) is pointed at the <code class="language-plaintext highlighter-rouge">city</code> column for the third query (the ArcGIS service only accepts a single line address argument and doesn’t use address component arguments like <code class="language-plaintext highlighter-rouge">city</code> and <code class="language-plaintext highlighter-rouge">state</code>).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mixed_addresses</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">geocode_combine</span><span class="p">(</span><span class="w">
+    </span><span class="n">queries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
+      </span><span class="nf">list</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'census'</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'batch'</span><span class="p">,</span><span class="w"> 
+        </span><span class="n">street</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'street_address'</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'city'</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'state_cd'</span><span class="p">,</span><span class="w"> </span><span class="n">postalcode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'zip_cd'</span><span class="p">),</span><span class="w">
+      </span><span class="nf">list</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'census'</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'single'</span><span class="p">,</span><span class="w">
+           </span><span class="n">street</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'street_address'</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'city'</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'state_cd'</span><span class="p">,</span><span class="w"> </span><span class="n">postalcode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'zip_cd'</span><span class="p">),</span><span class="w">
+      </span><span class="nf">list</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'arcgis'</span><span class="p">,</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'city'</span><span class="p">)</span><span class="w">
+    </span><span class="p">),</span><span class="w">
+    </span><span class="n">query_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'census - batch'</span><span class="p">,</span><span class="w"> </span><span class="s1">'census - single'</span><span class="p">,</span><span class="w"> </span><span class="s1">'arcgis'</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 
+
+## Passing 8 addresses to the US Census batch geocoder
+
+## Query completed in: 1.9 seconds
+
+## Passing 6 addresses to the US Census single address geocoder
+
+## Query completed in: 3.6 seconds
+
+## Passing 3 addresses to the ArcGIS single address geocoder
+
+## Query completed in: 1.4 seconds
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">street_address</th>
+      <th style="text-align: left">city</th>
+      <th style="text-align: left">state_cd</th>
+      <th style="text-align: right">zip_cd</th>
+      <th style="text-align: right">lat</th>
+      <th style="text-align: right">long</th>
+      <th style="text-align: left">query</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">624 W DAVIS ST #1D</td>
+      <td style="text-align: left">BURLINGTON</td>
+      <td style="text-align: left">NC</td>
+      <td style="text-align: right">27215</td>
+      <td style="text-align: right">36.09598</td>
+      <td style="text-align: right">-79.44453</td>
+      <td style="text-align: left">census - single</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">201 E CENTER ST #268</td>
+      <td style="text-align: left">MEBANE</td>
+      <td style="text-align: left">NC</td>
+      <td style="text-align: right">27302</td>
+      <td style="text-align: right">36.09683</td>
+      <td style="text-align: right">-79.26977</td>
+      <td style="text-align: left">census - single</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">7833 WOLFE LN</td>
+      <td style="text-align: left">SNOW CAMP</td>
+      <td style="text-align: left">NC</td>
+      <td style="text-align: right">27349</td>
+      <td style="text-align: right">35.89866</td>
+      <td style="text-align: right">-79.43713</td>
+      <td style="text-align: left">census - single</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">202 C St</td>
+      <td style="text-align: left">San Diego</td>
+      <td style="text-align: left">CA</td>
+      <td style="text-align: right">92101</td>
+      <td style="text-align: right">32.71676</td>
+      <td style="text-align: right">-117.16283</td>
+      <td style="text-align: left">census - batch</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">121 N Rouse Ave</td>
+      <td style="text-align: left">Bozeman</td>
+      <td style="text-align: left">MT</td>
+      <td style="text-align: right">59715</td>
+      <td style="text-align: right">45.68066</td>
+      <td style="text-align: right">-111.03203</td>
+      <td style="text-align: left">census - batch</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NA</td>
+      <td style="text-align: left">Taipei</td>
+      <td style="text-align: left">NA</td>
+      <td style="text-align: right">NA</td>
+      <td style="text-align: right">25.03737</td>
+      <td style="text-align: right">121.56355</td>
+      <td style="text-align: left">arcgis</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NA</td>
+      <td style="text-align: left">Moscow</td>
+      <td style="text-align: left">NA</td>
+      <td style="text-align: right">NA</td>
+      <td style="text-align: right">55.75696</td>
+      <td style="text-align: right">37.61502</td>
+      <td style="text-align: left">arcgis</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NA</td>
+      <td style="text-align: left">Buenos Aires</td>
+      <td style="text-align: left">NA</td>
+      <td style="text-align: right">NA</td>
+      <td style="text-align: right">-34.60849</td>
+      <td style="text-align: right">-58.37344</td>
+      <td style="text-align: left">arcgis</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>By default the results of the queries are combined into a single dataframe as shown above and the <code class="language-plaintext highlighter-rouge">query</code> column shows which query produced each result. Alternatively, the results of each query can be returned as separate dataframes in a list by using <code class="language-plaintext highlighter-rouge">return_list = TRUE</code>.</p>
+
+<p>By default, only addresses that are not found in a query are passed to the subsequent query. However, setting <code class="language-plaintext highlighter-rouge">cascade = FALSE</code> will pass all addresses to all queries. See <a href="https://jessecambon.github.io/tidygeocoder/reference/geocode_combine.html">the documentation for the geocode_combine() function</a> for more usage details.</p>
+
+<h3 id="package-housekeeping">Package Housekeeping</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">return_type</code>, <code class="language-plaintext highlighter-rouge">geocodio_v</code>, <code class="language-plaintext highlighter-rouge">mapbox_permanent</code>, <code class="language-plaintext highlighter-rouge">mapquest_open</code>, <code class="language-plaintext highlighter-rouge">iq_region</code>, and <code class="language-plaintext highlighter-rouge">here_request_id</code> parameters are now <em>deprecated</em> in favor of the new <code class="language-plaintext highlighter-rouge">api_options</code> parameter. For instance, instead of using <code class="language-plaintext highlighter-rouge">return_type = "geographies"</code> you should now instead use <code class="language-plaintext highlighter-rouge">api_options = list(census_return_type = "geographies")</code>.</p>
+
+<p>Also, the <code class="language-plaintext highlighter-rouge">cascade_order</code>, <code class="language-plaintext highlighter-rouge">param_error</code>, and <code class="language-plaintext highlighter-rouge">batch_limit_error</code> parameters in <code class="language-plaintext highlighter-rouge">geo()</code> are now deprecated as they were only required because of the deprecated “cascade” method. Refer to the documentation for <a href="https://jessecambon.github.io/tidygeocoder/reference/geo.html">geo()</a> or <a href="https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html">reverse_geo()</a> for details.</p>
+
+  </div><a class="u-url" href="/2021/10/17/tidygeocoder-1-0-4.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+    <!--
+        <ul class="contact-list">
+          <li class="p-name">Jesse Cambon</li>
+          <li><a class="u-email" href="mailto:jesse.cambon@gmail.com">jesse.cambon@gmail.com</a></li>
+        </ul> -->
+      </div>     <!-- end footer-col -->
+      <div class="footer-col">
+        <p>Musings on data and open source software</p>
+      </div>
+    </div>   <!-- end footer call wrapper -->
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/jessecambon" title="jessecambon"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/JesseCambon" title="JesseCambon"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/jessecambon" title="jessecambon"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div> <!-- end wrapper -->
+
+</footer>
+</body>
+
+</html>
