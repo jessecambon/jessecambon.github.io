@@ -26,7 +26,7 @@ For R-Bloggers I needed to create a custom feed that only contained R content. M
 - Post tag pages added per [these instructions](https://longqian.me/2017/02/09/github-jekyll-tag/)
 - Leaflet Javascript library added based on [this](https://github.com/dieghernan/dieghernan.github.io/blob/master/_includes/leaflet.html).
 
-##### Other Notes
+#### Other Notes
 
 * Installing jekyll: `gem install jekyll bundler`
 * Installing the bundle: `bundle install`
@@ -34,6 +34,44 @@ For R-Bloggers I needed to create a custom feed that only contained R content. M
 
 * Ran into an issue with two versions of jekyll. Had to apt remove jekyll per https://github.com/jekyll/jekyll/issues/7088
 * Had to copy 'assets' and '_sass' folders from minima github (release file) into this repo to fix file not found errors
+
+#### Blogging with Jupyter Notebooks
+
+Steps for using jupyter notebooks to create a blog post:
+
+- Add the desired YAML header to the beginning of the jupyter notebook in a raw cell. Include the beginning and trailing `---`. For example:
+
+```
+---
+layout: post
+title: "Test Jupyter Post"
+date: 2021-10-17
+author: Jesse Cambon
+tags: [python, data]
+image: "/images/tidygeocoder_hex_dark2021.png"
+---
+```
+
+- Next convert the jupyter notebook to markdown using nbconvert with this terminal command: `jupyter nbconvert --to markdown <filename.ipynb>`. This creates a markdown (.md) file and a folder that will contain all images from the notebook. For example, if the command is executed from the project root directory and you working with a file in the `_drafts` folder you could do this:
+
+```shell
+jupyter nbconvert --to markdown _drafts/sklearn_skopt_pipeline.ipynb
+```
+
+- Move the folder `<filename_files>` to [jupyter_files](jupyter_files) (this is where the notebook images were saved by nbconvert).
+- Open the Markdown (`.md`) file that was created by nbconvert (in the same directory as the jupyter notebook) and modify all image paths to refer to the correct folder (given where we moved the image folder to). The image references should begin with `![png]`. For example you would want to change this image path:
+
+`![png](sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_15_1.png)`
+
+To this:
+
+`![png](/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_15_1.png)`
+
+In the future this process could be automated:
+
+- https://www.linode.com/docs/guides/jupyter-notebook-on-jekyll/
+- https://jaketae.github.io/blog/jupyter-automation/
+- https://cduvallet.github.io/posts/2018/03/ipython-notebooks-jekyll 
 
 #### Resources
 * Quick reference: https://jekyllrb.com/docs/usage/

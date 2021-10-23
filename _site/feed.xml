@@ -1,4 +1,918 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://jessecambon.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jessecambon.github.io/" rel="alternate" type="text/html" /><updated>2021-10-17T17:14:29-04:00</updated><id>https://jessecambon.github.io/feed.xml</id><title type="html">Jesse Cambon</title><subtitle>Musings on data and open source software</subtitle><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><entry><title type="html">Tidygeocoder 1.0.4</title><link href="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html" rel="alternate" type="text/html" title="Tidygeocoder 1.0.4" /><published>2021-10-17T00:00:00-04:00</published><updated>2021-10-17T00:00:00-04:00</updated><id>https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4</id><content type="html" xml:base="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/&quot;&gt;Tidygeocoder v1.0.4&lt;/a&gt; is released! 🍾 This release adds support for the &lt;a href=&quot;https://www.geoapify.com/geocoding-api&quot;&gt;Geoapify geocoding service&lt;/a&gt; (thanks &lt;a href=&quot;https://github.com/dpprdan&quot;&gt;Daniel Possenriede&lt;/a&gt;!), a progress bar, more helpful console output, and new functions for combining the results of multiple geocoding queries. A more detailed overview of the changes in this release is available in the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/news/index.html&quot;&gt;changelog&lt;/a&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://jessecambon.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jessecambon.github.io/" rel="alternate" type="text/html" /><updated>2021-10-23T14:52:46-04:00</updated><id>https://jessecambon.github.io/feed.xml</id><title type="html">Jesse Cambon</title><subtitle>Musings on data and open source software</subtitle><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><entry><title type="html">Test Jupyter Post</title><link href="https://jessecambon.github.io/2021/10/17/sklearn_skopt_pipeline.html" rel="alternate" type="text/html" title="Test Jupyter Post" /><published>2021-10-17T00:00:00-04:00</published><updated>2021-10-17T00:00:00-04:00</updated><id>https://jessecambon.github.io/2021/10/17/sklearn_skopt_pipeline</id><content type="html" xml:base="https://jessecambon.github.io/2021/10/17/sklearn_skopt_pipeline.html">&lt;h3 id=&quot;references&quot;&gt;References&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_diabetes.html#sklearn.datasets.load_diabetes&quot;&gt;Diabetes Dataset&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://scikit-learn.org/stable/auto_examples/ensemble/plot_gradient_boosting_regression.html#sphx-glr-auto-examples-ensemble-plot-gradient-boosting-regression-py&quot;&gt;Gradient Boosted Regression Example&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://scikit-optimize.github.io/stable/auto_examples/sklearn-gridsearchcv-replacement.html&quot;&gt;Bayesian Hyperparameter Search&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html&quot;&gt;Gaussian process explanation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;seaborn&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sns&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.datasets&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load_diabetes&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.model_selection&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;train_test_split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StratifiedKFold&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.linear_model&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LinearRegression&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.ensemble&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GradientBoostingRegressor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RandomForestRegressor&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.pipeline&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;make_pipeline&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.preprocessing&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StandardScaler&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;skopt&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BayesSearchCV&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;skopt.plots&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plot_objective&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plot_histogram&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;yellowbrick.regressor&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;residuals_plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prediction_error&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;my_seed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Load dataset
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load_diabetes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;return_X_y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;as_frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;combi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;concat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;n_features&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;combi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div&gt;
+&lt;style scoped=&quot;&quot;&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;age&lt;/th&gt;
+      &lt;th&gt;sex&lt;/th&gt;
+      &lt;th&gt;bmi&lt;/th&gt;
+      &lt;th&gt;bp&lt;/th&gt;
+      &lt;th&gt;s1&lt;/th&gt;
+      &lt;th&gt;s2&lt;/th&gt;
+      &lt;th&gt;s3&lt;/th&gt;
+      &lt;th&gt;s4&lt;/th&gt;
+      &lt;th&gt;s5&lt;/th&gt;
+      &lt;th&gt;s6&lt;/th&gt;
+      &lt;th&gt;target&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;0.038076&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;0.061696&lt;/td&gt;
+      &lt;td&gt;0.021872&lt;/td&gt;
+      &lt;td&gt;-0.044223&lt;/td&gt;
+      &lt;td&gt;-0.034821&lt;/td&gt;
+      &lt;td&gt;-0.043401&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;0.019908&lt;/td&gt;
+      &lt;td&gt;-0.017646&lt;/td&gt;
+      &lt;td&gt;151.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;-0.001882&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.051474&lt;/td&gt;
+      &lt;td&gt;-0.026328&lt;/td&gt;
+      &lt;td&gt;-0.008449&lt;/td&gt;
+      &lt;td&gt;-0.019163&lt;/td&gt;
+      &lt;td&gt;0.074412&lt;/td&gt;
+      &lt;td&gt;-0.039493&lt;/td&gt;
+      &lt;td&gt;-0.068330&lt;/td&gt;
+      &lt;td&gt;-0.092204&lt;/td&gt;
+      &lt;td&gt;75.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;0.085299&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;0.044451&lt;/td&gt;
+      &lt;td&gt;-0.005671&lt;/td&gt;
+      &lt;td&gt;-0.045599&lt;/td&gt;
+      &lt;td&gt;-0.034194&lt;/td&gt;
+      &lt;td&gt;-0.032356&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;0.002864&lt;/td&gt;
+      &lt;td&gt;-0.025930&lt;/td&gt;
+      &lt;td&gt;141.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;-0.089063&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.011595&lt;/td&gt;
+      &lt;td&gt;-0.036656&lt;/td&gt;
+      &lt;td&gt;0.012191&lt;/td&gt;
+      &lt;td&gt;0.024991&lt;/td&gt;
+      &lt;td&gt;-0.036038&lt;/td&gt;
+      &lt;td&gt;0.034309&lt;/td&gt;
+      &lt;td&gt;0.022692&lt;/td&gt;
+      &lt;td&gt;-0.009362&lt;/td&gt;
+      &lt;td&gt;206.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;0.005383&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.036385&lt;/td&gt;
+      &lt;td&gt;0.021872&lt;/td&gt;
+      &lt;td&gt;0.003935&lt;/td&gt;
+      &lt;td&gt;0.015596&lt;/td&gt;
+      &lt;td&gt;0.008142&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;-0.031991&lt;/td&gt;
+      &lt;td&gt;-0.046641&lt;/td&gt;
+      &lt;td&gt;135.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;...&lt;/th&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;437&lt;/th&gt;
+      &lt;td&gt;0.041708&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;0.019662&lt;/td&gt;
+      &lt;td&gt;0.059744&lt;/td&gt;
+      &lt;td&gt;-0.005697&lt;/td&gt;
+      &lt;td&gt;-0.002566&lt;/td&gt;
+      &lt;td&gt;-0.028674&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;0.031193&lt;/td&gt;
+      &lt;td&gt;0.007207&lt;/td&gt;
+      &lt;td&gt;178.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;438&lt;/th&gt;
+      &lt;td&gt;-0.005515&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;-0.015906&lt;/td&gt;
+      &lt;td&gt;-0.067642&lt;/td&gt;
+      &lt;td&gt;0.049341&lt;/td&gt;
+      &lt;td&gt;0.079165&lt;/td&gt;
+      &lt;td&gt;-0.028674&lt;/td&gt;
+      &lt;td&gt;0.034309&lt;/td&gt;
+      &lt;td&gt;-0.018118&lt;/td&gt;
+      &lt;td&gt;0.044485&lt;/td&gt;
+      &lt;td&gt;104.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;439&lt;/th&gt;
+      &lt;td&gt;0.041708&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;-0.015906&lt;/td&gt;
+      &lt;td&gt;0.017282&lt;/td&gt;
+      &lt;td&gt;-0.037344&lt;/td&gt;
+      &lt;td&gt;-0.013840&lt;/td&gt;
+      &lt;td&gt;-0.024993&lt;/td&gt;
+      &lt;td&gt;-0.011080&lt;/td&gt;
+      &lt;td&gt;-0.046879&lt;/td&gt;
+      &lt;td&gt;0.015491&lt;/td&gt;
+      &lt;td&gt;132.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;440&lt;/th&gt;
+      &lt;td&gt;-0.045472&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;0.039062&lt;/td&gt;
+      &lt;td&gt;0.001215&lt;/td&gt;
+      &lt;td&gt;0.016318&lt;/td&gt;
+      &lt;td&gt;0.015283&lt;/td&gt;
+      &lt;td&gt;-0.028674&lt;/td&gt;
+      &lt;td&gt;0.026560&lt;/td&gt;
+      &lt;td&gt;0.044528&lt;/td&gt;
+      &lt;td&gt;-0.025930&lt;/td&gt;
+      &lt;td&gt;220.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;441&lt;/th&gt;
+      &lt;td&gt;-0.045472&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.073030&lt;/td&gt;
+      &lt;td&gt;-0.081414&lt;/td&gt;
+      &lt;td&gt;0.083740&lt;/td&gt;
+      &lt;td&gt;0.027809&lt;/td&gt;
+      &lt;td&gt;0.173816&lt;/td&gt;
+      &lt;td&gt;-0.039493&lt;/td&gt;
+      &lt;td&gt;-0.004220&lt;/td&gt;
+      &lt;td&gt;0.003064&lt;/td&gt;
+      &lt;td&gt;57.0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;442 rows × 11 columns&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;style scoped=&quot;&quot;&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;age&lt;/th&gt;
+      &lt;th&gt;sex&lt;/th&gt;
+      &lt;th&gt;bmi&lt;/th&gt;
+      &lt;th&gt;bp&lt;/th&gt;
+      &lt;th&gt;s1&lt;/th&gt;
+      &lt;th&gt;s2&lt;/th&gt;
+      &lt;th&gt;s3&lt;/th&gt;
+      &lt;th&gt;s4&lt;/th&gt;
+      &lt;th&gt;s5&lt;/th&gt;
+      &lt;th&gt;s6&lt;/th&gt;
+      &lt;th&gt;target&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;0.038076&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;0.061696&lt;/td&gt;
+      &lt;td&gt;0.021872&lt;/td&gt;
+      &lt;td&gt;-0.044223&lt;/td&gt;
+      &lt;td&gt;-0.034821&lt;/td&gt;
+      &lt;td&gt;-0.043401&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;0.019908&lt;/td&gt;
+      &lt;td&gt;-0.017646&lt;/td&gt;
+      &lt;td&gt;151.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;-0.001882&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.051474&lt;/td&gt;
+      &lt;td&gt;-0.026328&lt;/td&gt;
+      &lt;td&gt;-0.008449&lt;/td&gt;
+      &lt;td&gt;-0.019163&lt;/td&gt;
+      &lt;td&gt;0.074412&lt;/td&gt;
+      &lt;td&gt;-0.039493&lt;/td&gt;
+      &lt;td&gt;-0.068330&lt;/td&gt;
+      &lt;td&gt;-0.092204&lt;/td&gt;
+      &lt;td&gt;75.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;0.085299&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;0.044451&lt;/td&gt;
+      &lt;td&gt;-0.005671&lt;/td&gt;
+      &lt;td&gt;-0.045599&lt;/td&gt;
+      &lt;td&gt;-0.034194&lt;/td&gt;
+      &lt;td&gt;-0.032356&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;0.002864&lt;/td&gt;
+      &lt;td&gt;-0.025930&lt;/td&gt;
+      &lt;td&gt;141.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;-0.089063&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.011595&lt;/td&gt;
+      &lt;td&gt;-0.036656&lt;/td&gt;
+      &lt;td&gt;0.012191&lt;/td&gt;
+      &lt;td&gt;0.024991&lt;/td&gt;
+      &lt;td&gt;-0.036038&lt;/td&gt;
+      &lt;td&gt;0.034309&lt;/td&gt;
+      &lt;td&gt;0.022692&lt;/td&gt;
+      &lt;td&gt;-0.009362&lt;/td&gt;
+      &lt;td&gt;206.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;0.005383&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.036385&lt;/td&gt;
+      &lt;td&gt;0.021872&lt;/td&gt;
+      &lt;td&gt;0.003935&lt;/td&gt;
+      &lt;td&gt;0.015596&lt;/td&gt;
+      &lt;td&gt;0.008142&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;-0.031991&lt;/td&gt;
+      &lt;td&gt;-0.046641&lt;/td&gt;
+      &lt;td&gt;135.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;...&lt;/th&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;437&lt;/th&gt;
+      &lt;td&gt;0.041708&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;0.019662&lt;/td&gt;
+      &lt;td&gt;0.059744&lt;/td&gt;
+      &lt;td&gt;-0.005697&lt;/td&gt;
+      &lt;td&gt;-0.002566&lt;/td&gt;
+      &lt;td&gt;-0.028674&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;0.031193&lt;/td&gt;
+      &lt;td&gt;0.007207&lt;/td&gt;
+      &lt;td&gt;178.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;438&lt;/th&gt;
+      &lt;td&gt;-0.005515&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;-0.015906&lt;/td&gt;
+      &lt;td&gt;-0.067642&lt;/td&gt;
+      &lt;td&gt;0.049341&lt;/td&gt;
+      &lt;td&gt;0.079165&lt;/td&gt;
+      &lt;td&gt;-0.028674&lt;/td&gt;
+      &lt;td&gt;0.034309&lt;/td&gt;
+      &lt;td&gt;-0.018118&lt;/td&gt;
+      &lt;td&gt;0.044485&lt;/td&gt;
+      &lt;td&gt;104.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;439&lt;/th&gt;
+      &lt;td&gt;0.041708&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;-0.015906&lt;/td&gt;
+      &lt;td&gt;0.017282&lt;/td&gt;
+      &lt;td&gt;-0.037344&lt;/td&gt;
+      &lt;td&gt;-0.013840&lt;/td&gt;
+      &lt;td&gt;-0.024993&lt;/td&gt;
+      &lt;td&gt;-0.011080&lt;/td&gt;
+      &lt;td&gt;-0.046879&lt;/td&gt;
+      &lt;td&gt;0.015491&lt;/td&gt;
+      &lt;td&gt;132.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;440&lt;/th&gt;
+      &lt;td&gt;-0.045472&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;0.039062&lt;/td&gt;
+      &lt;td&gt;0.001215&lt;/td&gt;
+      &lt;td&gt;0.016318&lt;/td&gt;
+      &lt;td&gt;0.015283&lt;/td&gt;
+      &lt;td&gt;-0.028674&lt;/td&gt;
+      &lt;td&gt;0.026560&lt;/td&gt;
+      &lt;td&gt;0.044528&lt;/td&gt;
+      &lt;td&gt;-0.025930&lt;/td&gt;
+      &lt;td&gt;220.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;441&lt;/th&gt;
+      &lt;td&gt;-0.045472&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.073030&lt;/td&gt;
+      &lt;td&gt;-0.081414&lt;/td&gt;
+      &lt;td&gt;0.083740&lt;/td&gt;
+      &lt;td&gt;0.027809&lt;/td&gt;
+      &lt;td&gt;0.173816&lt;/td&gt;
+      &lt;td&gt;-0.039493&lt;/td&gt;
+      &lt;td&gt;-0.004220&lt;/td&gt;
+      &lt;td&gt;0.003064&lt;/td&gt;
+      &lt;td&gt;57.0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;442 rows × 11 columns&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# CV split
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;X_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;train_test_split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div&gt;
+&lt;style scoped=&quot;&quot;&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;age&lt;/th&gt;
+      &lt;th&gt;sex&lt;/th&gt;
+      &lt;th&gt;bmi&lt;/th&gt;
+      &lt;th&gt;bp&lt;/th&gt;
+      &lt;th&gt;s1&lt;/th&gt;
+      &lt;th&gt;s2&lt;/th&gt;
+      &lt;th&gt;s3&lt;/th&gt;
+      &lt;th&gt;s4&lt;/th&gt;
+      &lt;th&gt;s5&lt;/th&gt;
+      &lt;th&gt;s6&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;160&lt;/th&gt;
+      &lt;td&gt;-0.009147&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.062252&lt;/td&gt;
+      &lt;td&gt;-0.074528&lt;/td&gt;
+      &lt;td&gt;-0.023584&lt;/td&gt;
+      &lt;td&gt;-0.013214&lt;/td&gt;
+      &lt;td&gt;0.004460&lt;/td&gt;
+      &lt;td&gt;-0.039493&lt;/td&gt;
+      &lt;td&gt;-0.035817&lt;/td&gt;
+      &lt;td&gt;-0.046641&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;80&lt;/th&gt;
+      &lt;td&gt;0.070769&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;0.012117&lt;/td&gt;
+      &lt;td&gt;0.042530&lt;/td&gt;
+      &lt;td&gt;0.071357&lt;/td&gt;
+      &lt;td&gt;0.053487&lt;/td&gt;
+      &lt;td&gt;0.052322&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;0.025393&lt;/td&gt;
+      &lt;td&gt;-0.005220&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;334&lt;/th&gt;
+      &lt;td&gt;-0.060003&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;-0.047163&lt;/td&gt;
+      &lt;td&gt;-0.022885&lt;/td&gt;
+      &lt;td&gt;-0.071743&lt;/td&gt;
+      &lt;td&gt;-0.057681&lt;/td&gt;
+      &lt;td&gt;-0.006584&lt;/td&gt;
+      &lt;td&gt;-0.039493&lt;/td&gt;
+      &lt;td&gt;-0.062913&lt;/td&gt;
+      &lt;td&gt;-0.054925&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;style scoped=&quot;&quot;&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;age&lt;/th&gt;
+      &lt;th&gt;sex&lt;/th&gt;
+      &lt;th&gt;bmi&lt;/th&gt;
+      &lt;th&gt;bp&lt;/th&gt;
+      &lt;th&gt;s1&lt;/th&gt;
+      &lt;th&gt;s2&lt;/th&gt;
+      &lt;th&gt;s3&lt;/th&gt;
+      &lt;th&gt;s4&lt;/th&gt;
+      &lt;th&gt;s5&lt;/th&gt;
+      &lt;th&gt;s6&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;160&lt;/th&gt;
+      &lt;td&gt;-0.009147&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;-0.062252&lt;/td&gt;
+      &lt;td&gt;-0.074528&lt;/td&gt;
+      &lt;td&gt;-0.023584&lt;/td&gt;
+      &lt;td&gt;-0.013214&lt;/td&gt;
+      &lt;td&gt;0.004460&lt;/td&gt;
+      &lt;td&gt;-0.039493&lt;/td&gt;
+      &lt;td&gt;-0.035817&lt;/td&gt;
+      &lt;td&gt;-0.046641&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;80&lt;/th&gt;
+      &lt;td&gt;0.070769&lt;/td&gt;
+      &lt;td&gt;-0.044642&lt;/td&gt;
+      &lt;td&gt;0.012117&lt;/td&gt;
+      &lt;td&gt;0.042530&lt;/td&gt;
+      &lt;td&gt;0.071357&lt;/td&gt;
+      &lt;td&gt;0.053487&lt;/td&gt;
+      &lt;td&gt;0.052322&lt;/td&gt;
+      &lt;td&gt;-0.002592&lt;/td&gt;
+      &lt;td&gt;0.025393&lt;/td&gt;
+      &lt;td&gt;-0.005220&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;334&lt;/th&gt;
+      &lt;td&gt;-0.060003&lt;/td&gt;
+      &lt;td&gt;0.050680&lt;/td&gt;
+      &lt;td&gt;-0.047163&lt;/td&gt;
+      &lt;td&gt;-0.022885&lt;/td&gt;
+      &lt;td&gt;-0.071743&lt;/td&gt;
+      &lt;td&gt;-0.057681&lt;/td&gt;
+      &lt;td&gt;-0.006584&lt;/td&gt;
+      &lt;td&gt;-0.039493&lt;/td&gt;
+      &lt;td&gt;-0.062913&lt;/td&gt;
+      &lt;td&gt;-0.054925&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;169    152.0
+302    198.0
+162    172.0
+Name: target, dtype: float64
+
+
+
+
+
+
+
+169    152.0
+302    198.0
+162    172.0
+Name: target, dtype: float64
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;eda&quot;&gt;EDA&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'sex'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value_counts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-0.044642    235
+ 0.050680    207
+Name: sex, dtype: int64
+
+
+
+
+
+
+
+-0.044642    235
+ 0.050680    207
+Name: sex, dtype: int64
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;displot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;bmi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'kde'&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;seaborn.axisgrid.FacetGrid at 0x7f1becbf4c90&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_15_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;seaborn.axisgrid.FacetGrid at 0x7f1becbf4c90&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_10_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;displot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;bp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'kde'&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;seaborn.axisgrid.FacetGrid at 0x7f1c2c05d890&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_17_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;seaborn.axisgrid.FacetGrid at 0x7f1c2c05d890&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_11_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;displot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;combi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;bmi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;target&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;seaborn.axisgrid.FacetGrid at 0x7f1be14dab90&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_19_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;seaborn.axisgrid.FacetGrid at 0x7f1be14dab90&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_12_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;model&quot;&gt;Model&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;kf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StratifiedKFold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n_splits&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shuffle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;c1&quot;&gt;# model pipelines
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pipelines&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'linear regression'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;make_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StandardScaler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LinearRegression&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()),&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'gradient boosting'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;make_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StandardScaler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GradientBoostingRegressor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()),&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'random forest'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;make_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StandardScaler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RandomForestRegressor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Search gradient boosted model hyperparameter space for optimal parameters using scikit-opt&lt;/p&gt;
+
+&lt;p&gt;https://scikit-optimize.github.io/stable/auto_examples/hyperparameter-optimization.html#sphx-glr-auto-examples-hyperparameter-optimization-py&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# NOTE: Had to downgrade to scikit-learn 0.23.2 to avoid an error regarding 'iid':
+# pip install -Iv scikit-learn==0.23.2
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BayesSearchCV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pipelines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'gradient boosting'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;s&quot;&gt;&quot;gradientboostingregressor__min_samples_split&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#    &quot;gradientboostingregressor__min_samples_leaf&quot; : (1, 20),   
+&lt;/span&gt;    &lt;span class=&quot;s&quot;&gt;&quot;gradientboostingregressor__n_estimators&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;gradientboostingregressor__max_depth&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;gradientboostingregressor__max_features&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n_features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;gradientboostingregressor__learning_rate&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'log-uniform'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# use k-fold cross validation
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;random_state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n_iter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n_jobs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;val. score: %s&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;best_score_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;test score: %s&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;score&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;best params: %s&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;best_params_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+
+
+val. score: 0.41534121914268674
+test score: 0.5780905566781522
+best params: OrderedDict([('gradientboostingregressor__learning_rate', 0.03200464817593894), ('gradientboostingregressor__max_depth', 1), ('gradientboostingregressor__max_features', 10), ('gradientboostingregressor__min_samples_split', 2), ('gradientboostingregressor__n_estimators', 300)])
+
+
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+
+
+val. score: 0.41534121914268674
+test score: 0.5780905566781522
+best params: OrderedDict([('gradientboostingregressor__learning_rate', 0.03200464817593894), ('gradientboostingregressor__max_depth', 1), ('gradientboostingregressor__max_features', 10), ('gradientboostingregressor__min_samples_split', 2), ('gradientboostingregressor__n_estimators', 300)])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plot_objective&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optimizer_results_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_27_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_18_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1
+
+
+
+
+
+
+
+1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plot_histogram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optimizer_results_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_31_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_20_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;#from skopt.plots import plot_convergence
+#plot_convergence(opt)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prediction_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;X_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_34_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_22_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prediction_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;X_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_36_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_23_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;residuals_plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;X_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_test&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_38_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_24_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;residuals_plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;opt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;X_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_40_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_25_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jesse Cambon</name></author><category term="python" /><category term="data" /><summary type="html">References</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/tidygeocoder_hex_dark2021.png" /><media:content medium="image" url="https://jessecambon.github.io/images/tidygeocoder_hex_dark2021.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Tidygeocoder 1.0.4</title><link href="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html" rel="alternate" type="text/html" title="Tidygeocoder 1.0.4" /><published>2021-10-17T00:00:00-04:00</published><updated>2021-10-17T00:00:00-04:00</updated><id>https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4</id><content type="html" xml:base="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/&quot;&gt;Tidygeocoder v1.0.4&lt;/a&gt; is released! 🍾 This release adds support for the &lt;a href=&quot;https://www.geoapify.com/geocoding-api&quot;&gt;Geoapify geocoding service&lt;/a&gt; (thanks &lt;a href=&quot;https://github.com/dpprdan&quot;&gt;Daniel Possenriede&lt;/a&gt;!), a progress bar, more helpful console output, and new functions for combining the results of multiple geocoding queries. A more detailed overview of the changes in this release is available in the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/news/index.html&quot;&gt;changelog&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;progress-bars-and-console-output&quot;&gt;Progress Bars and Console Output&lt;/h3&gt;
 
@@ -624,7 +1538,83 @@
 ## See ?api_parameter_reference for more details.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;If you’re interested in contributing to the package and would like to add support for other geocoder services, updated instructions on how to go about this are &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424&quot;&gt;located here&lt;/a&gt;.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html">Tidygeocoder v1.0.2 “Yodeling Yak” is now on CRAN. This release adds support for the popular Google geocoder service (thanks @chris31415926535) and also includes several bugfixes and enhancements. Refer to the changelog for details on the release and to the tidygeocoder homepage for a comparison of all supported geocoder services.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/google_map_pin.png" /><media:content medium="image" url="https://jessecambon.github.io/images/google_map_pin.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introducing Tidygeocoder 1.0.0</title><link href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html" rel="alternate" type="text/html" title="Introducing Tidygeocoder 1.0.0" /><published>2020-07-15T00:00:00-04:00</published><updated>2020-07-15T00:00:00-04:00</updated><id>https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0</id><content type="html" xml:base="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/index.html&quot;&gt;Tidygeocoder v1.0.0&lt;/a&gt; is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.&lt;/p&gt;
+&lt;p&gt;If you’re interested in contributing to the package and would like to add support for other geocoder services, updated instructions on how to go about this are &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424&quot;&gt;located here&lt;/a&gt;.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html">Tidygeocoder v1.0.2 “Yodeling Yak” is now on CRAN. This release adds support for the popular Google geocoder service (thanks @chris31415926535) and also includes several bugfixes and enhancements. Refer to the changelog for details on the release and to the tidygeocoder homepage for a comparison of all supported geocoder services.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/google_map_pin.png" /><media:content medium="image" url="https://jessecambon.github.io/images/google_map_pin.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Intro to HTML Presentations</title><link href="https://jessecambon.github.io/2020/07/15/html-presentations.html" rel="alternate" type="text/html" title="Intro to HTML Presentations" /><published>2020-07-15T00:00:00-04:00</published><updated>2020-07-15T00:00:00-04:00</updated><id>https://jessecambon.github.io/2020/07/15/html-presentations</id><content type="html" xml:base="https://jessecambon.github.io/2020/07/15/html-presentations.html">&lt;!--
+
+output: html_document
+
+
+output: 
+  md_document:
+    pandoc_args: [&quot;--wrap=none&quot;]
+    variant: gfm
+    preserve_yaml: TRUE 
+
+--&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jessecambon/jessecambon.github.io/blob/master/files/tidygeocoder-presentation/tidygeocoder-presentation.Rmd&quot;&gt;Link to Code&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#1&quot;&gt;Link to Presentation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- end list --&gt;
+
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;knitr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;include_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;code&quot;&gt;Code&lt;/h2&gt;
+
+&lt;p&gt;The top of the file is the &lt;strong&gt;YAML header&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self_contained: false&lt;/code&gt; - the HTML file will not be self-contained. I originally set this to true, but this made the HTML file slow to load and also made it less efficient to store on Github.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scroll: false&lt;/code&gt; - this prevents scrolling from changing the slide.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;css: xaringan-themer.css&lt;/code&gt; - includes xaringanthemer CSS styles&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The following code relates to &lt;strong&gt;xaringanthemer&lt;/strong&gt; which provides conveniant CSS styling for xaringan slides:&lt;/p&gt;
+
+&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;custom_styles&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# this is for the code that overflows on the slides (vertically)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.scroll-output&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;max-height&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;480px&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+                      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;overflow-y&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;scroll&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;overflow-x&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'hide'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                      
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xaringanthemer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;style_xaringan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base_font_size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'16px'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title_slide_background_image&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'images/tidygeocoder_hex.png'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title_slide_text_color&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'white'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title_slide_background_size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'25%'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title_slide_background_position&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;50% 85%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;extra_css&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;custom_styles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;extra_css&lt;/code&gt; argument of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xaringanthemer::style_xaringan()&lt;/code&gt; is used to create a new &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.scroll-output&lt;/code&gt; CSS class which is used to provide scrollable views of code (such as on &lt;a href=&quot;https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#15&quot;&gt;slide 15&lt;/a&gt;). The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title_slide_background_size&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title_slide_background_position&lt;/code&gt; arguments are used to position the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title_slide_background_image&lt;/code&gt; on the title slide.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.pull-left[]&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.pull-right[]&lt;/code&gt; declarations provide a coveniant layout for many slides.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;knitr::include_graphics()&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;knitr::include_url()&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Different ways of controlling output size:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fig.width&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fig.height&lt;/code&gt; : applies only to figures generated by R (not external images like PNGS, JPEGS, etc.)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;out.width&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;out.height&lt;/code&gt;: applies to external image files&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dpi&lt;/code&gt; argument in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;knitr::include_graphics()&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Jesse Cambon</name></author><category term="rmarkdown" /><summary type="html">&amp;lt;!–</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/xaringan.png" /><media:content medium="image" url="https://jessecambon.github.io/images/xaringan.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introducing Tidygeocoder 1.0.0</title><link href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html" rel="alternate" type="text/html" title="Introducing Tidygeocoder 1.0.0" /><published>2020-07-15T00:00:00-04:00</published><updated>2020-07-15T00:00:00-04:00</updated><id>https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0</id><content type="html" xml:base="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">&lt;p&gt;&lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/index.html&quot;&gt;Tidygeocoder v1.0.0&lt;/a&gt; is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.&lt;/p&gt;
 
 &lt;p&gt;For a full list of new features and improvements refer to the &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder/releases/tag/v1.0.0&quot;&gt;release page on Github&lt;/a&gt;. For usage examples you can reference the &lt;a href=&quot;https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html&quot;&gt;Getting Started vignette&lt;/a&gt;.&lt;/p&gt;
 
@@ -2084,97 +3074,40 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;This concludes my introduction to tidy evaluation. Hopefully this serves as a useful starting point for using these concepts in your own code.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html">Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" /><media:content medium="image" url="https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Geocoding with Tidygeocoder</title><link href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html" rel="alternate" type="text/html" title="Geocoding with Tidygeocoder" /><published>2019-11-11T00:00:00-05:00</published><updated>2019-11-11T00:00:00-05:00</updated><id>https://jessecambon.github.io/2019/11/11/tidygeocoder-demo</id><content type="html" xml:base="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">&lt;p&gt;&lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;Tidygeocoder&lt;/a&gt; is a newly published R package which provides a &lt;a href=&quot;https://www.tidyverse.org/&quot;&gt;tidyverse&lt;/a&gt;-style interface for geocoding. It returns latitude and longitude coordinates in &lt;a href=&quot;https://tibble.tidyverse.org/&quot;&gt;tibble&lt;/a&gt; format from addresses using the &lt;a href=&quot;https://geocoding.geo.census.gov/&quot;&gt;US Census&lt;/a&gt; or &lt;a href=&quot;https://nominatim.openstreetmap.org/&quot;&gt;Nominatim (OSM)&lt;/a&gt; geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the &lt;a href=&quot;https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/&quot;&gt;recent Washington Nationals World Series win&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This concludes my introduction to tidy evaluation. Hopefully this serves as a useful starting point for using these concepts in your own code.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html">Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" /><media:content medium="image" url="https://jessecambon.github.io/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">How to Create An R Package</title><link href="https://jessecambon.github.io/2019/12/01/2019-11-creating-an-r-package.html" rel="alternate" type="text/html" title="How to Create An R Package" /><published>2019-12-01T21:23:51-05:00</published><updated>2019-12-01T21:23:51-05:00</updated><id>https://jessecambon.github.io/2019/12/01/2019-11-creating-an-r-package</id><content type="html" xml:base="https://jessecambon.github.io/2019/12/01/2019-11-creating-an-r-package.html">&lt;p&gt;I recently created &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;my first R package&lt;/a&gt; because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. ….&lt;/p&gt;
 
-&lt;p&gt;First we will construct a dataset of addresses (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dc_addresses&lt;/code&gt;) and use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geocode&lt;/code&gt; function from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tidygeocoder&lt;/code&gt; to find longitude and latitude coordinates.&lt;/p&gt;
+&lt;p&gt;If you have written functions in R that would be useful others in the R community, a great way to share this work is with an R package. Thanks to some helpful developer tools, the process of creating and publishing an R package can be much easier than it might seem.&lt;/p&gt;
 
-&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dplyr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tidygeocoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;h3 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://rstudio.com/products/rstudio/&quot;&gt;Install R-Studio&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;We will be generating our documentation with &lt;a href=&quot;https://cran.rstudio.com/web/packages/roxygen2/index.html&quot;&gt;roxygen2&lt;/a&gt;. This will allow us to generate all of our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;man&lt;/code&gt; documentation from embedded coments in our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R&lt;/code&gt; code files.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tribble&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;White House&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1600 Pennsylvania Ave Washington, DC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;National Academy of Sciences&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2101 Constitution Ave NW, Washington, DC 20418&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Department of Justice&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;950 Pennsylvania Ave NW, Washington, DC 20530&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Supreme Court&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1 1st St NE, Washington, DC 20543&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Washington Monument&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2 15th St NW, Washington, DC 20024&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;h3 id=&quot;file-layout&quot;&gt;File Layout&lt;/h3&gt;
 
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinates&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_addresses&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geocode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h5 id=&quot;important-files&quot;&gt;Important Files&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DESCRIPTION&lt;/code&gt;: Contains important infornation about your package such as dependencies, author info, and your license.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.Rbuildignore&lt;/code&gt;: list files and folders you do not want to include in your R package. Include files and directories that aren’t part of the standard R package format such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/data-raw&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/README.md&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;projectname.Rproj&lt;/code&gt; : RStudio project file. Don’t lose this.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geocode&lt;/code&gt; function adds longitude and latitude coordinates as columns to our dataset of addresses. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;method&lt;/code&gt; argument (see &lt;a href=&quot;https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf&quot;&gt;the documentation&lt;/a&gt; for details). Our newly created &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;coordinates&lt;/code&gt; dataset looks like this:&lt;/p&gt;
+&lt;h5 id=&quot;main-folders&quot;&gt;Main Folders&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R&lt;/code&gt;: store your R code here.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;: datasets will be stored here. If you have scripts and data sources that you use to create this data, save them in a separate &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data-raw&lt;/code&gt; folder and then be sure to add this directory to your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.Rbuildignore&lt;/code&gt; file.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;man&lt;/code&gt;: Documentation generated by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;roxygen2&lt;/code&gt; with embedded content in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R&lt;/code&gt; code files.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tests&lt;/code&gt;: Use the &lt;a href=&quot;https://testthat.r-lib.org/&quot;&gt;testthat&lt;/a&gt; library to create functional tests for your package. Some properly written and easy to run tests will help give you some peace of mind that your latest bugfix hasn’t broken some other part of the package.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vignettes&lt;/code&gt;: vignettes are short examples that demonstrate the functionality of your package. Create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.Rmd&lt;/code&gt; in this directory to create one.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;name&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;addr&lt;/th&gt;
-      &lt;th style=&quot;text-align: right&quot;&gt;lat&lt;/th&gt;
-      &lt;th style=&quot;text-align: right&quot;&gt;long&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;White House&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1600 Pennsylvania Ave Washington, DC&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;38.89875&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-77.03535&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;National Academy of Sciences&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2101 Constitution Ave NW, Washington, DC 20418&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;38.89211&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-77.04678&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Department of Justice&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;950 Pennsylvania Ave NW, Washington, DC 20530&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;38.89416&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-77.02501&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Supreme Court&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1 1st St NE, Washington, DC 20543&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;38.88990&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-77.00591&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Washington Monument&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2 15th St NW, Washington, DC 20024&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;38.88979&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;-77.03291&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Now that we have the coordinates we want to plot, we will use the &lt;a href=&quot;https://cran.r-project.org/package=OpenStreetMap&quot;&gt;OpenStreetMap&lt;/a&gt; package to make a map of DC.&lt;/p&gt;
-
-&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OpenStreetMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;openmap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;38.905&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-77.05&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;38.885&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-77.00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map.latlng&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;openproj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Note that the coordinates supplied to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openmap&lt;/code&gt; function above were obtained using &lt;a href=&quot;https://www.openstreetmap.org/&quot;&gt;openstreetmap.org&lt;/a&gt; (use the export button to extract coordinates). The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openmap&lt;/code&gt; function downloads a street map and the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openproj&lt;/code&gt; function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates, which is what we do next.&lt;/p&gt;
-
-&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggplot2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggrepel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;autoplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dc_map.latlng&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;theme_minimal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axis.text.y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element_blank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axis.title&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element_blank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axis.text.x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element_blank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot.margin&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cm&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;navy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alpha&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_label_repel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show.legend&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;box.padding&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/dc_osm_map.png&quot; alt=&quot;dc-map&quot; class=&quot;img-responsive&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;And that’s our map. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geom_label_repel&lt;/code&gt; function from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ggrepel&lt;/code&gt; provides the text labels and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;geom_point&lt;/code&gt; from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ggplot2&lt;/code&gt; supplies the points. Alternatively, the &lt;a href=&quot;https://rstudio.github.io/leaflet/&quot;&gt;leaflet package&lt;/a&gt; provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on &lt;a href=&quot;https://github.com/jessecambon/tidygeocoder&quot;&gt;GitHub&lt;/a&gt; or &lt;a href=&quot;https://cran.r-project.org/package=tidygeocoder&quot;&gt;CRAN&lt;/a&gt;.&lt;/p&gt;</content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html">Tidygeocoder is a newly published R package which provides a tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the recent Washington Nationals World Series win.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://jessecambon.github.io/images/dc_osm_map.png" /><media:content medium="image" url="https://jessecambon.github.io/images/dc_osm_map.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;h3 id=&quot;resources&quot;&gt;Resources&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;General Instructions: http://r-pkgs.had.co.nz/&lt;/li&gt;
+  &lt;li&gt;More general instructions: https://rstats-pkgs.readthedocs.io&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cran.r-project.org/web/packages/roxygen2/&quot;&gt;roxygen2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://testthat.r-lib.org/&quot;&gt;testthat&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf&quot;&gt;Devtools cheat sheet&lt;/a&gt;
+*&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><category term="draft" /><summary type="html">I recently created my first R package because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. ….</summary></entry></feed>
