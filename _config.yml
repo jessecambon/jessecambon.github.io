@@ -62,6 +62,7 @@ exclude:
   - "*.Rmd"
   - "*.ipynb"
   - "*.Rproj"
+  - "*.py"
   - rmd_config.R
   - .RProj.user
 
