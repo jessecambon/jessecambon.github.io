@@ -60,6 +60,7 @@ exclude:
   - Gemfile.lock
   - LICENSE.md
   - "*.Rmd"
+  - "*.ipynb"
   - "*.Rproj"
   - rmd_config.R
   - .RProj.user
