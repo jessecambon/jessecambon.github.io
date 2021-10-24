@@ -769,7 +769,7 @@ sns.displot(
 
 
 ```python
-kf = StratifiedKFold(n_splits = 5, shuffle = True, random_state = my_seed)
+kf = StratifiedKFold(n_splits = 5, shuffle = True, random_state = my_seed) 
 ```
 
 
@@ -1045,7 +1045,7 @@ _ = residuals_plot(
 ```
 
 
-![png](sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_38_0.png)
+![png](/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_38_0.png)
 
 
 ![png](/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_24_0.png)
