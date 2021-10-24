@@ -26,7 +26,7 @@ def fix_image_paths(text, image_dir):
     """
     
     # Edits markdown references for PNG images to point to the right file location
-    fixed_text = re.sub("!\[png\]\(([\w/\.]+)\)", 
+    fixed_text = re.sub("!\[png\]\(([\w/\.\-]+)\)", 
       lambda match: '![png]({0})'.format(os.path.join('/' + image_dir, match.group(1))), text)
 
     return(fixed_text)
@@ -69,14 +69,18 @@ def main(test = False):
         os.system(nbconvert_cmd)
 
     # Move image file directory ---------------------------------------------------
-    orig_image_dir_path = os.path.join(notebook_directory, filename_components[0] + "_files")
-    final_image_dir_path = os.path.join(jupyter_files_directory, os.path.basename(notebook_directory), filename_components[0] + "_files")
+    orig_image_dir_path = os.path.abspath(os.path.join(notebook_directory, filename_components[0] + "_files"))
+    final_image_dir_path = os.path.abspath(os.path.join(jupyter_files_directory, filename_components[0] + "_files"))
 
     print('Moving folder: ' + orig_image_dir_path)
     print('To: ' + final_image_dir_path)
 
+    # remove the destination image folder if it exists already
+    if os.path.exists(final_image_dir_path):
+        shutil.rmtree(final_image_dir_path) 
+
     if test == False:
-        shutil.move(orig_image_dir_path, final_image_dir_path) 
+        shutil.move(orig_image_dir_path, final_image_dir_path)
 
     # Fix image file paths --------------------------------------------------------
     print('Fixing image filepaths in: ' + md_file_path)
