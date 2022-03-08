@@ -6,7 +6,7 @@ permalink: /about/
 
 #### About Me
 
-I'm a data scientist at [Embedded Healthcare](https://www.embeddedhealthcare.com/) and the creator of the R package [tidygeocoder](https://jessecambon.github.io/tidygeocoder/). I use R and Python for my work and have interests in machine learning, Bayesian statistics, natural language processing (NLP), and data visualization. Tidygeocoder related posts can be found [here](/tag/tidygeocoder) and you can reach me by email <a href="mailto:{{ site.author.email }}">here</a>. 
+I'm a data scientist at [Lighthouse Global](https://www.lighthouseglobal.com/) and the creator of the R package [tidygeocoder](https://jessecambon.github.io/tidygeocoder/). I have used mainly python and R for my work and have interests in machine learning, Bayesian statistics, natural language processing (NLP), and data visualization. Tidygeocoder related posts can be found [here](/tag/tidygeocoder) and you can reach me by email <a href="mailto:{{ site.author.email }}">here</a>. 
 
 #### About This Site
 
