@@ -32,7 +32,7 @@ For R-Bloggers I needed to create a custom feed that only contained R content. M
 * Installing the bundle: `bundle install`
 * Updating the bundle: `bundle update`
 
-* Ran into an issue with two versions of jekyll. Had to apt remove jekyll per https://github.com/jekyll/jekyll/issues/7088
+* Ran into an issue with two versions of jekyll. Had to apt remove jekyll per https://github.com/jekyll/jekyll/issues/7088 (ie. only install the gem)
 * Had to copy 'assets' and '_sass' folders from minima github (release file) into this repo to fix file not found errors
 
 #### Blogging with Jupyter Notebooks

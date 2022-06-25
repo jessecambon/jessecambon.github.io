@@ -4,7 +4,42 @@ title: Resources
 permalink: /resources/
 ---
 
-A work-in-progress collection of resources I find useful for data science work. These resources are all freely available online unless otherwise noted.
+A work-in-progress collection of resources I find useful for data science work.
+
+## Machine Learning 
+### Blogs
+
+- [Hugging Face Blog](https://huggingface.co/blog) - popular framework for working with transformer models
+- [Pytorch Lightning Blog](https://www.pytorchlightning.ai/blog) - A conveniant framework for working with pytorch
+- [Pytorch Blog](https://pytorch.org/blog/)
+- [Explosion AI Blog](https://explosion.ai/blog) - blog from the creators of the NLP library spacy
+- [Jay Almammar](https://jalammar.github.io/) - explanations of how ML algorithms like transformers work
+- [Sebatian Raschka](https://sebastianraschka.com/blog/index.html)
+- [The Batch](https://read.deeplearning.ai/the-batch/) - newsletter on AI from DeepLearning.AI
+- [The Sequence](https://thesequence.substack.com/) - AI newsletter
+- [Distill](https://distill.pub/) - Machine learning concepts explained intuitively 
+
+### Books
+
+- [Deep Learning With Python](https://www.manning.com/books/deep-learning-with-python-second-edition) (Francois Chollet)
+- [Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/) (Aurélien Géron)
+- [Natural Language Processing with Transformers](https://www.oreilly.com/library/view/natural-language-processing/9781098103231/) (Lewis Tunstall, Leandro von Werra, Thomas Wolf)
+
+## Other
+
+- [DeepLearning.AI Deep Learning Coursera Specializaton](https://www.coursera.org/specializations/deep-learning) - 5 courses starting with neural network basics and ending with computer vision and sequence models.
+- [ONNX Runtime](https://onnxruntime.ai/)
+- [Nvidia CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit)
+- [Deepspeed](https://www.microsoft.com/en-us/research/project/deepspeed/)
+
+
+### Python
+
+- [Chris Albon](https://chrisalbon.com/) - Great practical code snippets for pandas, sklearn, etc.
+- [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
+- [Pandas Cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html)
+
+## R/Statistics
 
 ### Blogs
 
@@ -28,18 +63,6 @@ A work-in-progress collection of resources I find useful for data science work. 
 - [Forecasting - Principles and Practice](https://otexts.com/fpp2/) - Textbook on time series and forecasting methods
 - [Text Mining with R](https://www.tidytextmining.com/)
 
-### General 
-
-- [RWeekly](https://rweekly.org/) - a blog aggregator for keeping track of what's going on in the R community.
-- [Tidymodels Documentation](https://www.tidymodels.org/learn/)
-- [Data Science Digest](https://thedatasciencedigest.substack.com/)
-- [Distill](https://distill.pub/) - Machine learning concepts explained intuitively 
-- [Biostat Handbook](http://www.biostathandbook.com/) - general statistics reference
-- [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
-- [R Markdown - The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
-- [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
-- [Stan User's Guide](https://mc-stan.org/docs/2_28/stan-users-guide/index.html) - A helpful reference for Bayesian modeling.
-
 ### Data Visualization
 
 - [data-to-viz](https://www.data-to-viz.com/) - a general data visualization reference
@@ -47,8 +70,13 @@ A work-in-progress collection of resources I find useful for data science work. 
 - [BBC R Cookbook](https://bbc.github.io/rcookbook/) - ggplot code reference
 - [Data Visualization - A Practical Introduction](https://socviz.co/)
 
-### Python
+### Other
 
-- [Chris Albon](https://chrisalbon.com/) - Great practical code snippets for pandas, sklearn, etc.
-- [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
-- [Pandas Cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html)
+- [RWeekly](https://rweekly.org/) - a blog aggregator for keeping track of what's going on in the R community.
+- [Tidymodels Documentation](https://www.tidymodels.org/learn/)
+- [Data Science Digest](https://thedatasciencedigest.substack.com/)
+- [Biostat Handbook](http://www.biostathandbook.com/) - general statistics reference
+- [RStudio Cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+- [R Markdown - The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+- [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
+- [Stan User's Guide](https://mc-stan.org/docs/2_28/stan-users-guide/index.html) - A helpful reference for Bayesian modeling.
