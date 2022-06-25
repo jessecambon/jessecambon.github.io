@@ -25,7 +25,7 @@ A work-in-progress collection of resources I find useful for data science work.
 - [Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/) (Aurélien Géron)
 - [Natural Language Processing with Transformers](https://www.oreilly.com/library/view/natural-language-processing/9781098103231/) (Lewis Tunstall, Leandro von Werra, Thomas Wolf)
 
-## Other
+### Other
 
 - [DeepLearning.AI Deep Learning Coursera Specializaton](https://www.coursera.org/specializations/deep-learning) - 5 courses starting with neural network basics and ending with computer vision and sequence models.
 - [ONNX Runtime](https://onnxruntime.ai/)
