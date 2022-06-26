@@ -24,7 +24,7 @@ For R-Bloggers I needed to create a custom feed that only contained R content. M
 #### Other Modifications
 
 - Post tag pages added per [these instructions](https://longqian.me/2017/02/09/github-jekyll-tag/)
-- Leaflet Javascript library added based on [this](https://github.com/dieghernan/dieghernan.github.io/blob/master/_includes/leaflet.html).
+- Leaflet Javascript library added based on [this](https://github.com/dieghernan/dieghernan.github.io/blob/master/_includes/leaflet.html). See [_includes/leaflet.html](_includes/leaflet.html)
 
 #### Other Notes
 

@@ -3,10 +3,8 @@
 I removed flatly.js because it caused formatting issues with the code blocks and 
 removed the viewport because it changed the width of the site
 -->
-<script src="https://rstudio.github.io/leaflet/libs/jquery/jquery.min.js"></script>
-<script src="https://rstudio.github.io/leaflet/libs/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://rstudio.github.io/leaflet/libs/bootstrap/shim/html5shiv.min.js"></script>
-<script src="https://rstudio.github.io/leaflet/libs/bootstrap/shim/respond.min.js"></script>
+<!-- Load leaflet for R-->
+<script src="https://rstudio.github.io/leaflet/libs/jquery/jquery-3.6.0.min.js"></script>
 <script src="https://rstudio.github.io/leaflet/libs/navigation/tabsets.js"></script>
 <link href="https://rstudio.github.io/leaflet/libs/highlightjs/default.css" rel="stylesheet" />
 <script src="https://rstudio.github.io/leaflet/libs/highlightjs/highlight.js"></script>
@@ -14,11 +12,10 @@ removed the viewport because it changed the width of the site
 <link href="https://rstudio.github.io/leaflet/libs/leaflet/leaflet.css" rel="stylesheet" />
 <script src="https://rstudio.github.io/leaflet/libs/leaflet/leaflet.js"></script>
 <link href="https://rstudio.github.io/leaflet/libs/leafletfix/leafletfix.css" rel="stylesheet" />
-<script src="https://rstudio.github.io/leaflet/libs/Proj4Leaflet/proj4-compressed.js"></script>
+<script src="https://rstudio.github.io/leaflet/libs/proj4/proj4.min.js"></script>
 <script src="https://rstudio.github.io/leaflet/libs/Proj4Leaflet/proj4leaflet.js"></script>
 <link href="https://rstudio.github.io/leaflet/libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
 <script src="https://rstudio.github.io/leaflet/libs/leaflet-binding/leaflet.js"></script>
-
 <link href="https://rstudio.github.io/leaflet/libs/leaflet-measure/leaflet-measure.css" rel="stylesheet" />
 <script src="https://rstudio.github.io/leaflet/libs/leaflet-measure/leaflet-measure.min.js"></script>
 <script src="https://rstudio.github.io/leaflet/libs/leaflet-graticule/L.Graticule.js"></script>
@@ -39,5 +36,11 @@ removed the viewport because it changed the width of the site
 <script src="https://rstudio.github.io/leaflet/libs/leaflet-markercluster/leaflet.markercluster.js"></script>
 <script src="https://rstudio.github.io/leaflet/libs/leaflet-markercluster/leaflet.markercluster.freezable.js"></script>
 <script src="https://rstudio.github.io/leaflet/libs/leaflet-markercluster/leaflet.markercluster.layersupport.js"></script>
-
 <link href="https://rstudio.github.io/leaflet/libs/ionicons/ionicons.min.css" rel="stylesheet" />
+
+
+<!-- leaflet.extras package / check https://github.com/bhaskarvk/leaflet.extras/tree/master/inst/htmlwidgets/build-->
+<!-- You may need to include new refs -->
+<!-- leaflet.extras package / heatmap -->
+<script src="https://dieghernan.github.io/assets/js/leaflet_extras/lfx-heat/lfx-heat-prod.js"></script>
+<script src="https://dieghernan.github.io/assets/js/leaflet_extras/lfx-heat/lfx-heat-bindings.js"></script>	
