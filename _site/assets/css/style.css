@@ -167,7 +167,7 @@ blockquote > :last-child { margin-bottom: 0; }
 blockquote i, blockquote em { font-style: normal; }
 
 /** Code formatting */
-pre, code { font-family: "Menlo", "Inconsolata", "Consolas", "Roboto Mono", "Ubuntu Mono", "Liberation Mono", "Courier New", monospace; font-size: 0.9375em; border: 1px solid #e8e8e8; border-radius: 3px; background-color: #eeeeff; }
+pre, code { font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace; font-size: 0.92em; border: 1px solid #e8e8e8; border-radius: 3px; background-color: #eeeeff; }
 
 code { padding: 1px 5px; }
 
@@ -180,9 +180,9 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 .highlighter-rouge .highlight { background: #eeeeff; }
 
 /** Wrapper */
-.wrapper { max-width: calc(800px - (30px)); margin-right: auto; margin-left: auto; padding-right: 15px; padding-left: 15px; }
+.wrapper { max-width: calc(1000px - (30px)); margin-right: auto; margin-left: auto; padding-right: 15px; padding-left: 15px; }
 
-@media screen and (min-width: 800px) { .wrapper { max-width: calc(800px - (30px * 2)); padding-right: 30px; padding-left: 30px; } }
+@media screen and (min-width: 1000px) { .wrapper { max-width: calc(1000px - (30px * 2)); padding-right: 30px; padding-left: 30px; } }
 
 /** Clearfix */
 .wrapper:after { content: ""; display: table; clear: both; }
@@ -205,7 +205,7 @@ table th { background-color: #f0f0f0; border: 1px solid #e0e0e0; }
 
 table td { border: 1px solid #e8e8e8; }
 
-@media screen and (max-width: 800px) { table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; -ms-overflow-style: -ms-autohiding-scrollbar; } }
+@media screen and (max-width: 1000px) { table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; -ms-overflow-style: -ms-autohiding-scrollbar; } }
 
 /** Site header */
 .site-header { border-top: 5px solid #424242; border-bottom: 1px solid #e8e8e8; min-height: 55.95px; line-height: 54px; position: relative; }
@@ -253,7 +253,7 @@ table td { border: 1px solid #e8e8e8; }
 
 .footer-col-3 { width: calc(100% - (30px / 2)); }
 
-@media screen and (min-width: 800px) { .footer-col-1 { width: calc(35% - (30px / 2)); } .footer-col-2 { width: calc(20% - (30px / 2)); } .footer-col-3 { width: calc(45% - (30px / 2)); } }
+@media screen and (min-width: 1000px) { .footer-col-1 { width: calc(35% - (30px / 2)); } .footer-col-2 { width: calc(20% - (30px / 2)); } .footer-col-3 { width: calc(45% - (30px / 2)); } }
 
 @media screen and (min-width: 600px) { .footer-col-wrapper { display: flex; } .footer-col { width: calc(100% - (30px / 2)); padding: 0 15px; } .footer-col:first-child { padding-right: 15px; padding-left: 0; } .footer-col:last-child { padding-right: 0; padding-left: 15px; } }
 
@@ -277,7 +277,7 @@ table td { border: 1px solid #e8e8e8; }
 
 .post-title, .post-content h1 { font-size: 2.625rem; letter-spacing: -1px; line-height: 1.15; }
 
-@media screen and (min-width: 800px) { .post-title, .post-content h1 { font-size: 2.625rem; } }
+@media screen and (min-width: 1000px) { .post-title, .post-content h1 { font-size: 2.625rem; } }
 
 .post-content { margin-bottom: 30px; }
 
@@ -287,11 +287,11 @@ table td { border: 1px solid #e8e8e8; }
 
 .post-content h2 { font-size: 1.75rem; }
 
-@media screen and (min-width: 800px) { .post-content h2 { font-size: 2rem; } }
+@media screen and (min-width: 1000px) { .post-content h2 { font-size: 2rem; } }
 
 .post-content h3 { font-size: 1.375rem; }
 
-@media screen and (min-width: 800px) { .post-content h3 { font-size: 1.625rem; } }
+@media screen and (min-width: 1000px) { .post-content h3 { font-size: 1.625rem; } }
 
 .post-content h4 { font-size: 1.25rem; }
 
@@ -319,7 +319,7 @@ table td { border: 1px solid #e8e8e8; }
 .pagination li div.pager-edge { color: #e8e8e8; border: 1px dashed; }
 
 /** Grid helpers */
-@media screen and (min-width: 800px) { .one-half { width: calc(50% - (30px / 2)); } }
+@media screen and (min-width: 1000px) { .one-half { width: calc(50% - (30px / 2)); } }
 
 a.post-link { color: black; font-size: 1.5rem; }
 
@@ -341,7 +341,7 @@ p.post-meta { margin-bottom: 5px; }
 
 .post-title, .post-content h1 { font-size: 2.1rem; letter-spacing: -1px; line-height: 1.15; }
 
-@media screen and (min-width: 800px) { .post-title, .post-content h1 { font-size: 2.3rem; } }
+@media screen and (min-width: 1000px) { .post-title, .post-content h1 { font-size: 2.3rem; } }
 
 /* Post thumbnail sizing */
 img.post-thumbnail { /* if on small screen then don't float the image */ height: auto; max-width: 200px; max-height: 130px; float: none; padding-bottom: 10px; /* if on larger screen then float thumbnail image left */ }
@@ -350,6 +350,6 @@ img.post-thumbnail { /* if on small screen then don't float the image */ height:
 
 a.post-link { clear: both; padding-top: 5px; }
 
-.no-background { font-family: "Menlo", "Inconsolata", "Consolas", "Roboto Mono", "Ubuntu Mono", "Liberation Mono", "Courier New", monospace; font-size: 0.9375em; }
+.no-background { font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace; font-size: 0.9375em; }
 
 /*# sourceMappingURL=style.css.map */

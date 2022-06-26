@@ -382,7 +382,9 @@ sns.displot(
 
 
 
+    
 ![png](/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_10_1.png)
+    
 
 
 
@@ -402,7 +404,9 @@ sns.displot(
 
 
 
+    
 ![png](/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_11_1.png)
+    
 
 
 
@@ -422,7 +426,9 @@ sns.displot(
 
 
 
+    
 ![png](/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_12_1.png)
+    
 
 
 ## Model
@@ -552,7 +558,9 @@ plt.show()
 ```
 
 
+    
 ![png](/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_18_0.png)
+    
 
 
 
@@ -574,7 +582,9 @@ plt.show()
 ```
 
 
+    
 ![png](/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_20_0.png)
+    
 
 
 
@@ -589,7 +599,9 @@ _ = prediction_error(opt, X_test, y_test)
 ```
 
 
+    
 ![png](/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_22_0.png)
+    
 
 
 
@@ -598,7 +610,9 @@ _ = prediction_error(opt, X_train, y_train)
 ```
 
 
+    
 ![png](/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_23_0.png)
+    
 
 
 
@@ -609,7 +623,9 @@ _ = residuals_plot(
 ```
 
 
+    
 ![png](/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_24_0.png)
+    
 
 
 
@@ -620,7 +636,9 @@ _ = residuals_plot(
 ```
 
 
+    
 ![png](/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_25_0.png)
+    
 
 
 
