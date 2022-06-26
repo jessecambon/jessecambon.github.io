@@ -55,22 +55,18 @@ image: "/images/tidygeocoder_hex_dark2021.png"
 ---
 ```
 
-- Next convert the jupyter notebook to markdown using nbconvert with this terminal command: `jupyter nbconvert --to markdown <filename.ipynb>`. This creates a markdown (.md) file and a folder that will contain all images from the notebook. For example, if the command is executed from the project root directory and you working with a file in the `_drafts` folder you could do this:
+Now run the [build_jupyter.py](build_jupyter.py) script on your notebook:
 
-```shell
-jupyter nbconvert --to markdown _drafts/sklearn_skopt_pipeline.ipynb
+```sh
+python build_jupyter.py path/to/notebook.ipynb
 ```
 
-- Move the folder `<filename_files>` to [jupyter_files](jupyter_files) (this is where the notebook images were saved by nbconvert).
-- Open the Markdown (`.md`) file that was created by nbconvert (in the same directory as the jupyter notebook) and modify all image paths to refer to the correct folder (given where we moved the image folder to). The image references should begin with `![png]`. For example you would want to change this image path:
+This script will create a .md file in the same directory as jupyter notebook. The script handles moving all the image files to the [jupyter_files](jupyter_files) directory and fixing the image references within the newly created markdown file.
 
-`![png](sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_15_1.png)`
+**IMPORTANT**: 
+- If you include images within your juypter notebook, make sure the alternative text is not "png" (ie. `![png](/path/to/image.jpg)`) The build_jupyter.py script will edit image paths with the alt text png to point to the jupyter files directory (if there are graphs within the notebook that generate images).
 
-To this:
-
-`![png](/jupyter_files/sklearn_skopt_pipeline_files/sklearn_skopt_pipeline_15_1.png)`
-
-In the future this process could be automated:
+References:
 
 - https://www.linode.com/docs/guides/jupyter-notebook-on-jekyll/
 - https://jaketae.github.io/blog/jupyter-automation/
