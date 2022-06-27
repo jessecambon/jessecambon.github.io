@@ -4,7 +4,7 @@ title: Resources
 permalink: /resources/
 ---
 
-A work-in-progress collection of resources I find useful for data science work.
+This is a work-in-progress collection of resources I find useful for data science work. I've currently split this into two sections. The first, "Machine Learning, is oriented toward production ML work with python (ie. tensorflow, pytorch, neural networks, etc.). The second section, "Statistics", is focused on statistical analysis and modeling work with R (ie. regression, visualizations, etc.). 
 
 ## Machine Learning 
 ### Blogs
@@ -39,7 +39,8 @@ A work-in-progress collection of resources I find useful for data science work.
 - [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
 - [Pandas Cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html)
 
-## R/Statistics
+---
+## Statistics
 
 ### Blogs
 

@@ -64,7 +64,7 @@ python build_jupyter.py path/to/notebook.ipynb
 This script will create a .md file in the same directory as jupyter notebook. The script handles moving all the image files to the [jupyter_files](jupyter_files) directory and fixing the image references within the newly created markdown file.
 
 **IMPORTANT**: 
-- If you include images within your juypter notebook, make sure the alternative text is not "png" (ie. `![png](/path/to/image.jpg)`) The build_jupyter.py script will edit image paths with the alt text png to point to the jupyter files directory (if there are graphs within the notebook that generate images).
+- If you include images within your juypter notebook, make sure the alternative text is not "png" (ie. do not do this: `![png](/path/to/image.jpg)`) The build_jupyter.py script will edit image paths with the alt text png to point to the jupyter files directory (if there are graphs within the notebook that generate images).
 
 References:
 
