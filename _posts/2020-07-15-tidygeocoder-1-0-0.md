@@ -5,7 +5,7 @@ date: 2020-7-15
 author: Jesse Cambon
 tags: [r, tidygeocoder]
 image: "/images/tidygeocoder_hex.png"
-linktormd: true
+rmarkdown_link: true
 leafletmap: true
 always_allow_html: yes
 output: 

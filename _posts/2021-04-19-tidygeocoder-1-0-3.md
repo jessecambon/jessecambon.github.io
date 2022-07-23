@@ -6,6 +6,7 @@ author: Jesse Cambon
 tags: [r, tidygeocoder]
 image: "/images/tidygeocoder_hex.png"
 leafletmap: true
+rmarkdown_link: true
 always_allow_html: yes
 output: 
   md_document:

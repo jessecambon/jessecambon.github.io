@@ -5,6 +5,7 @@ date:   2020-3-22
 author: Jesse Cambon
 tags: [ r ]
 image: "/images/hex-rmarkdown.png"
+rmarkdown_link: true
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]

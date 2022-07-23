@@ -9,15 +9,16 @@ This is a work-in-progress collection of resources I find useful for data scienc
 ## Machine Learning 
 ### Blogs
 
-- [Hugging Face Blog](https://huggingface.co/blog) - popular framework for working with transformer models
-- [Pytorch Lightning Blog](https://www.pytorchlightning.ai/blog) - A conveniant framework for working with pytorch
-- [Pytorch Blog](https://pytorch.org/blog/)
-- [Explosion AI Blog](https://explosion.ai/blog) - blog from the creators of the NLP library spacy
+- [Hugging Face](https://huggingface.co/blog) - popular framework for working with transformer models
+- [Pytorch Lightning](https://www.pytorchlightning.ai/blog) - A conveniant framework for working with pytorch
+- [Pytorch](https://pytorch.org/blog/)
+- [Explosion AI](https://explosion.ai/blog) - blog from the creators of the NLP library spacy
 - [Jay Almammar](https://jalammar.github.io/) - explanations of how ML algorithms like transformers work
 - [Sebatian Raschka](https://sebastianraschka.com/blog/index.html)
 - [The Batch](https://read.deeplearning.ai/the-batch/) - newsletter on AI from DeepLearning.AI
 - [The Sequence](https://thesequence.substack.com/) - AI newsletter
 - [Distill](https://distill.pub/) - Machine learning concepts explained intuitively 
+- [Microsoft Research](https://www.microsoft.com/en-us/research/blog/)
 
 ### Books
 

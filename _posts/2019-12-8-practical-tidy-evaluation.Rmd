@@ -4,6 +4,7 @@ title:  "Practical Tidy Evaluation"
 date:   2019-12-8
 author: Jesse Cambon
 tags: [r]
+rmarkdown_link: true
 image: "/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png"
 output: 
   md_document:

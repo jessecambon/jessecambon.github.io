@@ -5,6 +5,7 @@ date: 2021-01-18
 author: Jesse Cambon
 tags: [r, tidygeocoder]
 image: "/images/google_map_pin.png"
+rmarkdown_link: true
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]

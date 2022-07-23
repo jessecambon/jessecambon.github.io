@@ -46,10 +46,12 @@ minima:
     linkedin: jessecambon
 
 theme: minima
+paginate: 4
 
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-paginate
 
 highlighter: rouge
 

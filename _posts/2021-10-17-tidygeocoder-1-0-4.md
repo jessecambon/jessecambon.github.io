@@ -5,6 +5,7 @@ date: 2021-10-17
 author: Jesse Cambon
 tags: [r, tidygeocoder]
 image: "/images/tidygeocoder_hex_dark2021.png"
+rmarkdown_link: true
 output: 
   md_document:
     pandoc_args: ["--wrap=none"]

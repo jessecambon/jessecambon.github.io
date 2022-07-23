@@ -17,6 +17,7 @@ layout: default
           {{ mdate | date: date_format }}
         </time>
       {%- endif -%}
+      </p>
       <!-- JAC: Removed Author listing -->
       
       <!--
@@ -30,7 +31,15 @@ layout: default
       -->
       
       <!-- JAC: Add tags per https://longqian.me/2017/02/09/github-jekyll-tag/ -->
+      
+
+      <!-- Adding link to source code that generated blog post -->
+      {%- if page.rmarkdown_link -%}
+      <p>
+        <a href="https://github.com/jessecambon/jessecambon.github.io/blob/main/{{ page.path | replace: '.md', '.Rmd' }}">View Source Code</a>
       </p>
+      {%- endif -%}
+
       <p>
       <span class ='no-background'>Filed under:</span>
       <span>

@@ -4,6 +4,7 @@ title:  "Data Science Essentials"
 date:   2020-1-12
 author: Jesse Cambon
 tags: [r]
+rmarkdown_link: true
 image: "/rmd_images/2020-1-12-data-science-essentials/linechart-1.png"
 output: 
   md_document:

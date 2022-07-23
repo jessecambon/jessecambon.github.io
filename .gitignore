@@ -6,3 +6,6 @@
 .sass-cache
 .DS_Store
 __pycache__
+.ipynb_checkpoints
+_posts/.ipynb_checkpoints
+_posts/__pycache__
