@@ -352,4 +352,7 @@ a.post-link { clear: both; padding-top: 5px; }
 
 .no-background { font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace; font-size: 0.9375em; }
 
+/* adjust padding for link to rmarkdown/jupyter code*/
+p.code-link { margin-bottom: 0.3em; }
+
 /*# sourceMappingURL=style.css.map */

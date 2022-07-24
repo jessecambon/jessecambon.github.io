@@ -30,16 +30,21 @@ layout: default
       {%- endif -%}
       -->
       
-      <!-- JAC: Add tags per https://longqian.me/2017/02/09/github-jekyll-tag/ -->
-      
 
       <!-- Adding link to source code that generated blog post -->
       {%- if page.rmarkdown_link -%}
-      <p>
-        <a href="https://github.com/jessecambon/jessecambon.github.io/blob/main/{{ page.path | replace: '.md', '.Rmd' }}">View Source Code</a>
+      <p class="code-link">
+        <a href="https://github.com/jessecambon/jessecambon.github.io/blob/main/{{ page.path | replace: '.md', '.Rmd' }}">View Code</a>
+      </p>
+      {%- endif -%}
+      {%- if page.jupyter_link -%}
+      <p class="code-link">
+        <a href="https://github.com/jessecambon/jessecambon.github.io/blob/main/{{ page.path | replace: '.md', '.ipynb' }}">View Code</a>
       </p>
       {%- endif -%}
 
+
+      <!-- JAC: Add tags per https://longqian.me/2017/02/09/github-jekyll-tag/ -->
       <p>
       <span class ='no-background'>Filed under:</span>
       <span>
@@ -55,6 +60,7 @@ layout: default
     {{ content }}
   </div>
 
+  <!-- comments section -->
   {%- if site.disqus.shortname -%}
     {%- include disqus_comments.html -%}
   {%- endif -%}

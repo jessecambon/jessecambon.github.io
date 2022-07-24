@@ -88,6 +88,12 @@ a.post-link {
   font-size: 0.9375em;
 }
 
+
+/* adjust padding for link to rmarkdown/jupyter code*/
+p.code-link {
+  margin-bottom: 0.3em;
+}
+
 // .post-thumbnail {
 //   padding-right: 100px;
 // }
