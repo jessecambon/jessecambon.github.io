@@ -6,7 +6,9 @@ permalink: /projects/
 
 #### [Tidygeocoder](https://jessecambon.github.io/tidygeocoder/)
 
-An R package for geocoding which allows you to use multiple geocoding services through a single interface. Refer to [this paper](https://joss.theoj.org/papers/10.21105/joss.03544) for a more detailed explanation.
+<center>
+<embed src="https://www.theoj.org/joss-papers/joss.03544/10.21105.joss.03544.pdf" width="100%" height="600vw">
+</center>
 
 #### [Data Science "Sandbox"](https://github.com/jessecambon/Data-Science-Sandbox)
 
