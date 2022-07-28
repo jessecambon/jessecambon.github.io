@@ -8,7 +8,7 @@ permalink: /projects/
 
 
 <object data="https://www.theoj.org/joss-papers/joss.03544/10.21105.joss.03544.pdf" type="application/pdf" width="100%" height="500px">
-<p>Tidygeocoder is an R package for geocoding. You can find the paper for it <a href="https://www.theoj.org/joss-papers/joss.03544/10.21105.joss.03544.pdf">here</a></p>
+<p>Tidygeocoder is an R package for geocoding. You can find the paper for it <a href="https://joss.theoj.org/papers/10.21105/joss.03544">here</a></p>
 </object>
 
 
