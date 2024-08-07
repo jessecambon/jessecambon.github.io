@@ -1,47 +1,28 @@
 ---
 layout: post
-title: "Planning a PC Build"
-date: 2024-8-6
-author: Jesse Cambon
-tags: [pc]
-image: ""
+title:  "How to Create An R Package"
+date:   2019-11-11
+tags: draft
 ---
-## Intro
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-![Alt text goes here](/../images/godzilla-tech-interview.jpg)
-
-Source: [Reddit](https://www.reddit.com/r/recruitinghell/comments/l6bp24/interview_level_godzilla_job_pays_10_hr/)
-
-
-```python
-import pandas as pd
-import seaborn as sns
-import numpy as np
-from sklearn.datasets import load_diabetes
-import matplotlib.pyplot as plt
-
-X, y = load_diabetes(return_X_y = True, as_frame = True)
-
-sns.displot(
-    X,
-    x = "bmi",
-    kind = 'kde'
-)
-```
 
 
 
+### References
 
-    <seaborn.axisgrid.FacetGrid at 0x7fd82f16d7f0>
+- [How to Build A PC (Linus Tech Tips)](https://www.youtube.com/watch?v=s1fxZ-VWs2U). Very comprehensive video on all the steps of a PC build.
+- [PC Part Picker](https://pcpartpicker.com/). Great resource for hardware compatibility checks on hardware and also looking at other builds that people have done.
+- [Best Value GPU](https://bestvaluegpu.com/) - Track the best performance per dollar GPUs based on current prices
+- [TechPowerUp.com](https://www.techpowerup.com/) - great detailed reviews of graphics cards and other products (ex. [RX 7700 XT Review](https://www.techpowerup.com/gpu-specs/radeon-rx-7700-xt.c3911)) 
+- [Case End](https://caseend.com/) - detailed specs on PC cases
+- Useful Subreddits:
+    - [r/buildapc](https://www.reddit.com/r/buildapc/)
+    - [r/buildmeapc](https://www.reddit.com/r/buildmeapc/)
+    - [r/sffpc](https://www.reddit.com/r/sffpc/) - For small form factor (SFF) builds
+    - [r/pcmasterrace](https://www.reddit.com/r/pcmasterrace/)
 
 
+Youtube build videos are a great resource. I used the following video as a guide for my build: [S300 build $880 Lunchbox Gaming PC (1080p Destroyer)](https://www.youtube.com/watch?v=3BguJvWsyaM).
 
 
-    
-![png](/jupyter_files/2022-XX-XX-job-market_files/2022-XX-XX-job-market_4_1.png)
-    
-
+- [Building a Mid Range Gaming ITX PC doesn't have to be difficult - Featuring S300 ITX case](https://www.youtube.com/watch?v=rVP9kyrK7zk)
+- [Don't Tell Big Rig Bros: This All AMD Small Foot Print Mini PC SLAYS AAA Games!](https://www.youtube.com/watch?v=0ypr8DxLKAE)
