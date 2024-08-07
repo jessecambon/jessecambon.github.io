@@ -1,4 +1,586 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-01-05T14:53:24-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jesse Cambon</title><subtitle>Musings on data and open source software</subtitle><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><entry><title type="html">Tidygeocoder 1.0.4</title><link href="http://localhost:4000/2021/10/17/tidygeocoder-1-0-4.html" rel="alternate" type="text/html" title="Tidygeocoder 1.0.4" /><published>2021-10-17T00:00:00-04:00</published><updated>2021-10-17T00:00:00-04:00</updated><id>http://localhost:4000/2021/10/17/tidygeocoder-1-0-4</id><content type="html" xml:base="http://localhost:4000/2021/10/17/tidygeocoder-1-0-4.html"><![CDATA[<p><a href="https://jessecambon.github.io/tidygeocoder/">Tidygeocoder v1.0.4</a> is released! 🍾 This release adds support for the <a href="https://www.geoapify.com/geocoding-api">Geoapify geocoding service</a> (thanks <a href="https://github.com/dpprdan">Daniel Possenriede</a>!), a progress bar, more helpful console output, and new functions for combining the results of multiple geocoding queries. A more detailed overview of the changes in this release is available in the <a href="https://jessecambon.github.io/tidygeocoder/news/index.html">changelog</a>.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-06T21:32:30-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jesse Cambon</title><subtitle>Musings on data and open source software</subtitle><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><entry><title type="html">Planning a PC Build</title><link href="http://localhost:4000/2024/08/06/2024-XX-XX-pc-build-part-1.html" rel="alternate" type="text/html" title="Planning a PC Build" /><published>2024-08-06T00:00:00-04:00</published><updated>2024-08-06T00:00:00-04:00</updated><id>http://localhost:4000/2024/08/06/2024-XX-XX-pc-build-part-1</id><content type="html" xml:base="http://localhost:4000/2024/08/06/2024-XX-XX-pc-build-part-1.html"><![CDATA[<h2 id="intro">Intro</h2>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<p><img src="/../images/godzilla-tech-interview.jpg" alt="Alt text goes here" /></p>
+
+<p>Source: <a href="https://www.reddit.com/r/recruitinghell/comments/l6bp24/interview_level_godzilla_job_pays_10_hr/">Reddit</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_diabetes</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">(</span><span class="n">return_X_y</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">as_frame</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="n">displot</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="s">"bmi"</span><span class="p">,</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="s">'kde'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;seaborn.axisgrid.FacetGrid at 0x7fd82f16d7f0&gt;
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2022-XX-XX-job-market_files/2022-XX-XX-job-market_4_1.png" alt="png" /></p>]]></content><author><name>Jesse Cambon</name></author><category term="pc" /><summary type="html"><![CDATA[Intro]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/" /><media:content medium="image" url="http://localhost:4000/" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Job Market</title><link href="http://localhost:4000/2022/06/26/2022-XX-XX-job-market.html" rel="alternate" type="text/html" title="Job Market" /><published>2022-06-26T00:00:00-04:00</published><updated>2022-06-26T00:00:00-04:00</updated><id>http://localhost:4000/2022/06/26/2022-XX-XX-job-market</id><content type="html" xml:base="http://localhost:4000/2022/06/26/2022-XX-XX-job-market.html"><![CDATA[<h2 id="intro">Intro</h2>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<p><img src="/../images/godzilla-tech-interview.jpg" alt="Alt text goes here" /></p>
+
+<p>Source: <a href="https://www.reddit.com/r/recruitinghell/comments/l6bp24/interview_level_godzilla_job_pays_10_hr/">Reddit</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_diabetes</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">(</span><span class="n">return_X_y</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">as_frame</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="n">displot</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="s">"bmi"</span><span class="p">,</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="s">'kde'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;seaborn.axisgrid.FacetGrid at 0x7fd82f16d7f0&gt;
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2022-XX-XX-job-market_files/2022-XX-XX-job-market_4_1.png" alt="png" /></p>]]></content><author><name>Jesse Cambon</name></author><category term="rants" /><summary type="html"><![CDATA[Intro]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/tidygeocoder_hex.png" /><media:content medium="image" url="http://localhost:4000/images/tidygeocoder_hex.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Test Jupyter</title><link href="http://localhost:4000/2021/10/24/2021-XX-XX-sklearn.html" rel="alternate" type="text/html" title="Test Jupyter" /><published>2021-10-24T00:00:00-04:00</published><updated>2021-10-24T00:00:00-04:00</updated><id>http://localhost:4000/2021/10/24/2021-XX-XX-sklearn</id><content type="html" xml:base="http://localhost:4000/2021/10/24/2021-XX-XX-sklearn.html"><![CDATA[<h3 id="references">References</h3>
+
+<ul>
+  <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_diabetes.html#sklearn.datasets.load_diabetes">Diabetes Dataset</a></li>
+  <li><a href="https://scikit-learn.org/stable/auto_examples/ensemble/plot_gradient_boosting_regression.html#sphx-glr-auto-examples-ensemble-plot-gradient-boosting-regression-py">Gradient Boosted Regression Example</a></li>
+  <li><a href="https://scikit-optimize.github.io/stable/auto_examples/sklearn-gridsearchcv-replacement.html">Bayesian Hyperparameter Search</a></li>
+  <li><a href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html">Gaussian process explanation</a></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_diabetes</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">StratifiedKFold</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingRegressor</span><span class="p">,</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">skopt</span> <span class="kn">import</span> <span class="n">BayesSearchCV</span>
+<span class="kn">from</span> <span class="nn">skopt.plots</span> <span class="kn">import</span> <span class="n">plot_objective</span><span class="p">,</span> <span class="n">plot_histogram</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">yellowbrick.regressor</span> <span class="kn">import</span> <span class="n">residuals_plot</span><span class="p">,</span> <span class="n">prediction_error</span>
+
+<span class="n">my_seed</span> <span class="o">=</span> <span class="mi">42</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load dataset
+</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">(</span><span class="n">return_X_y</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">as_frame</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="n">combi</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">combi</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>bmi</th>
+      <th>bp</th>
+      <th>s1</th>
+      <th>s2</th>
+      <th>s3</th>
+      <th>s4</th>
+      <th>s5</th>
+      <th>s6</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.038076</td>
+      <td>0.050680</td>
+      <td>0.061696</td>
+      <td>0.021872</td>
+      <td>-0.044223</td>
+      <td>-0.034821</td>
+      <td>-0.043401</td>
+      <td>-0.002592</td>
+      <td>0.019908</td>
+      <td>-0.017646</td>
+      <td>151.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.001882</td>
+      <td>-0.044642</td>
+      <td>-0.051474</td>
+      <td>-0.026328</td>
+      <td>-0.008449</td>
+      <td>-0.019163</td>
+      <td>0.074412</td>
+      <td>-0.039493</td>
+      <td>-0.068330</td>
+      <td>-0.092204</td>
+      <td>75.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.085299</td>
+      <td>0.050680</td>
+      <td>0.044451</td>
+      <td>-0.005671</td>
+      <td>-0.045599</td>
+      <td>-0.034194</td>
+      <td>-0.032356</td>
+      <td>-0.002592</td>
+      <td>0.002864</td>
+      <td>-0.025930</td>
+      <td>141.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.089063</td>
+      <td>-0.044642</td>
+      <td>-0.011595</td>
+      <td>-0.036656</td>
+      <td>0.012191</td>
+      <td>0.024991</td>
+      <td>-0.036038</td>
+      <td>0.034309</td>
+      <td>0.022692</td>
+      <td>-0.009362</td>
+      <td>206.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.005383</td>
+      <td>-0.044642</td>
+      <td>-0.036385</td>
+      <td>0.021872</td>
+      <td>0.003935</td>
+      <td>0.015596</td>
+      <td>0.008142</td>
+      <td>-0.002592</td>
+      <td>-0.031991</td>
+      <td>-0.046641</td>
+      <td>135.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>437</th>
+      <td>0.041708</td>
+      <td>0.050680</td>
+      <td>0.019662</td>
+      <td>0.059744</td>
+      <td>-0.005697</td>
+      <td>-0.002566</td>
+      <td>-0.028674</td>
+      <td>-0.002592</td>
+      <td>0.031193</td>
+      <td>0.007207</td>
+      <td>178.0</td>
+    </tr>
+    <tr>
+      <th>438</th>
+      <td>-0.005515</td>
+      <td>0.050680</td>
+      <td>-0.015906</td>
+      <td>-0.067642</td>
+      <td>0.049341</td>
+      <td>0.079165</td>
+      <td>-0.028674</td>
+      <td>0.034309</td>
+      <td>-0.018118</td>
+      <td>0.044485</td>
+      <td>104.0</td>
+    </tr>
+    <tr>
+      <th>439</th>
+      <td>0.041708</td>
+      <td>0.050680</td>
+      <td>-0.015906</td>
+      <td>0.017282</td>
+      <td>-0.037344</td>
+      <td>-0.013840</td>
+      <td>-0.024993</td>
+      <td>-0.011080</td>
+      <td>-0.046879</td>
+      <td>0.015491</td>
+      <td>132.0</td>
+    </tr>
+    <tr>
+      <th>440</th>
+      <td>-0.045472</td>
+      <td>-0.044642</td>
+      <td>0.039062</td>
+      <td>0.001215</td>
+      <td>0.016318</td>
+      <td>0.015283</td>
+      <td>-0.028674</td>
+      <td>0.026560</td>
+      <td>0.044528</td>
+      <td>-0.025930</td>
+      <td>220.0</td>
+    </tr>
+    <tr>
+      <th>441</th>
+      <td>-0.045472</td>
+      <td>-0.044642</td>
+      <td>-0.073030</td>
+      <td>-0.081414</td>
+      <td>0.083740</td>
+      <td>0.027809</td>
+      <td>0.173816</td>
+      <td>-0.039493</td>
+      <td>-0.004220</td>
+      <td>0.003064</td>
+      <td>57.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>442 rows × 11 columns</p>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># CV split
+</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="n">my_seed</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">X</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>bmi</th>
+      <th>bp</th>
+      <th>s1</th>
+      <th>s2</th>
+      <th>s3</th>
+      <th>s4</th>
+      <th>s5</th>
+      <th>s6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>160</th>
+      <td>-0.009147</td>
+      <td>-0.044642</td>
+      <td>-0.062252</td>
+      <td>-0.074528</td>
+      <td>-0.023584</td>
+      <td>-0.013214</td>
+      <td>0.004460</td>
+      <td>-0.039493</td>
+      <td>-0.035817</td>
+      <td>-0.046641</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>0.070769</td>
+      <td>-0.044642</td>
+      <td>0.012117</td>
+      <td>0.042530</td>
+      <td>0.071357</td>
+      <td>0.053487</td>
+      <td>0.052322</td>
+      <td>-0.002592</td>
+      <td>0.025393</td>
+      <td>-0.005220</td>
+    </tr>
+    <tr>
+      <th>334</th>
+      <td>-0.060003</td>
+      <td>0.050680</td>
+      <td>-0.047163</td>
+      <td>-0.022885</td>
+      <td>-0.071743</td>
+      <td>-0.057681</td>
+      <td>-0.006584</td>
+      <td>-0.039493</td>
+      <td>-0.062913</td>
+      <td>-0.054925</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>169    152.0
+302    198.0
+162    172.0
+Name: target, dtype: float64
+</code></pre></div></div>
+
+<h2 id="eda">EDA</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">X</span><span class="p">[</span><span class="s">'sex'</span><span class="p">].</span><span class="n">value_counts</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.044642    235
+ 0.050680    207
+Name: sex, dtype: int64
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="n">displot</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="s">"bmi"</span><span class="p">,</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="s">'kde'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;seaborn.axisgrid.FacetGrid at 0x7f1becbf4c90&gt;
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_10_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="n">displot</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="s">"bp"</span><span class="p">,</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="s">'kde'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;seaborn.axisgrid.FacetGrid at 0x7f1c2c05d890&gt;
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_11_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="n">displot</span><span class="p">(</span>
+    <span class="n">combi</span><span class="p">,</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="s">"bmi"</span><span class="p">,</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="s">"target"</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;seaborn.axisgrid.FacetGrid at 0x7f1be14dab90&gt;
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_12_1.png" alt="png" /></p>
+
+<h2 id="model">Model</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">kf</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="n">my_seed</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># model pipelines
+</span><span class="n">pipelines</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'linear regression'</span> <span class="p">:</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LinearRegression</span><span class="p">()),</span>
+    <span class="s">'gradient boosting'</span> <span class="p">:</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">GradientBoostingRegressor</span><span class="p">()),</span>
+    <span class="s">'random forest'</span> <span class="p">:</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">RandomForestRegressor</span><span class="p">())</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Search gradient boosted model hyperparameter space for optimal parameters using scikit-opt</p>
+
+<p>https://scikit-optimize.github.io/stable/auto_examples/hyperparameter-optimization.html#sphx-glr-auto-examples-hyperparameter-optimization-py</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># NOTE: Had to downgrade to scikit-learn 0.23.2 to avoid an error regarding 'iid':
+# pip install -Iv scikit-learn==0.23.2
+</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">BayesSearchCV</span><span class="p">(</span>
+    <span class="n">pipelines</span><span class="p">[</span><span class="s">'gradient boosting'</span><span class="p">],</span>
+    <span class="p">{</span>
+
+    <span class="s">"gradientboostingregressor__min_samples_split"</span> <span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+<span class="c1">#    "gradientboostingregressor__min_samples_leaf" : (1, 20),   
+</span>    <span class="s">"gradientboostingregressor__n_estimators"</span> <span class="p">:</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span>
+    <span class="s">"gradientboostingregressor__max_depth"</span> <span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s">"gradientboostingregressor__max_features"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_features</span><span class="p">),</span>
+    <span class="s">"gradientboostingregressor__learning_rate"</span> <span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s">'log-uniform'</span><span class="p">)</span>
+    <span class="p">},</span>
+    <span class="n">cv</span> <span class="o">=</span> <span class="n">kf</span><span class="p">,</span> <span class="c1"># use k-fold cross validation
+</span>    <span class="n">random_state</span> <span class="o">=</span> <span class="n">my_seed</span><span class="p">,</span>
+    <span class="n">n_iter</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">n_jobs</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="p">)</span>
+
+<span class="n">opt</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"val. score: %s"</span> <span class="o">%</span> <span class="n">opt</span><span class="p">.</span><span class="n">best_score_</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"test score: %s"</span> <span class="o">%</span> <span class="n">opt</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"best params: %s"</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">best_params_</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+/home/cambonator/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:672: UserWarning: The least populated class in y has only 1 members, which is less than n_splits=5.
+  % (min_groups, self.n_splits)), UserWarning)
+
+
+val. score: 0.41534121914268674
+test score: 0.5780905566781522
+best params: OrderedDict([('gradientboostingregressor__learning_rate', 0.03200464817593894), ('gradientboostingregressor__max_depth', 1), ('gradientboostingregressor__max_features', 10), ('gradientboostingregressor__min_samples_split', 2), ('gradientboostingregressor__n_estimators', 300)])
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_</span> <span class="o">=</span> <span class="n">plot_objective</span><span class="p">(</span>
+    <span class="n">opt</span><span class="p">.</span><span class="n">optimizer_results_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_18_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">10</span><span class="o">**</span><span class="mi">0</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_</span> <span class="o">=</span> <span class="n">plot_histogram</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">optimizer_results_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_20_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#from skopt.plots import plot_convergence
+#plot_convergence(opt)
+</span></code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_</span> <span class="o">=</span> <span class="n">prediction_error</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_22_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_</span> <span class="o">=</span> <span class="n">prediction_error</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_23_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_</span> <span class="o">=</span> <span class="n">residuals_plot</span><span class="p">(</span>
+    <span class="n">opt</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_24_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_</span> <span class="o">=</span> <span class="n">residuals_plot</span><span class="p">(</span>
+    <span class="n">opt</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/jupyter_files/2021-XX-XX-sklearn_files/2021-XX-XX-sklearn_25_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>]]></content><author><name>Jesse Cambon</name></author><category term="python" /><summary type="html"><![CDATA[References]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/tidygeocoder_hex.png" /><media:content medium="image" url="http://localhost:4000/images/tidygeocoder_hex.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Tidygeocoder 1.0.4</title><link href="http://localhost:4000/2021/10/17/tidygeocoder-1-0-4.html" rel="alternate" type="text/html" title="Tidygeocoder 1.0.4" /><published>2021-10-17T00:00:00-04:00</published><updated>2021-10-17T00:00:00-04:00</updated><id>http://localhost:4000/2021/10/17/tidygeocoder-1-0-4</id><content type="html" xml:base="http://localhost:4000/2021/10/17/tidygeocoder-1-0-4.html"><![CDATA[<p><a href="https://jessecambon.github.io/tidygeocoder/">Tidygeocoder v1.0.4</a> is released! 🍾 This release adds support for the <a href="https://www.geoapify.com/geocoding-api">Geoapify geocoding service</a> (thanks <a href="https://github.com/dpprdan">Daniel Possenriede</a>!), a progress bar, more helpful console output, and new functions for combining the results of multiple geocoding queries. A more detailed overview of the changes in this release is available in the <a href="https://jessecambon.github.io/tidygeocoder/news/index.html">changelog</a>.</p>
 
 <h3 id="progress-bars-and-console-output">Progress Bars and Console Output</h3>
 
@@ -624,7 +1206,83 @@
 ## See ?api_parameter_reference for more details.
 </code></pre></div></div>
 
-<p>If you’re interested in contributing to the package and would like to add support for other geocoder services, updated instructions on how to go about this are <a href="https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424">located here</a>.</p>]]></content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html"><![CDATA[Tidygeocoder v1.0.2 “Yodeling Yak” is now on CRAN. This release adds support for the popular Google geocoder service (thanks @chris31415926535) and also includes several bugfixes and enhancements. Refer to the changelog for details on the release and to the tidygeocoder homepage for a comparison of all supported geocoder services.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/google_map_pin.png" /><media:content medium="image" url="http://localhost:4000/images/google_map_pin.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introducing Tidygeocoder 1.0.0</title><link href="http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html" rel="alternate" type="text/html" title="Introducing Tidygeocoder 1.0.0" /><published>2020-07-15T00:00:00-04:00</published><updated>2020-07-15T00:00:00-04:00</updated><id>http://localhost:4000/2020/07/15/tidygeocoder-1-0-0</id><content type="html" xml:base="http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html"><![CDATA[<p><a href="https://jessecambon.github.io/tidygeocoder/index.html">Tidygeocoder v1.0.0</a> is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.</p>
+<p>If you’re interested in contributing to the package and would like to add support for other geocoder services, updated instructions on how to go about this are <a href="https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424">located here</a>.</p>]]></content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html"><![CDATA[Tidygeocoder v1.0.2 “Yodeling Yak” is now on CRAN. This release adds support for the popular Google geocoder service (thanks @chris31415926535) and also includes several bugfixes and enhancements. Refer to the changelog for details on the release and to the tidygeocoder homepage for a comparison of all supported geocoder services.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/google_map_pin.png" /><media:content medium="image" url="http://localhost:4000/images/google_map_pin.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Intro to HTML Presentations</title><link href="http://localhost:4000/2020/07/15/html-presentations.html" rel="alternate" type="text/html" title="Intro to HTML Presentations" /><published>2020-07-15T00:00:00-04:00</published><updated>2020-07-15T00:00:00-04:00</updated><id>http://localhost:4000/2020/07/15/html-presentations</id><content type="html" xml:base="http://localhost:4000/2020/07/15/html-presentations.html"><![CDATA[<!--
+
+output: html_document
+
+
+output: 
+  md_document:
+    pandoc_args: ["--wrap=none"]
+    variant: gfm
+    preserve_yaml: TRUE 
+
+-->
+
+<ul>
+  <li><a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/files/tidygeocoder-presentation/tidygeocoder-presentation.Rmd">Link to Code</a></li>
+  <li><a href="https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#1">Link to Presentation</a></li>
+</ul>
+
+<!-- end list -->
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">knitr</span><span class="o">::</span><span class="n">include_url</span><span class="p">(</span><span class="s1">'https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#1'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="code">Code</h2>
+
+<p>The top of the file is the <strong>YAML header</strong>.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">self_contained: false</code> - the HTML file will not be self-contained. I originally set this to true, but this made the HTML file slow to load and also made it less efficient to store on Github.</li>
+  <li><code class="language-plaintext highlighter-rouge">scroll: false</code> - this prevents scrolling from changing the slide.</li>
+  <li><code class="language-plaintext highlighter-rouge">css: xaringan-themer.css</code> - includes xaringanthemer CSS styles</li>
+</ul>
+
+<p>The following code relates to <strong>xaringanthemer</strong> which provides conveniant CSS styling for xaringan slides:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">custom_styles</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
+  </span><span class="c1"># this is for the code that overflows on the slides (vertically)</span><span class="w">
+  </span><span class="s2">".scroll-output"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="s2">"max-height"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"480px"</span><span class="p">,</span><span class="w"> 
+                      </span><span class="s2">"overflow-y"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"scroll"</span><span class="p">,</span><span class="w">
+                      </span><span class="s2">"overflow-x"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'hide'</span><span class="p">))</span><span class="w">
+                      
+</span><span class="n">xaringanthemer</span><span class="o">::</span><span class="n">style_xaringan</span><span class="p">(</span><span class="w">
+      </span><span class="n">base_font_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'16px'</span><span class="p">,</span><span class="w">
+      </span><span class="n">title_slide_background_image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'images/tidygeocoder_hex.png'</span><span class="p">,</span><span class="w">
+      </span><span class="n">title_slide_text_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'white'</span><span class="p">,</span><span class="w">
+      </span><span class="n">title_slide_background_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'25%'</span><span class="p">,</span><span class="w">
+      </span><span class="n">title_slide_background_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"50% 85%"</span><span class="p">,</span><span class="w">
+      </span><span class="n">extra_css</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">custom_styles</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">extra_css</code> argument of <code class="language-plaintext highlighter-rouge">xaringanthemer::style_xaringan()</code> is used to create a new <code class="language-plaintext highlighter-rouge">.scroll-output</code> CSS class which is used to provide scrollable views of code (such as on <a href="https://jessecambon.github.io/files/tidygeocoder-presentation/tidygeocoder-presentation.html#15">slide 15</a>). The <code class="language-plaintext highlighter-rouge">title_slide_background_size</code> and <code class="language-plaintext highlighter-rouge">title_slide_background_position</code> arguments are used to position the <code class="language-plaintext highlighter-rouge">title_slide_background_image</code> on the title slide.</p>
+
+<ul>
+  <li>
+    <p>The <code class="language-plaintext highlighter-rouge">.pull-left[]</code> and <code class="language-plaintext highlighter-rouge">.pull-right[]</code> declarations provide a coveniant layout for many slides.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">knitr::include_graphics()</code></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">knitr::include_url()</code></p>
+  </li>
+</ul>
+
+<p>Different ways of controlling output size:</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">fig.width</code>, <code class="language-plaintext highlighter-rouge">fig.height</code> : applies only to figures generated by R (not external images like PNGS, JPEGS, etc.)</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">out.width</code>, <code class="language-plaintext highlighter-rouge">out.height</code>: applies to external image files</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">dpi</code> argument in <code class="language-plaintext highlighter-rouge">knitr::include_graphics()</code></p>
+  </li>
+</ul>]]></content><author><name>Jesse Cambon</name></author><category term="rmarkdown" /><summary type="html"><![CDATA[&lt;!–]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/xaringan.png" /><media:content medium="image" url="http://localhost:4000/images/xaringan.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introducing Tidygeocoder 1.0.0</title><link href="http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html" rel="alternate" type="text/html" title="Introducing Tidygeocoder 1.0.0" /><published>2020-07-15T00:00:00-04:00</published><updated>2020-07-15T00:00:00-04:00</updated><id>http://localhost:4000/2020/07/15/tidygeocoder-1-0-0</id><content type="html" xml:base="http://localhost:4000/2020/07/15/tidygeocoder-1-0-0.html"><![CDATA[<p><a href="https://jessecambon.github.io/tidygeocoder/index.html">Tidygeocoder v1.0.0</a> is now live on CRAN. There are numerous new features and improvements such as batch geocoding (submitting multiple addresses per query), returning full results from geocoder services (not just latitude and longitude), address component arguments (city, country, etc.), query customization, and reduced package dependencies.</p>
 
 <p>For a full list of new features and improvements refer to the <a href="https://github.com/jessecambon/tidygeocoder/releases/tag/v1.0.0">release page on Github</a>. For usage examples you can reference the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started vignette</a>.</p>
 
@@ -1827,354 +2485,4 @@
   <li>I keep reference data science code (both R and Python) in <a href="https://github.com/jessecambon/Data-Science-Codex">a GitHub repository</a>. You’ll find some more advanced techniques like modeling demonstrated there.</li>
 </ul>
 
-<p><em><sub> March 26 2021: this post has been updated to reflect changes in ggplot and dplyr syntax.</sub></em></p>]]></content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html"><![CDATA[One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous stack overflow threads and websites.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" /><media:content medium="image" url="http://localhost:4000/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Practical Tidy Evaluation</title><link href="http://localhost:4000/2019/12/08/practical-tidy-evaluation.html" rel="alternate" type="text/html" title="Practical Tidy Evaluation" /><published>2019-12-08T00:00:00-05:00</published><updated>2019-12-08T00:00:00-05:00</updated><id>http://localhost:4000/2019/12/08/practical-tidy-evaluation</id><content type="html" xml:base="http://localhost:4000/2019/12/08/practical-tidy-evaluation.html"><![CDATA[<p>Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by <a href="https://www.tidyverse.org/">tidyverse</a> functions. This framework, housed in the <a href="https://rlang.r-lib.org">rlang package</a>, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like <a href="https://dplyr.tidyverse.org/">dplyr</a> and <a href="https://ggplot2.tidyverse.org/">ggplot2</a>.</p>
-
-<p>The goal of this post is to offer accessible examples and intuition for putting tidy evaluation to work in your own code. Because of this I will keep conceptual explanations brief, but for more comprehensive documentation you can refer to <a href="https://dplyr.tidyverse.org/reference/tidyeval.html">dplyr’s website</a>, <a href="https://rlang.r-lib.org/">rlang’s website</a>, the <a href="https://tidyeval.tidyverse.org/">‘Tidy Evaluation’ book</a> by Lionel Henry and Hadley Wickham, and the <a href="https://adv-r.hadley.nz/metaprogramming.html">Metaprogramming Section of the ‘Advanced R’ book</a> by Hadley Wickham.</p>
-
-<h3 id="motivating-example">Motivating Example</h3>
-
-<p>To begin, let’s consider a simple example of calculating summary statistics with the <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html">mtcars dataset</a>. Below we calculate maximum and minimum horsepower (hp) by the number of cylinders (cyl) using the <a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a> and <a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a> functions from <a href="https://dplyr.tidyverse.org/">dplyr</a>.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-</span><span class="n">hp_by_cyl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">cyl</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarize</span><span class="p">(</span><span class="w">
-    </span><span class="n">min_hp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">hp</span><span class="p">),</span><span class="w">
-    </span><span class="n">max_hp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">hp</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">cyl</th>
-      <th style="text-align: right">min_hp</th>
-      <th style="text-align: right">max_hp</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">4</td>
-      <td style="text-align: right">52</td>
-      <td style="text-align: right">113</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">6</td>
-      <td style="text-align: right">105</td>
-      <td style="text-align: right">175</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">8</td>
-      <td style="text-align: right">150</td>
-      <td style="text-align: right">335</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Now let’s say we wanted to repeat this calculation multiple times <em>while changing which variable we group by</em>. A brute force method to accomplish this would be to copy and paste our code as many times as necessary and modify the group by variable in each iteration. However, this is inefficient especially if our code gets more complicated, requires many iterations, or requires further development.</p>
-
-<p>To avoid this inelegant solution you might think to store the name of a variable inside of another variable like this <code class="language-plaintext highlighter-rouge">groupby_var &lt;- "vs"</code>. Then you could attempt to use your newly created “groupby_var” variable in your code: <code class="language-plaintext highlighter-rouge">group_by(groupby_var)</code>. However, if you try this you will find it doesn’t work. The “group_by” function expects the name of the variable you want to group by as an input, not the name of a variable that <em>contains</em> the name of the variable you want to group by.</p>
-
-<p>This is the kind of headache that tidy evaluation can help you solve. In the example below we use the <a href="https://rlang.r-lib.org/reference/quotation.html">quo</a> function and the “bang-bang” <a href="https://rlang.r-lib.org/reference/nse-force.html">!!</a> operator to set “vs” (engine type, 0 = automatic, 1 = manual) as our group by variable. The “quo” function allows us to store the variable name in our “groupby_var” variable and “!!” extracts the stored variable name.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">groupby_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">quo</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span><span class="w">
-
-</span><span class="n">hp_by_vs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="o">!!</span><span class="n">groupby_var</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarize</span><span class="p">(</span><span class="w">
-    </span><span class="n">min_hp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">hp</span><span class="p">),</span><span class="w">
-    </span><span class="n">max_hp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">hp</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">vs</th>
-      <th style="text-align: right">min_hp</th>
-      <th style="text-align: right">max_hp</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">91</td>
-      <td style="text-align: right">335</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">52</td>
-      <td style="text-align: right">123</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The code above provides a method for setting the group by variable by modifying the input to the “quo” function when we define “groupby_var”. This can be useful, particularly if we intend to reference the group by variable multiple times. However, if we want to use code like this repeatedly in a script then we should consider packaging it into a function. This is what we will do next.</p>
-
-<h3 id="making-functions-with-tidy-evaluation">Making Functions with Tidy Evaluation</h3>
-
-<p>To use tidy evaluation in a function, we will still use the “!!” operator as we did above, but instead of “quo” we will use the <a href="https://rlang.r-lib.org/reference/nse-defuse.html">enquo</a> function. Our new function below takes the group by variable and the measurement variable as inputs so that we can now calculate maximum and minimum values of any variable we want. Also note two new features I have introduced in this function:</p>
-
-<ul>
-  <li>The <a href="https://rlang.r-lib.org/reference/as_label.html">as_label</a> function extracts the string value of the “measure_var” variable (“hp” in this case). We use this to set the value of the “measure_var” column.</li>
-  <li>The “walrus operator” <a href="https://rlang.r-lib.org/reference/quasiquotation.html#forcing-names">:=</a> is used to create a column named after the variable name stored in the “measure_var” argument (“hp” in the example). The walrus operator allows you to use strings and evaluated variables (such as “measure_var” in our example) on the left hand side of an assignment operation (where there would normally be a “=” operator) in functions such as “mutate” and “summarize”.</li>
-</ul>
-
-<p>Below we define our function and use it to group by “am” (transmission type, 0 = automatic, 1 = manual) and calculate summary statistics with the “hp” (horsepower) variable.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">car_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">groupby_var</span><span class="p">,</span><span class="w"> </span><span class="n">measure_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="n">groupby_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">groupby_var</span><span class="p">)</span><span class="w">
-  </span><span class="n">measure_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">measure_var</span><span class="p">)</span><span class="w">
-  </span><span class="nf">return</span><span class="p">(</span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">group_by</span><span class="p">(</span><span class="o">!!</span><span class="n">groupby_var</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">summarize</span><span class="p">(</span><span class="w">
-      </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
-      </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="o">!!</span><span class="n">measure_var</span><span class="p">)</span><span class="w">
-    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-      </span><span class="n">measure_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as_label</span><span class="p">(</span><span class="n">measure_var</span><span class="p">),</span><span class="w">
-      </span><span class="o">!!</span><span class="n">measure_var</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kc">NA</span><span class="w">
-    </span><span class="p">))</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span><span class="n">hp_by_am</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">car_stats</span><span class="p">(</span><span class="n">am</span><span class="p">,</span><span class="w"> </span><span class="n">hp</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">am</th>
-      <th style="text-align: right">min</th>
-      <th style="text-align: right">max</th>
-      <th style="text-align: left">measure_var</th>
-      <th style="text-align: left">hp</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">62</td>
-      <td style="text-align: right">245</td>
-      <td style="text-align: left">hp</td>
-      <td style="text-align: left">NA</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">52</td>
-      <td style="text-align: right">335</td>
-      <td style="text-align: left">hp</td>
-      <td style="text-align: left">NA</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>We now have a flexible function that contains a dplyr workflow. You can experiment with modifying this function for your own purposes. Additionally, as you might suspect, you could use the same tidy evaluation functions we just used with tidyverse packages other than dplyr.</p>
-
-<p>As an example, below I’ve defined a function that builds a scatter plot with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. The function takes a dataset and two variable names as inputs. You will notice that the dataset argument “df” needs no tidy evaluation. The <a href="https://rlang.r-lib.org/reference/as_label.html">as_label</a> function is used to extract our variable names as strings to create a plot title with the “ggtitle” function.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">scatter_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">x_var</span><span class="p">,</span><span class="w"> </span><span class="n">y_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="n">x_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">x_var</span><span class="p">)</span><span class="w">
-  </span><span class="n">y_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">enquo</span><span class="p">(</span><span class="n">y_var</span><span class="p">)</span><span class="w">
-
-  </span><span class="nf">return</span><span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!!</span><span class="n">x_var</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!!</span><span class="n">y_var</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">lineheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">geom_smooth</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">ggtitle</span><span class="p">(</span><span class="n">str_c</span><span class="p">(</span><span class="n">as_label</span><span class="p">(</span><span class="n">y_var</span><span class="p">),</span><span class="w"> </span><span class="s2">" vs. "</span><span class="p">,</span><span class="w"> </span><span class="n">as_label</span><span class="p">(</span><span class="n">x_var</span><span class="p">))))</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span><span class="n">scatter_plot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span><span class="w"> </span><span class="n">disp</span><span class="p">,</span><span class="w"> </span><span class="n">hp</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" alt="" /><!-- --></p>
-
-<p>As you can see, we’ve plotted the “hp” (horsepower) variable against “disp” (displacement) and added a regression line. Now, instead of copying and pasting ggplot code to create the same plot with different datasets and variables, we can just call our function.</p>
-
-<h3 id="the-curly-curly-shortcut-and-passing-multiple-variables">The “Curly-Curly” Shortcut and Passing Multiple Variables</h3>
-
-<p>To wrap things up, I’ll cover a few additional tricks and shortcuts for your tidy evaluation toolbox.</p>
-
-<ul>
-  <li>The “curly-curly” <a href="https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/">{{ }}</a> operator directly extracts a stored variable name from “measure_var” in the example below. In the prior example we needed both “enquo” and “!!” to evaluate a variable like this so the “curly-curly” operator is a convenient shortcut. However, note that if you want to extract the string variable name with the “as_label” function, you will still need to use “enquo” and “!!” as we have done below with “measure_name”.</li>
-  <li>The <a href="https://rlang.r-lib.org/reference/sym.html">syms</a> function and the “!!!” operator are used for passing a list of variables as a function argument. In prior examples “!!” was used to evaluate a single group by variable; we now use “!!!” to evaluate a list of group by variables. One quirk is that to use the “syms” function we will need to pass the variable names in quotes.</li>
-  <li>The walrus operator “:=” is again used to create new columns, but now the column names are defined with a combination of a variable name stored in a function argument and another string (“_min” and “_max” below). We use the “enquo” and “as_label” functions to extract the string variable name from “measure_var” and store it in “measure_name” and then use the “str_c” function from <a href="https://stringr.tidyverse.org/">stringr</a> to combine strings. You can use similar code to build your own column names from variable name inputs and strings.</li>
-</ul>
-
-<p>Our new function is defined below and is first called to group by the “cyl” variable and then called to group by the “am” and “vs” variables. Note that the “!!!” operator and “syms” function can be used with either a list of strings or a single string.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">groupby_vars</span><span class="p">,</span><span class="w"> </span><span class="n">measure_var</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="n">groupby_vars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">syms</span><span class="p">(</span><span class="n">groupby_vars</span><span class="p">)</span><span class="w">
-  </span><span class="n">measure_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as_label</span><span class="p">(</span><span class="n">enquo</span><span class="p">(</span><span class="n">measure_var</span><span class="p">))</span><span class="w">
-  </span><span class="nf">return</span><span class="p">(</span><span class="w">
-    </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">group_by</span><span class="p">(</span><span class="o">!!!</span><span class="n">groupby_vars</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-      </span><span class="n">summarize</span><span class="p">(</span><span class="w">
-        </span><span class="o">!!</span><span class="n">str_c</span><span class="p">(</span><span class="n">measure_name</span><span class="p">,</span><span class="w"> </span><span class="s2">"_min"</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">min</span><span class="p">({{</span><span class="w"> </span><span class="n">measure_var</span><span class="w"> </span><span class="p">}}),</span><span class="w">
-        </span><span class="o">!!</span><span class="n">str_c</span><span class="p">(</span><span class="n">measure_name</span><span class="p">,</span><span class="w"> </span><span class="s2">"_max"</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">max</span><span class="p">({{</span><span class="w"> </span><span class="n">measure_var</span><span class="w"> </span><span class="p">}})</span><span class="w">
-      </span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span><span class="n">cyl_hp_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">get_stats</span><span class="p">(</span><span class="s2">"cyl"</span><span class="p">,</span><span class="w"> </span><span class="n">mpg</span><span class="p">)</span><span class="w">
-</span><span class="n">gear_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mtcars</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">get_stats</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"am"</span><span class="p">,</span><span class="w"> </span><span class="s2">"vs"</span><span class="p">),</span><span class="w"> </span><span class="n">gear</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## `summarise()` has grouped output by 'am'. You can override using the `.groups` argument.
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">cyl</th>
-      <th style="text-align: right">mpg_min</th>
-      <th style="text-align: right">mpg_max</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">4</td>
-      <td style="text-align: right">21.4</td>
-      <td style="text-align: right">33.9</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">6</td>
-      <td style="text-align: right">17.8</td>
-      <td style="text-align: right">21.4</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">8</td>
-      <td style="text-align: right">10.4</td>
-      <td style="text-align: right">19.2</td>
-    </tr>
-  </tbody>
-</table>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">am</th>
-      <th style="text-align: right">vs</th>
-      <th style="text-align: right">gear_min</th>
-      <th style="text-align: right">gear_max</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">3</td>
-      <td style="text-align: right">3</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">3</td>
-      <td style="text-align: right">4</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">4</td>
-      <td style="text-align: right">5</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">4</td>
-      <td style="text-align: right">5</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>This concludes my introduction to tidy evaluation. Hopefully this serves as a useful starting point for using these concepts in your own code.</p>]]></content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html"><![CDATA[Tidy evaluation is a framework for controlling how expressions and variables in your code are evaluated by tidyverse functions. This framework, housed in the rlang package, is a powerful tool for writing more efficient and elegant code. In particular, you’ll find it useful for passing variable names as inputs to functions that use tidyverse packages like dplyr and ggplot2.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" /><media:content medium="image" url="http://localhost:4000/rmd_images/2019-12-8-practical-tidy-evaluation/unnamed-chunk-7-1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Geocoding with Tidygeocoder</title><link href="http://localhost:4000/2019/11/11/tidygeocoder-demo.html" rel="alternate" type="text/html" title="Geocoding with Tidygeocoder" /><published>2019-11-11T00:00:00-05:00</published><updated>2019-11-11T00:00:00-05:00</updated><id>http://localhost:4000/2019/11/11/tidygeocoder-demo</id><content type="html" xml:base="http://localhost:4000/2019/11/11/tidygeocoder-demo.html"><![CDATA[<p><a href="https://github.com/jessecambon/tidygeocoder">Tidygeocoder</a> is a newly published R package which provides a <a href="https://www.tidyverse.org/">tidyverse</a>-style interface for geocoding. It returns latitude and longitude coordinates in <a href="https://tibble.tidyverse.org/">tibble</a> format from addresses using the <a href="https://geocoding.geo.census.gov/">US Census</a> or <a href="https://nominatim.openstreetmap.org/">Nominatim (OSM)</a> geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the <a href="https://fivethirtyeight.com/features/the-nationals-wouldnt-say-die/">recent Washington Nationals World Series win</a>.</p>
-
-<p>First we will construct a dataset of addresses (<code class="language-plaintext highlighter-rouge">dc_addresses</code>) and use the <code class="language-plaintext highlighter-rouge">geocode</code> function from <code class="language-plaintext highlighter-rouge">tidygeocoder</code> to find longitude and latitude coordinates.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidygeocoder</span><span class="p">)</span><span class="w">
-
-</span><span class="n">dc_addresses</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tribble</span><span class="p">(</span><span class="w">
-  </span><span class="o">~</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">addr</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"White House"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1600 Pennsylvania Ave Washington, DC"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"National Academy of Sciences"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2101 Constitution Ave NW, Washington, DC 20418"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"Department of Justice"</span><span class="p">,</span><span class="w"> </span><span class="s2">"950 Pennsylvania Ave NW, Washington, DC 20530"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"Supreme Court"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1 1st St NE, Washington, DC 20543"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"Washington Monument"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2 15th St NW, Washington, DC 20024"</span><span class="w">
-</span><span class="p">)</span><span class="w">
-
-</span><span class="n">coordinates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dc_addresses</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">geocode</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">geocode</code> function adds longitude and latitude coordinates as columns to our dataset of addresses. The default geocoder service used is the US Census, but Nominatim or a hybrid approach can be chosen with the <code class="language-plaintext highlighter-rouge">method</code> argument (see <a href="https://cran.r-project.org/web/packages/tidygeocoder/tidygeocoder.pdf">the documentation</a> for details). Our newly created <code class="language-plaintext highlighter-rouge">coordinates</code> dataset looks like this:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">name</th>
-      <th style="text-align: left">addr</th>
-      <th style="text-align: right">lat</th>
-      <th style="text-align: right">long</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">White House</td>
-      <td style="text-align: left">1600 Pennsylvania Ave Washington, DC</td>
-      <td style="text-align: right">38.89875</td>
-      <td style="text-align: right">-77.03535</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">National Academy of Sciences</td>
-      <td style="text-align: left">2101 Constitution Ave NW, Washington, DC 20418</td>
-      <td style="text-align: right">38.89211</td>
-      <td style="text-align: right">-77.04678</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Department of Justice</td>
-      <td style="text-align: left">950 Pennsylvania Ave NW, Washington, DC 20530</td>
-      <td style="text-align: right">38.89416</td>
-      <td style="text-align: right">-77.02501</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Supreme Court</td>
-      <td style="text-align: left">1 1st St NE, Washington, DC 20543</td>
-      <td style="text-align: right">38.88990</td>
-      <td style="text-align: right">-77.00591</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Washington Monument</td>
-      <td style="text-align: left">2 15th St NW, Washington, DC 20024</td>
-      <td style="text-align: right">38.88979</td>
-      <td style="text-align: right">-77.03291</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Now that we have the coordinates we want to plot, we will use the <a href="https://cran.r-project.org/package=OpenStreetMap">OpenStreetMap</a> package to make a map of DC.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">OpenStreetMap</span><span class="p">)</span><span class="w">
-</span><span class="n">dc_map</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">openmap</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">38.905</span><span class="p">,</span><span class="w"> </span><span class="m">-77.05</span><span class="p">),</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">38.885</span><span class="p">,</span><span class="w"> </span><span class="m">-77.00</span><span class="p">))</span><span class="w">
-</span><span class="n">dc_map.latlng</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">openproj</span><span class="p">(</span><span class="n">dc_map</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Note that the coordinates supplied to the <code class="language-plaintext highlighter-rouge">openmap</code> function above were obtained using <a href="https://www.openstreetmap.org/">openstreetmap.org</a> (use the export button to extract coordinates). The <code class="language-plaintext highlighter-rouge">openmap</code> function downloads a street map and the <code class="language-plaintext highlighter-rouge">openproj</code> function projects it onto a latitude and longitude coordinate system so that we can overlay our coordinates, which is what we do next.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
-</span><span class="n">autoplot</span><span class="p">(</span><span class="n">dc_map.latlng</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="s2">"cm"</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coordinates</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lat</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"navy"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_label_repel</span><span class="p">(</span><span class="w">
-    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coordinates</span><span class="p">,</span><span class="w">
-    </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lat</span><span class="p">),</span><span class="w"> </span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">,</span><span class="w"> </span><span class="n">box.padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="w">
-  </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/images/dc_osm_map.png" alt="dc-map" class="img-responsive" /></p>
-
-<p>And that’s our map. The <code class="language-plaintext highlighter-rouge">geom_label_repel</code> function from <code class="language-plaintext highlighter-rouge">ggrepel</code> provides the text labels and <code class="language-plaintext highlighter-rouge">geom_point</code> from <code class="language-plaintext highlighter-rouge">ggplot2</code> supplies the points. Alternatively, the <a href="https://rstudio.github.io/leaflet/">leaflet package</a> provides an excellent interface to plot coordinates on an interactive map. For more information on tidygeocoder, visit its home on <a href="https://github.com/jessecambon/tidygeocoder">GitHub</a> or <a href="https://cran.r-project.org/package=tidygeocoder">CRAN</a>.</p>]]></content><author><name>Jesse Cambon</name></author><category term="r" /><category term="tidygeocoder" /><summary type="html"><![CDATA[Tidygeocoder is a newly published R package which provides a tidyverse-style interface for geocoding. It returns latitude and longitude coordinates in tibble format from addresses using the US Census or Nominatim (OSM) geocoder services. In this post I will demonstrate how to use it for plotting a few Washington, DC landmarks on a map in honor of the recent Washington Nationals World Series win.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/dc_osm_map.png" /><media:content medium="image" url="http://localhost:4000/images/dc_osm_map.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p><em><sub> March 26 2021: this post has been updated to reflect changes in ggplot and dplyr syntax.</sub></em></p>]]></content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html"><![CDATA[One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous stack overflow threads and websites.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" /><media:content medium="image" url="http://localhost:4000/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
