@@ -1,32 +1,160 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-06T21:32:30-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jesse Cambon</title><subtitle>Musings on data and open source software</subtitle><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><entry><title type="html">Planning a PC Build</title><link href="http://localhost:4000/2024/08/06/2024-XX-XX-pc-build-part-1.html" rel="alternate" type="text/html" title="Planning a PC Build" /><published>2024-08-06T00:00:00-04:00</published><updated>2024-08-06T00:00:00-04:00</updated><id>http://localhost:4000/2024/08/06/2024-XX-XX-pc-build-part-1</id><content type="html" xml:base="http://localhost:4000/2024/08/06/2024-XX-XX-pc-build-part-1.html"><![CDATA[<h2 id="intro">Intro</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-10-12T12:24:56-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jesse Cambon</title><subtitle>Musings on data and open source software</subtitle><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><entry><title type="html">Planning a PC Build</title><link href="http://localhost:4000/2024/10/12/2024-XX-XX-pc-build-part-1.html" rel="alternate" type="text/html" title="Planning a PC Build" /><published>2024-10-12T00:00:00-04:00</published><updated>2024-10-12T00:00:00-04:00</updated><id>http://localhost:4000/2024/10/12/2024-XX-XX-pc-build-part-1</id><content type="html" xml:base="http://localhost:4000/2024/10/12/2024-XX-XX-pc-build-part-1.html"><![CDATA[<p>Earlier this year I built a so called “Small Form Factor” (SFF) PC. As the name suggests, these PCs priorize a smaller footprint and portibility compared to the typical more bulky desktops most people are familiar with. Browsing the popular <a href="https://www.reddit.com/r/sffpc/">r/sffpc</a> you can see people showing off their SFF builds.</p>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>My build is not nearly as flashy or involved as many of the posts you’ll find on that subreddit, but it was a fun project and I’ve been happy with the results. I thought I would write up a blog post describing the process of planning this build. This isn’t intended to be a comprehensive guide on PC building, but you can refer to the references at the bottom for more guidance.</p>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<!-- insert picture of build -->
 
-<p><img src="/../images/godzilla-tech-interview.jpg" alt="Alt text goes here" /></p>
+<p>I have almost exclusively used laptops in recent years and was unaware that building a desktop into such a small package was even possible. Laptops are conveniant and portable, but tend to have less powerful components and offer less flexibility with component selection and upgrades. For instance, the life of a desktop can often be extended with upgrades to the CPU, memory, or video card - often not possible with laptops. SFF PCs offer a compelling alternative if you want some of the advantages of a desktop without the extra bulk.</p>
 
-<p>Source: <a href="https://www.reddit.com/r/recruitinghell/comments/l6bp24/interview_level_godzilla_job_pays_10_hr/">Reddit</a></p>
+<p>The PC I built is designed so that I can easily move it from one room to another. I could potentially even put it in a case or backpack and travel with it, but I don’t see myself doing that in the near future. I had four purposes in mind when building the PC:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_diabetes</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<ol>
+  <li>Typical PC gaming (connected to a monitor and usually using mouse and keyboard)</li>
+  <li>“Console-style” gaming (connected to a TV and using a controller)</li>
+  <li>Machine Learning work (Pytorch, Transformers)</li>
+  <li>Photo editing</li>
+</ol>
 
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">(</span><span class="n">return_X_y</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">as_frame</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<p>All four of these use cases benefit from GPU (graphics card) acceleration so the graphics card was a priority. I also from the beginning planned to exclusively use Linux on the PC, which caused me to priotize an AMD graphics card for their driver support. People do use Nvidia graphics cards on Linux, but the driver support for AMD cards has historically been better from what I could tell.</p>
 
-<span class="n">sns</span><span class="p">.</span><span class="n">displot</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">,</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="s">"bmi"</span><span class="p">,</span>
-    <span class="n">kind</span> <span class="o">=</span> <span class="s">'kde'</span>
-<span class="p">)</span>
-</code></pre></div></div>
+<h3 id="planning">Planning</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;seaborn.axisgrid.FacetGrid at 0x7fd82f16d7f0&gt;
-</code></pre></div></div>
+<p>The first step in building a PC is to decide what you want to use it for and what your priorities are. For instance, a PC that is built for high performance gaming will likely require quite different components to PC intended for photo editing. Prioritizing a powerful graphics card makes sense for machine learning or gaming, but it may offer little benefit if the applications you intend to use don’t heavily utilize graphics cards.</p>
 
-<p><img src="/jupyter_files/2022-XX-XX-job-market_files/2022-XX-XX-job-market_4_1.png" alt="png" /></p>]]></content><author><name>Jesse Cambon</name></author><category term="pc" /><summary type="html"><![CDATA[Intro]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/" /><media:content medium="image" url="http://localhost:4000/" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Job Market</title><link href="http://localhost:4000/2022/06/26/2022-XX-XX-job-market.html" rel="alternate" type="text/html" title="Job Market" /><published>2022-06-26T00:00:00-04:00</published><updated>2022-06-26T00:00:00-04:00</updated><id>http://localhost:4000/2022/06/26/2022-XX-XX-job-market</id><content type="html" xml:base="http://localhost:4000/2022/06/26/2022-XX-XX-job-market.html"><![CDATA[<h2 id="intro">Intro</h2>
+<ul>
+  <li>What types of applications are you going to use it for?</li>
+  <li>What is your budget?</li>
+  <li>Does it need to be small and portable?</li>
+  <li>Is reducing fan noise a priority?</li>
+</ul>
+
+<h3 id="picking-components">Picking Components</h3>
+
+<p><a href="https://pcpartpicker.com/list/NFjtdH">PCPartPicker Part List</a></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Type</th>
+      <th style="text-align: left">Item</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>Case</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/BtxRsY/placeholder">S300 - Mini-ITX PC Gaming Case - Front I/O USB 3.0 Type - C Port - SFX Power Supply 100-130mm -Cable Management System - luminum Mini-ITX Motherboard Small Portable PC Case (PCIe 3.0 16X Rise</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Power Supply</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/nJrmP6/corsair-sf750-2018-750-w-80-platinum-certified-fully-modular-sfx-power-supply-cp-9020186-na">Corsair SF750 (2018) 750 W 80+ Platinum Certified Fully Modular SFX Power Supply</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Video Card</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/TxTZxr/sapphire-pulse-radeon-rx-7700-xt-12-gb-video-card-11335-04-20g">Sapphire PULSE Radeon RX 7700 XT 12 GB Video Card</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>CPU</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/yXmmP6/amd-ryzen-5-7600-38-ghz-6-core-processor-100-100001015box">AMD Ryzen 5 7600 3.8 GHz 6-Core Processor</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>CPU Cooler</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/7pjBD3/id-cooling-is-55-black-546-cfm-cpu-cooler-is-55-black">ID-COOLING IS-55 Black 54.6 CFM CPU Cooler</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Motherboard</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/zQhv6h/asrock-a620i-lightning-wifi-mini-itx-am5-motherboard-a620i-lightning-wifi">ASRock A620I LIGHTNING WIFI Mini ITX AM5 Motherboard</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Wifi Adapter</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/khhFf7/placeholder">Intel AX210 IEEE 802.11ax Bluetooth 5.2 Tri Band Wi-Fi/Bluetooth Combo Adapter for Notebook</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Memory</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/LBstt6/gskill-flare-x5-32-gb-2-x-16-gb-ddr5-6000-cl30-memory-f5-6000j3038f16gx2-fx5">G.Skill Flare X5 32 GB (2 x 16 GB) DDR5-6000 CL30 Memory</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Storage</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/yGTp99/sk-hynix-platinum-p41-2-tb-m2-2280-pcie-40-x4-nvme-solid-state-drive-shpp41-2000gm-2">SK Hynix Platinum P41 2 TB M.2-2280 PCIe 4.0 X4 NVME Solid State Drive</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Case Fan</strong></td>
+      <td style="text-align: left"><a href="https://pcpartpicker.com/product/FM3mP6/noctua-nf-a12x15-pwm-chromaxblackswap-5544-cfm-120-mm-fan-nf-a12x15-pwm-chromaxblackswap">Noctua A12x15 PWM chromax.black.swap 55.44 CFM 120 mm Fan</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left">Generated by <a href="https://pcpartpicker.com">PCPartPicker</a> 2024-10-12 11:32 EDT-0400</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>I selected the S300 case as it was a relatively inexpensive option (~$100) for a small (~8 Liter). Except for the front panel, the entire case is perforated metal so the airflow is quite good and helps keep components cooler than they otherwise would be in such a small case. I also considered the even smaller Velka 3 case, but this would have been more expensive, more of a process to build in, and greatly limited my options for graphics cards and CPU coolers. Two of the biggest considerations in an SFF build are the dimensions of CPU coolers and graphics cards that will fit in the case.</li>
+  <li>The Ryzen 7600 CPU was selected for power efficiency.</li>
+  <li>The 7700 XT GPU was a good value graphics card at the time of purchase. It outperforms the more expensive 4060 Ti from Nvidia.</li>
+  <li>The ID-55 CPU cooler was the biggest cooler I could fit in this case. I also considered the AXP90-53 copper, but there were reports of difficulties mounting it on my motherboard of choice. I ended up swapping out the fan on the cooler for a quieter 12x120 mm Noctua fan, but this isn’t necessary if you aren’t too particular about fan noise.</li>
+  <li>The Asrock A620i is one of the cheapest AM5 mini-itx motherboards around and it met all the requirements I needed.</li>
+</ul>
+
+<h3 id="references">References</h3>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=s1fxZ-VWs2U">How to Build A PC (Linus Tech Tips)</a>. Very comprehensive video on all the steps of a PC build.</li>
+  <li><a href="https://pcpartpicker.com/">PC Part Picker</a>. Great resource for hardware compatibility checks on hardware and also looking at other builds that people have done.</li>
+  <li><a href="https://bestvaluegpu.com/">Best Value GPU</a> - Track the best performance per dollar GPUs based on current prices</li>
+  <li><a href="https://www.techpowerup.com/">TechPowerUp.com</a> - great detailed reviews of graphics cards and other products (ex. <a href="https://www.techpowerup.com/gpu-specs/radeon-rx-7700-xt.c3911">RX 7700 XT Review</a>)</li>
+  <li><a href="https://caseend.com/">Case End</a> - detailed specs on PC cases</li>
+  <li>Useful Subreddits:
+    <ul>
+      <li><a href="https://www.reddit.com/r/buildapc/">r/buildapc</a></li>
+      <li><a href="https://www.reddit.com/r/buildmeapc/">r/buildmeapc</a></li>
+      <li><a href="https://www.reddit.com/r/sffpc/">r/sffpc</a> - For small form factor (SFF) builds</li>
+      <li><a href="https://www.reddit.com/r/pcmasterrace/">r/pcmasterrace</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Youtube build videos are a great resource. I used the following video as a guide for my build: <a href="https://www.youtube.com/watch?v=3BguJvWsyaM">S300 build $880 Lunchbox Gaming PC (1080p Destroyer)</a>.</p>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=rVP9kyrK7zk">Building a Mid Range Gaming ITX PC doesn’t have to be difficult - Featuring S300 ITX case</a></li>
+  <li><a href="https://www.youtube.com/watch?v=0ypr8DxLKAE">Don’t Tell Big Rig Bros: This All AMD Small Foot Print Mini PC SLAYS AAA Games!</a></li>
+</ul>]]></content><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><category term="draft" /><summary type="html"><![CDATA[Earlier this year I built a so called “Small Form Factor” (SFF) PC. As the name suggests, these PCs priorize a smaller footprint and portibility compared to the typical more bulky desktops most people are familiar with. Browsing the popular r/sffpc you can see people showing off their SFF builds.]]></summary></entry><entry><title type="html">How to Create An R Package</title><link href="http://localhost:4000/2024/08/06/2019-11-creating-an-r-package.html" rel="alternate" type="text/html" title="How to Create An R Package" /><published>2024-08-06T22:20:10-04:00</published><updated>2024-08-06T22:20:10-04:00</updated><id>http://localhost:4000/2024/08/06/2019-11-creating-an-r-package</id><content type="html" xml:base="http://localhost:4000/2024/08/06/2019-11-creating-an-r-package.html"><![CDATA[<p>I recently created <a href="https://github.com/jessecambon/tidygeocoder">my first R package</a> because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. ….</p>
+
+<p>If you have written functions in R that would be useful others in the R community, a great way to share this work is with an R package. Thanks to some helpful developer tools, the process of creating and publishing an R package can be much easier than it might seem.</p>
+
+<h3 id="getting-started">Getting Started</h3>
+<ul>
+  <li><a href="https://rstudio.com/products/rstudio/">Install R-Studio</a></li>
+  <li>We will be generating our documentation with <a href="https://cran.rstudio.com/web/packages/roxygen2/index.html">roxygen2</a>. This will allow us to generate all of our <code class="language-plaintext highlighter-rouge">man</code> documentation from embedded coments in our <code class="language-plaintext highlighter-rouge">R</code> code files.</li>
+</ul>
+
+<h3 id="file-layout">File Layout</h3>
+
+<h5 id="important-files">Important Files</h5>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">DESCRIPTION</code>: Contains important infornation about your package such as dependencies, author info, and your license.</li>
+  <li><code class="language-plaintext highlighter-rouge">.Rbuildignore</code>: list files and folders you do not want to include in your R package. Include files and directories that aren’t part of the standard R package format such as <code class="language-plaintext highlighter-rouge">/data-raw</code> and <code class="language-plaintext highlighter-rouge">/README.md</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">projectname.Rproj</code> : RStudio project file. Don’t lose this.</li>
+</ul>
+
+<h5 id="main-folders">Main Folders</h5>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">R</code>: store your R code here.</li>
+  <li><code class="language-plaintext highlighter-rouge">data</code>: datasets will be stored here. If you have scripts and data sources that you use to create this data, save them in a separate <code class="language-plaintext highlighter-rouge">data-raw</code> folder and then be sure to add this directory to your <code class="language-plaintext highlighter-rouge">.Rbuildignore</code> file.</li>
+  <li><code class="language-plaintext highlighter-rouge">man</code>: Documentation generated by <code class="language-plaintext highlighter-rouge">roxygen2</code> with embedded content in your <code class="language-plaintext highlighter-rouge">R</code> code files.</li>
+  <li><code class="language-plaintext highlighter-rouge">tests</code>: Use the <a href="https://testthat.r-lib.org/">testthat</a> library to create functional tests for your package. Some properly written and easy to run tests will help give you some peace of mind that your latest bugfix hasn’t broken some other part of the package.</li>
+  <li><code class="language-plaintext highlighter-rouge">vignettes</code>: vignettes are short examples that demonstrate the functionality of your package. Create a <code class="language-plaintext highlighter-rouge">.Rmd</code> in this directory to create one.</li>
+</ul>
+
+<h3 id="resources">Resources</h3>
+<ul>
+  <li>General Instructions: http://r-pkgs.had.co.nz/</li>
+  <li>More general instructions: https://rstats-pkgs.readthedocs.io</li>
+  <li><a href="https://cran.r-project.org/web/packages/roxygen2/">roxygen2</a></li>
+  <li><a href="https://testthat.r-lib.org/">testthat</a></li>
+  <li><a href="https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf">Devtools cheat sheet</a>
+*</li>
+</ul>]]></content><author><name>Jesse Cambon</name><email>jesse.cambon@gmail.com</email></author><category term="draft" /><summary type="html"><![CDATA[I recently created my first R package because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. ….]]></summary></entry><entry><title type="html">Job Market</title><link href="http://localhost:4000/2022/06/26/2022-XX-XX-job-market.html" rel="alternate" type="text/html" title="Job Market" /><published>2022-06-26T00:00:00-04:00</published><updated>2022-06-26T00:00:00-04:00</updated><id>http://localhost:4000/2022/06/26/2022-XX-XX-job-market</id><content type="html" xml:base="http://localhost:4000/2022/06/26/2022-XX-XX-job-market.html"><![CDATA[<h2 id="intro">Intro</h2>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
@@ -1615,874 +1743,4 @@ output:
 
 <p><img src="/rmd_images/2020-03-22-deploying-rmarkdown-online/sampleplot-1.png" alt="" /><!-- --></p>
 
-<p><em><sub> March 26 2021: this post has been updated with simplified R Markdown code. </sub></em></p>]]></content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html"><![CDATA[R Markdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your R Markdown workflow.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/hex-rmarkdown.png" /><media:content medium="image" url="http://localhost:4000/images/hex-rmarkdown.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Data Science Essentials</title><link href="http://localhost:4000/2020/01/12/data-science-essentials.html" rel="alternate" type="text/html" title="Data Science Essentials" /><published>2020-01-12T00:00:00-05:00</published><updated>2020-01-12T00:00:00-05:00</updated><id>http://localhost:4000/2020/01/12/data-science-essentials</id><content type="html" xml:base="http://localhost:4000/2020/01/12/data-science-essentials.html"><![CDATA[<p>One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous <a href="https://stackoverflow.com/">stack overflow</a> threads and websites.</p>
-
-<p>In an attempt to consolidate some of this information, this blog post demonstrates fundamental methods that I have used repeatedly as a data scientist. This code should get you started in performing some essential and broadly useful data science tasks with R - data manipulation, summarization, and visualization.</p>
-
-<p>I will mainly rely on the <a href="https://dplyr.tidyverse.org/">dplyr</a>, <a href="https://tidyr.tidyverse.org/">tidyr</a>, and <a href="https://ggplot2.tidyverse.org/">ggplot2</a> packages which all have excellent documentation that you can refer to for further details. Datasets that are built into these packages will be used so that there is no need to download external data. Also note that the input and output datasets will be displayed for each example, but at times only the first several rows will be shown for display purposes.</p>
-
-<p>If you’d like to follow along while running the code, you can find the RMarkdown file that generated this blog post <a href="https://github.com/jessecambon/jessecambon.github.io/blob/master/_posts/2020-1-12-data-science-essentials.Rmd">here</a>. Also, if you haven’t installed the <a href="https://www.tidyverse.org/">tidyverse packages</a> already, you’ll need to do that first with this command: <code class="language-plaintext highlighter-rouge">install.packages('tidyverse')</code>.</p>
-
-<h2 id="basic-data-manipulation">Basic Data Manipulation</h2>
-
-<p>To begin, we need to load the tidyverse packages:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Now, let’s take a look at the <a href="https://ggplot2.tidyverse.org/reference/mpg.html">mpg</a> dataset from the <a href="https://ggplot2.tidyverse.org/index.html">ggplot2</a> package:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">manufacturer</th>
-      <th style="text-align: left">model</th>
-      <th style="text-align: right">displ</th>
-      <th style="text-align: right">year</th>
-      <th style="text-align: right">cyl</th>
-      <th style="text-align: left">trans</th>
-      <th style="text-align: left">drv</th>
-      <th style="text-align: right">cty</th>
-      <th style="text-align: right">hwy</th>
-      <th style="text-align: left">fl</th>
-      <th style="text-align: left">class</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a4</td>
-      <td style="text-align: right">1.8</td>
-      <td style="text-align: right">1999</td>
-      <td style="text-align: right">4</td>
-      <td style="text-align: left">auto(l5)</td>
-      <td style="text-align: left">f</td>
-      <td style="text-align: right">18</td>
-      <td style="text-align: right">29</td>
-      <td style="text-align: left">p</td>
-      <td style="text-align: left">compact</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a4</td>
-      <td style="text-align: right">1.8</td>
-      <td style="text-align: right">1999</td>
-      <td style="text-align: right">4</td>
-      <td style="text-align: left">manual(m5)</td>
-      <td style="text-align: left">f</td>
-      <td style="text-align: right">21</td>
-      <td style="text-align: right">29</td>
-      <td style="text-align: left">p</td>
-      <td style="text-align: left">compact</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a4</td>
-      <td style="text-align: right">2.0</td>
-      <td style="text-align: right">2008</td>
-      <td style="text-align: right">4</td>
-      <td style="text-align: left">manual(m6)</td>
-      <td style="text-align: left">f</td>
-      <td style="text-align: right">20</td>
-      <td style="text-align: right">31</td>
-      <td style="text-align: left">p</td>
-      <td style="text-align: left">compact</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>We’ll perform a few of the most commonly used data manipulation operations on this dataset using the <a href="https://dplyr.tidyverse.org/">dplyr</a> package. If you’re new to R, the <strong>&lt;-</strong> operator that you see below is used to assign the value of what follows it to the dataset that precedes it. In this example, we are manipulating the ‘mpg’ dataset and saving it as the ‘mpg_subset’ dataset.</p>
-
-<p>If you’re not familiar with dplyr, note that the “pipe” operator <strong>%&gt;%</strong> is used to pass the output of a function to the following function. This allows us to perform data manipulations in sequence in a clear and readable way.</p>
-
-<p>In this example, we select the two rows that contain Nissan vehicles years 2005 and later with 4 cylinders, create two new columns, order the columns, remove four columns, and rename a column. In the order that they are used below, here are the main functions used to accomplish this:</p>
-
-<ul>
-  <li><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a> controls which rows we want to keep from the input dataset. In this example, three conditions are applied using the “&amp;” (AND) operator.</li>
-  <li><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a> is used to create new columns.</li>
-  <li><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a> combines multiple strings. In this case we are combining the manufacturer and model string fields into a single field with a single space in between.</li>
-  <li><a href="https://dplyr.tidyverse.org/reference/select.html">select</a> is used to pick which columns from the input dataset we want to keep. This select statement sets the order of the first four columns, includes the remaining columns, but then removes four columns.
-    <ul>
-      <li>A ‘-’ before a column name indicates that we want to remove that column.</li>
-      <li>The everything() function is shorthand for selecting all remaining columns and is an example of a <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.3/topics/select_helpers">select helper</a>.</li>
-    </ul>
-  </li>
-  <li><a href="https://dplyr.tidyverse.org/reference/select.html">rename</a> is used to rename the ‘fl’ column to ‘fuel_type’</li>
-</ul>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mpg_subset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">cyl</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">2005</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">manufacturer</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"nissan"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
-    </span><span class="n">mpg_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hwy</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">cty</span><span class="p">,</span><span class="w">
-    </span><span class="n">make_model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="n">manufacturer</span><span class="p">,</span><span class="w"> </span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">select</span><span class="p">(</span><span class="w">
-    </span><span class="n">make_model</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">hwy</span><span class="p">,</span><span class="w"> </span><span class="n">cty</span><span class="p">,</span><span class="w"> </span><span class="n">everything</span><span class="p">(),</span><span class="w">
-    </span><span class="o">-</span><span class="n">manufacturer</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">drv</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">trans</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">rename</span><span class="p">(</span><span class="n">fuel_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fl</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">make_model</th>
-      <th style="text-align: right">year</th>
-      <th style="text-align: right">hwy</th>
-      <th style="text-align: right">cty</th>
-      <th style="text-align: right">displ</th>
-      <th style="text-align: right">cyl</th>
-      <th style="text-align: left">fuel_type</th>
-      <th style="text-align: left">class</th>
-      <th style="text-align: right">mpg_ratio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">nissan altima</td>
-      <td style="text-align: right">2008</td>
-      <td style="text-align: right">31</td>
-      <td style="text-align: right">23</td>
-      <td style="text-align: right">2.5</td>
-      <td style="text-align: right">4</td>
-      <td style="text-align: left">r</td>
-      <td style="text-align: left">midsize</td>
-      <td style="text-align: right">1.347826</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">nissan altima</td>
-      <td style="text-align: right">2008</td>
-      <td style="text-align: right">32</td>
-      <td style="text-align: right">23</td>
-      <td style="text-align: right">2.5</td>
-      <td style="text-align: right">4</td>
-      <td style="text-align: left">r</td>
-      <td style="text-align: left">midsize</td>
-      <td style="text-align: right">1.391304</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="summary-statistics">Summary Statistics</h2>
-
-<p>Calculating summary statistics like counts, means, and medians is a good initial step to understand a dataset. To count observations (rows) by a categorical variable, we can use the <a href="https://dplyr.tidyverse.org/reference/tally.html">count</a> function. Here we find the number of rows for each value of the ‘cyl’ (cylinders) column:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">count_cyl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">count</span><span class="p">(</span><span class="n">cyl</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">cyl</th>
-      <th style="text-align: right">n</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">4</td>
-      <td style="text-align: right">81</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">5</td>
-      <td style="text-align: right">4</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">6</td>
-      <td style="text-align: right">79</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">8</td>
-      <td style="text-align: right">70</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>A broader variety of statistics can be calculated using the <a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a> and <a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a> functions. In this example, we create a new categorical column ‘class_c’ (which combines 2 seaters and subcompact vehicles into a single category) using the <a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a> function and then calculate a variety of basic summary statistics by this column.</p>
-
-<p>The <a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a> function is used to order the rows in the dataset in descending order of the created ‘count’ variable. Note that the ‘ungroup’ function is not strictly necessary in this case, but it is a good practice if we plan to manipulate our dataset in the future without using groups.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mpg_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">select</span><span class="p">(</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">hwy</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">class_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
-    </span><span class="n">class</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"2seater"</span><span class="p">,</span><span class="w"> </span><span class="s2">"subcompact"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"subcompact"</span><span class="p">,</span><span class="w">
-    </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">class</span><span class="w">
-  </span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">class_c</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarize</span><span class="p">(</span><span class="w">
-    </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">(),</span><span class="w">
-    </span><span class="n">min_hwy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">hwy</span><span class="p">),</span><span class="w">
-    </span><span class="n">max_hwy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">hwy</span><span class="p">),</span><span class="w">
-    </span><span class="n">median_hwy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median</span><span class="p">(</span><span class="n">hwy</span><span class="p">),</span><span class="w">
-    </span><span class="n">mean_hwy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">hwy</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">count</span><span class="p">))</span><span class="w"> </span><span class="c1"># sort dataset</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">class_c</th>
-      <th style="text-align: right">count</th>
-      <th style="text-align: right">min_hwy</th>
-      <th style="text-align: right">max_hwy</th>
-      <th style="text-align: right">median_hwy</th>
-      <th style="text-align: right">mean_hwy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">suv</td>
-      <td style="text-align: right">62</td>
-      <td style="text-align: right">12</td>
-      <td style="text-align: right">27</td>
-      <td style="text-align: right">17.5</td>
-      <td style="text-align: right">18.12903</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">compact</td>
-      <td style="text-align: right">47</td>
-      <td style="text-align: right">23</td>
-      <td style="text-align: right">44</td>
-      <td style="text-align: right">27.0</td>
-      <td style="text-align: right">28.29787</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">midsize</td>
-      <td style="text-align: right">41</td>
-      <td style="text-align: right">23</td>
-      <td style="text-align: right">32</td>
-      <td style="text-align: right">27.0</td>
-      <td style="text-align: right">27.29268</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">subcompact</td>
-      <td style="text-align: right">40</td>
-      <td style="text-align: right">20</td>
-      <td style="text-align: right">44</td>
-      <td style="text-align: right">26.0</td>
-      <td style="text-align: right">27.72500</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">pickup</td>
-      <td style="text-align: right">33</td>
-      <td style="text-align: right">12</td>
-      <td style="text-align: right">22</td>
-      <td style="text-align: right">17.0</td>
-      <td style="text-align: right">16.87879</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">minivan</td>
-      <td style="text-align: right">11</td>
-      <td style="text-align: right">17</td>
-      <td style="text-align: right">24</td>
-      <td style="text-align: right">23.0</td>
-      <td style="text-align: right">22.36364</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="stacking-data">Stacking Data</h2>
-
-<p>If you have datasets whose columns or rows align, you can combine them by stacking the datasets vertically or horizontally. To demonstrate this, we will first use the <a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a> function to subset the ‘mpg’ dataset by row numbers to create the ‘mpg1’ and ‘mpg2’ datasets.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mpg1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">slice</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">select</span><span class="p">(</span><span class="n">manufacturer</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">hwy</span><span class="p">,</span><span class="w"> </span><span class="n">cty</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">manufacturer</th>
-      <th style="text-align: left">model</th>
-      <th style="text-align: right">hwy</th>
-      <th style="text-align: right">cty</th>
-      <th style="text-align: right">dataset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a4</td>
-      <td style="text-align: right">29</td>
-      <td style="text-align: right">18</td>
-      <td style="text-align: right">1</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mpg2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">slice</span><span class="p">(</span><span class="m">44</span><span class="o">:</span><span class="m">45</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">select</span><span class="p">(</span><span class="n">manufacturer</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">hwy</span><span class="p">,</span><span class="w"> </span><span class="n">cty</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">manufacturer</th>
-      <th style="text-align: left">model</th>
-      <th style="text-align: right">hwy</th>
-      <th style="text-align: right">cty</th>
-      <th style="text-align: right">dataset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">dodge</td>
-      <td style="text-align: left">caravan 2wd</td>
-      <td style="text-align: right">17</td>
-      <td style="text-align: right">11</td>
-      <td style="text-align: right">2</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">dodge</td>
-      <td style="text-align: left">caravan 2wd</td>
-      <td style="text-align: right">22</td>
-      <td style="text-align: right">15</td>
-      <td style="text-align: right">2</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Since these two datasets we just created have the same columns we can stack them vertically using <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a>:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mpg_stack_vert</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg1</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">bind_rows</span><span class="p">(</span><span class="n">mpg2</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">manufacturer</th>
-      <th style="text-align: left">model</th>
-      <th style="text-align: right">hwy</th>
-      <th style="text-align: right">cty</th>
-      <th style="text-align: right">dataset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a4</td>
-      <td style="text-align: right">29</td>
-      <td style="text-align: right">18</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">dodge</td>
-      <td style="text-align: left">caravan 2wd</td>
-      <td style="text-align: right">17</td>
-      <td style="text-align: right">11</td>
-      <td style="text-align: right">2</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">dodge</td>
-      <td style="text-align: left">caravan 2wd</td>
-      <td style="text-align: right">22</td>
-      <td style="text-align: right">15</td>
-      <td style="text-align: right">2</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Now let’s create a third subsection of the ‘mpg’ dataset using the same rows that generated ‘mpg1’ and ‘mpg2’ above, but with different columns. We’ll call it ‘mpg3’:</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mpg3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">slice</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">44</span><span class="o">:</span><span class="m">45</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">select</span><span class="p">(</span><span class="n">displ</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">displ</th>
-      <th style="text-align: right">year</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">1.8</td>
-      <td style="text-align: right">1999</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">3.3</td>
-      <td style="text-align: right">2008</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">3.8</td>
-      <td style="text-align: right">1999</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>We can stack the ‘mpg_stack_vert’ and ‘mpg3’ datasets horizontally since their rows align (we used the ‘slice’ function to subset the ‘mpg’ dataset on the same row numbers). We use the <a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a> function to do this.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mpg_stack_horz</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg_stack_vert</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">bind_cols</span><span class="p">(</span><span class="n">mpg3</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">manufacturer</th>
-      <th style="text-align: left">model</th>
-      <th style="text-align: right">hwy</th>
-      <th style="text-align: right">cty</th>
-      <th style="text-align: right">dataset</th>
-      <th style="text-align: right">displ</th>
-      <th style="text-align: right">year</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a4</td>
-      <td style="text-align: right">29</td>
-      <td style="text-align: right">18</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">1.8</td>
-      <td style="text-align: right">1999</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">dodge</td>
-      <td style="text-align: left">caravan 2wd</td>
-      <td style="text-align: right">17</td>
-      <td style="text-align: right">11</td>
-      <td style="text-align: right">2</td>
-      <td style="text-align: right">3.3</td>
-      <td style="text-align: right">2008</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">dodge</td>
-      <td style="text-align: left">caravan 2wd</td>
-      <td style="text-align: right">22</td>
-      <td style="text-align: right">15</td>
-      <td style="text-align: right">2</td>
-      <td style="text-align: right">3.8</td>
-      <td style="text-align: right">1999</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="joining-data">Joining Data</h2>
-
-<p>If you have datasets that contain a common “key” column (or a set of key columns) then you can use one of the <a href="https://dplyr.tidyverse.org/reference/join.html">join functions from dplyr</a> to combine these datasets. First let’s create a dataset named ‘car_type’ which contains the unique combinations of the ‘manufacturer’, ‘model’, and ‘class’ column values using the <a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a> function.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">car_type</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">select</span><span class="p">(</span><span class="n">manufacturer</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">distinct</span><span class="p">()</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">manufacturer</th>
-      <th style="text-align: left">model</th>
-      <th style="text-align: left">class</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a4</td>
-      <td style="text-align: left">compact</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a4 quattro</td>
-      <td style="text-align: left">compact</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a6 quattro</td>
-      <td style="text-align: left">midsize</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">chevrolet</td>
-      <td style="text-align: left">c1500 suburban 2wd</td>
-      <td style="text-align: left">suv</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Now we will join this newly created ‘car_type’ dataset to the ‘mpg_stack_horz’ dataset (created above) using the ‘left_join’ function. The ‘manufacturer’ and ‘model’ columns are used as joining keys. The resulting dataset, ‘joined’, now contains all the columns from ‘mpg_stack_horz’ as well as the ‘class’ column from the ‘car_type’ dataset.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">joined</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mpg_stack_horz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">left_join</span><span class="p">(</span><span class="n">car_type</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"manufacturer"</span><span class="p">,</span><span class="w"> </span><span class="s2">"model"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">dataset</span><span class="p">,</span><span class="w"> </span><span class="n">everything</span><span class="p">())</span><span class="w"> </span><span class="c1"># make the 'dataset' column last</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">manufacturer</th>
-      <th style="text-align: left">model</th>
-      <th style="text-align: right">hwy</th>
-      <th style="text-align: right">cty</th>
-      <th style="text-align: right">displ</th>
-      <th style="text-align: right">year</th>
-      <th style="text-align: left">class</th>
-      <th style="text-align: right">dataset</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">audi</td>
-      <td style="text-align: left">a4</td>
-      <td style="text-align: right">29</td>
-      <td style="text-align: right">18</td>
-      <td style="text-align: right">1.8</td>
-      <td style="text-align: right">1999</td>
-      <td style="text-align: left">compact</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">dodge</td>
-      <td style="text-align: left">caravan 2wd</td>
-      <td style="text-align: right">17</td>
-      <td style="text-align: right">11</td>
-      <td style="text-align: right">3.3</td>
-      <td style="text-align: right">2008</td>
-      <td style="text-align: left">minivan</td>
-      <td style="text-align: right">2</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">dodge</td>
-      <td style="text-align: left">caravan 2wd</td>
-      <td style="text-align: right">22</td>
-      <td style="text-align: right">15</td>
-      <td style="text-align: right">3.8</td>
-      <td style="text-align: right">1999</td>
-      <td style="text-align: left">minivan</td>
-      <td style="text-align: right">2</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="converting-long-to-wide-format">Converting Long to Wide Format</h2>
-
-<p>Let’s take a look at the <a href="https://tidyr.tidyverse.org/reference/us_rent_income.html">us_rent_income</a> dataset from the <a href="https://tidyr.tidyverse.org">tidyr</a> package:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">GEOID</th>
-      <th style="text-align: left">NAME</th>
-      <th style="text-align: left">variable</th>
-      <th style="text-align: right">estimate</th>
-      <th style="text-align: right">moe</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">01</td>
-      <td style="text-align: left">Alabama</td>
-      <td style="text-align: left">income</td>
-      <td style="text-align: right">24476</td>
-      <td style="text-align: right">136</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">01</td>
-      <td style="text-align: left">Alabama</td>
-      <td style="text-align: left">rent</td>
-      <td style="text-align: right">747</td>
-      <td style="text-align: right">3</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">02</td>
-      <td style="text-align: left">Alaska</td>
-      <td style="text-align: left">income</td>
-      <td style="text-align: right">32940</td>
-      <td style="text-align: right">508</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">02</td>
-      <td style="text-align: left">Alaska</td>
-      <td style="text-align: left">rent</td>
-      <td style="text-align: right">1200</td>
-      <td style="text-align: right">13</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Each row of this dataset pertains to either income or rent as we can see by looking at the value of the ‘variable’ column. This is an example of a “long” data format. The long format is versatile and desirable for data manipulation, but we may want to convert to the “wide” data format in some cases, particularly for presenting data.</p>
-
-<p>To perform this conversion, we can use the <a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a> function from <a href="https://tidyr.tidyverse.org/">tidyr</a>. The end result is that the rent and income variables are put into separate columns. This function has two arguments you will need to set:</p>
-
-<ul>
-  <li><strong>names_from</strong>: name of the column which contains values that will become our new column names.</li>
-  <li><strong>values_from</strong>: name of the column which contains the values that will populate our new columns.</li>
-</ul>
-
-<p>Additionally we use the select function to drop two columns, <a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a> to remove rows with missing values, and mutate to create an income to rent ratio.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">col_ratio</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">us_rent_income</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">GEOID</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">moe</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">variable</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">income_rent_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">income</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="m">12</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rent</span><span class="p">))</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">NAME</th>
-      <th style="text-align: right">income</th>
-      <th style="text-align: right">rent</th>
-      <th style="text-align: right">income_rent_ratio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">Alabama</td>
-      <td style="text-align: right">24476</td>
-      <td style="text-align: right">747</td>
-      <td style="text-align: right">2.730478</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Alaska</td>
-      <td style="text-align: right">32940</td>
-      <td style="text-align: right">1200</td>
-      <td style="text-align: right">2.287500</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Arizona</td>
-      <td style="text-align: right">27517</td>
-      <td style="text-align: right">972</td>
-      <td style="text-align: right">2.359139</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="converting-wide-to-long-format">Converting Wide to Long Format</h2>
-
-<p>Now let’s look at the <a href="https://tidyr.tidyverse.org/reference/world_bank_pop.html">world_bank_pop</a> dataset from tidyr (only the first 6 columns are shown for display purposes):</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">country</th>
-      <th style="text-align: left">indicator</th>
-      <th style="text-align: right">2000</th>
-      <th style="text-align: right">2001</th>
-      <th style="text-align: right">2002</th>
-      <th style="text-align: right">2003</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">ABW</td>
-      <td style="text-align: left">SP.URB.TOTL</td>
-      <td style="text-align: right">42444.000000</td>
-      <td style="text-align: right">43048.000000</td>
-      <td style="text-align: right">43670.000000</td>
-      <td style="text-align: right">44246.00000</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ABW</td>
-      <td style="text-align: left">SP.URB.GROW</td>
-      <td style="text-align: right">1.182632</td>
-      <td style="text-align: right">1.413021</td>
-      <td style="text-align: right">1.434559</td>
-      <td style="text-align: right">1.31036</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ABW</td>
-      <td style="text-align: left">SP.POP.TOTL</td>
-      <td style="text-align: right">90853.000000</td>
-      <td style="text-align: right">92898.000000</td>
-      <td style="text-align: right">94992.000000</td>
-      <td style="text-align: right">97017.00000</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>This dataset is in “wide” format since a categorical variable, in this case the year, is stored in the column names. To convert this dataset to the “long” format”, which can be more convenient for data manipulation, we use the <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a> function from tidyr. This function takes three inputs:</p>
-
-<ul>
-  <li><strong>cols</strong> (1st argument): a list of the columns we want to pivot. In this example we create this list by subtracting the columns we don’t want to pivot.</li>
-  <li><strong>names_to</strong> : the name of new column which will have the current column names as values.</li>
-  <li><strong>values_to</strong> : name of the new column which will contain values.</li>
-</ul>
-
-<p>We also use the ‘mutate’ and ‘as.numeric’ functions to convert our new ‘year’ variable to numeric and then filter so that our output dataset only includes certain years using the ‘seq’ function. The <a href="https://dplyr.tidyverse.org/reference/across.html">across</a> function is used to apply the ‘as.numeric’ function to the ‘year’ column. The format for the ‘seq’ function is seq(start, stop, increment).</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wb_pop</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">world_bank_pop</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="o">-</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">indicator</span><span class="p">),</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"year"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"value"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">as.numeric</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># convert to numeric</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">2000</span><span class="p">,</span><span class="w"> </span><span class="m">2016</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
-</span></code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">country</th>
-      <th style="text-align: left">indicator</th>
-      <th style="text-align: right">year</th>
-      <th style="text-align: right">value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">ABW</td>
-      <td style="text-align: left">SP.URB.TOTL</td>
-      <td style="text-align: right">2000</td>
-      <td style="text-align: right">42444</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ABW</td>
-      <td style="text-align: left">SP.URB.TOTL</td>
-      <td style="text-align: right">2002</td>
-      <td style="text-align: right">43670</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ABW</td>
-      <td style="text-align: left">SP.URB.TOTL</td>
-      <td style="text-align: right">2004</td>
-      <td style="text-align: right">44669</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="visualizations">Visualizations</h2>
-
-<p>Now that we have manipulated and summarized some datasets, we’ll make a few visualizations with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. Ggplot graphs are constructed by adding together a series of ggplot functions with the “+” operator. This gives us a large amount of customization options since ggplot functions can be combined in many different ways.</p>
-
-<p>Below you will find code for several commonly used charts, but you can refer to <a href="https://ggplot2.tidyverse.org/reference/">ggplot’s documentation</a> for more information. Here is a brief overview of the package:</p>
-
-<ul>
-  <li>The <a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a> function initializes a graph and typically specifies the dataset that is being used.</li>
-  <li>Atleast one <a href="https://ggplot2.tidyverse.org/reference/#section-layer-geoms">geom (geometric object) function</a> such as geom_histogram, geom_point, or geom_line is included which controls how data will be displayed.</li>
-  <li>The <a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a> (aesthetic mappings) function controls which variables are used in the plot. This function can be included as part of the ggplot function or in a geom function depending on whether you want the effect to be global or specific to a geom function.</li>
-  <li>The formatting of the chart (such as margins, legend position, and grid lines) can be modified using <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">preset themes such as theme_bw and theme_classic</a> or the <a href="https://ggplot2.tidyverse.org/reference/theme.html">theme function</a> which gives more manual control.</li>
-  <li>The ‘color’ parameter is used for setting the color of plot lines and points while the ‘fill’ parameter controls the color of areas (such as bars on bar charts). These parameters can be set to a value such as ‘navy’ or to a categorical variable. You can read more about this on ggplot’s site <a href="https://ggplot2.tidyverse.org/reference/aes_colour_fill_alpha.html">here</a>.</li>
-  <li>To save a plot to a file use the <a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a> function.</li>
-</ul>
-
-<h3 id="scatter-plots">Scatter Plots</h3>
-
-<p>Scatter plots are used to visually examine the relationship between two continuous variables and can be created using <a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a>. In this example, we plot engine displacement against highway MPG for the ‘mpg’ dataset. A ‘Transmission’ column is created to combine the various transmission types in the ‘trans’ variable into the ‘auto’ (automatic) and ‘manual’ categories using the <a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a> function.</p>
-
-<p>The ‘color’ argument in the ‘aes’ function is used to color our points according to the newly created ‘Transmission’ variable. A legend is automatically created and we’ve positioned it at the top of our graph.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="w">
-  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mpg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">mutate</span><span class="p">(</span><span class="n">Transmission</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span><span class="w"> </span><span class="s2">"auto"</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"auto"</span><span class="p">,</span><span class="w"> </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"manual"</span><span class="p">)),</span><span class="w">
-  </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">displ</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hwy</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Transmission</span><span class="p">)</span><span class="w">
-</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_light</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"top"</span><span class="p">,</span><span class="w">
-    </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">)</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Displacement (L)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Highway MPG"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/rmd_images/2020-1-12-data-science-essentials/scatter-1.png" alt="" /><!-- --></p>
-
-<h3 id="line-charts">Line Charts</h3>
-
-<p>Here we create a line graph with the SP.POP.GROW indicator from the ‘wb_pop’ dataset we created earlier based on world bank data. SP.POP.GROW is the percent population growth of a country and we divide its value (which is in the ‘value’ column) by 100 to convert it to a decimal percentage value.</p>
-
-<p>In this example, both lines and points are displayed for our data because we have used both the <a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a> and <a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a> functions. The <a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a> function is used to control the margins in the x axis. We’ve also formatted the y axis as a percentage using the ‘labels’ argument in <a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a>.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="w">
-  </span><span class="n">wb_pop</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">country</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"USA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"CAN"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MEX"</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">indicator</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"SP.POP.GROW"</span><span class="p">),</span><span class="w">
-  </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">country</span><span class="p">)</span><span class="w">
-</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># lines and points</span><span class="w">
-  </span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expansion</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">.05</span><span class="p">,</span><span class="w"> </span><span class="m">.05</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">percent</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w"> </span><span class="c1"># suppress legend title</span><span class="w">
-    </span><span class="n">panel.grid.minor.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">),</span><span class="w">
-    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Population Growth"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" alt="" /><!-- --></p>
-
-<h3 id="histograms">Histograms</h3>
-
-<p>Histograms display distributions of variables. We use a histogram to look at the distribution of highway MPG below. You may want to experiment with the ‘binwidth’ argument in the <a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a> function to see how it effects what your histogram looks like. The <a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a> function is used to control the margins in the y axis.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">mpg</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">hwy</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expansion</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.05</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Highway MPG"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Vehicles"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/rmd_images/2020-1-12-data-science-essentials/histogram-1.png" alt="" /><!-- --></p>
-
-<h3 id="bar-charts">Bar Charts</h3>
-
-<p>Bar charts are commonly used to show relative size and can be created with <a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a>. I find it helpful to order the bars by their size which I’ve done with the reorder function below. The <a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a> function is used to add the labels to the top of the bars.</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="w">
-  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mpg_stats</span><span class="p">,</span><span class="w">
-  </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reorder</span><span class="p">(</span><span class="n">class_c</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">mean_hwy</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean_hwy</span><span class="p">)</span><span class="w">
-</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expansion</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.1</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># expand top margin</span><span class="w">
-  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">mean_hwy</span><span class="p">)),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># label bars</span><span class="w">
-  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Vehicle Class"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Mean Highway MPG"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="c1"># no axis labels</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w"> </span><span class="c1"># turn off grid</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/rmd_images/2020-1-12-data-science-essentials/bar-1.png" alt="" /><!-- --></p>
-
-<h3 id="lollipop-charts">Lollipop Charts</h3>
-
-<p><a href="https://www.data-to-viz.com/graph/lollipop.html">Lollipop charts</a> can be an attractive alternative to bar charts. We construct one here using <a href="https://ggplot2.tidyverse.org/reference/geom_segment.html">geom_segment</a> and <a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a>. The <a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a> function is used to orient the chart horizontally instead of vertically. We use the theme function to hide all grid lines except for the major vertical lines. The reorder function is again used to order the axis (in this case by rent in descending order).</p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_ratio</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">rent</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="m">15</span><span class="p">),</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NAME</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rent</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reorder</span><span class="p">(</span><span class="n">NAME</span><span class="p">,</span><span class="w"> </span><span class="n">rent</span><span class="p">),</span><span class="w"> </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NAME</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rent</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"grey"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">theme</span><span class="p">(</span><span class="w">
-    </span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w">
-    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">lineheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w">
-    </span><span class="n">panel.grid.minor.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">panel.grid.major.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
-    </span><span class="n">panel.grid.minor.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">dollar</span><span class="p">,</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expansion</span><span class="p">(</span><span class="n">mult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.1</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="w">
-    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"US States with the Highest Rent"</span><span class="p">,</span><span class="w">
-    </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Source: 2017 American Community Survey (Census)"</span><span class="w">
-  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Median Monthly Rent"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/rmd_images/2020-1-12-data-science-essentials/lollipop-1.png" alt="" /><!-- --></p>
-
-<h2 id="additional-references">Additional References</h2>
-
-<p>Here are some additional resources that you may find useful:</p>
-
-<ul>
-  <li>For importing data from files, refer to the <a href="https://readr.tidyverse.org/">readr</a> (for CSV and text files) or <a href="https://readxl.tidyverse.org/">readxl</a> (for excel spreadsheets) packages.</li>
-  <li>To coerce a column in a dataset into a different format, you can use the as.numeric, as.character, as.Date, and as.factor functions (from base R). For more functions to work with date and datetime data see the <a href="https://lubridate.tidyverse.org/reference/index.html">lubridate</a> package, for strings reference the <a href="https://stringr.tidyverse.org/">stringr</a> package, and for manipulating factors you can use the <a href="https://forcats.tidyverse.org/">forcats</a> package.</li>
-  <li>For quickly summarizing datasets with basic summary statistics, you can use the summary function (base R) or the <a href="https://docs.ropensci.org/skimr/">skimr</a> package.</li>
-  <li>The <a href="https://purrr.tidyverse.org/">purrr</a> package allows you apply functions across the values of a list using the <a href="https://purrr.tidyverse.org/reference/map.html">map</a> function. One example of where this is useful is in reading and combining data from multiple sheets in an excel spreadsheet by applying a function that reads a single sheet to a list of sheets.</li>
-  <li>I keep reference data science code (both R and Python) in <a href="https://github.com/jessecambon/Data-Science-Codex">a GitHub repository</a>. You’ll find some more advanced techniques like modeling demonstrated there.</li>
-</ul>
-
-<p><em><sub> March 26 2021: this post has been updated to reflect changes in ggplot and dplyr syntax.</sub></em></p>]]></content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html"><![CDATA[One the greatest strengths of R for data science work is the vast number and variety of packages and capabilities that are available. However, it can be intimidating to navigate this large and dynamic open source ecosystem, especially for a newcomer. All the information you need is out there, but it is often fragmented across numerous stack overflow threads and websites.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" /><media:content medium="image" url="http://localhost:4000/rmd_images/2020-1-12-data-science-essentials/linechart-1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p><em><sub> March 26 2021: this post has been updated with simplified R Markdown code. </sub></em></p>]]></content><author><name>Jesse Cambon</name></author><category term="r" /><summary type="html"><![CDATA[R Markdown is a great tool for creating a variety of documents with R code and it’s a natural choice for producing blog posts such as this one. However, depending on which blog software you use, you may run into some problems related to the file paths for figure images (such as ggplot charts) which will require tweaks in your R Markdown workflow.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/hex-rmarkdown.png" /><media:content medium="image" url="http://localhost:4000/images/hex-rmarkdown.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

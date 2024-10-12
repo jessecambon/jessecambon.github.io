@@ -8,17 +8,17 @@
 <meta property="og:title" content="How to Create An R Package" />
 <meta name="author" content="Jesse Cambon" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="References" />
-<meta property="og:description" content="References" />
-<link rel="canonical" href="http://localhost:4000/2019/11/11/2019-11-creating-an-r-package.html" />
-<meta property="og:url" content="http://localhost:4000/2019/11/11/2019-11-creating-an-r-package.html" />
+<meta name="description" content="I recently created my first R package because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. …." />
+<meta property="og:description" content="I recently created my first R package because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. …." />
+<link rel="canonical" href="http://localhost:4000/2024/08/06/2019-11-creating-an-r-package.html" />
+<meta property="og:url" content="http://localhost:4000/2024/08/06/2019-11-creating-an-r-package.html" />
 <meta property="og:site_name" content="Jesse Cambon" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2019-11-11T00:00:00-05:00" />
+<meta property="article:published_time" content="2024-08-06T22:20:10-04:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="How to Create An R Package" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jesse Cambon"},"dateModified":"2019-11-11T00:00:00-05:00","datePublished":"2019-11-11T00:00:00-05:00","description":"References","headline":"How to Create An R Package","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/11/11/2019-11-creating-an-r-package.html"},"url":"http://localhost:4000/2019/11/11/2019-11-creating-an-r-package.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jesse Cambon"},"dateModified":"2024-08-06T22:20:10-04:00","datePublished":"2024-08-06T22:20:10-04:00","description":"I recently created my first R package because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. ….","headline":"How to Create An R Package","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2024/08/06/2019-11-creating-an-r-package.html"},"url":"http://localhost:4000/2024/08/06/2019-11-creating-an-r-package.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jesse Cambon" /><!-- Leaflet JS
   Based on https://dieghernan.github.io/201905_Leaflet_R_Jekyll/#step1 -->
@@ -66,8 +66,8 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
 
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">How to Create An R Package</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2019-11-11T00:00:00-05:00" itemprop="datePublished">
-        Nov 11 2019
+    <p class="post-meta"><time class="dt-published" datetime="2024-08-06T22:20:10-04:00" itemprop="datePublished">
+        Aug 6 2024
       </time></p>
       <!-- JAC: Removed Author listing -->
       
@@ -87,13 +87,48 @@ https://longqian.me/2017/02/09/github-jekyll-tag/
 </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <h3 id="references">References</h3>
+    <p>I recently created <a href="https://github.com/jessecambon/tidygeocoder">my first R package</a> because I wanted to have a simple way to use geocoding services like the US Census in R. Creating an R package can seem like a daunting task. ….</p>
 
-<p>-</p>
+<p>If you have written functions in R that would be useful others in the R community, a great way to share this work is with an R package. Thanks to some helpful developer tools, the process of creating and publishing an R package can be much easier than it might seem.</p>
+
+<h3 id="getting-started">Getting Started</h3>
+<ul>
+  <li><a href="https://rstudio.com/products/rstudio/">Install R-Studio</a></li>
+  <li>We will be generating our documentation with <a href="https://cran.rstudio.com/web/packages/roxygen2/index.html">roxygen2</a>. This will allow us to generate all of our <code class="language-plaintext highlighter-rouge">man</code> documentation from embedded coments in our <code class="language-plaintext highlighter-rouge">R</code> code files.</li>
+</ul>
+
+<h3 id="file-layout">File Layout</h3>
+
+<h5 id="important-files">Important Files</h5>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">DESCRIPTION</code>: Contains important infornation about your package such as dependencies, author info, and your license.</li>
+  <li><code class="language-plaintext highlighter-rouge">.Rbuildignore</code>: list files and folders you do not want to include in your R package. Include files and directories that aren’t part of the standard R package format such as <code class="language-plaintext highlighter-rouge">/data-raw</code> and <code class="language-plaintext highlighter-rouge">/README.md</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">projectname.Rproj</code> : RStudio project file. Don’t lose this.</li>
+</ul>
+
+<h5 id="main-folders">Main Folders</h5>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">R</code>: store your R code here.</li>
+  <li><code class="language-plaintext highlighter-rouge">data</code>: datasets will be stored here. If you have scripts and data sources that you use to create this data, save them in a separate <code class="language-plaintext highlighter-rouge">data-raw</code> folder and then be sure to add this directory to your <code class="language-plaintext highlighter-rouge">.Rbuildignore</code> file.</li>
+  <li><code class="language-plaintext highlighter-rouge">man</code>: Documentation generated by <code class="language-plaintext highlighter-rouge">roxygen2</code> with embedded content in your <code class="language-plaintext highlighter-rouge">R</code> code files.</li>
+  <li><code class="language-plaintext highlighter-rouge">tests</code>: Use the <a href="https://testthat.r-lib.org/">testthat</a> library to create functional tests for your package. Some properly written and easy to run tests will help give you some peace of mind that your latest bugfix hasn’t broken some other part of the package.</li>
+  <li><code class="language-plaintext highlighter-rouge">vignettes</code>: vignettes are short examples that demonstrate the functionality of your package. Create a <code class="language-plaintext highlighter-rouge">.Rmd</code> in this directory to create one.</li>
+</ul>
+
+<h3 id="resources">Resources</h3>
+<ul>
+  <li>General Instructions: http://r-pkgs.had.co.nz/</li>
+  <li>More general instructions: https://rstats-pkgs.readthedocs.io</li>
+  <li><a href="https://cran.r-project.org/web/packages/roxygen2/">roxygen2</a></li>
+  <li><a href="https://testthat.r-lib.org/">testthat</a></li>
+  <li><a href="https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf">Devtools cheat sheet</a>
+*</li>
+</ul>
+
 
   </div>
 
-  <!-- comments section --><a class="u-url" href="/2019/11/11/2019-11-creating-an-r-package.html" hidden></a>
+  <!-- comments section --><a class="u-url" href="/2024/08/06/2019-11-creating-an-r-package.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
