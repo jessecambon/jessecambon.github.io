@@ -6,7 +6,7 @@ permalink: /about/
 
 #### About Me
 
-I'm a data scientist at [Lighthouse](https://www.lighthouseglobal.com/) where I work on a [machine learning platform for document review](https://www.businesswire.com/news/home/20210201005774/en/Lighthouse-Launches-New-AI-Enhanced-Ediscovery-and-Document-Review-Technology). I'm also the creator of the R package [tidygeocoder](https://jessecambon.github.io/tidygeocoder/). You can reach me by email <a href="mailto:{{ site.author.email }}">here</a> and my resume is available below. Outside of work and data, I enjoy photography and you can find some of my photos on [instagram](https://www.instagram.com/jessecambon/) or [flickr](https://www.flickr.com/people/144575322@N06/).
+I'm a machine learning engineer at [Booz Allen](https://www.boozallen.com/) where I work on large language model applications for healthcare use cases. I'm also the creator of the R package [tidygeocoder](https://jessecambon.github.io/tidygeocoder/). You can reach me by email <a href="mailto:{{ site.author.email }}">here</a> and my resume is available below. Outside of work and data, I enjoy photography and you can find some of my photos on [instagram](https://www.instagram.com/jessecambon/) or [flickr](https://www.flickr.com/people/144575322@N06/).
 
 <object data="https://jessecambon.github.io/files/jesse_cambon_resume_public.pdf" type="application/pdf" width="100%" height="500px">
 </object>
