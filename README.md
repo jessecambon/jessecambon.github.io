@@ -2,6 +2,27 @@
 
 My personal blog
 
+#### Setup
+
+April 2025 on Pop OS 22.04: I had to remove the apt version of ruby:
+
+```sh
+sudo apt remove ruby
+```
+
+And then I installed homebrew and used `brew install ruby` and followed the command line instructions.
+
+
+
+* Installing jekyll: `gem install jekyll bundler`
+* Installing the bundle: `bundle install`
+* Updating bundler : `bundle update --bundler`
+* Updating the bundle: `bundle update`
+
+* Ran into an issue with two versions of jekyll. Had to apt remove jekyll per https://github.com/jekyll/jekyll/issues/7088 (ie. only install the gem)
+* Had to copy 'assets' and '_sass' folders from minima github (release file) into this repo to fix file not found errors]
+ 
+
 #### Operational Notes
 
 - [Ruby 101](https://jekyllrb.com/docs/ruby-101/)
@@ -10,7 +31,7 @@ My personal blog
 * Build for deployment: `jekyll build`
 * To preview blog with draft posts (posts stored in `_drafts` folder): `jekyll serve --drafts`
 
-Note: you may have to prepend jekyll commands with `bundle exec`
+**Note: you may have to prepend jekyll commands with `bundle exec`**
 
 #### Code Notes
 
@@ -31,14 +52,7 @@ For R-Bloggers I needed to create a custom feed that only contained R content. M
 - Post tag pages added per [these instructions](https://longqian.me/2017/02/09/github-jekyll-tag/)
 - Leaflet Javascript library added based on [this](https://github.com/dieghernan/dieghernan.github.io/blob/master/_includes/leaflet.html). See [_includes/leaflet.html](_includes/leaflet.html)
 
-#### Other Notes
 
-* Installing jekyll: `gem install jekyll bundler`
-* Installing the bundle: `bundle install`
-* Updating the bundle: `bundle update`
-
-* Ran into an issue with two versions of jekyll. Had to apt remove jekyll per https://github.com/jekyll/jekyll/issues/7088 (ie. only install the gem)
-* Had to copy 'assets' and '_sass' folders from minima github (release file) into this repo to fix file not found errors
 
 #### Blogging with Jupyter Notebooks
 
